@@ -9,6 +9,6 @@ package modele;
  *
  * @author tfavrot
  */
-public class DemandesLivraisons {
+public class EnsembleLivraisons {
     
 }

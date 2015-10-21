@@ -13,7 +13,7 @@ import modele.Intersection;
 import modele.Troncon;
 import modele.DemandeLivraison;
 import modele.FenetreLivraison;
-import modele.DemandesLivraisons;
+import modele.EnsembleLivraisons;
 
 // imports relatifs à la serialisation XML
 import org.w3c.dom.Document;
