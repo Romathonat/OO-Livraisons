@@ -9,16 +9,12 @@ import org.junit.runner.RunWith;
  * @author tfavrot
  */
 public class Plan {
-
     // Attributs
     private Intersection entrepot;
     private Collection<Intersection> intersections;
     private Collection<Troncon> troncons;
-    private Collection<DemandesLivraisons> demandesLivraisons;
     
     // Methodes
-    
-    
     public Plan() {
         //Initialisation des Collections.
         entrepot = null;
