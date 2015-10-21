@@ -26,11 +26,16 @@ public class Intersection {
     // Methodes
     
     public Intersection(int id, int X, int Y) {
-    
+        idIntersection = id;
+        x = X;
+        y = Y;
+        
+        // TODO : choisir structure de donnees pour tronconsSortants
+        // tronconsSortants = new 
     }
     
     protected void ajouterTronconSortant(Troncon troncon){
-        
+        tronconsSortants.add(troncon);
     }
     
     public Iterator<Troncon> getTronconsSortants(){
@@ -38,4 +43,15 @@ public class Intersection {
         return constCollection.iterator();
     }
     
+    public int getId(){
+        return idIntersection;
+    }
+    
+    public int getX(){
+        return x;
+    }
+    
+    public int getY(){
+        return y;
+    }
 }
