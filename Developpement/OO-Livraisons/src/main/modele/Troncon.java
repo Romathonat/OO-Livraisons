@@ -1,11 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele;
-
-import java.util.Collection;
 
 /**
  *
@@ -16,15 +9,15 @@ public class Troncon {
     // Attributs
     
     private int idTroncon;
-    private int longueur;
-    private int vitesse;
+    private double longueur;
+    private double vitesse;
     private String nom;
     private Intersection intersectionArrivee;
     private Intersection intersectionDepart;
     
     // Methodes
 
-    public Troncon(int idTroncon, int longueur, int vitesse, String nom, Intersection intersectionArrivee, Intersection intersectionDepart) {
+    public Troncon(int idTroncon, double longueur, double vitesse, String nom, Intersection intersectionArrivee, Intersection intersectionDepart) {
         this.idTroncon = idTroncon;
         this.longueur = longueur;
         this.vitesse = vitesse;
@@ -37,12 +30,16 @@ public class Troncon {
         return idTroncon;
     }
 
-    public int getLongueur() {
+    public double getLongueur() {
         return longueur;
     }
 
-    public int getVitesse() {
+    public double getVitesse() {
         return vitesse;
+    }
+    
+    public double getDuree() {
+        return longueur / vitesse;
     }
 
     public String getNom() {
@@ -56,6 +53,4 @@ public class Troncon {
     public Intersection getIntersectionDepart() {
         return intersectionDepart;
     }
-    
-    
 }

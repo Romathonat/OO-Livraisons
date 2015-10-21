@@ -28,6 +28,7 @@ public class Plan {
     }
     
     protected void ajouterTroncon(Troncon troncon) {
+        //On ajoute le troncon dans l'intersection de depart du troncon.
         
     }
     
