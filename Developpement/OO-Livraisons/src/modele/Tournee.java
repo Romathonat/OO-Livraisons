@@ -5,10 +5,33 @@
  */
 package modele;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  *
  * @author tfavrot
  */
 public class Tournee {
+    
+    // Attributs
+    
+    private List<Chemin> chemins;
+    
+    // Methodes
+
+    public Tournee() {
+        
+    }
+    
+    public void CalculerHeuresDemandesLivraisons(){
+        
+    }
+    
+    public Iterator<Chemin> getChemins(){
+        List<Chemin> constList = Collections.unmodifiableList(chemins);
+        return constList.iterator();
+    }
     
 }
