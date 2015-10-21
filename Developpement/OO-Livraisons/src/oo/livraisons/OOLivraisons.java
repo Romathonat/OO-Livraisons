@@ -5,6 +5,8 @@
  */
 package oo.livraisons;
 
+import vue.Fenetre;
+
 /**
  *
  * @author Nicolas
@@ -15,7 +17,7 @@ public class OOLivraisons {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("Hello World");
+        Fenetre maFenetre = new Fenetre();
     }
     
 }
