@@ -22,6 +22,7 @@ import javax.swing.JSplitPane;
  *
  * @author romain
  */
+
 public class Fenetre extends JFrame{
     protected JMenuBar barreMenus;
     
@@ -50,6 +51,10 @@ public class Fenetre extends JFrame{
     protected JButton supprimerLivraison;
     protected JButton echangerLivraison;
     protected JButton calculerTournee;
+    
+    public static void main(String args[]){
+        Fenetre maFenetre = new Fenetre();
+    }
     
     public Fenetre()
     {
@@ -160,4 +165,5 @@ public class Fenetre extends JFrame{
         this.setTitle("OO-Livraisons");
         this.setVisible(true); 
     }
+    
 }
