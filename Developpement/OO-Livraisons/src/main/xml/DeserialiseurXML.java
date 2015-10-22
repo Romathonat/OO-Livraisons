@@ -52,43 +52,44 @@ public class DeserialiseurXML {
        	NodeList listesNoeuds = noeudDOMRacine.getElementsByTagName("Noeud");
        	for (int i = 0; i < listesNoeuds.getLength(); i++) {
             // Récuperation des Intersections
-            //plan.ajoute(creeIntersection((Element) listesNoeuds.item(i)));
-            
+            //plan.ajouteIntersection(creeIntersection((Element) listesNoeuds.item(i)));
+        }
+        
+        for (int i = 0; i < listesNoeuds.getLength(); i++) {
+            // Récuperation des Troncon
             NodeList listeArcsSortants = ((Element) listesNoeuds.item(i)).getElementsByTagName("TronconSortant");
-            
             for (int j = 0; j < listesNoeuds.getLength();j++) {
-                // Récupération des Tronçon sortant du noeud courant.
-                //plan.ajoute(creeTroncon((Element) listeArcsSortants.item(i)));
+                //plan.ajoute(creeTroncon((Element) listeArcsSortants.item(j), plan, i , j));
             }
        	}
     }
-    /*
-    private static Troncon creeTroncon(Element elt) throws ExceptionXML{
-        // check with actual xml file.
-   		String idTronçon = elt.getAttribute("nom");
-   		float longueur = Float.parseFloat(elt.getAttribute("longueur"));
-                float vitesse = Float.parseFloat(elt.getAttribute("vitesse"));
-   		//Troncon t = TronconFactory.creeTroncon(idTroncon, vitesse);
-   		if (t == null)
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Coordonnees d'un point en dehors du plan");
-   		if (rayon <= 0)
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Cercle de rayon negatif ou nul");
-   		return new Troncon();
-    }*/
-    /*
+    
+    // Get infos from xml node "Noeud" : <Noeud id="1" x="88" y="171"/>
     private static Intersection creeIntersection(Element elt) throws ExceptionXML{
         // check with actual xml file.
+                
+   		int Id = Integer.parseInt(elt.getAttribute("id"));
    		int x = Integer.parseInt(elt.getAttribute("x"));
    		int y = Integer.parseInt(elt.getAttribute("y"));
-   		Point p = PointFactory.creePoint(x, y);
-   		if (p == null)
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Coordonnees d'un point en dehors du plan");
-      	int largeurRectangle = Integer.parseInt(elt.getAttribute("largeur"));
-   		if (largeurRectangle <= 0)
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Rectangle de largeur negative ou nulle");
-      	int hauteurRectangle = Integer.parseInt(elt.getAttribute("hauteur"));
-   		if (hauteurRectangle <= 0)
-   			throw new ExceptionXML("Erreur lors de la lecture du fichier : Rectangle de hauteur negative ou nulle");
-   		return new Rectangle(p, largeurRectangle, hauteurRectangle);
-    }*/
+                
+   		// TBD: Detection d'erreurs.
+   		
+                return new Intersection (Id, x, y);
+    }
+    
+    // Get infos from xml node "Troncon" : <LeTronconSortant nomRue="v0" vitesse="4,100000" longueur="602,100000" idNoeudDestination="0"/>
+    
+    private static Troncon creeTroncon(Element elt, Plan plan, int idDepart, int idArrivee) throws ExceptionXML{
+        // check with actual xml file.
+   		String nomRue = elt.getAttribute("nomRue");
+                float vitesse = Float.parseFloat(elt.getAttribute("vitesse"));
+   		float longueur = Float.parseFloat(elt.getAttribute("longueur"));
+                
+                Intersection interDepart = plan.getIntersection(idDepart);
+                Intersection interArrivee = plan.getIntersection(idArrivee);
+                
+   		// TBD: Detection d'erreurs.
+                
+   		return new Troncon(0, longueur, vitesse, nomRue, interArrivee, interDepart);
+    }
 }
