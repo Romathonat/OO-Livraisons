@@ -2,6 +2,9 @@ package modele;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeMap;
 import org.junit.runner.RunWith;
 
 /**
@@ -11,25 +14,25 @@ import org.junit.runner.RunWith;
 public class Plan {
     // Attributs
     private Intersection entrepot;
-    private Collection<Intersection> intersections;
+    private Map<Integer, Intersection> intersections;
     private Collection<Troncon> troncons;
     
     // Methodes
     public Plan() {
-        //Initialisation des Collections.
-        entrepot = null;
+        this.entrepot = null;
+        this.intersections = new TreeMap();
     }
     
-    protected void ajouterIntersection(Intersection intersection) {
-        
+    protected void ajouterIntersection(int id, int x, int y) {
+        intersections.put(id, new Intersection(id,x,y));
     }
     
-    protected void ajouterTroncon(Troncon troncon) {
-        
+    protected void ajouterTroncon(double longueur, double vitesse, String nom, Intersection intersectionArrivee, Intersection intersectionDepart) {
+        //On ajoute le troncon dans l'intersection de depart du troncon.
     }
     
     public Intersection getIntersection(int idIntersection) {
-        return null;
+        return intersections.get(idIntersection);
     }
     
     protected void setEntrepot(Intersection unEntrepot) {

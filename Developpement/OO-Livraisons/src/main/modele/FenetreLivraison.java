@@ -5,10 +5,35 @@
  */
 package modele;
 
+import java.util.Collection;
+import java.util.Date;
+
 /**
  *
  * @author tfavrot
  */
 public class FenetreLivraison {
+    
+    // Attributs
+    
+    private Date heureDebut;
+    private Date heureFin;
+    private Collection<DemandeLivraison> collectionDemandeLivraison;
+    
+    // Methodes
+
+    public FenetreLivraison(Date heureDebut, Date heureFin) {
+        this.heureDebut = heureDebut;
+        this.heureFin = heureFin;
+    }
+
+    public Date getHeureDebut() {
+        return heureDebut;
+    }
+
+    public Date getHeureFin() {
+        return heureFin;
+    }
+    
     
 }
