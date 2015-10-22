@@ -90,6 +90,6 @@ public class DeserialiseurXML {
                 
    		// TBD: Detection d'erreurs.
                 
-   		return new Troncon(0, longueur, vitesse, nomRue, interArrivee, interDepart);
+   		return new Troncon(longueur, vitesse, nomRue, interArrivee, interDepart);
     }
 }

@@ -8,7 +8,6 @@ public class Troncon {
     
     // Attributs
     
-    private int idTroncon;
     private double longueur;
     private double vitesse;
     private String nom;
@@ -17,17 +16,13 @@ public class Troncon {
     
     // Methodes
 
-    public Troncon(int idTroncon, double longueur, double vitesse, String nom, Intersection intersectionArrivee, Intersection intersectionDepart) {
-        this.idTroncon = idTroncon;
+    public Troncon(double longueur, double vitesse, String nom, Intersection intersectionArrivee, Intersection intersectionDepart) {
+        
         this.longueur = longueur;
         this.vitesse = vitesse;
         this.nom = nom;
         this.intersectionArrivee = intersectionArrivee;
         this.intersectionDepart = intersectionDepart;
-    }
-
-    public int getIdTroncon() {
-        return idTroncon;
     }
 
     public double getLongueur() {

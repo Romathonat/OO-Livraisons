@@ -25,10 +25,10 @@ public class Intersection {
     
     // Methodes
     
-    public Intersection(int id, int X, int Y) {
+    public Intersection(int id, int x, int y) {
         idIntersection = id;
-        x = X;
-        y = Y;
+        this.x = x;
+        this.y = y;
         
         // TODO : choisir structure de donnees pour tronconsSortants
         // tronconsSortants = new 

@@ -19,17 +19,16 @@ public class Plan {
     
     // Methodes
     public Plan() {
-        entrepot = null;
-        intersections = new TreeMap();
+        this.entrepot = null;
+        this.intersections = new TreeMap();
     }
     
-    protected void ajouterIntersection(Intersection intersection) {
-        intersections.put(intersection.getId(), intersection);
+    protected void ajouterIntersection(int id, int x, int y) {
+        intersections.put(id, new Intersection(id,x,y));
     }
     
-    protected void ajouterTroncon(Troncon troncon) {
+    protected void ajouterTroncon(double longueur, double vitesse, String nom, Intersection intersectionArrivee, Intersection intersectionDepart) {
         //On ajoute le troncon dans l'intersection de depart du troncon.
-        
     }
     
     public Intersection getIntersection(int idIntersection) {
