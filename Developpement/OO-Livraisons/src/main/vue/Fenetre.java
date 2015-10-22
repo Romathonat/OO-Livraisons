@@ -163,7 +163,6 @@ public class Fenetre extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setTitle("OO-Livraisons");
-        this.setVisible(true); 
+        this.setVisible(true);   
     }
-    
 }

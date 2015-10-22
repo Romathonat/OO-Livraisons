@@ -7,6 +7,7 @@ package controleur;
 
 import modele.DemandeLivraison;
 import modele.*;
+import vue.*;
 
 /**
  *
@@ -14,6 +15,8 @@ import modele.*;
  */
 
 public class Controleur {
+    
+    // - Etats
     
     private Etat etatCourant; 
     protected static final EtatInitial etatInitial = new EtatInitial();
@@ -26,14 +29,21 @@ public class Controleur {
     protected static final EtatRemplirInformations etatRemplirInformations = new EtatRemplirInformations();
     protected static final EtatChoixProchaineLivraison etatChoixProchaineLivraison = new EtatChoixProchaineLivraison();
     
+    // - Vue
+    private Fenetre fenetre;
+            
+    // - Modele
     private Plan plan;
     
     public Controleur() {
         etatCourant = etatInitial;
+        plan = new Plan();
+        fenetre = new Fenetre();
     }
     
     public void chargerPlan() {
-    
+        etatCourant.chargerPlan(plan);
+        System.out.println("Plan charge.");
     }
     
     public void chargerTournee() {

@@ -7,10 +7,7 @@ package controleur;
 
 import java.util.List;
 import modele.DemandeLivraison;
-import modele.DemandesLivraisons;
-import modele.Intersection;
-import modele.Plan;
-import modele.Tournee;
+import modele.*;
 
 /**
  *
@@ -24,7 +21,7 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void chargerLivraisons(DemandesLivraisons demandesLivraisons) {
+    public void chargerLivraisons(EnsembleLivraisons ensembleLivraisons) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
