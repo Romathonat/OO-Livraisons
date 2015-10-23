@@ -85,6 +85,6 @@ public class DeserialiseurXML {
         Intersection interArrivee = plan.getIntersection(idArrivee);
 
    		// TBD: Detection d'erreurs.
-        return new Troncon(longueur, vitesse, nomRue, interArrivee, interDepart);
+        return new Troncon(interDepart, interArrivee, nomRue, longueur, vitesse);
     }
 }

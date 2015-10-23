@@ -16,8 +16,7 @@ public class Troncon {
     
     // Methodes
 
-    public Troncon(double longueur, double vitesse, String nom, Intersection intersectionArrivee, Intersection intersectionDepart) {
-        
+    public Troncon(Intersection intersectionDepart, Intersection intersectionArrivee, String nom, double longueur, double vitesse) {
         this.longueur = longueur;
         this.vitesse = vitesse;
         this.nom = nom;

@@ -5,6 +5,7 @@
  */
 package modele;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -29,16 +30,14 @@ public class Intersection {
         idIntersection = id;
         this.x = x;
         this.y = y;
-        
-        // TODO : choisir structure de donnees pour tronconsSortants
-        // tronconsSortants = new 
+        tronconsSortants = new ArrayList<>();
     }
     
     protected void ajouterTronconSortant(Troncon troncon){
         tronconsSortants.add(troncon);
     }
     
-    public Iterator<Troncon> getTronconsSortants(){
+    public Iterator<Troncon> getTronconsSortants() {
         Collection constCollection = Collections.unmodifiableCollection(tronconsSortants);
         return constCollection.iterator();
     }
