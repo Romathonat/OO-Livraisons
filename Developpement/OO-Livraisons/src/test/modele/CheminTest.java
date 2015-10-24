@@ -29,8 +29,8 @@ public class CheminTest {
         Intersection intersection3 = new Intersection(3, 10, 10);
         Troncon troncon1 = new Troncon(intersection1, intersection2, "Troncon1", 10.0, 1.0);
         Troncon troncon2 = new Troncon(intersection2, intersection3, "Troncon2", 10.0, 1.0);
-        chemin.ajouterTroncon(troncon1);
-        chemin.ajouterTroncon(troncon2);
+        chemin.ajouterTronconDebut(troncon2);
+        chemin.ajouterTronconDebut(troncon1);
         //On teste si la duree retourne par le chemin est bien la somme des durees des deux troncons.
         assertEquals("La duree du chemin n'est pas bonne.", troncon1.getDuree() + troncon2.getDuree(), chemin.getDuree(), 0.0);
     }
@@ -46,9 +46,9 @@ public class CheminTest {
         Troncon troncon2 = new Troncon(intersection2, intersection3, "Troncon2", 10.0, 1.0);
         //Un troncon qui ne peut pas etre ajouté après le deuxième troncon.
         Troncon troncon3 = new Troncon(intersection1, intersection3, "Troncon3", 10.0, 1.0);
-        assertTrue("Il doit etre possible d'ajouter un premier troncon.", chemin.ajouterTroncon(troncon1));
-        assertTrue("Il doit etre possible d'ajouter un deuxieme troncon.", chemin.ajouterTroncon(troncon2));
-        assertFalse("Il est impossible d'ajouter un troncon", chemin.ajouterTroncon(troncon3));
+        assertTrue("Il doit etre possible d'ajouter un premier troncon.", chemin.ajouterTronconDebut(troncon2));
+        assertTrue("Il doit etre possible d'ajouter un deuxieme troncon.", chemin.ajouterTronconDebut(troncon1));
+        assertFalse("Il est impossible d'ajouter un troncon", chemin.ajouterTronconDebut(troncon3));
         //On verifie que les troncons sont bien ajoutes.
         Iterator<Troncon> itTroncon = chemin.getTroncons();
         assertEquals("Le premier troncon du chemin n'est pas le troncon 1.", troncon1, itTroncon.next());
@@ -67,7 +67,7 @@ public class CheminTest {
         Intersection intersection1 = new Intersection(1, 0, 0);
         Intersection intersection2 = new Intersection(2, 0, 10);
         Troncon troncon1 = new Troncon(intersection1, intersection2, "Troncon1", 10.0, 1.0);
-        chemin.ajouterTroncon(troncon1);
+        chemin.ajouterTronconDebut(troncon1);
         
         //On controle les intersections de depart et d'arrivee.
         assertEquals("Le depart du chemin n'est pas l'intersection 1.", intersection1, chemin.getIntersectionDepart());
@@ -83,14 +83,13 @@ public class CheminTest {
         Intersection intersection3 = new Intersection(3, 10, 10);
         Troncon troncon1 = new Troncon(intersection1, intersection2, "Troncon1", 10.0, 1.0);
         Troncon troncon2 = new Troncon(intersection2, intersection3, "Troncon2", 10.0, 1.0);
-        //On ajoute seulement le premier troncon.
-        chemin.ajouterTroncon(troncon1);
         //On met une demande de livraison sur l'intersection 3.
         DemandeLivraison livraison = new DemandeLivraison(intersection3, null);
         //On essaye de definit la livraison.
         assertFalse("La livraison arrivee, doit etre sur la meme intersection que le dernier troncon du chemin.", chemin.setLivraisonArrivee(livraison));
-        //On ajoute le troncon 2.
-        chemin.ajouterTroncon(troncon2);
+        //On ajoute les troncons.
+        chemin.ajouterTronconDebut(troncon2);
+        chemin.ajouterTronconDebut(troncon1);
         //Cette fois, la livraison peut etre ajoutee.
         assertTrue("La livraison arrivee, doit pouvoir etre ajoute sur l'intersection d'arrivee du chemin.", chemin.setLivraisonArrivee(livraison));
         //On controle la livraison.

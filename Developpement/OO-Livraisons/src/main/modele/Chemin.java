@@ -59,19 +59,19 @@ public class Chemin {
     }
     
     /**
-     * Ajoute un troncon au chemin.
+     * Ajoute un troncon au debut du chemin.
      * Verifie si le chemin est bien constitué des troncons bout à bout.
      * Modifie la duree du Chemin.
      * @param troncon Le troncon a ajouter au chemin.
      * @return True si le troncon a été ajouté, false sinon.
      */
-    public boolean ajouterTroncon(Troncon troncon) {
-        //On verifie si l'intersection d'arrivee est bien l'intersection de depart du nouveau troncon.
-        //ou bien s'il n'y a pas encore d'intersection d'arrivee.
-        Intersection arrivee = getIntersectionArrivee();
-        if (arrivee == null || arrivee.equals(troncon.getIntersectionDepart())) {
+    public boolean ajouterTronconDebut(Troncon troncon) {
+        //On verifie si l'intersection de depart est bien l'intersection d'arrivee du nouveau troncon.
+        //ou bien s'il n'y a pas encore d'intersection de depart.
+        Intersection depart = getIntersectionDepart();
+        if (depart == null || depart.equals(troncon.getIntersectionArrivee())) {
             //On ajoute le troncon à la liste.
-            troncons.add(troncon);
+            troncons.add(0, troncon);
             //On met à jour la durée.
             duree += troncon.getDuree();
             //On signifie que le troncon a bien été ajouté.
