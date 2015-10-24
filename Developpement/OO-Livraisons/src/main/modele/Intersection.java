@@ -53,4 +53,19 @@ public class Intersection {
     public int getY(){
         return y;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Intersection other = (Intersection)obj;
+        return idIntersection == other.idIntersection && x == other.x && y == other.y;
+    }
 }
