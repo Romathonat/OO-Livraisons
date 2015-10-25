@@ -5,6 +5,7 @@
  */
 package vue;
 
+import controleur.Controleur;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -52,18 +53,19 @@ public class Fenetre extends JFrame{
     protected JButton echangerLivraison;
     protected JButton calculerTournee;
     
-    public static void main(String args[]){
-        Fenetre maFenetre = new Fenetre();
-    }
+    private Controleur controleur;
     
-    public Fenetre()
+    public Fenetre(Controleur c)
     {
+        controleur = c;
+        
         barreMenus = new JMenuBar();
         
         //----Fichier-----
+        
         fichier = new JMenu("Fichier");
-        chargerPlan = new JMenuItem("Charger Plan");
-        chargerTournee = new JMenuItem("Charger Tournée");
+        chargerPlan = new JMenuItem(new EcouteurDeBoutons("Charger Plan", c));
+        chargerTournee = new JMenuItem(new EcouteurDeBoutons("Charger Tournée", c));
         quitter = new JMenuItem("Quitter");
         
         fichier.add(chargerPlan);

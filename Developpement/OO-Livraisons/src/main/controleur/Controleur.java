@@ -29,25 +29,29 @@ public class Controleur {
     protected static final EtatRemplirInformations etatRemplirInformations = new EtatRemplirInformations();
     protected static final EtatChoixProchaineLivraison etatChoixProchaineLivraison = new EtatChoixProchaineLivraison();
     
-    // - Vue
+    private ModeleManager modeleManager;
     private Fenetre fenetre;
-            
-    // - Modele
-    private Plan plan;
+    
+    public static void main(String args[]){
+        
+        Controleur controleur;
+        
+        controleur = new Controleur();
+    }
     
     public Controleur() {
         etatCourant = etatInitial;
-        plan = new Plan();
-        fenetre = new Fenetre();
+        
+        modeleManager = new ModeleManager();
+        fenetre = new Fenetre(this);
     }
     
     public void chargerPlan() {
-        etatCourant.chargerPlan(plan);
-        System.out.println("Plan charge.");
+        etatCourant.chargerPlan(modeleManager.getPlan());
     }
     
     public void chargerTournee() {
-        
+        etatCourant.chargerPlan(modeleManager.getPlan());
     }
     
     public void clicGauche() {
