@@ -5,6 +5,7 @@
  */
 package vue;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
@@ -14,17 +15,26 @@ import javax.swing.JPanel;
  * @author romain
  */
 public class TronconVue extends JPanel{
-    protected IntersectionVue debut;
-    protected IntersectionVue fin;
+    protected int xDebut;
+    protected int yDebut;
+    protected int xFin;
+    protected int yFin;
+    protected String name;
     
-    public TronconVue(IntersectionVue d, IntersectionVue f)
+    public TronconVue(int x1, int y1, int x2, int y2, String name)
     {
         super();
-        debut = d;
-        fin = f;
+        xDebut = x1;
+        yDebut = y1;
+        xFin = x2;
+        yFin = y2;
+        this.name = name;
+        
+                
     }
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawLine(debut.x, debut.y, fin.x, fin.y);
+        g.setColor(Color.BLACK);
+        g2d.drawLine(xDebut, yDebut, xFin, yFin);
     }
 }

@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 import modele.Intersection;
 import modele.Plan;
+import modele.Troncon;
 
 /**
  *
@@ -66,6 +67,14 @@ public class VueGraphique extends JPanel{
             this.add(interVue);//on l'ajoute à la vue graphique
         }
         
-        
+        while(itTroncon.hasNext())
+        {
+            Troncon monTroncon = (Troncon) itTroncon.next();//on cree une vue de l'intersection
+            TronconVue tronconVue = new TronconVue(monTroncon.getIntersectionDepart().getX(),monTroncon.getIntersectionDepart().getY(), monTroncon.getIntersectionArrivee().getX(),monTroncon.getIntersectionArrivee().getY(),monTroncon.getNom()); 
+            
+            this.mesTroncons.add(tronconVue);
+            this.add(tronconVue);//on l'ajoute à la vue graphique
+        }
+        repaint();
     }
 }

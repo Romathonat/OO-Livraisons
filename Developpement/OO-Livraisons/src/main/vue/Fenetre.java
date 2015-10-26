@@ -71,9 +71,9 @@ public class Fenetre extends JFrame{
         //----Fichier-----
         
         fichier = new JMenu("Fichier");
-        chargerPlan = new JMenuItem(new EcouteurDeBoutons("Charger Plan", c));
+        chargerPlan = new JMenuItem("Charger Plan");
         chargerPlan.addActionListener(new ChargerPlan(this));
-        chargerTournee = new JMenuItem(new EcouteurDeBoutons("Charger Ensemble Livraisons", c));
+        chargerTournee = new JMenuItem("Charger Tournee");
         chargerTournee.addActionListener(new ChargerTournee());
         quitter = new JMenuItem("Quitter");
         
@@ -189,7 +189,7 @@ public class Fenetre extends JFrame{
         public void actionPerformed(ActionEvent e) {
             int a = JOptionPane.showConfirmDialog(frameParent, "Le plan courant va être écraser, continuer?", "Charger un plan", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (a == JOptionPane.YES_OPTION) {
-                controleur.chargerPlan(); 
+                //controleur.chargerPlan(); 
             }
             vueGraphique.drawPlan();
             revalidate();
