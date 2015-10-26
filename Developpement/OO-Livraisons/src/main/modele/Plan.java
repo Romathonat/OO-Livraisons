@@ -39,7 +39,7 @@ public class Plan {
      * @param y La coordonnée Y de l'intersection.
      * @return L'Intersection ajoutee, ou bien null.
      */
-    protected Intersection ajouterIntersection(int id, int x, int y) {
+    public Intersection ajouterIntersection(int id, int x, int y) {
         if (id >= 0) {
             Intersection intersection = new Intersection(id, x, y);
             intersections.put(id, intersection);
@@ -60,7 +60,7 @@ public class Plan {
      * @param vitesse La vitesse moyenne sur le troncon.
      * @return True si le troncon a bien pu etre ajouté, false sinon.
      */
-    protected Troncon ajouterTroncon(int idIntersectionDepart, int idIntersectionArrivee, String nom, double longueur, double vitesse) {
+    public Troncon ajouterTroncon(int idIntersectionDepart, int idIntersectionArrivee, String nom, double longueur, double vitesse) {
         //On cherche les deux intersections.
         Intersection depart = getIntersection(idIntersectionDepart);
         Intersection arrivee = getIntersection(idIntersectionArrivee);

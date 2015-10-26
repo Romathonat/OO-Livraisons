@@ -37,7 +37,7 @@ public class PlanTest {
         assertEquals("L'intersection 9 n'a pas ete trouvee.", intersection9, plan.getIntersection(9));
         
         //On teste qu'il n'est pas possible d'ajouter une intersection dont l'id est nul.
-        assertNull("Il est impossible d'ajouter une intersection dont l'id est nul.", plan.ajouterIntersection(-1, 0, 0));
+        assertNull("Il est impossible d'ajouter une intersection dont l'id est nulle.", plan.ajouterIntersection(-1, 0, 0));
     }
     
     @Test
