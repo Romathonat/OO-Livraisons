@@ -6,6 +6,7 @@
 package controleur;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,6 +32,8 @@ public class EtatInitial extends EtatDefaut {
         } catch (IOException ex) {
             Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExceptionXML ex) {
+            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

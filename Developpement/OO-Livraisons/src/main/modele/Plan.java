@@ -5,7 +5,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
 
 /**
@@ -91,6 +93,22 @@ public class Plan {
     }
     
     /**
+     * Retourne un iterator sur les troncons
+     * @return 
+     */
+    public Iterator<Troncon> getTroncons() {
+        return this.troncons.iterator();
+    }
+    
+    /**
+     * Retourne un iterator sur les intersections
+     * @return 
+     */
+    public Iterator<Entry<Integer, Intersection>> getIntersections() {
+        return this.intersections.entrySet().iterator();
+    }
+    
+    /**
      * Définis l'Intersection où est situé l'entrepôt par son identifiant.
      * Si l'identifiant de l'intersection n'existe pas, l'entrepot sera definit à null.
      * @param idIntersectionEntrepot L'identifiant où est situé l'entrepôt.
@@ -108,6 +126,8 @@ public class Plan {
     public Intersection getEntrepot() {
         return entrepot;
     }
+
+    
     
     
     private class DistanceIntersection

@@ -9,13 +9,19 @@ import controleur.Controleur;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -25,6 +31,7 @@ import javax.swing.JSplitPane;
  */
 
 public class Fenetre extends JFrame{
+    
     protected JMenuBar barreMenus;
     
     protected JMenu fichier;
@@ -65,7 +72,9 @@ public class Fenetre extends JFrame{
         
         fichier = new JMenu("Fichier");
         chargerPlan = new JMenuItem(new EcouteurDeBoutons("Charger Plan", c));
+        chargerPlan.addActionListener(new ChargerPlan(this));
         chargerTournee = new JMenuItem(new EcouteurDeBoutons("Charger Ensemble Livraisons", c));
+        chargerTournee.addActionListener(new ChargerTournee());
         quitter = new JMenuItem("Quitter");
         
         fichier.add(chargerPlan);
@@ -165,6 +174,33 @@ public class Fenetre extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setTitle("OO-Livraisons");
-        this.setVisible(true);   
+        this.setVisible(true);
+    }
+
+    private class ChargerPlan implements ActionListener {
+        
+        JFrame frameParent;
+        public ChargerPlan(JFrame frameParent)
+        {
+            this.frameParent = frameParent;
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int a = JOptionPane.showConfirmDialog(frameParent, "Le plan courant va être écraser, continuer?", "Charger un plan", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (a == JOptionPane.YES_OPTION) {
+                controleur.chargerPlan(); 
+            }
+            vueGraphique.drawPlan();
+            revalidate();
+            repaint();
+        }
+    }
+    private class ChargerTournee implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            controleur.chargerLivraisons();
+        }
     }
 }
