@@ -12,12 +12,24 @@ package modele;
 public class ModeleManager {
     
     private Plan plan;
+    private EnsembleLivraisons ensembleLivraisons;
+    private Tournee tournee;
     
     public ModeleManager(){
-        plan = new Plan();
+        this.plan = new Plan();
+        this.ensembleLivraisons = null;
+        this.tournee = null;
     }
     
     public Plan getPlan(){
-        return plan;
+        return this.plan;
+    }
+    
+    public EnsembleLivraisons getEnsembleLivraisons(){
+        return this.ensembleLivraisons;
+    }
+    
+    public Tournee getTournee(){
+        return this.tournee;
     }
 }

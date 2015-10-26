@@ -65,7 +65,7 @@ public class Fenetre extends JFrame{
         
         fichier = new JMenu("Fichier");
         chargerPlan = new JMenuItem(new EcouteurDeBoutons("Charger Plan", c));
-        chargerTournee = new JMenuItem(new EcouteurDeBoutons("Charger Tournée", c));
+        chargerTournee = new JMenuItem(new EcouteurDeBoutons("Charger Ensemble Livraisons", c));
         quitter = new JMenuItem("Quitter");
         
         fichier.add(chargerPlan);

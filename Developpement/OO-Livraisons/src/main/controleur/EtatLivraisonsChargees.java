@@ -5,6 +5,8 @@
  */
 package controleur;
 
+import modele.EnsembleLivraisons;
+
 /**
  *
  * @author Kilian

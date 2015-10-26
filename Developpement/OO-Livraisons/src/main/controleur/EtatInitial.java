@@ -6,7 +6,6 @@
 package controleur;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,9 +19,11 @@ import xml.*;
  */
 public class EtatInitial extends EtatDefaut {
 
+    @Override
     public void chargerPlan(Plan plan){
         try {
             DeserialiseurXML.chargerPlan(plan);
+            Controleur.setEtatCourant(Controleur.etatPlanCharge);
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {

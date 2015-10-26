@@ -27,8 +27,8 @@ public class EcouteurDeBoutons extends AbstractAction {
             case "Charger Plan" :
                 controleur.chargerPlan();
                 break;
-            case "Charger Tournee" :
-                controleur.chargerTournee();
+            case "Charger Ensemble Livraisons" :
+                controleur.chargerLivraisons();
                 break;
         }
     }

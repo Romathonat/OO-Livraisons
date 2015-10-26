@@ -18,7 +18,7 @@ public class Controleur {
     
     // - Etats
     
-    private Etat etatCourant; 
+    private static Etat etatCourant; 
     protected static final EtatInitial etatInitial = new EtatInitial();
     protected static final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
     protected static final EtatLivraisonsChargees etatLivraisonChargee = new EtatLivraisonsChargees();
@@ -29,6 +29,10 @@ public class Controleur {
     protected static final EtatRemplirInformations etatRemplirInformations = new EtatRemplirInformations();
     protected static final EtatChoixProchaineLivraison etatChoixProchaineLivraison = new EtatChoixProchaineLivraison();
     
+    protected static void setEtatCourant(Etat etat){
+        etatCourant = etat;
+    }
+        
     private ModeleManager modeleManager;
     private Fenetre fenetre;
     
@@ -45,44 +49,47 @@ public class Controleur {
         modeleManager = new ModeleManager();
         fenetre = new Fenetre(this);
     }
-    
-    public void chargerPlan() {
+   
+    public synchronized void chargerPlan() {
         etatCourant.chargerPlan(modeleManager.getPlan());
     }
     
-    public void chargerTournee() {
-        etatCourant.chargerPlan(modeleManager.getPlan());
+    public synchronized void chargerLivraisons() {
+        etatCourant.chargerLivraisons(modeleManager.getEnsembleLivraisons());
     }
     
-    public void clicGauche() {
+    public synchronized void calculerTournee() {
+    }
+    
+    public synchronized void clicGauche() {
         
     }
     
-    public void undo() {
+    public synchronized void undo() {
         
     }
     
-    public void redo() {
+    public synchronized void redo() {
         
     }
     
-    public void ajouterLivraison(DemandeLivraison livraison) {
+    public synchronized void ajouterLivraison(DemandeLivraison livraison) {
     
     }
     
-    public void genererFeuilleRoute() {
+    public synchronized void genererFeuilleRoute() {
         
     }
     
-    public void echangerDeuxPoints() {
+    public synchronized void echangerDeuxPoints() {
         
     }
     
-    public void clicOk() {
+    public synchronized void clicOk() {
         
     }
     
-    public void clicAnnuler() {
+    public synchronized void clicAnnuler() {
         
     }
 }

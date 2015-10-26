@@ -5,10 +5,16 @@
  */
 package controleur;
 
+import modele.EnsembleLivraisons;
+
 /**
  *
  * @author Kilian
  */
 public class EtatPlanCharge extends EtatDefaut {
-    
+
+    @Override
+    public void chargerLivraisons(EnsembleLivraisons ensembleLivraisons){
+        Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
+    }
 }
