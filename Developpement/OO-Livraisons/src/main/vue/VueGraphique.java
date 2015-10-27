@@ -85,8 +85,8 @@ public class VueGraphique extends JPanel{
             Map.Entry pair = (Map.Entry)itIntersections.next();
             Intersection monInter = (Intersection) pair.getValue();//on cree une vue de l'intersection
             
-            Point interEchelle = getCoordEchelle(monInter.getX(),monInter.getY());
-            IntersectionVue interVue = new IntersectionVue((int)interEchelle.getX(),(int)interEchelle.getY()); 
+            Point interEchelle = getCoordEchelle(monInter.getX(),monInter.getY());//on passe les coordonnees a l'echelle
+            IntersectionVue interVue = new IntersectionVue((int)interEchelle.getX(),(int)interEchelle.getY(), Color.LIGHT_GRAY); 
             this.mesIntersection.add(interVue);
             this.add(interVue);//on l'ajoute à la vue graphique
         }
@@ -94,9 +94,9 @@ public class VueGraphique extends JPanel{
         while(itTroncon.hasNext())
         {
             Troncon monTroncon = (Troncon) itTroncon.next();//on cree une vue du troncon
-            Point debutEchelle = getCoordEchelle(monTroncon.getIntersectionDepart().getX(),monTroncon.getIntersectionDepart().getY());
+            Point debutEchelle = getCoordEchelle(monTroncon.getIntersectionDepart().getX(),monTroncon.getIntersectionDepart().getY());//on passe les coordonnees a l'echelle
             Point finEchelle  = getCoordEchelle(monTroncon.getIntersectionArrivee().getX(),monTroncon.getIntersectionArrivee().getY());
-            TronconVue tronconVue = new TronconVue((int)debutEchelle.getX(), (int)debutEchelle.getY(),(int)finEchelle.getX(),(int)finEchelle.getY(),monTroncon.getNom(), Color.GRAY); 
+            TronconVue tronconVue = new TronconVue((int)debutEchelle.getX(), (int)debutEchelle.getY(),(int)finEchelle.getX(),(int)finEchelle.getY(),monTroncon.getNom(), Color.LIGHT_GRAY); 
             
             this.mesTroncons.add(tronconVue);
             this.add(tronconVue);//on l'ajoute à la vue graphique

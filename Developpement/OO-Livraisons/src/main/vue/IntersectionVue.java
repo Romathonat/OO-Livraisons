@@ -19,24 +19,25 @@ import javax.swing.JPanel;
 class IntersectionVue extends JPanel{
     public int x;
     public int y;
-    static int radius = 10;
+    public static int radius = 10;
+    public Color couleur;
     
-    public IntersectionVue(int x, int y)
+    public IntersectionVue(int x, int y, Color c)
     {
         super();
-        this.x = x;
-        this.y = y;
+        this.x = x-5;
+        this.y = y-5;
+        this.couleur = c;
 	this.setSize(new Dimension(radius,radius)); //il faut definir la taille du JPanel
-        //!!!!!!!!!METTRE EN TRANSPARENT !!!!!!!!!!!
+        this.setOpaque(true);
         this.setBackground(new Color(0,0,0,0));
-        this.setLocation(x, y);
+        this.setLocation(this.x, this.y);
         this.setVisible(true);
     }
     
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g.setColor(Color.BLACK);
+        g.setColor(this.couleur);
         g.fillOval(0, 0, radius, radius);
     }
 }
