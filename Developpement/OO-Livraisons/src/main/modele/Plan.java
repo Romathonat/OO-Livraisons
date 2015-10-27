@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -97,7 +98,8 @@ public class Plan {
      * @return 
      */
     public Iterator<Troncon> getTroncons() {
-        return this.troncons.iterator();
+        Collection constCollection = Collections.unmodifiableCollection(troncons);
+        return constCollection.iterator();
     }
     
     /**
@@ -126,9 +128,6 @@ public class Plan {
     public Intersection getEntrepot() {
         return entrepot;
     }
-
-    
-    
     
     private class DistanceIntersection
     {

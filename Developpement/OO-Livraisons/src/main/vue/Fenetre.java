@@ -9,6 +9,7 @@ import controleur.Controleur;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -108,7 +109,7 @@ public class Fenetre extends JFrame{
         
         //------Organisation des Pannels
         vueGraphique = new VueGraphique();
-        
+        vueGraphique.setLayout(null);
         
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
@@ -187,10 +188,10 @@ public class Fenetre extends JFrame{
         
         @Override
         public void actionPerformed(ActionEvent e) {
-            int a = JOptionPane.showConfirmDialog(frameParent, "Le plan courant va être écraser, continuer?", "Charger un plan", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (a == JOptionPane.YES_OPTION) {
+            //int a = JOptionPane.showConfirmDialog(frameParent, "Le plan courant va être écraser, continuer?", "Charger un plan", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            //if (a == JOptionPane.YES_OPTION) {
                 //controleur.chargerPlan(); 
-            }
+            //}
             vueGraphique.drawPlan();
             revalidate();
             repaint();
