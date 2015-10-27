@@ -37,14 +37,17 @@ public class TronconVue extends JPanel{
         this.setBackground(new Color(0,0,0,0));
         couleur = c;
         this.setSize(new Dimension(max(x2,x1),max(y2,y1)));
-        //this.setBounds(min(x2,x1),min(y2,y1),max(x2,x1)-min(x2,x1),max(y2,y1)-min(y2,y1));
+        //this.setLocation(min(x2,x1),min(y2,y1));
     }
     
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.setOpaque(true);
         this.setBackground(new Color(0,0,0,0));
-        g.setColor(couleur);
-        g.drawLine(xDebut, yDebut, xFin, yFin);
+        
+        
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(couleur);
+        g2d.drawLine(xDebut, yDebut, xFin, yFin);
     }
 }

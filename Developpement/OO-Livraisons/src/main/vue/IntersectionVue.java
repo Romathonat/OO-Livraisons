@@ -8,6 +8,7 @@ package vue;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -27,12 +28,14 @@ class IntersectionVue extends JPanel{
         this.y = y;
 	this.setSize(new Dimension(radius,radius)); //il faut definir la taille du JPanel
         //!!!!!!!!!METTRE EN TRANSPARENT !!!!!!!!!!!
+        this.setBackground(new Color(0,0,0,0));
         this.setLocation(x, y);
         this.setVisible(true);
     }
     
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.BLACK);
         g.fillOval(0, 0, radius, radius);
     }
