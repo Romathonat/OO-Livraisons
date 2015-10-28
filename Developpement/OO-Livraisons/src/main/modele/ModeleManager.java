@@ -32,4 +32,12 @@ public class ModeleManager {
     public Tournee getTournee(){
         return this.tournee;
     }
+    
+    public void setEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons) {
+        this.ensembleLivraisons = ensembleLivraisons;
+    }
+
+    public void setTournee(Tournee tournee) {
+        this.tournee = tournee;
+    }
 }

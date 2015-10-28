@@ -5,7 +5,6 @@
  */
 package controleur;
 
-import modele.DemandeLivraison;
 import modele.*;
 import vue.*;
 
