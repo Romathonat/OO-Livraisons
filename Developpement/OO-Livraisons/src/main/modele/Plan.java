@@ -19,7 +19,7 @@ public class Plan {
 
     // Attributs
 
-    private Intersection entrepot;
+    //private Intersection entrepot;
     private Map<Integer, Intersection> intersections;
     /**
      * Le plus grand identifiant donne a une intersection.
@@ -38,7 +38,6 @@ public class Plan {
 
     // Methodes
     public Plan() {
-        this.entrepot = null;
         this.intersections = new HashMap<>();
         this.intersectionsMaxId = 0;
         this.troncons = new LinkedList<>();
@@ -142,29 +141,6 @@ public class Plan {
      */
     public Iterator<Entry<Integer, Intersection>> getIntersections() {
         return this.intersections.entrySet().iterator();
-    }
-
-    /**
-     * Définis l'Intersection où est situé l'entrepôt par son identifiant. Si
-     * l'identifiant de l'intersection n'existe pas, l'entrepot sera definit à
-     * null.
-     *
-     * @param idIntersectionEntrepot L'identifiant où est situé l'entrepôt.
-     * @return L'intersection où est situé l'entrepot, ou bien null si cette
-     * intersection n'existe pas.
-     */
-    public Intersection setEntrepot(int idIntersectionEntrepot) {
-        this.entrepot = getIntersection(idIntersectionEntrepot);
-        return this.entrepot;
-    }
-
-    /**
-     * Retourne l'Intersection où est situé l'entrepôt.
-     *
-     * @return l'Intersection où est situé l'entrepôt.
-     */
-    public Intersection getEntrepot() {
-        return entrepot;
     }
 
     private class DistanceIntersection {

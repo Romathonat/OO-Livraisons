@@ -17,14 +17,35 @@ import java.util.TreeMap;
 public class EnsembleLivraisons {
 
     private Map<Date, FenetreLivraison> fenetresLivraison;
+    private Intersection Entrepot;
 
+    
     /**
      * Constructeur standard de la classe EnsembleLivraison.
      */
     public EnsembleLivraisons() {
         this.fenetresLivraison = new TreeMap<Date, FenetreLivraison>();
+        this.Entrepot = null;
     }
 
+    /**
+     * Retourne l'Intersection où est situé l'entrepôt.
+     *
+     * @return l'Intersection où est situé l'entrepôt.
+     */
+    public Intersection getEntrepot() {
+        return Entrepot;
+    }
+
+    /**
+     * Définis l'Intersection où est situé l'entrepôt.
+     *
+     * @return L'intersection où est situé l'entrepot.
+     */
+    public Intersection setEntrepot(Intersection Entrepot) {
+        return this.Entrepot = Entrepot;
+    }
+    
     /**
      * Ajoute une fenetre temporelle de livraison à l'ensemble des fenêtres. En
      * accord avec le cahier des charges, cette fonction vérifie que les

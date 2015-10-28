@@ -135,8 +135,6 @@ public class DeserialiseurXML {
     private static void RecupererDemandesLivraison_APartirDeDOMXML(Element noeudDOMRacine, Plan plan,EnsembleLivraisons ensembleLivraisons) throws ExceptionXML, NumberFormatException, ParseException {
         // TBD: Add security measures to protect core.
 
-        // Afin de convertir correctement les nombres décimaux (avec une virgule).
-        NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
         // Utilitaire pour parser la date.
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
@@ -146,9 +144,9 @@ public class DeserialiseurXML {
             throw new ExceptionXML("Document non conforme, Entrepot Absent.");
         }
         int idEntrepot = Integer.parseInt(Entrepot.getAttribute("adresse"));
-        if (plan.setEntrepot(idEntrepot) == null) {
+        /*if (plan.setEntrepot(idEntrepot) == null) {
          throw new ExceptionXML("Document non conforme, l'id de l'entrepot ne correspond à aucune intersection.");
-         }
+         }*/
 
         // Intégration des plages horaires.
         NodeList listeFenetres = noeudDOMRacine.getElementsByTagName("Plage");

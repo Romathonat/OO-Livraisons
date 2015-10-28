@@ -69,21 +69,6 @@ public class PlanTest {
     }
     
     @Test
-    public void testEntrepot() {
-        Plan plan = new Plan();
-        
-        //On ajoute une intersection au plan.
-        plan.ajouterIntersection(1, 0, 0);
-        
-        //On tente de definir un mauvais entrepot.
-        assertNull("L'entrepot ne peux pas se situer sur une Intersection qui n'existe pas.", plan.setEntrepot(2));
-        //On definit un vrai entrepot.
-        assertNotNull("L'entrepot doit pouvoir se situer sur l'intersection 1.", plan.setEntrepot(1));
-        //On verifie l'id de l'intersection de l'entrepot.
-        assertEquals("L'entrepot doit se situer sur l'intersection 1.", 1, plan.getEntrepot().getId());
-    }
-    
-    @Test
     public void testCalculerPlusCourtChemin() {
         Plan plan = new Plan();
         
