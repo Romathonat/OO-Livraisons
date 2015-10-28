@@ -30,7 +30,6 @@ public class VueGraphique extends JPanel implements Observer{
     
     private int maxX;
     private int maxY;
-    private Plan plan; //plan màj par le pattern Observer
     
     public VueGraphique()
     {
@@ -72,13 +71,13 @@ public class VueGraphique extends JPanel implements Observer{
     }
     
     //attend un plan en parametre dans la version finale, ainsi que maxX et maxY
-    public void drawPlan() {
+    public void drawPlan(Plan plan) {
         //we create a test plan to see how it is working
         //Plan plan = new Plan();
         //creerPlanTest(plan);
         
-        maxX = 458;
-        maxY = 400;
+        maxX = plan.getXmax();
+        maxY = plan.getYMax();
         
         Iterator<Entry<Integer, Intersection>> itIntersections = plan.getIntersections();
         Iterator<Troncon> itTroncon = plan.getTroncons();
@@ -110,7 +109,6 @@ public class VueGraphique extends JPanel implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        plan = (Plan) o;
+        
     }
-    
 }

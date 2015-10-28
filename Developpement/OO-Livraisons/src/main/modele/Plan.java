@@ -16,7 +16,7 @@ import java.util.PriorityQueue;
  *
  * @author mgaillard
  */
-public class Plan extends Observable{
+public class Plan{
 
     // Attributs
 
@@ -81,7 +81,22 @@ public class Plan extends Observable{
         }
         return false;
     }
-
+    
+    /**
+     * Getter sur le Xmax
+     * @return 
+     */
+    public int getXmax(){
+        return Xmax;
+    }
+    
+    /**
+     * Getter sur le Ymax
+     * @return 
+     */
+    public int getYMax(){
+        return Ymax;
+    }
     /**
      * Ajoute un troncon au plan. Pour l'intersection de depart du troncon, la
      * liste des successeurs est mise a jour. Si une des intersections de depart

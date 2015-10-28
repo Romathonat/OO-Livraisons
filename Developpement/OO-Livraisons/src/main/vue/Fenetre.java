@@ -179,7 +179,7 @@ public class Fenetre extends JFrame{
         this.setTitle("OO-Livraisons");
         this.setVisible(true);
     }
-
+ 
     private class ChargerPlan implements ActionListener {
         
         JFrame frameParent;
@@ -192,11 +192,11 @@ public class Fenetre extends JFrame{
         public void actionPerformed(ActionEvent e) {
             int a = JOptionPane.showConfirmDialog(frameParent, "Le plan courant va être écraser, continuer?", "Charger un plan", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (a == JOptionPane.YES_OPTION) {
-                controleur.chargerPlan(); 
+                Plan monPlan = controleur.chargerPlan(); 
+                vueGraphique.drawPlan(monPlan);
+                revalidate();
+                repaint();
             }
-            vueGraphique.drawPlan();
-            revalidate();
-            repaint();
         }
     }
     private class ChargerTournee implements ActionListener

@@ -111,7 +111,7 @@ public class DeserialiseurXML {
             int idDepart = Integer.parseInt(inter.getAttribute("id"));
 
             NodeList listeArcsSortants = ((Element) listesNoeuds.item(i)).getElementsByTagName("LeTronconSortant");
-            for (int j = 0; j < listesNoeuds.getLength(); j++) {
+            for (int j = 0; j < listeArcsSortants.getLength(); j++) {
 
                 Element troncon = (Element) listeArcsSortants.item(j);
 

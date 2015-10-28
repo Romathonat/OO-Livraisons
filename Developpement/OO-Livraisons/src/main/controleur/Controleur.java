@@ -41,7 +41,6 @@ public class Controleur {
         Fenetre fenetre;
         
         controleur = new Controleur();
-        fenetre = new Fenetre(controleur);
     }
     
     public Controleur() {
@@ -51,8 +50,9 @@ public class Controleur {
         fenetre = new Fenetre(this);
     }
    
-    public synchronized void chargerPlan() {
+    public synchronized Plan chargerPlan() {
         etatCourant.chargerPlan(modeleManager.getPlan());
+        return modeleManager.getPlan();
     }
     
     public synchronized void chargerLivraisons() {

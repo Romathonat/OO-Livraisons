@@ -43,7 +43,4 @@ public class ModeleManager {
         this.tournee = tournee;
     }
     
-    public void addObserverPlan(VueGraphique vue){
-        plan.addObserver(vue);
-    }
 }
