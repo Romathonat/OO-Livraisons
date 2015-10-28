@@ -5,6 +5,8 @@
  */
 package modele;
 
+import vue.VueGraphique;
+
 /**
  *
  * @author Kilian
@@ -39,5 +41,9 @@ public class ModeleManager {
 
     public void setTournee(Tournee tournee) {
         this.tournee = tournee;
+    }
+    
+    public void addObserverPlan(VueGraphique vue){
+        plan.addObserver(vue);
     }
 }

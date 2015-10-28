@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JPanel;
 import modele.Intersection;
 import modele.Plan;
@@ -22,12 +24,13 @@ import modele.Troncon;
  *
  * @author romain
  */
-public class VueGraphique extends JPanel{
+public class VueGraphique extends JPanel implements Observer{
     Collection<TronconVue> mesTroncons;
     Collection<IntersectionVue> mesIntersection;
     
     private int maxX;
     private int maxY;
+    private Plan plan; //plan màj par le pattern Observer
     
     public VueGraphique()
     {
@@ -71,8 +74,8 @@ public class VueGraphique extends JPanel{
     //attend un plan en parametre dans la version finale, ainsi que maxX et maxY
     public void drawPlan() {
         //we create a test plan to see how it is working
-        Plan plan = new Plan();
-        creerPlanTest(plan);
+        //Plan plan = new Plan();
+        //creerPlanTest(plan);
         
         maxX = 458;
         maxY = 400;
@@ -103,6 +106,11 @@ public class VueGraphique extends JPanel{
         }
         this.revalidate();
         this.repaint();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        plan = (Plan) o;
     }
     
 }

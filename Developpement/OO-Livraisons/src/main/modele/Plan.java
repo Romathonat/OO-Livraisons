@@ -9,13 +9,14 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Observable;
 import java.util.PriorityQueue;
 
 /**
  *
  * @author mgaillard
  */
-public class Plan {
+public class Plan extends Observable{
 
     // Attributs
 
@@ -142,7 +143,8 @@ public class Plan {
     public Iterator<Entry<Integer, Intersection>> getIntersections() {
         return this.intersections.entrySet().iterator();
     }
-
+    
+    
     private class DistanceIntersection {
 
         // Attributs

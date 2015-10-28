@@ -38,9 +38,10 @@ public class Controleur {
     public static void main(String args[]){
         
         Controleur controleur;
+        Fenetre fenetre;
         
         controleur = new Controleur();
-        
+        fenetre = new Fenetre(controleur);
     }
     
     public Controleur() {

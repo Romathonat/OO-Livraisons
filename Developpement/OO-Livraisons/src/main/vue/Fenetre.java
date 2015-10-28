@@ -25,6 +25,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import modele.Plan;
 
 /**
  *
@@ -63,6 +64,7 @@ public class Fenetre extends JFrame{
     
     private Controleur controleur;
     
+   
     public Fenetre(Controleur c)
     {
         controleur = c;
@@ -188,10 +190,10 @@ public class Fenetre extends JFrame{
         
         @Override
         public void actionPerformed(ActionEvent e) {
-            //int a = JOptionPane.showConfirmDialog(frameParent, "Le plan courant va être écraser, continuer?", "Charger un plan", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            //if (a == JOptionPane.YES_OPTION) {
-                //controleur.chargerPlan(); 
-            //}
+            int a = JOptionPane.showConfirmDialog(frameParent, "Le plan courant va être écraser, continuer?", "Charger un plan", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (a == JOptionPane.YES_OPTION) {
+                controleur.chargerPlan(); 
+            }
             vueGraphique.drawPlan();
             revalidate();
             repaint();
