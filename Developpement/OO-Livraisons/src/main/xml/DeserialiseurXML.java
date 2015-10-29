@@ -21,7 +21,7 @@ import org.xml.sax.SAXException;
 import modele.Plan;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
-import modele.ModeleManager;
+import modele.Intersection;
 
 public class DeserialiseurXML {
 
@@ -133,20 +133,20 @@ public class DeserialiseurXML {
     // Méthode de parsing du document XML pour récupérer des demandes de livraison.
     //
     private static void RecupererDemandesLivraison_APartirDeDOMXML(Element noeudDOMRacine, Plan plan,EnsembleLivraisons ensembleLivraisons) throws ExceptionXML, NumberFormatException, ParseException {
-        // TBD: Add security measures to protect core.
 
         // Utilitaire pour parser la date.
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
         // Récupération de l'Entrepot.
-        Element Entrepot = (Element) noeudDOMRacine.getElementsByTagName("Entrepot").item(0);
-        if (Entrepot == null) {
+        Element eltEntrepot = (Element) noeudDOMRacine.getElementsByTagName("Entrepot").item(0);
+        if (eltEntrepot == null) {
             throw new ExceptionXML("Document non conforme, Entrepot Absent.");
         }
-        int idEntrepot = Integer.parseInt(Entrepot.getAttribute("adresse"));
-        /*if (plan.setEntrepot(idEntrepot) == null) {
+        int idEntrepot = Integer.parseInt(eltEntrepot.getAttribute("adresse"));
+        
+        if (ensembleLivraisons.setEntrepot(plan.getIntersection(idEntrepot)) == null) {
          throw new ExceptionXML("Document non conforme, l'id de l'entrepot ne correspond à aucune intersection.");
-         }*/
+         }
 
         // Intégration des plages horaires.
         NodeList listeFenetres = noeudDOMRacine.getElementsByTagName("Plage");
@@ -157,7 +157,7 @@ public class DeserialiseurXML {
             Date heureDebut = sdf.parse(nodeFenetre.getAttribute("heureDebut"));
             Date heureFin = sdf.parse(nodeFenetre.getAttribute("heureFin"));
 
-            // on ajoute la fentre horaire à l'ensemble.
+            // on ajoute la fenetre horaire à l'ensemble.
             FenetreLivraison fenetre = ensembleLivraisons.ajouteFenetreDeLivraison(heureDebut, heureFin);
             if (fenetre == null) {
                 throw new ExceptionXML("Document non conforme, Plage Horaire invalide");

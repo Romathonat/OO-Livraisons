@@ -6,7 +6,10 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -82,4 +85,14 @@ public class EnsembleLivraisons {
         return fenetre;
     }
 
+    /**
+     * Retourne un iterator sur les fenetres de Livraison.
+     *
+     * @return un iterator sur les fenetres de Livraison.
+     */
+    public Iterator<FenetreLivraison> getFenetresLivraison() {
+        Collection constCollection = Collections.unmodifiableCollection(fenetresLivraison);
+        return constCollection.iterator();
+    }
+    
 }

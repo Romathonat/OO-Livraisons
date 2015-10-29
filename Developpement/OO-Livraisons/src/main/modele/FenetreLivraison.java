@@ -5,8 +5,12 @@
  */
 package modele;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -17,12 +21,13 @@ public class FenetreLivraison {
     // Attributs
     private Date heureDebut;
     private Date heureFin;
-    private Collection<DemandeLivraison> collectionDemandeLivraison;
+    private List<DemandeLivraison> listDemandesLivraison;
 
     // Methodes
     public FenetreLivraison(Date heureDebut, Date heureFin) {
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
+        this.listDemandesLivraison = new ArrayList<DemandeLivraison> ();
     }
 
     /**
@@ -60,8 +65,17 @@ public class FenetreLivraison {
         // TBD : verifier que le point de livraison <> Entrepot.
 
         DemandeLivraison demande = new DemandeLivraison(inter, this);
-        this.collectionDemandeLivraison.add(demande);
+        this.listDemandesLivraison.add(demande);
         return demande;
     }
 
+    /**
+     * Retourne un iterator sur les demandes de Livraison.
+     *
+     * @return un iterator sur les demandes de Livraison.
+     */
+    public Iterator<DemandeLivraison> getDemandesLivraison() {
+        Collection constCollection = Collections.unmodifiableCollection(listDemandesLivraison);
+        return constCollection.iterator();
+    }
 }

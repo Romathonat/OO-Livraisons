@@ -16,7 +16,7 @@ public class EnsembleLivraisonsTest {
 
     @Test
     public void testConstructeur() {
-        assertNotNull("Le constructeur de Plan retourne null.", new EnsembleLivraisonsTest());
+        assertNotNull("Le constructeur de EnsembleLivraisons retourne null.", new EnsembleLivraisonsTest());
     }
 
     @Test
