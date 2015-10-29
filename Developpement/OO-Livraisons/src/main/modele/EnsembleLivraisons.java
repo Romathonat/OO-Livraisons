@@ -5,10 +5,10 @@
  */
 package modele;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 /**
  *
@@ -16,7 +16,7 @@ import java.util.TreeMap;
  */
 public class EnsembleLivraisons {
 
-    private Map<Date, FenetreLivraison> fenetresLivraison;
+    private List<FenetreLivraison> fenetresLivraison;
     private Intersection Entrepot;
 
     
@@ -24,7 +24,7 @@ public class EnsembleLivraisons {
      * Constructeur standard de la classe EnsembleLivraison.
      */
     public EnsembleLivraisons() {
-        this.fenetresLivraison = new TreeMap<Date, FenetreLivraison>();
+        this.fenetresLivraison = new ArrayList<FenetreLivraison>();
         this.Entrepot = null;
     }
 
@@ -64,20 +64,21 @@ public class EnsembleLivraisons {
         }
 
         // Detection d'intersections éventuelles entre les plages horaires.
-        for (Entry<Date, FenetreLivraison> entry : this.fenetresLivraison.entrySet()) {
-            if (entry.getValue().getHeureDebut().compareTo(heureDebut) < 0) {
-                if (entry.getValue().getHeureFin().compareTo(heureDebut) > 0) { // intersection type ABAB ou ABBA
+        for (int i = 0; i < fenetresLivraison.size(); i++ ) {
+            FenetreLivraison fen = fenetresLivraison.get(i);
+            if (fen.getHeureDebut().compareTo(heureDebut) < 0) {
+                if (fen.getHeureFin().compareTo(heureDebut) > 0) { // intersection type ABAB ou ABBA
                     return null;
                 }
             } else {
-                if (entry.getValue().getHeureDebut().compareTo(heureFin) < 0) { // intersection type BABA ou BAAB
+                if (fen.getHeureDebut().compareTo(heureFin) < 0) { // intersection type BABA ou BAAB
                     return null;
                 }
             }
         }
         
         FenetreLivraison fenetre = new FenetreLivraison (heureDebut, heureFin);
-        this.fenetresLivraison.put(heureDebut, fenetre);
+        this.fenetresLivraison.add(fenetre);
         return fenetre;
     }
 
