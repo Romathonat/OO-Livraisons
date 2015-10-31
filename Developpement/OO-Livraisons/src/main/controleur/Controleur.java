@@ -55,8 +55,9 @@ public class Controleur {
         return modeleManager.getPlan();
     }
     
-    public synchronized void chargerLivraisons() {
-        etatCourant.chargerLivraisons(modeleManager.getEnsembleLivraisons());
+    public synchronized EnsembleLivraisons chargerLivraisons() {
+        etatCourant.chargerLivraisons(modeleManager.getPlan(),modeleManager.getEnsembleLivraisons());
+        return modeleManager.getEnsembleLivraisons();
     }
     
     public synchronized void calculerTournee() {

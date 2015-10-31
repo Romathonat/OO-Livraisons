@@ -20,7 +20,7 @@ public class ModeleManager {
 
     public ModeleManager() {
         this.plan = new Plan();
-        this.ensembleLivraisons = null;
+        this.ensembleLivraisons = new EnsembleLivraisons();
         this.tournee = null;
         this.tempsDerniereTourneeCalculee = Long.MAX_VALUE;
     }

@@ -16,6 +16,9 @@ import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JPanel;
+import modele.DemandeLivraison;
+import modele.EnsembleLivraisons;
+import modele.FenetreLivraison;
 import modele.Intersection;
 import modele.Plan;
 import modele.Troncon;
@@ -70,7 +73,10 @@ public class VueGraphique extends JPanel implements Observer{
         plan.ajouterTroncon(3,1,"rue2",3,5);
     }
     
-    //attend un plan en parametre dans la version finale, ainsi que maxX et maxY
+    /**
+     * Dessine un plan dans la Vue Graphique à partir de plan
+     * @param plan 
+     */
     public void drawPlan(Plan plan) {
         //we create a test plan to see how it is working
         //Plan plan = new Plan();
@@ -88,7 +94,7 @@ public class VueGraphique extends JPanel implements Observer{
             Intersection monInter = (Intersection) pair.getValue();//on cree une vue de l'intersection
             
             Point interEchelle = getCoordEchelle(monInter.getX(),monInter.getY());//on passe les coordonnees a l'echelle
-            IntersectionVue interVue = new IntersectionVue((int)interEchelle.getX(),(int)interEchelle.getY(), Color.LIGHT_GRAY); 
+            IntersectionVue interVue = new IntersectionVue((int)interEchelle.getX(),(int)interEchelle.getY(),monInter.getId(), Color.LIGHT_GRAY); 
             this.mesIntersection.add(interVue);
             this.add(interVue);//on l'ajoute à la vue graphique
         }
@@ -106,9 +112,56 @@ public class VueGraphique extends JPanel implements Observer{
         this.revalidate();
         this.repaint();
     }
-
+    
+    /**
+     * Dessine l'ensemble des livraisons à partir de livraisons
+     * @param livraisons 
+     */
+    void drawLivraisons(EnsembleLivraisons livraisons) throws Exception {
+        Iterator<FenetreLivraison> it = livraisons.getFenetresLivraison();
+        Color[] mesCouleurs = new Color[4];
+        mesCouleurs[0] = Color.BLUE;
+        mesCouleurs[1] = Color.MAGENTA;
+        mesCouleurs[2] = Color.ORANGE;
+        mesCouleurs[3] = Color.GREEN;
+        int k = 0;
+        
+        while(it.hasNext())//pour toutes les fenetres, on change la coloration
+        {   
+            Color CouleurCourante = mesCouleurs[k++%4];
+            FenetreLivraison maFenetre = it.next();
+            Iterator<DemandeLivraison> itDemandes = maFenetre.getDemandesLivraison();
+            while(itDemandes.hasNext())//pour toutes les demandes de cette fenetre
+            {
+                Intersection monInter = itDemandes.next().getIntersection();
+                Iterator<IntersectionVue> itInterVue = mesIntersection.iterator();
+                
+                boolean ptTrouve = false;
+                while(itInterVue.hasNext())//on cherche le point correspondant qui a déja du être dessiné
+                {
+                    IntersectionVue monInterVue = itInterVue.next();
+                    if(monInterVue.getId() == monInter.getId())
+                    {
+                        monInterVue.setColor(CouleurCourante);
+                        monInterVue.revalidate();
+                        monInterVue.repaint();
+                        ptTrouve = true;
+                        break;
+                    }
+                }
+                if(ptTrouve == false){
+                    throw new Exception();
+                }
+            }
+        }
+        this.revalidate();
+        this.repaint();
+    }
+    
     @Override
     public void update(Observable o, Object arg) {
         
     }
+
+    
 }

@@ -37,7 +37,4 @@ public class DemandeLivraison {
     public FenetreLivraison getFenetreLivraison(){
         return fenetreLivraison;
     }
-    
-    
-    
 }

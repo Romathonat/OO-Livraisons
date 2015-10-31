@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -25,6 +27,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import modele.EnsembleLivraisons;
 import modele.Plan;
 
 /**
@@ -38,7 +41,7 @@ public class Fenetre extends JFrame{
     
     protected JMenu fichier;
     protected JMenuItem chargerPlan;
-    protected JMenuItem chargerTournee;
+    protected JMenuItem chargerDemandesLivraisons;
     protected JMenuItem quitter;
     
     protected JMenu edition;
@@ -76,12 +79,12 @@ public class Fenetre extends JFrame{
         fichier = new JMenu("Fichier");
         chargerPlan = new JMenuItem("Charger Plan");
         chargerPlan.addActionListener(new ChargerPlan(this));
-        chargerTournee = new JMenuItem("Charger Tournee");
-        chargerTournee.addActionListener(new ChargerTournee());
+        chargerDemandesLivraisons = new JMenuItem("Charger demandes livraisons");
+        chargerDemandesLivraisons.addActionListener(new ChargerTournee());
         quitter = new JMenuItem("Quitter");
         
         fichier.add(chargerPlan);
-        fichier.add(chargerTournee);
+        fichier.add(chargerDemandesLivraisons);
         fichier.add(quitter);
         
         barreMenus.add(fichier);
@@ -203,7 +206,15 @@ public class Fenetre extends JFrame{
     {
         @Override
         public void actionPerformed(ActionEvent e) {
-            controleur.chargerLivraisons();
+            EnsembleLivraisons livraisons = controleur.chargerLivraisons();
+            
+            try { //au cas ou un point n'est pas dejà dessiné
+                vueGraphique.drawLivraisons(livraisons);
+            } catch (Exception ex) {
+                Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            revalidate();
+            repaint();
         }
     }
 }

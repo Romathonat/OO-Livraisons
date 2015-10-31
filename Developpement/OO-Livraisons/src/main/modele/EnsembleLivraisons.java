@@ -12,12 +12,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Observable;
 
 /**
  *
  * @author gkheng
  */
-public class EnsembleLivraisons {
+public class EnsembleLivraisons extends Observable{
 
     private List<FenetreLivraison> fenetresLivraison;
     private Intersection Entrepot;
@@ -60,7 +61,6 @@ public class EnsembleLivraisons {
      * @return La fenetre si les conditions d'ajout sont respectées, null sinon.
      */
     public FenetreLivraison ajouteFenetreDeLivraison(Date heureDebut, Date heureFin) {
-        
         // Test de cohérence.
         if (heureDebut.compareTo(heureFin) >= 0) {
             return null;
@@ -94,7 +94,4 @@ public class EnsembleLivraisons {
         Collection constCollection = Collections.unmodifiableCollection(fenetresLivraison);
         return constCollection.iterator();
     }
-    
-    
-    
 }
