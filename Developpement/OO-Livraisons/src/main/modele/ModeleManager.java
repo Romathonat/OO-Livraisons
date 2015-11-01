@@ -1,11 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modele;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -43,6 +44,76 @@ public class ModeleManager {
 
     public void setTournee(Tournee tournee) {
         this.tournee = tournee;
+    }
+    
+    public Tournee calculerTournee() {
+        Tournee tournee = null;
+        
+        if (ensembleLivraisons != null) {
+            Intersection entrepot = ensembleLivraisons.getEntrepot();
+            
+            //Dans une collection, on retient tous les chemins entre les intersections.
+            Map<DepartArriveeChemin, Chemin> chemins = new HashMap<>();
+            
+            //Pour chaque fenetre de livraisons.
+            Iterator<FenetreLivraison> itFenetre = ensembleLivraisons.getFenetresLivraison();
+            //Pour simuler le fait qu'une livraison demarre de l'entrepot,
+            // on cree une fausse fenetre de livraison seulement pour l'entrepot.
+            FenetreLivraison fenetrePrecedente = new FenetreLivraison(null, null);
+            fenetrePrecedente.ajouterDemandeLivraison(-1, -1, entrepot);
+            while (itFenetre.hasNext()) {
+                FenetreLivraison fenetre = itFenetre.next();
+                
+                //On retient tous les id des intersections des fenetres de livraison dans un ensemble.
+                Set<Integer> idIntersectionsFenetrePrecedente = fenetrePrecedente.getIdIntersectionsLivraisons();
+                Set<Integer> idIntersectionsFenetre = fenetre.getIdIntersectionsLivraisons();
+                
+                /*
+                 * On calcule les plus courts chemins entre toutes les intersections
+                 * de la fenetre de livraison precedente et toutes les intersections
+                 * de la fenetre de livraison courante.
+                 */
+                Map<DepartArriveeChemin, Chemin> cheminsDepuisFenetrePrecedente = plan.calculerPlusCourtsChemins(idIntersectionsFenetrePrecedente, idIntersectionsFenetre);
+                chemins.putAll(cheminsDepuisFenetrePrecedente);
+                
+                /*
+                 * On calcule tous les plus courts chemins entre toutes les
+                 * intersections de la fenetre de livraison courante.
+                 */
+                Map<DepartArriveeChemin, Chemin> cheminsFenetre = plan.calculerPlusCourtsChemins(idIntersectionsFenetre, idIntersectionsFenetre);
+                chemins.putAll(cheminsFenetre);
+                
+                //Pour terminer on retient cette fenetre comme precedente fenetre.
+                fenetrePrecedente = fenetre;
+            }
+            /*
+             * Dans une dernière iterations, on calcule les plus courts chemins pour revenir de
+             * la dernière fenetre de livraison vers l'entrepot.
+             */
+            Set<Integer> idIntersectionsFenetrePrecedente = fenetrePrecedente.getIdIntersectionsLivraisons();
+            Set<Integer> idFenetreEntrepot = new HashSet<>(1);
+            idFenetreEntrepot.add(entrepot.getId());
+            Map<DepartArriveeChemin, Chemin> cheminsFenetreVersEntrepot = plan.calculerPlusCourtsChemins(idIntersectionsFenetrePrecedente, idFenetreEntrepot);
+            chemins.putAll(cheminsFenetreVersEntrepot);
+            
+            //On modelise le probleme grace aux classes graphes.
+            Set<Map.Entry<DepartArriveeChemin, Chemin>> ensembleChemins = chemins.entrySet();
+            Iterator<Map.Entry<DepartArriveeChemin, Chemin>> itChemins = ensembleChemins.iterator();
+            while(itChemins.hasNext()) {
+                //Pour chaque chemin on affiche 
+                Map.Entry<DepartArriveeChemin, Chemin> entree = itChemins.next();
+                DepartArriveeChemin itineraire = entree.getKey();
+                Chemin chemin = entree.getValue();
+                
+                System.out.println(itineraire.idDepart + " -> " + itineraire.idArrivee + " : " + chemin.getDuree());
+            }
+            
+            //On calcule la solution du problème.
+            
+            //On interprete la solution du problème et on la transforme en tournee.
+        }
+        
+        return tournee;
     }
 
     public double getPremiereTournee() {
