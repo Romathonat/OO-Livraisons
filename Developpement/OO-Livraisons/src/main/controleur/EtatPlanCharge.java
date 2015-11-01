@@ -5,7 +5,16 @@
  */
 package controleur;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
 import modele.EnsembleLivraisons;
+import modele.Plan;
+import org.xml.sax.SAXException;
+import xml.DeserialiseurXML;
+import xml.ExceptionXML;
 
 /**
  *
@@ -14,7 +23,20 @@ import modele.EnsembleLivraisons;
 public class EtatPlanCharge extends EtatDefaut {
 
     @Override
-    public void chargerLivraisons(EnsembleLivraisons ensembleLivraisons){
-        Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
+    public void chargerLivraisons(Plan plan, EnsembleLivraisons ensembleLivraisons){
+        try {
+            DeserialiseurXML.chargerDemandesLivraisons(plan, ensembleLivraisons);
+            Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExceptionXML ex) {
+            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -145,8 +145,8 @@ public class DeserialiseurXML {
         int idEntrepot = Integer.parseInt(eltEntrepot.getAttribute("adresse"));
         
         if (ensembleLivraisons.setEntrepot(plan.getIntersection(idEntrepot)) == null) {
-         throw new ExceptionXML("Document non conforme, l'id de l'entrepot ne correspond à aucune intersection.");
-         }
+            throw new ExceptionXML("Document non conforme, l'id de l'entrepot ne correspond à aucune intersection.");
+        }
 
         // Intégration des plages horaires.
         NodeList listeFenetres = noeudDOMRacine.getElementsByTagName("Plage");
