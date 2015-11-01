@@ -39,8 +39,7 @@ public class ModeleManagerTest {
         Troncon troncon17 = plan.ajouterTroncon(5, 4, "Troncon17", 6.0, 1.0);
         Troncon troncon18 = plan.ajouterTroncon(5, 6, "Troncon18", 9.0, 1.0);
         
-        EnsembleLivraisons livraisons = new EnsembleLivraisons();
-        modele.setEnsembleLivraisons(livraisons);
+        EnsembleLivraisons livraisons = modele.getEnsembleLivraisons();
         //On fixe l'entrepot sur l'intersection 1.
         livraisons.setEntrepot(intersection1);
         //La fenetre debute le 1 novembre 2015 à 8h00 et se finit à 9h59.
