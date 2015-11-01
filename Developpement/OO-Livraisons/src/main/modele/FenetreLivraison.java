@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -21,13 +23,13 @@ public class FenetreLivraison {
     // Attributs
     private Date heureDebut;
     private Date heureFin;
-    private List<DemandeLivraison> listDemandesLivraison;
+    private List<DemandeLivraison> listeDemandesLivraison;
 
     // Methodes
     public FenetreLivraison(Date heureDebut, Date heureFin) {
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
-        this.listDemandesLivraison = new ArrayList<DemandeLivraison> ();
+        this.listeDemandesLivraison = new ArrayList<DemandeLivraison> ();
     }
 
     /**
@@ -61,11 +63,9 @@ public class FenetreLivraison {
         if (inter == null) {
             return null;
         }
-        
-        // TBD : verifier que le point de livraison <> Entrepot.
 
         DemandeLivraison demande = new DemandeLivraison(inter, this);
-        this.listDemandesLivraison.add(demande);
+        this.listeDemandesLivraison.add(demande);
         return demande;
     }
 
@@ -75,7 +75,22 @@ public class FenetreLivraison {
      * @return un iterator sur les demandes de Livraison.
      */
     public Iterator<DemandeLivraison> getDemandesLivraison() {
-        Collection constCollection = Collections.unmodifiableCollection(listDemandesLivraison);
+        Collection constCollection = Collections.unmodifiableCollection(listeDemandesLivraison);
         return constCollection.iterator();
+    }
+    
+    /**
+     * Retourne l'ensemble des id des intersections des demandes de livraisons
+     * de la fenetre de livraison.
+     * @return l'ensemble des id des intersections des demandes de livraisons.
+     */
+    public Set<Integer> getIdIntersectionsLivraisons() {
+        Set<Integer> idIntersections = new HashSet<>();
+        Iterator<DemandeLivraison> itDemande = listeDemandesLivraison.iterator();
+        while(itDemande.hasNext()) {
+            DemandeLivraison livraison = itDemande.next();
+            idIntersections.add(livraison.getIntersection().getId());
+        }
+        return idIntersections;
     }
 }
