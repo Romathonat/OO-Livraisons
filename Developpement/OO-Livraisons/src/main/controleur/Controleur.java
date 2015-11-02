@@ -51,11 +51,13 @@ public class Controleur {
     }
    
     public synchronized Plan chargerPlan() {
+        modeleManager.resetPlan();
         etatCourant.chargerPlan(modeleManager.getPlan());
         return modeleManager.getPlan();
     }
     
     public synchronized EnsembleLivraisons chargerLivraisons() {
+        modeleManager.resetEnsembleLivraisons();
         etatCourant.chargerLivraisons(modeleManager.getPlan(),modeleManager.getEnsembleLivraisons());
         return modeleManager.getEnsembleLivraisons();
     }

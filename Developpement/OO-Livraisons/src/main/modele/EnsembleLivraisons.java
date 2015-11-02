@@ -94,9 +94,4 @@ public class EnsembleLivraisons extends Observable{
         Collection constCollection = Collections.unmodifiableCollection(fenetresLivraison);
         return constCollection.iterator();
     }
-    
-    public void reset(){
-        this.fenetresLivraison.clear();
-        this.entrepot = null;
-    }
 }
