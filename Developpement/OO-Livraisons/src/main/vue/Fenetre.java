@@ -145,9 +145,6 @@ public class Fenetre extends JFrame{
         calculerTournee.setMinimumSize(tailleBouton);
         calculerTournee.setMaximumSize(tailleBouton);
         
-        
-        
-        
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);

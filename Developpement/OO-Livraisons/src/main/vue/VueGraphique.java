@@ -51,7 +51,7 @@ public class VueGraphique extends JPanel implements Observer{
      */
     public Point getCoordEchelle(int x, int y)
     {
-        Point monPoint = new Point(x*this.getWidth()/maxX,y*this.getHeight()/maxY);
+        Point monPoint = new Point(x*(this.getWidth()-10)/maxX,y*(this.getHeight()-10)/maxY);
         return monPoint;
     }
     
@@ -112,6 +112,7 @@ public class VueGraphique extends JPanel implements Observer{
             this.add(tronconVue);//on l'ajoute à la vue graphique
             this.setComponentZOrder(tronconVue,  numberComponents++);
         }
+                
         this.revalidate();
         this.repaint();
     }
