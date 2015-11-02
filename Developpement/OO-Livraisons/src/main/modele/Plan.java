@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 /**
  *
@@ -60,28 +62,13 @@ public class Plan{
             Intersection intersection = new Intersection(id, x, y);
             intersections.put(id, intersection);
             intersectionsMaxId = Math.max(intersectionsMaxId, id);
+            Xmax = Math.max(Xmax, x);
+            Ymax = Math.max(Ymax, y);
             return intersection;
         }
         return null;
     }
-
-    /**
-     * Renseigne les valeurs extrèmes du plan (sur les axes X et Y). Les valeurs
-     * de newXmax et newYmax sont strictement positives.
-     *
-     * @param Xlimite La valeur maximale de X sur le plan.
-     * @param Ylimite La valeur maximale de Y sur le plan.
-     * @return True si les valeurs sont intégrées, False sinon.
-     */
-    public boolean SetLimitesDuPlan(int Xlimite, int Ylimite) {
-        if (Xlimite > 0 && Ylimite > 0) {
-            this.Xmax = Xlimite;
-            this.Ymax = Ylimite;
-            return true;
-        }
-        return false;
-    }
-    
+  
     /**
      * Getter sur le Xmax
      * @return 
@@ -159,7 +146,9 @@ public class Plan{
         return this.intersections.entrySet().iterator();
     }
     
-    
+    /**
+     * Représente une duree pour aller vers une intersection.
+     */
     private class DistanceIntersection {
 
         // Attributs
@@ -195,8 +184,7 @@ public class Plan{
         /**
          * Compare deux DistanceIntersection.
          *
-         * @return -1, 0 ou 1 selon si a est plus petite, egale ou plus grande
-         * b.
+         * @return -1, 0 ou 1 selon si a est plus petite, egale ou plus grande que b.
          */
         @Override
         public int compare(DistanceIntersection a, DistanceIntersection b) {
@@ -211,20 +199,21 @@ public class Plan{
     }
 
     /**
-     * Utilise l'algorithme Dijkstra.
-     *
-     * @param depart
-     * @param arrivee
-     * @return
+     * Utilise l'algorithme Dijkstra pour retourner les plus courts chemins vers un ensemble d'intersection.
+     * @param idDepart L'id de l'intersection de départ du Chemin.
+     * @param idArrivees Un ensemble d'id des intersections vers lesquelles calculer les plus courts chemins.
+     * @return Une Map indexant tous les chemins entre le point de depart et les points d'arrives.
      */
-    public Chemin calculerPlusCourtChemin(Intersection depart, Intersection arrivee) {
+    public Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(int idDepart, Set<Integer> idArrivees) {
         //Tableau des precedences et des distances des noeuds.
         Troncon[] precedent = new Troncon[intersectionsMaxId + 1];
         //Contient les distances par rapport au depart des intersections.
         double[] duree = new double[intersectionsMaxId + 1];
         //File a priorite contenant toutes les intersections et leur distance par rapport au depart.
         PriorityQueue<DistanceIntersection> intersectionPasEncoreVues = new PriorityQueue<>(intersections.size(), new DistanceIntersectionComparator());
-
+        //Ensemble des intersections à visiter avant d'arrêter le calcul.
+        Set<Integer> idIntersectionsAVisiter = new HashSet(idArrivees);
+        
         //On initialise les precedence à null, et les distances a l'infini.
         for (int i = 0; i < precedent.length; i++) {
             precedent[i] = null;
@@ -232,7 +221,7 @@ public class Plan{
         }
 
         //La distance a l'intersection de depart est nulle.
-        duree[depart.getId()] = 0.0;
+        duree[idDepart] = 0.0;
 
         //On rempli le tableau avec tous les noeuds qui n'ont pas encore ete vu.
         Iterator<Intersection> itIntersection = intersections.values().iterator();
@@ -244,9 +233,10 @@ public class Plan{
         //Boucle principale de l'algorithme.
         while (intersectionPasEncoreVues.size() > 0) {
             Intersection intersection = intersectionPasEncoreVues.poll().intersection;
-            System.out.println(intersection.getId());
-            //Si l'intersection que l'on considere est la fin, on a donc deja calcule le plus court chemin vers la fin.
-            if (intersection.equals(arrivee)) {
+            //On retire cette intersection de la liste des intersections d'arrivees.
+            idIntersectionsAVisiter.remove(intersection.getId());
+            //Si tous les plus courts chemins vers les intersections d'arrivées ont été calculé, on peut arrêter le calcul.
+            if (idIntersectionsAVisiter.isEmpty()) {
                 //Pas besoin de calculer d'autres choses, on peut arreter.
                 intersectionPasEncoreVues.clear();
             } else {
@@ -268,19 +258,73 @@ public class Plan{
                 }
             }
         }
-
-        Chemin chemin = new Chemin();
-        //On remonte dans l'arbre des precedents.
-        int idIntersection = arrivee.getId();
-        while (precedent[idIntersection].getIntersectionDepart().getId() != depart.getId()) {
-            //On ajoute le troncon avant les autres troncons.
+        
+        //On ne retourne les chemins que pour les Intersections atteintes lors du Dijsktra.
+        idArrivees.removeAll(idIntersectionsAVisiter);
+        
+        //On calcule les plus courts chemin vers toutes les intersections d'arrivées.
+        //On initialise le HashMap avec la capacité de depart.
+        Map<DepartArriveeChemin, Chemin> chemins = new HashMap<>(idArrivees.size());
+        
+        //Pour chaque intersection d'arrivee.
+        Iterator<Integer> itIdArrivee = idArrivees.iterator();
+        while (itIdArrivee.hasNext()) {
+            int idIntersectionArrivee = itIdArrivee.next();
+            int idIntersection = idIntersectionArrivee;
+            //On remonte dans l'arbre des precedents.
+            Chemin chemin = new Chemin();
+            while (precedent[idIntersection].getIntersectionDepart().getId() != idDepart) {
+                //On ajoute le troncon avant les autres troncons.
+                chemin.ajouterTronconDebut(precedent[idIntersection]);
+                //On passe a l'intersection d'avant.
+                idIntersection = precedent[idIntersection].getIntersectionDepart().getId();
+            }
+            //On ajoute le troncon du debut.
             chemin.ajouterTronconDebut(precedent[idIntersection]);
-            //On passe a l'intersection d'avant.
-            idIntersection = precedent[idIntersection].getIntersectionDepart().getId();
+            //On ajoute ce chemin aux chemins.
+            chemins.put(new DepartArriveeChemin(idDepart, idIntersectionArrivee), chemin);
         }
-        //On ajoute le troncon du debut.
-        chemin.ajouterTronconDebut(precedent[idIntersection]);
-
-        return chemin;
+        
+        return chemins;
+    }
+    
+    /**
+     * Calcule tous les plus courts chemin entre deux ensembles d'id d'intersections.
+     * @param idDeparts L'ensemble des id des intersections de depart.
+     * @param idArrivees L'ensemble des id des intersections d'arrivee.
+     * @return Tous les plus courts chemins enter les intersections de depart et d'arrivee.
+     */
+    public Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(Set<Integer> idDeparts, Set<Integer> idArrivees) {
+        //On reserve une map pour contenir tous les chemins. Il y en a n²-n quand il y a n intersections.
+        Map<DepartArriveeChemin, Chemin> chemins = new HashMap<>(idDeparts.size() * idArrivees.size());
+        //Pour chaque intersection de la fenetre.
+        Iterator<Integer> itIntersectionsDepart = idDeparts.iterator();
+        while(itIntersectionsDepart.hasNext()) {
+            //On calcule les chemins partant de cette intersection vers toutes les autres intersections.
+            int idDepart = itIntersectionsDepart.next();
+            Set<Integer> idIntersectionsArrivees = new HashSet<>(idArrivees);
+            //On retire des intersections d'arrivees l'intersection de depart.
+            idIntersectionsArrivees.remove(idDepart);
+            //Si il y a au moins un chemin a calculer, on lance le calcul.
+            if (idIntersectionsArrivees.size() > 0) {
+                Map<DepartArriveeChemin, Chemin> cheminsFenetre = calculerPlusCourtsChemins(idDepart, idIntersectionsArrivees);
+                chemins.putAll(cheminsFenetre);
+            }
+        }
+        return chemins;
+    }
+    
+    /**
+     * Calcule le plus court chemin entre deux Intersections.
+     * @deprecated 
+     * @param depart L'intersection de depart du chemin.
+     * @param arrivee L'intersection d'arrivee du chemin.
+     * @return Le plus court chemin entre ces deux intersections.
+     */
+    public Chemin calculerPlusCourtChemin(Intersection depart, Intersection arrivee) {
+        Set<Integer> arrivees = new HashSet<>();
+        arrivees.add(arrivee.getId());
+        Map<DepartArriveeChemin, Chemin> chemins = calculerPlusCourtsChemins(depart.getId(), arrivees);
+        return chemins.get(new DepartArriveeChemin(depart.getId(), arrivee.getId()));
     }
 }

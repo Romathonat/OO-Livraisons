@@ -7,6 +7,7 @@ import javax.swing.filechooser.*;
 public class OuvreurDeFichierXML extends FileFilter {// Singleton
 
     private static OuvreurDeFichierXML instance = null;
+    private static File path = new File("/../FichiersProjet");
 
     private OuvreurDeFichierXML() {
     }
@@ -20,7 +21,7 @@ public class OuvreurDeFichierXML extends FileFilter {// Singleton
 
     public File ouvre(boolean lecture) throws ExceptionXML {
         int returnVal;
-        JFileChooser jFileChooserXML = new JFileChooser();
+        JFileChooser jFileChooserXML = new JFileChooser(this.path.getAbsolutePath());
         jFileChooserXML.setFileFilter(this);
         jFileChooserXML.setFileSelectionMode(JFileChooser.FILES_ONLY);
         if (lecture) {
@@ -31,6 +32,8 @@ public class OuvreurDeFichierXML extends FileFilter {// Singleton
         if (returnVal != JFileChooser.APPROVE_OPTION) {
             throw new ExceptionXML("Probleme a l'ouverture du fichier");
         }
+        String returnPath = jFileChooserXML.getSelectedFile().getAbsolutePath();
+        this.path = new File(returnPath);
         return new File(jFileChooserXML.getSelectedFile().getAbsolutePath());
     }
 
