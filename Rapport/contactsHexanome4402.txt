@@ -1,0 +1,7 @@
+mohammed.el-arass@insa-lyon.fr
+mathieu.gaillard@insa-lyon.fr
+romain.mathonat@insa-lyon.fr
+kilian.ollivier@insa-lyon.fr
+thomas.favrot@insa-lyon.fr
+guillaume.kheng@insa-lyon.fr
+nicolas.nativel@insa-lyon.fr
