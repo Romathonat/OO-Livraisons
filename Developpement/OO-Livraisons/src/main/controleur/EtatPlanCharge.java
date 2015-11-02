@@ -20,23 +20,6 @@ import xml.ExceptionXML;
  *
  * @author Kilian
  */
-public class EtatPlanCharge extends EtatDefaut {
+public class EtatPlanCharge extends EtatLivraisons {
 
-    @Override
-    public void chargerLivraisons(Plan plan, EnsembleLivraisons ensembleLivraisons){
-        try {
-            DeserialiseurXML.chargerDemandesLivraisons(plan, ensembleLivraisons);
-            Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ExceptionXML ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }

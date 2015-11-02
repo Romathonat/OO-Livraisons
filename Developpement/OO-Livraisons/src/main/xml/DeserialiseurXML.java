@@ -81,7 +81,6 @@ public class DeserialiseurXML {
         NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
 
         NodeList listesNoeuds = noeudDOMRacine.getElementsByTagName("Noeud");
-        int Xmax = 0, Ymax = 0;
         for (int i = 0; i < listesNoeuds.getLength(); i++) {
             // Récuperation des données de l'intersections.
             Element inter = (Element) listesNoeuds.item(i);
@@ -89,19 +88,10 @@ public class DeserialiseurXML {
             int x = Integer.parseInt(inter.getAttribute("x"));
             int y = Integer.parseInt(inter.getAttribute("y"));
 
-            // on repère les coordonnées maximales.
-            Xmax = Math.max(Xmax, x);
-            Ymax = Math.max(Ymax, y);
-
             // on ajoute l'intersection au plan.
             if (plan.ajouterIntersection(id, x, y) == null) {
                 throw new ExceptionXML("Document non conforme, Intersection Invalide");
             }
-        }
-
-        // On fixe les limites du plan.
-        if (!plan.SetLimitesDuPlan(Xmax, Ymax)) {
-            throw new ExceptionXML("Document non conforme, valeurs extrèmes des intersections Invalides");
         }
 
         for (int i = 0; i < listesNoeuds.getLength(); i++) {

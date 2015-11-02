@@ -193,13 +193,10 @@ public class Fenetre extends JFrame{
         
         @Override
         public void actionPerformed(ActionEvent e) {
-            int a = JOptionPane.showConfirmDialog(frameParent, "Le plan courant va être écraser, continuer?", "Charger un plan", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (a == JOptionPane.YES_OPTION) {
                 Plan monPlan = controleur.chargerPlan(); 
                 vueGraphique.drawPlan(monPlan);
                 revalidate();
                 repaint();
-            }
         }
     }
     private class ChargerTournee implements ActionListener
