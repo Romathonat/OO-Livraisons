@@ -6,9 +6,9 @@
 package controleur;
 
 /**
- *
- * @author Kilian
+ * Cette classe représente l'ensemble des Etats pouvant effectuer l'opération "calculerTournee".
+ * @author tfavrot
  */
-public class EtatIntersectionSelectionnee extends EtatSelection {
+public class EtatTournee extends EtatLivraisons{
     
 }

@@ -9,6 +9,6 @@ package controleur;
  *
  * @author Kilian
  */
-public class EtatPointLivraisonSelectionne extends EtatDefaut {
+public class EtatPointLivraisonSelectionne extends EtatSelection {
     
 }
