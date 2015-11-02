@@ -9,6 +9,6 @@ package controleur;
  *
  * @author Kilian
  */
-public class EtatTourneeCalculee extends EtatDefaut {
+public class EtatTourneeCalculee extends EtatSelection {
     
 }
