@@ -62,28 +62,13 @@ public class Plan{
             Intersection intersection = new Intersection(id, x, y);
             intersections.put(id, intersection);
             intersectionsMaxId = Math.max(intersectionsMaxId, id);
+            Xmax = Math.max(Xmax, x);
+            Ymax = Math.max(Ymax, y);
             return intersection;
         }
         return null;
     }
-
-    /**
-     * Renseigne les valeurs extrèmes du plan (sur les axes X et Y). Les valeurs
-     * de newXmax et newYmax sont strictement positives.
-     *
-     * @param Xlimite La valeur maximale de X sur le plan.
-     * @param Ylimite La valeur maximale de Y sur le plan.
-     * @return True si les valeurs sont intégrées, False sinon.
-     */
-    public boolean SetLimitesDuPlan(int Xlimite, int Ylimite) {
-        if (Xlimite > 0 && Ylimite > 0) {
-            this.Xmax = Xlimite;
-            this.Ymax = Ylimite;
-            return true;
-        }
-        return false;
-    }
-    
+  
     /**
      * Getter sur le Xmax
      * @return 
