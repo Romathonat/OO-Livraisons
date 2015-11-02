@@ -7,6 +7,7 @@ package vue;
 
 import controleur.Controleur;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -21,6 +22,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -55,6 +57,7 @@ public class Fenetre extends JFrame{
     protected JPanel panelGauche;
     protected JPanel panelDroit;
     protected JPanel panelBoutons;
+    protected JPanel legende;
     protected VueGraphique vueGraphique;
     
     protected JSplitPane panelSeparationGauche;//contient le gauche et le centre
@@ -145,16 +148,56 @@ public class Fenetre extends JFrame{
         calculerTournee.setMinimumSize(tailleBouton);
         calculerTournee.setMaximumSize(tailleBouton);
         
+        //----------LEGENDE----------
+        legende = new JPanel();
+        
+        JLabel titre = new JLabel("Legende:");
+        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        legende.setLayout(new BoxLayout(legende, BoxLayout.PAGE_AXIS));
+        int ecartLegende = 15;
+        Dimension tailleEltLegende = new Dimension(210,30);
+        
+        ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection après chargement");
+        ElementLegende demandeF1 = new ElementLegende(Color.BLUE, "Demande Fenetre 1");
+        ElementLegende demandeF2 = new ElementLegende(Color.MAGENTA, "Demande Fenetre 2");
+        ElementLegende demandeF3 = new ElementLegende(Color.ORANGE, "Demande Fenetre 3");
+        
+        legende.add(titre);
+        
+        legende.add(Box.createRigidArea(new Dimension(0,ecartLegende)));
+        legende.add(neutre);
+        neutre.setMinimumSize(tailleEltLegende);
+        neutre.setMaximumSize(tailleEltLegende);
+        
+        legende.add(Box.createRigidArea(new Dimension(0,ecartLegende)));
+        legende.add(demandeF1);
+        demandeF1.setMinimumSize(tailleEltLegende);
+        demandeF1.setMaximumSize(tailleEltLegende);
+        
+        legende.add(Box.createRigidArea(new Dimension(0,ecartLegende)));
+        legende.add(demandeF2);
+        demandeF2.setMinimumSize(tailleEltLegende);
+        demandeF2.setMaximumSize(tailleEltLegende);
+        
+        legende.add(Box.createRigidArea(new Dimension(0,ecartLegende)));
+        legende.add(demandeF3);
+        demandeF3.setMinimumSize(tailleEltLegende);
+        demandeF3.setMaximumSize(tailleEltLegende);
+               
+        legende.add(Box.createRigidArea(new Dimension(0,300))); //on ajoute de l'espace à la fin pour que la legende ne prenne pas toute la place
+        
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);
+        panelGauche.add(legende);
         
         panelDroit = new JPanel();
         
         
         panelSeparationGauche = new JSplitPane (JSplitPane.HORIZONTAL_SPLIT, panelGauche, vueGraphique);
         panelSeparationGauche.setOneTouchExpandable(true);
-        panelSeparationGauche.setDividerLocation(150);
+        panelSeparationGauche.setDividerLocation(210);
         
         
         panelSeparationDroit = new JSplitPane (JSplitPane.HORIZONTAL_SPLIT, panelSeparationGauche, panelDroit);
