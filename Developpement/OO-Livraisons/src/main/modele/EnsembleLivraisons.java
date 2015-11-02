@@ -21,7 +21,7 @@ import java.util.Observable;
 public class EnsembleLivraisons extends Observable{
 
     private List<FenetreLivraison> fenetresLivraison;
-    private Intersection Entrepot;
+    private Intersection entrepot;
 
     
     /**
@@ -29,7 +29,7 @@ public class EnsembleLivraisons extends Observable{
      */
     public EnsembleLivraisons() {
         this.fenetresLivraison = new ArrayList<FenetreLivraison>();
-        this.Entrepot = null;
+        this.entrepot = null;
     }
 
     /**
@@ -38,7 +38,7 @@ public class EnsembleLivraisons extends Observable{
      * @return l'Intersection où est situé l'entrepôt.
      */
     public Intersection getEntrepot() {
-        return Entrepot;
+        return entrepot;
     }
 
     /**
@@ -46,8 +46,8 @@ public class EnsembleLivraisons extends Observable{
      *
      * @return L'intersection où est situé l'entrepot.
      */
-    public Intersection setEntrepot(Intersection Entrepot) {
-        return this.Entrepot = Entrepot;
+    public Intersection setEntrepot(Intersection entrepot) {
+        return this.entrepot = entrepot;
     }
     
     /**

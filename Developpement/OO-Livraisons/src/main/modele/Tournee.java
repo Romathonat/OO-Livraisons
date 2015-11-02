@@ -21,7 +21,7 @@ public class Tournee {
 
     // Methodes
     public Tournee() {
-        chemins = new ArrayList<Chemin>();
+        chemins = new ArrayList<>();
     }
 
     public void CalculerHeuresDemandesLivraisons() {
@@ -61,8 +61,6 @@ public class Tournee {
         {
             dureeTotale += it_chemin.next().getDuree();
         }
-        // passage miliseconde en seconde;
-        dureeTotale = dureeTotale/1000;
         
         return dureeTotale;
     }
