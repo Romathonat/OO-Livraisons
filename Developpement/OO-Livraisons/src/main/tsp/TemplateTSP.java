@@ -8,7 +8,7 @@ public abstract class TemplateTSP implements TSP {
 
     private Integer[] meilleureSolution;
     protected Graphe g;
-    private int coutMeilleureSolution;
+    private double coutMeilleureSolution;
     private int tpsLimite;
     private long tpsDebut;
 
@@ -26,7 +26,7 @@ public abstract class TemplateTSP implements TSP {
         }
         Collection<Integer> vus = new ArrayList<Integer>(g.getNbSommets());
         vus.add(0); // le premier sommet visite est 0
-        coutMeilleureSolution = Integer.MAX_VALUE;
+        coutMeilleureSolution = Double.MAX_VALUE;
         branchAndBound(0, nonVus, vus, 0);
     }
 
@@ -37,7 +37,7 @@ public abstract class TemplateTSP implements TSP {
         return -1;
     }
 
-    public int getCoutSolution() {
+    public double getCoutSolution() {
         if (g != null) {
             return coutMeilleureSolution;
         }
@@ -54,7 +54,7 @@ public abstract class TemplateTSP implements TSP {
      * <code>nonVus</code> exactement une fois, puis retournant sur le sommet
      * <code>0</code>.
      */
-    protected abstract int bound(Integer sommetCourant, Collection<Integer> nonVus);
+    protected abstract double bound(Integer sommetCourant, Collection<Integer> nonVus);
 
     /**
      * Methode devant etre redefinie par les sous-classes de TemplateTSP
@@ -77,7 +77,7 @@ public abstract class TemplateTSP implements TSP {
      * @param coutVus la somme des couts des arcs du chemin passant par tous les
      * sommets de vus dans l'ordre ou ils ont ete visites
      */
-    private void branchAndBound(int sommetCrt, Collection<Integer> nonVus, Collection<Integer> vus, int coutVus) {
+    private void branchAndBound(int sommetCrt, Collection<Integer> nonVus, Collection<Integer> vus, double coutVus) {
         if (System.currentTimeMillis() - tpsDebut > tpsLimite) {
             return;
         }

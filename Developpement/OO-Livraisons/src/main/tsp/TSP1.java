@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class TSP1 extends TemplateTSP {
     @Override
-    protected int bound(Integer sommetCourant, Collection<Integer> nonVus) {
+    protected double bound(Integer sommetCourant, Collection<Integer> nonVus) {
         return 0;
     }
 
