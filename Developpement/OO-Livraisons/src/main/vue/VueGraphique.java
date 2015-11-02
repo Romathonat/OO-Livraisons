@@ -87,6 +87,7 @@ public class VueGraphique extends JPanel implements Observer{
         
         Iterator<Entry<Integer, Intersection>> itIntersections = plan.getIntersections();
         Iterator<Troncon> itTroncon = plan.getTroncons();
+        int numberComponents = 0;
         
         while(itIntersections.hasNext())
         {
@@ -97,6 +98,7 @@ public class VueGraphique extends JPanel implements Observer{
             IntersectionVue interVue = new IntersectionVue((int)interEchelle.getX(),(int)interEchelle.getY(),monInter.getId(), Color.LIGHT_GRAY); 
             this.mesIntersection.add(interVue);
             this.add(interVue);//on l'ajoute à la vue graphique
+            this.setComponentZOrder(interVue, numberComponents++); //we will put a toolTip in the front later
         }
         
         while(itTroncon.hasNext())
@@ -108,6 +110,7 @@ public class VueGraphique extends JPanel implements Observer{
             
             this.mesTroncons.add(tronconVue);
             this.add(tronconVue);//on l'ajoute à la vue graphique
+            this.setComponentZOrder(tronconVue,  numberComponents++);
         }
         this.revalidate();
         this.repaint();
