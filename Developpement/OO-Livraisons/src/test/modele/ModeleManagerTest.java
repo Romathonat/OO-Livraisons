@@ -1,6 +1,11 @@
 package modele;
 
 import java.util.Date;
+import java.util.Iterator;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
@@ -55,5 +60,29 @@ public class ModeleManagerTest {
         
         //On calcule la tournee.
         modele.calculerTournee();
+        
+        assertEquals("La tournee doit faire une duree de 46.0.", 46.0, modele.getTournee().getTempsDeLivraison(), 0.1);
+        Iterator<Chemin> itChemin = modele.getTournee().getChemins();
+        assertNotNull("L'iterateur de chemin de la tournee doit au moins avoir un element.", itChemin.hasNext());
+        Chemin chemin1 = itChemin.next();
+        assertEquals("Le premier chemin doit partir de 1.", 1, chemin1.getIntersectionDepart().getId());
+        assertEquals("Le premier chemin doit finir en 6.", 6, chemin1.getIntersectionArrivee().getId());
+        
+        assertNotNull("L'iterateur de chemin de la tournee doit au moins avoir deux elements.", itChemin.hasNext());
+        Chemin chemin2 = itChemin.next();
+        assertEquals("Le deuxieme chemin doit partir de 6.", 6, chemin2.getIntersectionDepart().getId());
+        assertEquals("Le deuxieme chemin doit finir en 4.", 4, chemin2.getIntersectionArrivee().getId());
+        
+        assertNotNull("L'iterateur de chemin de la tournee doit au moins avoir trois elements.", itChemin.hasNext());
+        Chemin chemin3 = itChemin.next();
+        assertEquals("Le troisieme chemin doit partir de 4.", 4, chemin3.getIntersectionDepart().getId());
+        assertEquals("Le troisieme chemin doit finir en 2.", 2, chemin3.getIntersectionArrivee().getId());
+        
+        assertNotNull("L'iterateur de chemin de la tournee doit au moins avoir quatre elements.", itChemin.hasNext());
+        Chemin chemin4 = itChemin.next();
+        assertEquals("Le quatrieme chemin doit partir de 2.", 2, chemin4.getIntersectionDepart().getId());
+        assertEquals("Le quatrieme chemin doit finir en 1.", 1, chemin4.getIntersectionArrivee().getId());
+        
+        assertFalse("L'iterateur de chemin de la tournee ne doit pas avoir cinq elements.", itChemin.hasNext());
     }
 }
