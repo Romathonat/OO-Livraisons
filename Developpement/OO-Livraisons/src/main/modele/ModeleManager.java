@@ -40,12 +40,12 @@ public class ModeleManager {
     
     public void resetPlan(){
         this.plan = new Plan();
-        this.ensembleLivraisons = new EnsembleLivraisons();
-        this.tournee = new Tournee();
+        this.resetEnsembleLivraisons();
     }
     
     public void resetEnsembleLivraisons(){
         this.ensembleLivraisons = new EnsembleLivraisons();
+        this.resetTournee();
     }
     
     public void resetTournee(){
