@@ -194,6 +194,7 @@ public class Fenetre extends JFrame{
         @Override
         public void actionPerformed(ActionEvent e) {
                 Plan monPlan = controleur.chargerPlan(); 
+                vueGraphique.removeAll();
                 vueGraphique.drawPlan(monPlan);
                 revalidate();
                 repaint();

@@ -25,7 +25,7 @@ public class ModeleManager {
     public ModeleManager() {
         this.plan = new Plan();
         this.ensembleLivraisons = new EnsembleLivraisons();
-        this.tournee = null;
+        this.tournee = new Tournee();
         this.tempsDerniereTourneeCalculee = Long.MAX_VALUE;
     }
 
@@ -40,13 +40,19 @@ public class ModeleManager {
     public Tournee getTournee() {
         return this.tournee;
     }
-
-    public void setEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons) {
-        this.ensembleLivraisons = ensembleLivraisons;
+    
+    public void resetPlan(){
+        this.plan = new Plan();
+        this.resetEnsembleLivraisons();
     }
-
-    public void setTournee(Tournee tournee) {
-        this.tournee = tournee;
+    
+    public void resetEnsembleLivraisons(){
+        this.ensembleLivraisons = new EnsembleLivraisons();
+        this.resetTournee();
+    }
+    
+    public void resetTournee(){
+        this.tournee = new Tournee();
     }
     
     public double calculerTournee() {
