@@ -14,9 +14,9 @@ public class GrapheCreux implements Graphe {
      */
     private class Arc {
         public int arrivee;
-        public int cout;
+        public double cout;
         
-        public Arc(int arrivee, int cout) {
+        public Arc(int arrivee, double cout) {
             this.arrivee = arrivee;
             this.cout = cout;
         }
@@ -44,7 +44,7 @@ public class GrapheCreux implements Graphe {
      * @param j Sommet d'arrivee.
      * @param cout Cout de l'arc.
      */
-    public void ajouterArc(int i, int j, int cout) {
+    public void ajouterArc(int i, int j, double cout) {
         //Si les deux sommets appartiennent au graphe.
         //Si le cout est strictement superieur a 0.
         if (i >= 0 && i < nbSommets && j >= 0 && j < nbSommets && cout > 0) {
@@ -69,7 +69,7 @@ public class GrapheCreux implements Graphe {
      * @return le cout de l'arc (i,j) si (i,j) est un arc ; -1 sinon
      */
     @Override
-    public int getCout(int i, int j)
+    public double getCout(int i, int j)
     {
         if (i >= 0 && i < nbSommets && j >= 0 && j < nbSommets) {
             //On parcourt la liste d'adjacence.
