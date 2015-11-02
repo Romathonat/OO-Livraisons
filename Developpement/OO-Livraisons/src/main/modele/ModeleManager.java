@@ -1,12 +1,15 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+import tsp.GrapheCreux;
+import tsp.TSP1;
 
 /**
  *
@@ -46,14 +49,15 @@ public class ModeleManager {
         this.tournee = tournee;
     }
     
-    public Tournee calculerTournee() {
-        Tournee tournee = null;
-        
+    public double calculerTournee() {
         if (ensembleLivraisons != null) {
             Intersection entrepot = ensembleLivraisons.getEntrepot();
             
             //Dans une collection, on retient tous les chemins entre les intersections.
             Map<DepartArriveeChemin, Chemin> chemins = new HashMap<>();
+            //Dans un ensemble, on retient toutes les intersections visitées.
+            Set<Integer> intersections = new TreeSet<>();
+            intersections.add(entrepot.getId());
             
             //Pour chaque fenetre de livraisons.
             Iterator<FenetreLivraison> itFenetre = ensembleLivraisons.getFenetresLivraison();
@@ -67,6 +71,8 @@ public class ModeleManager {
                 //On retient tous les id des intersections des fenetres de livraison dans un ensemble.
                 Set<Integer> idIntersectionsFenetrePrecedente = fenetrePrecedente.getIdIntersectionsLivraisons();
                 Set<Integer> idIntersectionsFenetre = fenetre.getIdIntersectionsLivraisons();
+                //On met a jour l'ensemble de toutes les intersections utilisees.
+                intersections.addAll(idIntersectionsFenetre);
                 
                 /*
                  * On calcule les plus courts chemins entre toutes les intersections
@@ -96,7 +102,13 @@ public class ModeleManager {
             Map<DepartArriveeChemin, Chemin> cheminsFenetreVersEntrepot = plan.calculerPlusCourtsChemins(idIntersectionsFenetrePrecedente, idFenetreEntrepot);
             chemins.putAll(cheminsFenetreVersEntrepot);
             
-            //On modelise le probleme grace aux classes graphes.
+            /*
+             * On modelise le probleme grace aux classes graphes.
+             */
+            GrapheCreux graphe = new GrapheCreux(intersections.size());
+            //On etablit une correspondance entre les intersections et les sommets du graphe dans un tableau trié.
+            ArrayList<Integer> correspondance = new ArrayList<>(intersections);
+            //On parcourt les chemins calculés precedemment et on les ajoute au graphe transposé.
             Set<Map.Entry<DepartArriveeChemin, Chemin>> ensembleChemins = chemins.entrySet();
             Iterator<Map.Entry<DepartArriveeChemin, Chemin>> itChemins = ensembleChemins.iterator();
             while(itChemins.hasNext()) {
@@ -104,16 +116,44 @@ public class ModeleManager {
                 Map.Entry<DepartArriveeChemin, Chemin> entree = itChemins.next();
                 DepartArriveeChemin itineraire = entree.getKey();
                 Chemin chemin = entree.getValue();
-                
-                System.out.println(itineraire.idDepart + " -> " + itineraire.idArrivee + " : " + chemin.getDuree());
+                //On transpose les identifiants des intersections en identifiants du graphe.
+                int sommetGrapheDepart = Collections.binarySearch(correspondance, itineraire.idDepart);
+                int sommetGrapheArrivee = Collections.binarySearch(correspondance, itineraire.idArrivee);
+                graphe.ajouterArc(sommetGrapheDepart, sommetGrapheArrivee, (int)chemin.getDuree()*10);
             }
             
             //On calcule la solution du problème.
+            TSP1 tsp = new TSP1();
+            tsp.chercheSolution(60000, graphe);
             
             //On interprete la solution du problème et on la transforme en tournee.
+            tournee = new Tournee();
+            //On part de l'entrepot.
+            int sommetEntrepot = Collections.binarySearch(correspondance, entrepot.getId());
+            int offsetEntrepot = tsp.trouverIndexSommet(sommetEntrepot);
+            //On parcourt circulairement la solution depuis l'entrepot.
+            int indexPrecedentSolution = offsetEntrepot;
+            for (int i = 1;i < graphe.getNbSommets();i++) {
+                int indexSolution = (i + offsetEntrepot) % graphe.getNbSommets();
+                int sommetPrecedent = tsp.getSolution(indexPrecedentSolution);
+                int sommet = tsp.getSolution(indexSolution);
+                int intersectionPrecedente = correspondance.get(sommetPrecedent);
+                int intersection = correspondance.get(sommet);
+                //On ajoute ce chemin a la tournee.
+                Chemin chemin = chemins.get(new DepartArriveeChemin(intersectionPrecedente, intersection));      
+                //TODO : On ajoute la demande de livraison au chemin.
+                tournee.AjouterChemin(chemin);
+                
+                indexPrecedentSolution = indexSolution;
+            }
+            //On ajoute un dernier chemin entre le dernier point de livraison et l'entrepot.
+            int sommetPrecedent = tsp.getSolution(indexPrecedentSolution);
+            int intersectionPrecedente = correspondance.get(sommetPrecedent);
+            Chemin chemin = chemins.get(new DepartArriveeChemin(intersectionPrecedente, entrepot.getId()));
+            tournee.AjouterChemin(chemin);
+            return tournee.getTempsDeLivraison();
         }
-        
-        return tournee;
+        return -1;
     }
 
     public double getPremiereTournee() {
