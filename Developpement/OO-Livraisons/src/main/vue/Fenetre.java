@@ -26,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import modele.EnsembleLivraisons;
 import modele.Plan;
@@ -54,6 +55,7 @@ public class Fenetre extends JFrame{
     protected JPanel panelPrincipal;
     protected JPanel panelGauche;
     protected JPanel panelDroit;
+    protected VueTextuelle vueTextuelle;
     protected JPanel panelBoutons;
     protected VueGraphique vueGraphique;
     
@@ -145,38 +147,44 @@ public class Fenetre extends JFrame{
         calculerTournee.setMinimumSize(tailleBouton);
         calculerTournee.setMaximumSize(tailleBouton);
         
-        
-        
-        
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);
         
-        panelDroit = new JPanel();
         
+        // Tests avec la scrollbar
+        vueTextuelle = new VueTextuelle();
+        vueTextuelle.setLayout(new BoxLayout(vueTextuelle, BoxLayout.PAGE_AXIS));
+        panelDroit = new JPanel();
+        JScrollPane scrollPane = new JScrollPane(vueTextuelle);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        //scrollPane.setBounds(0, 0, 300, 600);
+        
+        //panelDroit.add(scrollPane);
+        //panelDroit.setPreferredSize(new Dimension(300,600));
         
         panelSeparationGauche = new JSplitPane (JSplitPane.HORIZONTAL_SPLIT, panelGauche, vueGraphique);
-        panelSeparationGauche.setOneTouchExpandable(true);
+        panelSeparationGauche.setEnabled(false);
+        //panelSeparationGauche.setOneTouchExpandable(true);
         panelSeparationGauche.setDividerLocation(150);
         
-        
-        panelSeparationDroit = new JSplitPane (JSplitPane.HORIZONTAL_SPLIT, panelSeparationGauche, panelDroit);
-        panelSeparationDroit.setOneTouchExpandable(true);
+        panelSeparationDroit = new JSplitPane (JSplitPane.HORIZONTAL_SPLIT, panelSeparationGauche, scrollPane);
+        panelSeparationDroit.setEnabled(false);
+        //panelSeparationDroit.setOneTouchExpandable(true);
         panelSeparationDroit.setDividerLocation(700);
-        
         
         panelPrincipal = new JPanel();
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.add(barreMenus, BorderLayout.NORTH);
         panelPrincipal.add(panelSeparationDroit, BorderLayout.CENTER);
         
-        
         this.add(panelPrincipal);
         
-        
         //les parametres de la JFrame
-        this.setSize(900,600);
-        this.setMinimumSize(new Dimension(600, 400));
+        this.setSize(1000,600);
+        //this.setMinimumSize(new Dimension(600, 400));
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setTitle("OO-Livraisons");
@@ -193,15 +201,15 @@ public class Fenetre extends JFrame{
         
         @Override
         public void actionPerformed(ActionEvent e) {
-            int a = JOptionPane.showConfirmDialog(frameParent, "Le plan courant va être écraser, continuer?", "Charger un plan", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (a == JOptionPane.YES_OPTION) {
-                Plan monPlan = controleur.chargerPlan(); 
-                vueGraphique.drawPlan(monPlan);
-                revalidate();
-                repaint();
-            }
+                
+            Plan monPlan = controleur.chargerPlan(); 
+            vueGraphique.removeAll();
+            vueGraphique.drawPlan(monPlan);
+            revalidate();
+            repaint();
         }
     }
+    
     private class ChargerTournee implements ActionListener
     {
         @Override
@@ -213,6 +221,9 @@ public class Fenetre extends JFrame{
             } catch (Exception ex) {
                 Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            vueTextuelle.writeLivraisons(livraisons);
+            
             revalidate();
             repaint();
         }

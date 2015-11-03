@@ -11,6 +11,6 @@ import modele.EnsembleLivraisons;
  *
  * @author Kilian
  */
-public class EtatLivraisonsChargees extends EtatDefaut {
+public class EtatLivraisonsChargees extends EtatTournee {
     
 }
