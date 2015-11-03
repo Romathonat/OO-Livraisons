@@ -71,14 +71,14 @@ public class SerialiseurXMLtest {
             assertNotNull("problème de parsing", null); // pas censé se produire.
         }
 
-        FenetreLivraison fenetre1 = new FenetreLivraison(date1, date2);
-        FenetreLivraison fenetre2 = new FenetreLivraison(date2, date3);
+        //FenetreLivraison fenetre1 = new FenetreLivraison(date1, date2);
+        //FenetreLivraison fenetre2 = new FenetreLivraison(date2, date3);
         FenetreLivraison fenetre3 = new FenetreLivraison(date3, date4);
         FenetreLivraison fenetre4 = new FenetreLivraison(date4, date5);
         FenetreLivraison fenetre5 = new FenetreLivraison(date5, date6);
 
-        DemandeLivraison demande1 = new DemandeLivraison(plan.getIntersection(1), fenetre1);
-        DemandeLivraison demande2 = new DemandeLivraison(plan.getIntersection(2), fenetre2);
+        //DemandeLivraison demande1 = new DemandeLivraison(plan.getIntersection(1), fenetre1);
+        //DemandeLivraison demande2 = new DemandeLivraison(plan.getIntersection(2), fenetre2);
         DemandeLivraison demande3 = new DemandeLivraison(plan.getIntersection(3), fenetre3);
         DemandeLivraison demande4 = new DemandeLivraison(plan.getIntersection(4), fenetre4);
         DemandeLivraison demande5 = new DemandeLivraison(plan.getIntersection(5), fenetre5);
@@ -93,23 +93,19 @@ public class SerialiseurXMLtest {
         Chemin chemin5 = new Chemin();
         Chemin chemin6 = new Chemin();
 
+        chemin1.ajouterTronconDebut(plan.getIntersection(2).getTronconsSortants().next());
+        chemin1.ajouterTronconDebut(plan.getIntersection(1).getTronconsSortants().next());
         chemin1.ajouterTronconDebut(plan.getIntersection(0).getTronconsSortants().next());
-        chemin2.ajouterTronconDebut(plan.getIntersection(1).getTronconsSortants().next());
-        chemin3.ajouterTronconDebut(plan.getIntersection(2).getTronconsSortants().next());
         chemin4.ajouterTronconDebut(plan.getIntersection(3).getTronconsSortants().next());
         chemin5.ajouterTronconDebut(plan.getIntersection(4).getTronconsSortants().next());
         chemin6.ajouterTronconDebut(plan.getIntersection(5).getTronconsSortants().next());
 
-        chemin1.setLivraisonArrivee(demande1);
-        chemin2.setLivraisonArrivee(demande2);
-        chemin3.setLivraisonArrivee(demande3);
+        chemin1.setLivraisonArrivee(demande3);
         chemin4.setLivraisonArrivee(demande4);
         chemin5.setLivraisonArrivee(demande5);
         chemin6.setLivraisonArrivee(demande6);
 
         tournee.AjouterChemin(chemin1);
-        tournee.AjouterChemin(chemin2);
-        tournee.AjouterChemin(chemin3);
         tournee.AjouterChemin(chemin4);
         tournee.AjouterChemin(chemin5);
         tournee.AjouterChemin(chemin6);

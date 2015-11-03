@@ -46,17 +46,15 @@ public class Tournee {
             instantCourant = new Date(instantCourant.getTime() + (long) (cheminCourant.getDuree() * 1000));
 
             // on regarde si on se trouve dans la fenetre de la prochaine livraison.
-            if (cheminCourant.getLivraisonArrivee().getFenetreLivraison().getHeureDebut().compareTo(instantCourant) < 0)
-            { // si c'est le cas, on ivre.
+            if (cheminCourant.getLivraisonArrivee().getFenetreLivraison().getHeureDebut().compareTo(instantCourant) < 0) { // si c'est le cas, on ivre.
                 instantCourant = new Date(instantCourant.getTime() + tempsDeLivraison);
-            }
-            else
-            { // sinon on attend le debut de fenetre puis on livre avant de continuer
+            } else { // sinon on attend le debut de fenetre puis on livre avant de continuer
                 instantCourant = new Date(cheminCourant.getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime() + tempsDeLivraison);
             }
             cheminCourant.getLivraisonArrivee().setHeureLivraison(instantCourant);
+
         }
-        
+
         // on met à jour le temps de livraison.
         this.tempsDeLivraison = instantCourant.getTime() - this.chemins.get(0).getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime();
     }

@@ -102,7 +102,7 @@ public class SerialiseurXML {// Singleton
         // formateur de dates.
         int resultatSauvegarde = 0;
 
-        fichierSortie.println("Itinéraire jusqu'au prochain point de livraison: ");
+        //fichierSortie.println("Itinéraire jusqu'au point de livraison de la demande " + Integer.toString(chemin.getLivraisonArrivee().getId()));
         fichierSortie.println("  - Intersection de départ:  " + Integer.toString(chemin.getIntersectionDepart().getId()));
         fichierSortie.println("  - Intersection d'arrivée:  " + Integer.toString(chemin.getIntersectionArrivee().getId()));
         fichierSortie.println("  - Heure estimée d'arrivée: " + SerialiseurXML_df.format(chemin.getLivraisonArrivee().getHeureLivraison()));
