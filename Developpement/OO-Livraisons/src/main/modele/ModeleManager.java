@@ -12,16 +12,36 @@ import tsp.GrapheCreux;
 import tsp.TSP1;
 
 /**
- *
+ * Le ModeleManager est le point d'entrée du contrôleur sur le modèle. Contient 
+ * toutes les instances des objets métiers avec lequels le contrôleur a besoin 
+ * d'interagir. 
  * @author Kilian
  */
 public class ModeleManager {
 
+    /**
+     * Le plan chargé.
+     */
     private Plan plan;
+    
+    /**
+     * L'ensemble de livraison chargé.
+     */
     private EnsembleLivraisons ensembleLivraisons;
+    
+    /**
+     * La tournée. 
+     */
     private Tournee tournee;
+    
+    /**
+     * 
+     */
     private long tempsDerniereTourneeCalculee;
 
+    /**
+     * Contructeur du ModeleManager
+     */
     public ModeleManager() {
         this.plan = new Plan();
         this.ensembleLivraisons = new EnsembleLivraisons();
@@ -29,32 +49,59 @@ public class ModeleManager {
         this.tempsDerniereTourneeCalculee = Long.MAX_VALUE;
     }
 
+    /**
+     * Retourne le plan du ModeleManager
+     * @return Le plan du ModeleManager
+     */
     public Plan getPlan() {
         return this.plan;
     }
 
+    /**
+     * Retourne l'ensemble de livraison du ModeleManger.
+     * @return L'ensemble de livraison du ModeleManger.
+     */
     public EnsembleLivraisons getEnsembleLivraisons() {
         return this.ensembleLivraisons;
     }
 
+    /**
+     * Retourne la tournée du ModeleManager
+     * @return La tournée du ModeleManager
+     */
     public Tournee getTournee() {
         return this.tournee;
     }
     
+    /**
+     * Remet à l'état initial le plan, l'ensemble de livraison, et la tournée(si elle a été calculée) du ModeleManager. 
+     */
     public void resetPlan(){
         this.plan = new Plan();
         this.resetEnsembleLivraisons();
     }
     
+    /**
+     * Remet à l'état initial l'ensemble de livraison et la tournée (si elle a été calculée) du ModeleManager.
+     * Le plan actuellement chargé sera conservé.
+     */
     public void resetEnsembleLivraisons(){
         this.ensembleLivraisons = new EnsembleLivraisons();
         this.resetTournee();
     }
     
+    /**
+     * Remet à l'état initial la tournée (si elle a été calculée) du ModeleManager.
+     * Le plan et l'ensemble de livraisons actuellement chargés seront conservé.
+     */
     public void resetTournee(){
         this.tournee = new Tournee();
     }
     
+    /**
+     * Calcule la tournée à partir de l'ensemble de livraisons actuellement chargé.
+     * @return 
+     */
     public double calculerTournee() {
         if (ensembleLivraisons != null) {
             Intersection entrepot = ensembleLivraisons.getEntrepot();

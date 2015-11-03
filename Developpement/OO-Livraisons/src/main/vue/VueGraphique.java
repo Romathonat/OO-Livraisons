@@ -82,7 +82,7 @@ public class VueGraphique extends JPanel implements Observer{
         //Plan plan = new Plan();
         //creerPlanTest(plan);
         
-        maxX = plan.getXmax();
+        maxX = plan.getXMax();
         maxY = plan.getYMax();
         
         Iterator<Entry<Integer, Intersection>> itIntersections = plan.getIntersections();
