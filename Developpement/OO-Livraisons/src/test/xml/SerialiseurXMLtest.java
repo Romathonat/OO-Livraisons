@@ -5,18 +5,21 @@
  */
 package xml;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.swing.JOptionPane.showMessageDialog;
 import modele.Chemin;
 import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
 import modele.Plan;
 import modele.Tournee;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
@@ -38,12 +41,12 @@ public class SerialiseurXMLtest {
         plan.ajouterIntersection(4, 5, 5);
         plan.ajouterIntersection(5, 6, 6);
 
-        plan.ajouterTroncon(0, 1, null, 2, 2);
-        plan.ajouterTroncon(1, 2, null, 2, 2);
-        plan.ajouterTroncon(2, 3, null, 2, 2);
-        plan.ajouterTroncon(3, 4, null, 2, 2);
-        plan.ajouterTroncon(4, 5, null, 2, 2);
-        plan.ajouterTroncon(5, 0, null, 2, 2);
+        plan.ajouterTroncon(0, 1, "a", 2, 2);
+        plan.ajouterTroncon(1, 2, "b", 2, 2);
+        plan.ajouterTroncon(2, 3, "c", 2, 2);
+        plan.ajouterTroncon(3, 4, "d", 2, 2);
+        plan.ajouterTroncon(4, 5, "e", 2, 2);
+        plan.ajouterTroncon(5, 0, "f", 2, 2);
 
         // creation des demandes de livraison.
         EnsembleLivraisons ensembleLivraisons = new EnsembleLivraisons();
@@ -79,10 +82,10 @@ public class SerialiseurXMLtest {
 
         //DemandeLivraison demande1 = new DemandeLivraison(plan.getIntersection(1), fenetre1);
         //DemandeLivraison demande2 = new DemandeLivraison(plan.getIntersection(2), fenetre2);
-        DemandeLivraison demande3 = new DemandeLivraison(plan.getIntersection(3), fenetre3);
-        DemandeLivraison demande4 = new DemandeLivraison(plan.getIntersection(4), fenetre4);
-        DemandeLivraison demande5 = new DemandeLivraison(plan.getIntersection(5), fenetre5);
-        DemandeLivraison demande6 = new DemandeLivraison(plan.getIntersection(0), fenetre5);
+        DemandeLivraison demande3 = new DemandeLivraison(0, 25, plan.getIntersection(3), fenetre3);
+        DemandeLivraison demande4 = new DemandeLivraison(0, 26, plan.getIntersection(4), fenetre4);
+        DemandeLivraison demande5 = new DemandeLivraison(0, 52,plan.getIntersection(5), fenetre5);
+        DemandeLivraison demande6 = new DemandeLivraison(0, 45,plan.getIntersection(0), fenetre5);
 
         Tournee tournee = new Tournee();
 
@@ -118,5 +121,11 @@ public class SerialiseurXMLtest {
             Logger.getLogger(SerialiseurXMLtest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        
+        
+        showMessageDialog(null, "Indiquer au programme le fichier qui doit être testé puis le fichier TestSerialiseur.txt");
+        File file1 = SerialiseurXML.ouvreFichier();
+        File file2 = SerialiseurXML.ouvreFichier();
+        assertEquals("Files are not the same", (file1.compareTo(file2)),0);
     }
 }

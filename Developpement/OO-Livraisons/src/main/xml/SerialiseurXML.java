@@ -8,24 +8,12 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
 import modele.Chemin;
 import modele.Tournee;
 import modele.Troncon;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 public class SerialiseurXML {// Singleton
 
@@ -38,7 +26,7 @@ public class SerialiseurXML {// Singleton
      */
     public static void exporterTournee(Tournee tournee) throws IOException {
         // récupération du document.
-        File fichierTxt = ouvreFichier();
+        File fichierTxt = SerialiseurXML.ouvreFichier();
         FileWriter fw = new FileWriter(fichierTxt);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter fichierSortie = new PrintWriter(bw);
@@ -102,10 +90,11 @@ public class SerialiseurXML {// Singleton
         // formateur de dates.
         int resultatSauvegarde = 0;
 
-        //fichierSortie.println("Itinéraire jusqu'au point de livraison de la demande " + Integer.toString(chemin.getLivraisonArrivee().getId()));
-        fichierSortie.println("  - Intersection de départ:  " + Integer.toString(chemin.getIntersectionDepart().getId()));
-        fichierSortie.println("  - Intersection d'arrivée:  " + Integer.toString(chemin.getIntersectionArrivee().getId()));
+        fichierSortie.println("Itinéraire jusqu'à la prochaine demande de livraison:");
+        //fichierSortie.println("  - Intersection de départ:  " + Integer.toString(chemin.getIntersectionDepart().getId()));
+        fichierSortie.println("  - point de livraison:  " + Integer.toString(chemin.getIntersectionArrivee().getId()));
         fichierSortie.println("  - Heure estimée d'arrivée: " + SerialiseurXML_df.format(chemin.getLivraisonArrivee().getHeureLivraison()));
+        fichierSortie.println("  - Id du client livré:      " + Integer.toString(chemin.getLivraisonArrivee().getIdClient()));
         fichierSortie.println("--------------------------------------------------");
 
         Iterator<Troncon> it_troncon = chemin.getTroncons();
@@ -128,7 +117,7 @@ public class SerialiseurXML {// Singleton
         return 0;
     }
 
-    private static File ouvreFichier() {
+    public static File ouvreFichier() {
         int returnVal;
         JFileChooser jFileChooserXML = new JFileChooser();
         jFileChooserXML.setFileSelectionMode(JFileChooser.FILES_ONLY);
