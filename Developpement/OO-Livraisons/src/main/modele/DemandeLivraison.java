@@ -37,4 +37,9 @@ public class DemandeLivraison {
     public FenetreLivraison getFenetreLivraison(){
         return fenetreLivraison;
     }
+    
+    public Date setHeureLivraison(Date heureLivraison){
+        return this.heureLivraison = heureLivraison;
+    }
+    
 }
