@@ -8,7 +8,6 @@ package controleur;
 import java.io.IOException;
 import java.text.ParseException;
 import javax.xml.parsers.ParserConfigurationException;
-import static jdk.nashorn.internal.objects.NativeError.getStackTrace;
 import modele.Plan;
 import org.xml.sax.SAXException;
 import xml.DeserialiseurXML;
