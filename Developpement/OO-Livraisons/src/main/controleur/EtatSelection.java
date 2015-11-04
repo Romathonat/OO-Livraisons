@@ -14,6 +14,9 @@ public class EtatSelection extends EtatTournee{
     @Override
     protected void activerFonctionnalites(){
         super.activerFonctionnalites();
-        Controleur.fenetre.activerIntersectionsSelectionnables(true);
+    }
+    
+    public void clicPlan(int x, int y){
+        
     }
 }

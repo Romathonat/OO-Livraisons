@@ -56,6 +56,7 @@ public class Fenetre extends JFrame {
     protected JMenuItem genererFeuilleDeRoute;
     protected JMenuItem quitter;
 
+	
     protected JMenu edition;
     protected JMenuItem annuler;
     protected JMenuItem retablir;
@@ -72,7 +73,7 @@ public class Fenetre extends JFrame {
     protected JPanel legende;
     protected int ecartLegende;
     protected Dimension tailleEltLegende;
-
+    
     protected VueGraphique vueGraphique;
 
     protected JSplitPane panelSeparationGauche;//contient le gauche et le centre
@@ -147,7 +148,7 @@ public class Fenetre extends JFrame {
         calculerTournee.addActionListener(new CalculerTournee(this));
 
         //------Organisation des Pannels
-        vueGraphique = new VueGraphique();
+        vueGraphique = new VueGraphique(this.controleur);
   
 
         panelBoutons = new JPanel();
@@ -241,6 +242,7 @@ public class Fenetre extends JFrame {
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         legende.setLayout(new BoxLayout(legende, BoxLayout.PAGE_AXIS));
+        
         legende.add(titre);
 
         //TODO Supprimer les 6 lignes suivantes.
@@ -306,45 +308,37 @@ public class Fenetre extends JFrame {
     public void activerChargerPlan(boolean activer) {
         chargerPlan.setEnabled(activer);
     }
-
-    public void activerChargerDemandesLivraisons(boolean activer) {
+    public void activerChargerDemandesLivraisons(boolean activer){
         chargerDemandesLivraisons.setEnabled(activer);
     }
-
-    public void activerGenererFeuilleRoute(boolean activer) {
+    public void activerGenererFeuilleRoute(boolean activer){
         genererFeuilleDeRoute.setEnabled(activer);
     }
-
-    public void activerAnnuler(boolean activer) {
+    public void activerAnnuler(boolean activer){
         annuler.setEnabled(activer);
     }
-
-    public void activerRetablir(boolean activer) {
+    public void activerRetablir(boolean activer){
         retablir.setEnabled(activer);
     }
-
-    public void activerAjouterLivraison(boolean activer) {
+    public void activerAjouterLivraison(boolean activer){
         ajouterLivraison.setEnabled(activer);
     }
-
-    public void activerSupprimerLivraison(boolean activer) {
+    public void activerSupprimerLivraison(boolean activer){
         supprimerLivraison.setEnabled(activer);
     }
-
-    public void activerEchangerLivraison(boolean activer) {
+    public void activerEchangerLivraison(boolean activer){
         echangerLivraison.setEnabled(activer);
     }
-
-    public void activerCalculerTournee(boolean activer) {
+    public void activerCalculerTournee(boolean activer){
         calculerTournee.setEnabled(activer);
     }
 
-    public void activerIntersectionsSelectionnables(boolean activer) {
-        vueGraphique.activerIntersectionsSelectionnables(activer);
-    }
-
-    // --- Activables uniquement ---
-    public void activerQuitter() {
+    
+    
+        
+        // --- Activables uniquement ---
+    
+    public void activerQuitter(){
         quitter.setEnabled(true);
     }
 
@@ -364,8 +358,9 @@ public class Fenetre extends JFrame {
         this.activerEchangerLivraison(false);
         this.activerCalculerTournee(false);
     }
-
+    
     // ------ ActionsListeners ------
+    
     private class ChargerPlan implements ActionListener {
 
         Fenetre frameParent;
@@ -464,3 +459,5 @@ public class Fenetre extends JFrame {
     }
 
 }
+
+
