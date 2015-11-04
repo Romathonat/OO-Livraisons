@@ -45,13 +45,11 @@ public class VueTextuelle extends JPanel {
 
         while (it_demandeLivraisonVue.hasNext())//pour toutes les fenetres, on change la coloration
         {
-            while (it_demandeLivraisonVue.hasNext()) {
-                DemandeLivraisonVue demandeLivraisonVue = it_demandeLivraisonVue.next();
-                System.out.println(demandeLivraisonVue);
-                //this.mesDemandesLivraisons.add(demandeLivraisonVue);
-                this.add(demandeLivraisonVue);
-                this.add(Box.createRigidArea(new Dimension(0, this.ecartDemandesLivraisons)));
-            }
+            DemandeLivraisonVue demandeLivraisonVue = it_demandeLivraisonVue.next();
+            System.out.println(demandeLivraisonVue);
+            //this.mesDemandesLivraisons.add(demandeLivraisonVue);
+            this.add(demandeLivraisonVue);
+            this.add(Box.createRigidArea(new Dimension(0, this.ecartDemandesLivraisons)));
         }
 
         this.revalidate();
