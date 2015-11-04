@@ -14,6 +14,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -30,7 +32,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
+import modele.FenetreLivraison;
 import modele.Plan;
 import modele.Tournee;
 
@@ -61,6 +65,7 @@ public class Fenetre extends JFrame {
     protected JPanel panelDroit;
     protected VueTextuelle vueTextuelle;
     protected JPanel panelBoutons;
+    
     protected JPanel legende;
     protected int ecartLegende;
     protected Dimension tailleEltLegende;
@@ -78,11 +83,15 @@ public class Fenetre extends JFrame {
     private Controleur controleur;
     protected GenerateurCouleur generateurCouleur;
 
-    protected List<FenetreLivraisonVue> mesFenetresLivraison;
-    
+    protected List<FenetreLivraisonVue> listFenetresLivraisonVue;
+    protected List<DemandeLivraisonVue> listDemandesLivraisonVue;
+
     public Fenetre(Controleur c) {
         controleur = c;
+
         generateurCouleur = new GenerateurCouleur();
+        listFenetresLivraisonVue = new ArrayList<FenetreLivraisonVue>();
+        listDemandesLivraisonVue = new ArrayList<DemandeLivraisonVue>();
 
         barreMenus = new JMenuBar();
 
@@ -91,7 +100,7 @@ public class Fenetre extends JFrame {
         chargerPlan = new JMenuItem("Charger Plan");
         chargerPlan.addActionListener(new ChargerPlan(this));
         chargerDemandesLivraisons = new JMenuItem("Charger demandes livraisons");
-        chargerDemandesLivraisons.addActionListener(new ChargerTournee());
+        chargerDemandesLivraisons.addActionListener(new ChargerDemandesLivraisons());
         genererFeuilleDeRoute = new JMenuItem("Generer feuille de route");
         genererFeuilleDeRoute.addActionListener(new GenererFeuilleRoute());
         quitter = new JMenuItem("Quitter");
@@ -161,12 +170,11 @@ public class Fenetre extends JFrame {
         calculerTournee.setMaximumSize(tailleBouton);
 
         //----------LEGENDE----------
-        legende = new JPanel();
-        
         this.ecartLegende = 15;
         this.tailleEltLegende = new Dimension(210, 20);
-        this.updateLegende();
         
+        this.legende = new JPanel();
+        this.updateLegende(0);
         
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
@@ -208,60 +216,75 @@ public class Fenetre extends JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("OO-Livraisons");
         this.setVisible(true);
-        
+
     }
-    
-    public void updateLegende()
-    {
+
+    public void updateLegende(int Etat) {
+        legende.removeAll();
+
         JLabel titre = new JLabel("Legende:");
         Font font = titre.getFont();
         Map attributes = font.getAttributes();
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         titre.setFont(font.deriveFont(attributes));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         legende.setLayout(new BoxLayout(legende, BoxLayout.PAGE_AXIS));
         
-        ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
-        ElementLegende demandeF1 = new ElementLegende(generateurCouleur.getCouleurSuivante(), "Demande Fenetre 1");
-        ElementLegende demandeF2 = new ElementLegende(generateurCouleur.getCouleurSuivante(), "Demande Fenetre 2");
-        ElementLegende demandeF3 = new ElementLegende(generateurCouleur.getCouleurSuivante(), "Demande Fenetre 3");
-
         legende.add(titre);
 
-        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-        legende.add(neutre);
-        neutre.setMinimumSize(tailleEltLegende);
-        neutre.setMaximumSize(tailleEltLegende);
+        //TODO Supprimer les 6 lignes suivantes.
+        /*FenetreLivraisonVue f1 = new FenetreLivraisonVue(null, generateurCouleur.getCouleurSuivante());
+        FenetreLivraisonVue f2 = new FenetreLivraisonVue(null, generateurCouleur.getCouleurSuivante());
+        FenetreLivraisonVue f3 = new FenetreLivraisonVue(null, generateurCouleur.getCouleurSuivante());
+        listFenetresLivraisonVue.add(f1);
+        listFenetresLivraisonVue.add(f2);
+        listFenetresLivraisonVue.add(f3);*/
+        
+        if (Etat > 0) {
+            // Legende des intersections.
+            ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
+            legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+            legende.add(neutre);
+            neutre.setMinimumSize(tailleEltLegende);
+            neutre.setMaximumSize(tailleEltLegende);
+        }
+        if (Etat > 1) {
 
-        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-        legende.add(demandeF1);
-        demandeF1.setMinimumSize(tailleEltLegende);
-        demandeF1.setMaximumSize(tailleEltLegende);
+            // legende de l'entrepot
+            ElementLegende legendeFenetre = new ElementLegende(Color.GREEN, "Entrepot");
+            legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+            legende.add(legendeFenetre);
+            legendeFenetre.setMinimumSize(tailleEltLegende);
+            legendeFenetre.setMaximumSize(tailleEltLegende);
 
-        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-        legende.add(demandeF2);
-        demandeF2.setMinimumSize(tailleEltLegende);
-        demandeF2.setMaximumSize(tailleEltLegende);
+            // Legende des fenetres de livraison.
+            Iterator<FenetreLivraisonVue> it_flv = this.listFenetresLivraisonVue.iterator();
+            int i = 0;
+            while (it_flv.hasNext()) {
+                i++;
+                legendeFenetre = new ElementLegende(it_flv.next().getCouleur(), "Demande Fenetre " + Integer.toString(i));
+                legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+                legende.add(legendeFenetre);
+                legendeFenetre.setMinimumSize(tailleEltLegende);
+                legendeFenetre.setMaximumSize(tailleEltLegende);
+            }
 
-        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-        legende.add(demandeF3);
-        demandeF3.setMinimumSize(tailleEltLegende);
-        demandeF3.setMaximumSize(tailleEltLegende);
+            legende.add(Box.createRigidArea(new Dimension(0, 300)));
+        }
 
-        legende.add(Box.createRigidArea(new Dimension(0, 300))); //on ajoute de l'espace à la fin pour que la legende ne prenne pas toute la place
+        legende.validate();
+        legende.repaint();
 
     }
-    
-    
-    public void sendMessage(String message){
-            JOptionPane.showMessageDialog(null, message);
+
+    public void sendMessage(String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
     // ---- Methodes d'activation/desactivation des fonctionnalites ----
-    
-        // -- Activables / Desactivables ---
-    
-    public void activerChargerPlan(boolean activer){
+
+    // -- Activables / Desactivables ---
+    public void activerChargerPlan(boolean activer) {
         chargerPlan.setEnabled(activer);
     }
     public void activerChargerDemandesLivraisons(boolean activer){
@@ -288,6 +311,10 @@ public class Fenetre extends JFrame {
     public void activerCalculerTournee(boolean activer){
         calculerTournee.setEnabled(activer);
     }
+
+    public void activerIntersectionsSelectionnables(boolean activer) {
+        vueGraphique.activerIntersectionsSelectionnables(activer);
+    }
     
         
         // --- Activables uniquement ---
@@ -295,13 +322,13 @@ public class Fenetre extends JFrame {
     public void activerQuitter(){
         quitter.setEnabled(true);
     }
-    public void activerAPropos(){
+
+    public void activerAPropos() {
         descriptionProjet.setEnabled(true);
     }
-        
-        // Desactivation generale (sauf activables uniquement)
-        
-    public void toutDesactiver(){
+
+    // Desactivation generale (sauf activables uniquement)
+    public void toutDesactiver() {
         this.activerChargerPlan(false);
         this.activerChargerDemandesLivraisons(false);
         this.activerGenererFeuilleRoute(false);
@@ -328,23 +355,48 @@ public class Fenetre extends JFrame {
 
             Plan monPlan = controleur.chargerPlan();
             vueGraphique.removeAll();
+            vueTextuelle.removeAll();
+            vueGraphique.drawPlan(monPlan);
+            updateLegende(1);
+            
+            revalidate();
+            repaint();
             vueGraphique.drawPlan(monPlan);
         }
     }
 
-    private class ChargerTournee implements ActionListener {
+    private class ChargerDemandesLivraisons implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EnsembleLivraisons livraisons = controleur.chargerLivraisons();
+            EnsembleLivraisons ensembleLivraisons = controleur.chargerLivraisons();
 
             try { //au cas ou un point n'est pas dejà dessiné
-                vueGraphique.drawLivraisons(livraisons);
+                vueGraphique.drawLivraisons(ensembleLivraisons);
             } catch (Exception ex) {
                 Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
-            vueTextuelle.removeAll();
-            vueTextuelle.writeLivraisons(livraisons,null);
+
+            // mise à jour des objets visuels
+            listFenetresLivraisonVue.clear();
+            listDemandesLivraisonVue.clear();
+
+            Iterator<FenetreLivraison> it_fenetre = ensembleLivraisons.getFenetresLivraison();
+            Iterator<DemandeLivraison> it_demande = null;
+
+            while (it_fenetre.hasNext()) {
+                FenetreLivraison fenetreLivraison = it_fenetre.next();
+                FenetreLivraisonVue fenetreLivraisonVue = new FenetreLivraisonVue(fenetreLivraison, generateurCouleur.getCouleurSuivante());
+                listFenetresLivraisonVue.add(fenetreLivraisonVue);
+
+                it_demande = fenetreLivraison.getDemandesLivraison();
+                while (it_demande.hasNext()) {
+                    listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetreLivraisonVue, it_demande.next()));
+                }
+            }
+
+            updateLegende(2);
+            vueTextuelle.UpdateVueTextuelle(listDemandesLivraisonVue.iterator());
             revalidate();
             repaint();
         }
@@ -362,15 +414,15 @@ public class Fenetre extends JFrame {
             repaint();
         }
     }
-    
-    private class GenererFeuilleRoute implements ActionListener
-    {
+
+    private class GenererFeuilleRoute implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             // TODO : Appeler le service de Guillaume
         }
     }
-    
+
 }
 
 

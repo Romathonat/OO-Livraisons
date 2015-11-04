@@ -18,9 +18,9 @@ public class GenerateurCouleur {
         this.couleurs[0] = Color.BLUE;
         this.couleurs[1] = Color.MAGENTA;
         this.couleurs[2] = Color.ORANGE;
-        this.couleurs[3] = Color.GREEN;
-        this.couleurs[4] = Color.PINK;
-        this.couleurs[5] = Color.RED;
+        this.couleurs[3] = Color.PINK;
+        this.couleurs[4] = Color.RED;
+        this.couleurs[5] = Color.GREEN;
         this.couleurs[6] = Color.YELLOW;
         this.couleurs[7] = Color.CYAN;
 

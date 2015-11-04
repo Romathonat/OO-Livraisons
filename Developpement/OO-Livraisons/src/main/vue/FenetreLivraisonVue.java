@@ -12,9 +12,9 @@ public class FenetreLivraisonVue {
     private FenetreLivraison fenetre;
     private Color couleur;
 
-    FenetreLivraisonVue(FenetreLivraison fenetre) {
+    FenetreLivraisonVue(FenetreLivraison fenetre, Color couleur) {
         this.fenetre = fenetre;
-        this.couleur = null;
+        this.couleur = couleur;
     }
 
     public FenetreLivraison getFenetre() {
