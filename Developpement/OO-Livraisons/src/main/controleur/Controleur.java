@@ -64,6 +64,9 @@ public class Controleur {
         return modeleManager.getTournee();
     }
     
+    public Etat getEtatCourant(){
+        return etatCourant;
+    }
     public synchronized void undo() {
         
     }

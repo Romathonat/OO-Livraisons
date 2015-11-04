@@ -6,6 +6,7 @@
 package vue;
 
 import controleur.Controleur;
+import controleur.Etat;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -121,7 +122,6 @@ public class Fenetre extends JFrame {
 
         //------Organisation des Pannels
         vueGraphique = new VueGraphique();
-        vueGraphique.setLayout(null);
 
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
@@ -167,17 +167,23 @@ public class Fenetre extends JFrame {
         Dimension tailleEltLegende = new Dimension(210, 20);
 
         ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
+        ElementLegende entrepot = new ElementLegende(new Color(165,233,224), "Entrepôt");
         ElementLegende demandeF1 = new ElementLegende(Color.BLUE, "Demande Fenetre 1");
         ElementLegende demandeF2 = new ElementLegende(Color.MAGENTA, "Demande Fenetre 2");
         ElementLegende demandeF3 = new ElementLegende(Color.ORANGE, "Demande Fenetre 3");
-
+        
         legende.add(titre);
 
         legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
         legende.add(neutre);
         neutre.setMinimumSize(tailleEltLegende);
         neutre.setMaximumSize(tailleEltLegende);
-
+        
+        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+        legende.add(entrepot);
+        entrepot.setMinimumSize(tailleEltLegende);
+        entrepot.setMaximumSize(tailleEltLegende);
+        
         legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
         legende.add(demandeF1);
         demandeF1.setMinimumSize(tailleEltLegende);
@@ -316,8 +322,6 @@ public class Fenetre extends JFrame {
             Plan monPlan = controleur.chargerPlan();
             vueGraphique.removeAll();
             vueGraphique.drawPlan(monPlan);
-            revalidate();
-            repaint();
         }
     }
 
