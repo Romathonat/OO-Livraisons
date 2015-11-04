@@ -21,5 +21,5 @@ import xml.ExceptionXML;
  * @author Kilian
  */
 public class EtatPlanCharge extends EtatLivraisons {
-
+    
 }

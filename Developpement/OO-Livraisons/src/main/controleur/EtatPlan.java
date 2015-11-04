@@ -20,6 +20,11 @@ import xml.ExceptionXML;
 public class EtatPlan extends EtatDefaut{
     
     @Override
+    protected void activerFonctionnalites(){
+        Controleur.fenetre.activerChargerPlan(true);
+    }
+    
+    @Override
     public void chargerPlan(Plan plan){
         try {
             DeserialiseurXML.chargerPlan(plan);

@@ -98,7 +98,7 @@ public class FenetreLivraison {
      * de la fenêtre de livraison.
      * @return L'ensemble des id des intersections des demandes de livraisons.
      */
-    public Set<Integer> getIdIntersectionsLivraisons() {
+    protected Set<Integer> getIdIntersectionsLivraisons() {
         Set<Integer> idIntersections = new HashSet<>();
         Iterator<DemandeLivraison> itDemande = listeDemandesLivraison.iterator();
         while(itDemande.hasNext()) {
