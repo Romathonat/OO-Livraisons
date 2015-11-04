@@ -10,5 +10,10 @@ package controleur;
  * @author Kilian
  */
 public class EtatPointLivraisonSelectionne extends EtatSelection {
-    
+    @Override
+    protected void activerFonctionnalites(){
+        super.activerFonctionnalites();
+        Controleur.fenetre.activerEchangerLivraison(true);
+        Controleur.fenetre.activerSupprimerLivraison(true);
+    }
 }

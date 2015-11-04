@@ -11,5 +11,9 @@ package controleur;
  * @author tfavrot
  */
 public class EtatSelection extends EtatTournee{
-    
+    @Override
+    protected void activerFonctionnalites(){
+        super.activerFonctionnalites();
+        Controleur.fenetre.activerIntersectionsSelectionnables(true);
+    }
 }

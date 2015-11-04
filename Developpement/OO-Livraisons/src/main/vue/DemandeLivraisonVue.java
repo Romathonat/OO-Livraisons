@@ -28,16 +28,18 @@ public class DemandeLivraisonVue extends JPanel {
     private int height = 100;
     private Color couleur;
     protected DemandeLivraison demandeLivraison;
+    protected FenetreLivraisonVue fenetreLivraisonVue;
     public Date heure;
 
     JLabel jLabelClient;
     JLabel jLabelAdresse;
     JLabel jLabelHeure;
 
-    public DemandeLivraisonVue(DemandeLivraison demandeLivraison, Color c) {
+    public DemandeLivraisonVue(FenetreLivraisonVue fenetreLivraisonVue, DemandeLivraison demandeLivraison, Color c) {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
+        this.fenetreLivraisonVue = fenetreLivraisonVue;
         this.demandeLivraison = demandeLivraison;
         this.couleur = c;
         //this.setSize(width, height);

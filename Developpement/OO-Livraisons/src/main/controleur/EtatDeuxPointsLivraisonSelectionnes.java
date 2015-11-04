@@ -10,5 +10,9 @@ package controleur;
  * @author Kilian
  */
 public class EtatDeuxPointsLivraisonSelectionnes extends EtatDefaut {
-    
+    @Override
+    protected void activerFonctionnalites(){
+        super.activerFonctionnalites();
+        Controleur.fenetre.activerIntersectionsSelectionnables(true);
+    }
 }
