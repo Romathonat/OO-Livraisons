@@ -14,7 +14,6 @@ import java.awt.RenderingHints;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import static vue.IntersectionVue.radius;
 
 /**
  *

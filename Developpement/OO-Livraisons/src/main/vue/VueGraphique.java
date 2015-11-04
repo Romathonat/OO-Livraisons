@@ -8,6 +8,8 @@ package vue;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -47,6 +49,7 @@ public class VueGraphique extends JPanel implements Observer{
         mesIntersection = new LinkedList<IntersectionVue>();
         maxX = this.getSize().width;
         maxY = this.getSize().height;
+        this.addMouseListener(new AnnulerSelection());
     }
     
     /**
@@ -61,23 +64,6 @@ public class VueGraphique extends JPanel implements Observer{
         return monPoint;
     }
     
-    public void creerPlanTest(Plan plan)
-    {
-        plan.ajouterIntersection(1, 10, 27);
-        plan.ajouterIntersection(2, 458, 78);
-        plan.ajouterIntersection(3, 100, 80);
-        plan.ajouterIntersection(4, 21, 400);
-        plan.ajouterIntersection(5, 245, 366);
-        plan.ajouterIntersection(6, 458, 150);
-        
-        //plan.ajouterTroncon(idDepart, idArrivee, nomRue, longueur, vitesse)
-        plan.ajouterTroncon(1,2,"rue1",3,5);
-        plan.ajouterTroncon(3,4,"rue2",3,5);
-        plan.ajouterTroncon(4,5,"rue2",3,5);
-        plan.ajouterTroncon(5,6,"rue2",3,5);
-        plan.ajouterTroncon(6,1,"rue2",3,5);
-        plan.ajouterTroncon(3,1,"rue2",3,5);
-    }
     
     /**
      * Dessine un plan dans la Vue Graphique à partir de plan
@@ -104,7 +90,7 @@ public class VueGraphique extends JPanel implements Observer{
             IntersectionVue interVue = new IntersectionVue((int)interEchelle.getX(),(int)interEchelle.getY(),monInter.getId(), Color.LIGHT_GRAY); 
             this.mesIntersection.add(interVue);
             this.add(interVue);//on l'ajoute à la vue graphique
-            this.setComponentZOrder(interVue, numberComponents++); //we will put a toolTip in the front later
+            this.setComponentZOrder(interVue, numberComponents++); //on met un tool tip sur le front plus tard, donc on met ceci dans des plans plus profonds
         }
         
         while(itTroncon.hasNext())
@@ -211,8 +197,27 @@ public class VueGraphique extends JPanel implements Observer{
         }
         return retour;
     }
-
     
+    private class AnnulerSelection implements MouseListener{
 
-    
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            for(int i=0;i<mesIntersection.size();i++){
+                mesIntersection.get(i).deselection();
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {}
+
+        @Override
+        public void mouseReleased(MouseEvent e) {}
+
+        @Override
+        public void mouseEntered(MouseEvent e) {}
+
+        @Override
+        public void mouseExited(MouseEvent e) {}
+        
+    }
 }

@@ -20,7 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import modele.DemandeLivraison;
-import static vue.IntersectionVue.radius;
 
 /**
  *
