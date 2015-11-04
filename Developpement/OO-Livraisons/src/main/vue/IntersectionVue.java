@@ -24,23 +24,44 @@ class IntersectionVue extends JPanel{
     public int x;
     public int y;
     private int id;
-    public static int radius = 10;
+    private boolean selectionne;
+    public int radius = 10;
     JLabel infoBulle; //l'infobulle relative à cette intersection
     private Color couleur;
     
     public IntersectionVue(int x, int y, int id, Color c){
         super();
-        this.x = x-5;
-        this.y = y-5;
+        this.x = x;
+        this.y = y;
+        offsetLocation();
+        
         this.id = id;
         this.couleur = c;
-	this.setSize(new Dimension(radius,radius)); //il faut definir la taille du JPanel
+        this.selectionne = false;
         this.setOpaque(true);
         this.setBackground(new Color(0,0,0,0));
-        this.setLocation(this.x, this.y);
+        this.setBounds(this.x, this.y, radius, radius);//il faut definir la taille et la position de l'interectionVue courante
         this.setVisible(true);
-        this.addMouseListener(new MyToolTipManager(this));
+        this.addMouseListener(new MyMouseManager(this));
     }
+    
+    /**
+     * décale le point pour qu'il soit centre
+     */
+    private void offsetLocation(){
+        this.x = this.x - (int)(radius/2);
+        this.y = this.y - (int)(radius/2);
+    }
+    
+    /**
+     * remet la point à sa position avant offsetLocation()
+     * Contrat: offsetLocation a été appellé une seule fois avant.
+     */
+    private void unoffsetLocation(){
+        this.x = this.x + (int)(radius/2);
+        this.y = this.y + (int)(radius/2);
+    }
+    
     public int getId(){
         return id;
     }
@@ -74,13 +95,44 @@ class IntersectionVue extends JPanel{
         this.infoBulle.setLocation(x,y);
     }
     
-    public class MyToolTipManager implements MouseListener{
+    public void deselection(){
+        unoffsetLocation();
+        this.radius = 10;
+        selectionne = false;
+        
+        offsetLocation();
+        setBounds(x, y, radius, radius);
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public class MyMouseManager implements MouseListener{
         IntersectionVue vue;
-        public MyToolTipManager(IntersectionVue vue){
+        public MyMouseManager(IntersectionVue vue){
             this.vue = vue;
         }
+        
+        /**
+         * Permet de selectionner un point
+         * @param e 
+         */
         @Override
         public void mouseClicked(MouseEvent e) {
+            if(selectionne == false){
+                unoffsetLocation();//on restaure l'etat precedent
+                selectionne = true;
+                radius = 15;
+                
+                offsetLocation();
+                setBounds(x, y, radius, radius);
+            }
+            else{
+                deselection();
+            }
+            
+            revalidate();
+            repaint();
         }
 
         @Override

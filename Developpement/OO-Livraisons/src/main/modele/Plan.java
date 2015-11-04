@@ -204,7 +204,7 @@ public class Plan{
      * @param idArrivees Un ensemble d'id des intersections vers lesquelles calculer les plus courts chemins.
      * @return Une Map indexant tous les chemins entre le point de depart et les points d'arrives.
      */
-    public Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(int idDepart, Set<Integer> idArrivees) {
+    protected Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(int idDepart, Set<Integer> idArrivees) {
         //Tableau des precedences et des distances des noeuds.
         Troncon[] precedent = new Troncon[intersectionsMaxId + 1];
         //Contient les distances par rapport au depart des intersections.
@@ -294,7 +294,7 @@ public class Plan{
      * @param idArrivees L'ensemble des id des intersections d'arrivee.
      * @return Tous les plus courts chemins enter les intersections de depart et d'arrivee.
      */
-    public Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(Set<Integer> idDeparts, Set<Integer> idArrivees) {
+    protected Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(Set<Integer> idDeparts, Set<Integer> idArrivees) {
         //On reserve une map pour contenir tous les chemins. Il y en a n²-n quand il y a n intersections.
         Map<DepartArriveeChemin, Chemin> chemins = new HashMap<>(idDeparts.size() * idArrivees.size());
         //Pour chaque intersection de la fenetre.
@@ -321,7 +321,7 @@ public class Plan{
      * @param arrivee L'intersection d'arrivee du chemin.
      * @return Le plus court chemin entre ces deux intersections.
      */
-    public Chemin calculerPlusCourtChemin(Intersection depart, Intersection arrivee) {
+    protected Chemin calculerPlusCourtChemin(Intersection depart, Intersection arrivee) {
         Set<Integer> arrivees = new HashSet<>();
         arrivees.add(arrivee.getId());
         Map<DepartArriveeChemin, Chemin> chemins = calculerPlusCourtsChemins(depart.getId(), arrivees);
