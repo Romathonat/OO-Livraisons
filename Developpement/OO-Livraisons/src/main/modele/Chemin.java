@@ -13,7 +13,7 @@ public class Chemin {
     
     
     /**
-     * La durée temporelle du parcours d'un chemin.
+     * La durée temporelle du parcours d'un chemin en secondes.
      */
     private double duree;
     

@@ -19,7 +19,7 @@ public class Tournee {
 
     // Attributs
     private List<Chemin> chemins;
-    long tempsDeLivraison; // en milisecondes.
+    long tempsDeLivraison; // en secondes.
 
     // Methodes
     public Tournee() {
@@ -32,9 +32,6 @@ public class Tournee {
      * Il convient d'avoir calculé la tournée auparavant.
      */
     public void CalculerHeuresDemandesLivraisons() {
-        // 10 minutes de livraison
-        final long tempsDeLivraison = 10 * 60 * 1000;
-
         Iterator<Chemin> it_chemin = this.getChemins();
 
         // initialisation
@@ -43,20 +40,19 @@ public class Tournee {
         while (it_chemin.hasNext()) {
             // une telle implémentation n'est pas optimale mais le code de Date ne permet pas de faire autrement.
             Chemin cheminCourant = it_chemin.next();
-            instantCourant = new Date(instantCourant.getTime() + (long) (cheminCourant.getDuree() * 1000));
+            instantCourant.setTime(instantCourant.getTime() + (long) (cheminCourant.getDuree() * 1000));
 
             // on regarde si on se trouve dans la fenetre de la prochaine livraison.
             if (cheminCourant.getLivraisonArrivee().getFenetreLivraison().getHeureDebut().compareTo(instantCourant) < 0) { // si c'est le cas, on ivre.
-                instantCourant = new Date(instantCourant.getTime() + tempsDeLivraison);
+                instantCourant.setTime(instantCourant.getTime() + cheminCourant.getLivraisonArrivee().getTempsArret()*1000);
             } else { // sinon on attend le debut de fenetre puis on livre avant de continuer
-                instantCourant = new Date(cheminCourant.getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime() + tempsDeLivraison);
+                instantCourant.setTime(cheminCourant.getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime() + cheminCourant.getLivraisonArrivee().getTempsArret()*1000);
             }
             cheminCourant.getLivraisonArrivee().setHeureLivraison(instantCourant);
-
         }
 
-        // on met à jour le temps de livraison.
-        this.tempsDeLivraison = instantCourant.getTime() - this.chemins.get(0).getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime();
+        // on met à jour le temps de livraison en secondes.
+        this.tempsDeLivraison = (instantCourant.getTime() - this.chemins.get(0).getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime()) / 1000;
     }
 
     public Iterator<Chemin> getChemins() {

@@ -8,7 +8,9 @@ public class Troncon {
     
     // Attributs
     
+    //La longueur en mètres.
     private double longueur;
+    //La vitesse en mètres par seconde.
     private double vitesse;
     private String nom;
     private Intersection intersectionArrivee;

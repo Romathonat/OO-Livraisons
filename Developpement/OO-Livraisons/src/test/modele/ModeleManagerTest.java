@@ -61,7 +61,7 @@ public class ModeleManagerTest {
         //On calcule la tournee.
         modele.calculerTournee();
         
-        assertEquals("La tournee doit faire une duree de 46.0.", 46.0, modele.getTournee().getTempsDeLivraison(), 0.1);
+        assertEquals("La tournee doit faire une duree de 8422.0 secondes.", 8422.0, modele.getTournee().getTempsDeLivraison(), 0.1);
         Iterator<Chemin> itChemin = modele.getTournee().getChemins();
         assertNotNull("L'iterateur de chemin de la tournee doit au moins avoir un element.", itChemin.hasNext());
         Chemin chemin1 = itChemin.next();

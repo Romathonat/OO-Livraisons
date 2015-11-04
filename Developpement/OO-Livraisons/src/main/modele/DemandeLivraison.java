@@ -28,8 +28,9 @@ public class DemandeLivraison {
 
     /**
      * Le temps d'arrêt qu'effectue le livreur à un point de livaison.
+     * Par defaut, le temps de livraison est de 10min soit 600 secondes.
      */
-    private int tempsArret;
+    private int tempsArret = 600;
 
     /**
      * L'id du client concerné par la livraison.
@@ -62,6 +63,14 @@ public class DemandeLivraison {
      */
     public Intersection getIntersection() {
         return intersection;
+    }
+    
+    /**
+     * Definit le temps d'arret pour effectuer cette livraison.
+     * @param tempsArret Le temps d'arret en secondes.
+     */
+    public void setTempsArret(int tempsArret) {
+        this.tempsArret = tempsArret;
     }
 
     /**
