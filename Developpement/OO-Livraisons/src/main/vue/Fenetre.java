@@ -312,9 +312,7 @@ public class Fenetre extends JFrame {
         calculerTournee.setEnabled(activer);
     }
 
-    public void activerIntersectionsSelectionnables(boolean activer) {
-        vueGraphique.activerIntersectionsSelectionnables(activer);
-    }
+    
     
         
         // --- Activables uniquement ---
