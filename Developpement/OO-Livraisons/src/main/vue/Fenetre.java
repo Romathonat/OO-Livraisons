@@ -128,7 +128,7 @@ public class Fenetre extends JFrame {
         calculerTournee.addActionListener(new CalculerTournee());
 
         //------Organisation des Pannels
-        vueGraphique = new VueGraphique();
+        vueGraphique = new VueGraphique(this.controleur);
   
 
         panelBoutons = new JPanel();
@@ -287,9 +287,6 @@ public class Fenetre extends JFrame {
     }
     public void activerCalculerTournee(boolean activer){
         calculerTournee.setEnabled(activer);
-    }
-    public void activerIntersectionsSelectionnables(boolean activer){
-        vueGraphique.activerIntersectionsSelectionnables(activer);
     }
     
         

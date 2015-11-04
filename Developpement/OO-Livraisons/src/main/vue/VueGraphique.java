@@ -5,6 +5,7 @@
  */
 package vue;
 
+import controleur.Controleur;
 import controleur.Etat;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -45,21 +46,20 @@ public class VueGraphique extends JPanel implements Observer{
     private Plan planCourant; //il nous faut garder ces references pour redessiner le plan quand repaint est appelle
     private EnsembleLivraisons livraisonsCourantes;//attention doivent être mise à null si on recharge juste le plan !
     private Tournee tourneeCourante;
-    
-    private boolean intersectionsSelectionnables;
+    private Controleur controleur;
     
     private Date[] mesDebutsFenetre = new Date[3]; //que trois fenetres dans les specs
     private Color[] mesCouleurs = new Color[3];//ces deux tableaux correspondent
     public static Color CouleurEntrepot = new Color(165,233,224);
     
-    public VueGraphique()
+    public VueGraphique(Controleur c)
     {
         this.setBackground(Color.white);
         
         maxX = this.getSize().width;
         maxY = this.getSize().height;
-        intersectionsSelectionnables = false;
-        this.addMouseListener(new AnnulerSelection());
+        this.controleur = c;
+        this.addMouseListener(new ecouteurSouris());
         
     }
     
@@ -265,14 +265,11 @@ public class VueGraphique extends JPanel implements Observer{
 
     // --- Activation/Desactivation ---
     
-    public void activerIntersectionsSelectionnables(boolean activer){
-        intersectionsSelectionnables = activer;
-    }
 
-    private class AnnulerSelection implements MouseListener{
+    private class ecouteurSouris implements MouseListener{
         @Override
         public void mouseClicked(MouseEvent e) {
-            
+            controleur.clicPlan(e.getX(), e.getY());
         }
 
         @Override

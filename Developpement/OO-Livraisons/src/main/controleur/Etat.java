@@ -16,6 +16,7 @@ public interface Etat {
     public void chargerPlan(Plan plan);
     public void chargerLivraisons(Plan plan,EnsembleLivraisons ensembleLivraisons);
     public void calculerTournee();
+    public void clicPlan(int x, int y);
     public void clicIntersection(Intersection intersection);
     public void clicPointLivraison(Intersection intersection);
     public void clicVide();

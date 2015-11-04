@@ -94,4 +94,9 @@ public class EtatDefaut implements Etat{
         Controleur.fenetre.toutDesactiver();
         this.activerFonctionnalites();
     }
+
+    @Override
+    public void clicPlan(int x, int y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
