@@ -50,7 +50,7 @@ public class VueGraphique extends JPanel implements Observer{
     
     private Date[] mesDebutsFenetre = new Date[3]; //que trois fenetres dans les specs
     private Color[] mesCouleurs = new Color[3];//ces deux tableaux correspondent
-    private Color couleurEntrepot = new Color(165,233,224);
+    public static Color CouleurEntrepot = new Color(165,233,224);
     
     public VueGraphique()
     {
@@ -187,7 +187,7 @@ public class VueGraphique extends JPanel implements Observer{
         
         //on dessine d'abord l'entrepôt
         Intersection entrepot = this.livraisonsCourantes.getEntrepot();
-        g2D.setColor(this.couleurEntrepot);
+        g2D.setColor(this.CouleurEntrepot);
         dessinerUneIntersection(entrepot, g2D);
         
         Iterator<FenetreLivraison> itFenetres = this.livraisonsCourantes.getFenetresLivraison();
@@ -254,7 +254,7 @@ public class VueGraphique extends JPanel implements Observer{
     }
 
     private Color choixCouleur(FenetreLivraison horaire) {
-        Color retour = Color.BLACK;
+        Color retour = CouleurEntrepot;
         for(int i=0; i<mesDebutsFenetre.length;i++){
             if(mesDebutsFenetre[i] == horaire.getHeureDebut()){
                 retour = mesCouleurs[i];

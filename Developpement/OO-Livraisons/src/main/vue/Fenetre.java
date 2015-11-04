@@ -167,7 +167,7 @@ public class Fenetre extends JFrame {
         Dimension tailleEltLegende = new Dimension(210, 20);
 
         ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
-        ElementLegende entrepot = new ElementLegende(new Color(165,233,224), "Entrepôt");
+        ElementLegende entrepot = new ElementLegende(VueGraphique.CouleurEntrepot, "Entrepôt");
         ElementLegende demandeF1 = new ElementLegende(Color.BLUE, "Demande Fenetre 1");
         ElementLegende demandeF2 = new ElementLegende(Color.MAGENTA, "Demande Fenetre 2");
         ElementLegende demandeF3 = new ElementLegende(Color.ORANGE, "Demande Fenetre 3");
