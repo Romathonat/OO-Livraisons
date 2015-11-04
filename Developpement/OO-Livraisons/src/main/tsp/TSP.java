@@ -12,7 +12,7 @@ public interface TSP {
     /**
      * @param i
      * @return le ieme sommet visite dans la solution calculee par <code>chercheSolution</code> 
-     * (-1 si <code>chercheSolution</code> n'a pas encore ete appele, ou si i < 0 ou i >= g.getNbSommets())
+     * (-1 si <code>chercheSolution</code> n'a pas encore ete appele, ou si i {@literal <} 0 ou i {@literal >}= g.getNbSommets())
      */
     public Integer getSolution(int i);
 

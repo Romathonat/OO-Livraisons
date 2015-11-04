@@ -2,6 +2,7 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -146,8 +147,10 @@ public class ModeleManager {
                 int intersectionPrecedente = correspondance.get(sommetPrecedent);
                 int intersection = correspondance.get(sommet);
                 //On ajoute ce chemin a la tournee.
-                Chemin chemin = chemins.get(new DepartArriveeChemin(intersectionPrecedente, intersection));      
-                //TODO : On ajoute la demande de livraison au chemin.
+                Chemin chemin = chemins.get(new DepartArriveeChemin(intersectionPrecedente, intersection));
+                //On definit la demande de livraison a l'arrivee du chemin.
+                DemandeLivraison livraison = ensembleLivraisons.getDemandeLivraison(intersection);
+                chemin.setLivraisonArrivee(livraison);
                 tournee.AjouterChemin(chemin);
                 
                 indexPrecedentSolution = indexSolution;
@@ -156,7 +159,11 @@ public class ModeleManager {
             int sommetPrecedent = tsp.getSolution(indexPrecedentSolution);
             int intersectionPrecedente = correspondance.get(sommetPrecedent);
             Chemin chemin = chemins.get(new DepartArriveeChemin(intersectionPrecedente, entrepot.getId()));
-            //TODO : On ajoute une demande de livraison fictive au chemin contenant l'entrepot comme lieu.
+            //On ajoute une demande de livraison fictive au chemin contenant l'entrepot comme lieu.
+            FenetreLivraison fenetreEntrepot = new FenetreLivraison(new Date(0), new Date(Long.MAX_VALUE));
+            DemandeLivraison livraisonEntrepot = new DemandeLivraison(-1, -1, entrepot, fenetreEntrepot);
+            livraisonEntrepot.setTempsArret(0);
+            chemin.setLivraisonArrivee(livraisonEntrepot);
             tournee.AjouterChemin(chemin);
             // On calcule les temps respectifs de livraison.
             tournee.CalculerHeuresDemandesLivraisons();
