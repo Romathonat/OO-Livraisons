@@ -39,6 +39,8 @@ public class VueGraphique extends JPanel implements Observer{
     private int maxX;
     private int maxY;
     
+    private boolean intersectionsSelectionnables;
+    
     private Date[] debutFenetre = new Date[3]; //que trois fenetre dans les specs
     private Color[] mesCouleurs = new Color[3];
     
@@ -49,6 +51,7 @@ public class VueGraphique extends JPanel implements Observer{
         mesIntersection = new LinkedList<IntersectionVue>();
         maxX = this.getSize().width;
         maxY = this.getSize().height;
+        intersectionsSelectionnables = false;
         this.addMouseListener(new AnnulerSelection());
     }
     
@@ -64,6 +67,7 @@ public class VueGraphique extends JPanel implements Observer{
         return monPoint;
     }
     
+   
     
     /**
      * Dessine un plan dans la Vue Graphique à partir de plan
@@ -197,9 +201,15 @@ public class VueGraphique extends JPanel implements Observer{
         }
         return retour;
     }
+
+    // --- Activation/Desactivation ---
     
+    public void activerIntersectionsSelectionnables(boolean activer){
+        intersectionsSelectionnables = activer;
+    }
     private class AnnulerSelection implements MouseListener{
 
+    
         @Override
         public void mouseClicked(MouseEvent e) {
             for(int i=0;i<mesIntersection.size();i++){
