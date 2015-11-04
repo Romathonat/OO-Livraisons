@@ -113,7 +113,7 @@ public class SerialiseurXMLtest {
         tournee.AjouterChemin(chemin5);
         tournee.AjouterChemin(chemin6);
 
-        tournee.CalculerHeuresDemandesLivraisons();
+        //tournee.CalculerHeuresDemandesLivraisons();
         
         try {
             SerialiseurXML.exporterTournee(tournee);

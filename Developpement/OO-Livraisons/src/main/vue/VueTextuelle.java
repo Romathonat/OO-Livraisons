@@ -7,16 +7,10 @@ package vue;
 
 import javax.swing.JPanel;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import modele.Chemin;
-import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
-import modele.FenetreLivraison;
 import modele.Tournee;
 
 /**
