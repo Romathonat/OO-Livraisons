@@ -30,7 +30,7 @@ public class ElementLegende extends JPanel{
         this.setPreferredSize(new Dimension(20,200));
         label = new JLabel(s);
         label.setBorder(new EmptyBorder(0, 20, 0, 0));
-        label.setFont(new Font("Verdana",1,10));
+        label.setFont(new Font("Calibri",1,10));
         this.add(label);
     }
     

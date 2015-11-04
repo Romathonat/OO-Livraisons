@@ -64,7 +64,10 @@ public class Fenetre extends JFrame {
     protected JPanel panelDroit;
     protected VueTextuelle vueTextuelle;
     protected JPanel panelBoutons;
+<<<<<<< HEAD
 
+=======
+>>>>>>> d8f7d665849803f681896287b3d2018372b4d2ea
     protected JPanel legende;
     protected int ecartLegende;
     protected Dimension tailleEltLegende;
@@ -80,7 +83,6 @@ public class Fenetre extends JFrame {
     protected JButton calculerTournee;
 
     private Controleur controleur;
-    private Plan plan;
     protected GenerateurCouleur generateurCouleur;
 
     protected List<FenetreLivraisonVue> listFenetresLivraisonVue;
@@ -138,7 +140,7 @@ public class Fenetre extends JFrame {
 
         //------Organisation des Pannels
         vueGraphique = new VueGraphique();
-        vueGraphique.setLayout(null);
+  
 
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
@@ -172,9 +174,15 @@ public class Fenetre extends JFrame {
         //----------LEGENDE----------
         this.ecartLegende = 15;
         this.tailleEltLegende = new Dimension(210, 20);
+<<<<<<< HEAD
         this.legende = new JPanel();
         this.updateLegende(2);
 
+=======
+        this.updateLegende();
+        
+        
+>>>>>>> d8f7d665849803f681896287b3d2018372b4d2ea
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);
@@ -355,14 +363,19 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            plan = controleur.chargerPlan();
+
+            Plan monPlan = controleur.chargerPlan();
             vueGraphique.removeAll();
+<<<<<<< HEAD
             vueTextuelle.removeAll();
             vueGraphique.drawPlan(plan);
             updateLegende(1);
             
             revalidate();
             repaint();
+=======
+            vueGraphique.drawPlan(monPlan);
+>>>>>>> d8f7d665849803f681896287b3d2018372b4d2ea
         }
     }
 
