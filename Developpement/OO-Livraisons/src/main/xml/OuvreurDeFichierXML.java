@@ -7,7 +7,7 @@ import javax.swing.filechooser.*;
 public class OuvreurDeFichierXML extends FileFilter {// Singleton
 
     private static OuvreurDeFichierXML instance = null;
-    private static File path = new File("/../FichiersProjet");
+    private static File path = new File("../FichiersProjet");
 
     private OuvreurDeFichierXML() {
     }

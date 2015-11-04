@@ -33,14 +33,11 @@ public class Controleur {
     }
         
     protected static ModeleManager modeleManager;
-    private Fenetre fenetre;
+    protected static Fenetre fenetre;
     
     public static void main(String args[]){
         
-        Controleur controleur;
-        Fenetre fenetre;
-        
-        controleur = new Controleur();
+        Controleur controleur = new Controleur();
     }
     
     public Controleur() {
@@ -67,10 +64,6 @@ public class Controleur {
         return modeleManager.getTournee();
     }
     
-    public synchronized void clicGauche() {
-        
-    }
-    
     public synchronized void undo() {
         
     }
@@ -88,14 +81,6 @@ public class Controleur {
     }
     
     public synchronized void echangerDeuxPoints() {
-        
-    }
-    
-    public synchronized void clicOk() {
-        
-    }
-    
-    public synchronized void clicAnnuler() {
         
     }
 }
