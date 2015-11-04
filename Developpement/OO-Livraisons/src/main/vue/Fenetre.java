@@ -45,6 +45,10 @@ import modele.Tournee;
 public class Fenetre extends JFrame {
 
     protected JMenuBar barreMenus;
+    
+    protected JPanel barreStatus;
+    protected JLabel statusRigth;
+    protected JLabel statusLeft;
 
     protected JMenu fichier;
     protected JMenuItem chargerPlan;
@@ -94,13 +98,20 @@ public class Fenetre extends JFrame {
         listDemandesLivraisonVue = new ArrayList<DemandeLivraisonVue>();
 
         barreMenus = new JMenuBar();
-
+        
+        barreStatus = new JPanel ();
+        barreStatus.setLayout(new BorderLayout()); 
+        statusRigth = new JLabel("OO-Livraison");
+        statusLeft = new JLabel("");
+        barreStatus.add(statusRigth, BorderLayout.WEST);
+        barreStatus.add(statusLeft, BorderLayout.EAST);
+        
         //----Fichier-----
         fichier = new JMenu("Fichier");
         chargerPlan = new JMenuItem("Charger Plan");
         chargerPlan.addActionListener(new ChargerPlan(this));
         chargerDemandesLivraisons = new JMenuItem("Charger demandes livraisons");
-        chargerDemandesLivraisons.addActionListener(new ChargerDemandesLivraisons());
+        chargerDemandesLivraisons.addActionListener(new ChargerDemandesLivraisons(this));
         genererFeuilleDeRoute = new JMenuItem("Generer feuille de route");
         genererFeuilleDeRoute.addActionListener(new GenererFeuilleRoute());
         quitter = new JMenuItem("Quitter");
@@ -134,7 +145,7 @@ public class Fenetre extends JFrame {
         supprimerLivraison = new JButton("Supprimer Livraison");
         echangerLivraison = new JButton("Echanger Livraison");
         calculerTournee = new JButton("Calculer Tournée");
-        calculerTournee.addActionListener(new CalculerTournee());
+        calculerTournee.addActionListener(new CalculerTournee(this));
 
         //------Organisation des Pannels
         vueGraphique = new VueGraphique(this.controleur);
@@ -205,6 +216,7 @@ public class Fenetre extends JFrame {
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.add(barreMenus, BorderLayout.NORTH);
         panelPrincipal.add(panelSeparationDroit, BorderLayout.CENTER);
+        panelPrincipal.add(barreStatus,BorderLayout.SOUTH);
 
         this.add(panelPrincipal);
 
@@ -277,10 +289,19 @@ public class Fenetre extends JFrame {
         legende.repaint();
 
     }
+    
+    public void changerStatus(String status) {
+        this.statusRigth.setText(status);
+    }
 
-    public void sendMessage(String message) {
+    /**
+     * Affiche une popup contenant un message particulier.
+     * @param message Le message à afficher dans la popup.
+     */
+    public void EnvoyerMessage(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
+    
     // ---- Methodes d'activation/desactivation des fonctionnalites ----
 
     // -- Activables / Desactivables ---
@@ -342,10 +363,10 @@ public class Fenetre extends JFrame {
     
     private class ChargerPlan implements ActionListener {
 
-        JFrame frameParent;
+        Fenetre frameParent;
 
         public ChargerPlan(JFrame frameParent) {
-            this.frameParent = frameParent;
+            this.frameParent = (Fenetre)frameParent;
         }
 
         @Override
@@ -356,7 +377,7 @@ public class Fenetre extends JFrame {
             vueTextuelle.removeAll();
             vueGraphique.drawPlan(monPlan);
             updateLegende(1);
-            
+            frameParent.changerStatus("Plan chargé");
             revalidate();
             repaint();
             vueGraphique.drawPlan(monPlan);
@@ -365,6 +386,13 @@ public class Fenetre extends JFrame {
 
     private class ChargerDemandesLivraisons implements ActionListener {
 
+        
+        Fenetre frameParent;
+        
+        public ChargerDemandesLivraisons(JFrame frameParent) {
+            this.frameParent = (Fenetre)frameParent;
+        }
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             EnsembleLivraisons ensembleLivraisons = controleur.chargerLivraisons();
@@ -395,6 +423,8 @@ public class Fenetre extends JFrame {
 
             updateLegende(2);
             vueTextuelle.UpdateVueTextuelle(listDemandesLivraisonVue.iterator());
+            
+            frameParent.changerStatus("Demandes de livraison chargée");
             revalidate();
             repaint();
         }
@@ -402,12 +432,19 @@ public class Fenetre extends JFrame {
 
     private class CalculerTournee implements ActionListener {
 
+        Fenetre frameParent;
+        
+        public CalculerTournee(JFrame frameParent) {
+            this.frameParent = (Fenetre)frameParent;
+        }
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             Tournee tournee = controleur.calculerTournee();
-
+            
             vueGraphique.drawTournee(tournee);
-
+            
+            frameParent.changerStatus("Tournée calculée");
             revalidate();
             repaint();
         }

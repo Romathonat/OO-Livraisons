@@ -34,7 +34,7 @@ public class EtatLivraisons extends EtatPlan{
             DeserialiseurXML.chargerDemandesLivraisons(plan, ensembleLivraisons);
             Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
-            Controleur.fenetre.sendMessage(ex.getMessage());
+            Controleur.fenetre.EnvoyerMessage(ex.getMessage());
         }
     }
 }
