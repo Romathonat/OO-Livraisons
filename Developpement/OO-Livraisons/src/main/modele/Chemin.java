@@ -6,19 +6,31 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ * Un chemin modélise le parcours entre deux livraisons.  
  * @author mgaillard
  */
 public class Chemin {
     
-    // Attributs
     
+    /**
+     * La durée temporelle du parcours d'un chemin.
+     */
     private double duree;
+    
+    /**
+     * La livraison vers laquelle le chemin se dirige.
+     */
     private DemandeLivraison livraisonArrivee;
+    
+    /**
+     * La liste des troncons qui composent un chemin.
+     */
     private List<Troncon> troncons;
     
-    // Methodes
-
+    
+    /**
+     * Constructeur d'un chemin.
+     */
     public Chemin() {
         this.duree = 0;
         this.livraisonArrivee = null;
@@ -26,19 +38,19 @@ public class Chemin {
     }
 
     /**
-     * Retourne la duree necessaire pour emprunter le chemin.
+     * Retourne la durée nécessaire pour emprunter le chemin.
      * Si le chemin ne comporte aucun troncon, retourne 0.
-     * @return la duree necessaire pour emprunter le chemin.
+     * @return La durée nécessaire pour emprunter le chemin.
      */
     public double getDuree() {
         return duree;
     }
     
     /**
-     * Definit la livraison d'arrivee du chemin.
-     * La livraison d'arrivee doit être sur la même intersection que l'intersection d'arrivee.
-     * @param livraison La demande de livraison situé à l'arrivée du chemin.
-     * @return True si la livraison d'arrivee a bien été définie.
+     * Définit la livraison d'arrivée du chemin.
+     * La livraison d'arrivée doit être sur la même intersection que l'intersection d'arrivée.
+     * @param livraison La demande de livraison située à l'arrivée du chemin.
+     * @return True si la livraison d'arrivée a bien été définie.
      */
     public boolean setLivraisonArrivee(DemandeLivraison livraison) {
         //On verifie que l'intersection d'arrivee du chemin est egale à l'intersection de la livaison.
@@ -51,18 +63,18 @@ public class Chemin {
     }
     
     /**
-     * Retourne la livraison d'arrivee du chemin. Si celle-ci n'est pas définie, retourne null.
-     * @return La livraison d'arrivee du chemin, ou bien null.
+     * Retourne la livraison d'arrivée du chemin. Si celle-ci n'est pas définie, retourne null.
+     * @return La livraison d'arrivée du chemin, ou bien null.
      */
     public DemandeLivraison getLivraisonArrivee() {
         return livraisonArrivee;
     }
     
     /**
-     * Ajoute un troncon au debut du chemin.
-     * Verifie si le chemin est bien constitué des troncons bout à bout.
-     * Modifie la duree du Chemin.
-     * @param troncon Le troncon a ajouter au chemin.
+     * Ajoute un troncon au début du chemin.
+     * Vérifie si le chemin est bien constitué des troncons bout à bout.
+     * Modifie la durée du Chemin.
+     * @param troncon Le troncon à ajouter au chemin.
      * @return True si le troncon a été ajouté, false sinon.
      */
     public boolean ajouterTronconDebut(Troncon troncon) {
@@ -82,8 +94,8 @@ public class Chemin {
     }
     
     /**
-     * Retourne un iterateur constant vers la liste des troncons.
-     * @return Un iterateur constant vers la liste des troncons.
+     * Retourne un itérateur constant vers la liste des troncons.
+     * @return Un itérateur constant vers la liste des troncons.
      */
     public Iterator<Troncon> getTroncons() {
         List constList = Collections.unmodifiableList(troncons);
@@ -91,7 +103,7 @@ public class Chemin {
     }
     
     /**
-     * Retourne l'intersection de depart du chemin.
+     * Retourne l'intersection de départ du chemin.
      * Si le chemin ne comporte aucun troncon, retourne null.
      * @return Une Intersection, ou bien null.
      */
@@ -104,7 +116,7 @@ public class Chemin {
     }
 
     /**
-     * Retourne l'intersection d'arrivee du chemin.
+     * Retourne l'intersection d'arrivée du chemin.
      * Si le chemin ne comporte aucun troncon, retourne null.
      * @return Une Intersection, ou bien null.
      */

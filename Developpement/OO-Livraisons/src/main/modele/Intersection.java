@@ -12,20 +12,38 @@ import java.util.Iterator;
 
 
 /**
- *
+ * Une Intersection modélise le croisement de deux ou plusieurs tronçons. 
+ * Une intersection peut  correspondre à un point de livraison.
  * @author tfavrot
  */
 public class Intersection {
 
-    // Attributs
-    
+    /**
+     * L'id identifiant une intersection.
+     */    
     private int idIntersection;
+    
+    /**
+     * La coordonnée spatiale d'abcisse d'une intersection sur le plan.
+     */
     private int x;
+    
+    /**
+     * La coordonnée spatiale d'ordonnée d'une intersection sur le plan. 
+     */
     private int y;
+    
+    /**
+     * La collection des tronçons qui quittent une intersection.
+     */
     private Collection<Troncon> tronconsSortants;
     
-    // Methodes
-    
+    /**
+     * Constructeur d'une intersection.
+     * @param id L'id identifiant une intersection.
+     * @param x La coordonnée spatiale d'ordonnée d'une intersection sur le plan. 
+     * @param y La collection des tronçons qui quittent une intersection.
+     */
     public Intersection(int id, int x, int y) {
         idIntersection = id;
         this.x = x;

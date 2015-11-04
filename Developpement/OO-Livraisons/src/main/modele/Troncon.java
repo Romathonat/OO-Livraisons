@@ -32,6 +32,10 @@ public class Troncon {
         return vitesse;
     }
     
+    /**
+     * Calcule le temps nécessaire pour traverser le tronçon.
+     * @return La durée en secondes.
+     */
     public double getDuree() {
         return longueur / vitesse;
     }

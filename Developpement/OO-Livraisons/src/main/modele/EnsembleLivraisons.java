@@ -15,12 +15,22 @@ import java.util.Map.Entry;
 import java.util.Observable;
 
 /**
- *
+ * Un ensemble de livraison modélise un regroupement, ordonné temporellement, 
+ * des fenêtres de livraison, qui contiennent-elles même les demandes 
+ * de livraison. L'ensemble de livraison spécifie l'emplacement d'un entrepot qui 
+ * stocke les produits qui doivent etre livrés.
  * @author gkheng
  */
 public class EnsembleLivraisons extends Observable{
-
+    
+    /**
+     * La liste des fenêtres de livraison contenue dans l'ensemble de livraison.
+     */
     private List<FenetreLivraison> fenetresLivraison;
+    
+    /**
+     * L'intersection qui localise l'entrepôt ou sont stockés les produits à livrer.
+     */
     private Intersection entrepot;
 
     
@@ -51,14 +61,13 @@ public class EnsembleLivraisons extends Observable{
     }
     
     /**
-     * Ajoute une fenetre temporelle de livraison à l'ensemble des fenêtres. En
-     * accord avec le cahier des charges, cette fonction vérifie que les
-     * différentes fenêtres de livraisons ne se chevauchent pas. La fenêtre doit
-     * être "bien formée" càd heureDébut avant heureFin.
+     * Ajoute une fenêtre temporelle de livraison à l'ensemble des fenêtres. 
+     * Cette fonction vérifie que les différentes fenêtres de livraisons ne se 
+     * chevauchent pas. La fenêtre doit être "bien formée" càd heureDébut avant heureFin.
      *
-     * @param heureDebut L'heure de début de la fenetre temporelle à ajouter.
-     * @param heureFin L'heure de fin de la fenetre temporelle à ajouter.
-     * @return La fenetre si les conditions d'ajout sont respectées, null sinon.
+     * @param heureDebut L'heure de début de la fenêtre temporelle à ajouter.
+     * @param heureFin L'heure de fin de la fenêtre temporelle à ajouter.
+     * @return La fenêtre, si les conditions d'ajout sont respectées, null sinon.
      */
     public FenetreLivraison ajouteFenetreDeLivraison(Date heureDebut, Date heureFin) {
         // Test de cohérence.
@@ -86,9 +95,9 @@ public class EnsembleLivraisons extends Observable{
     }
 
     /**
-     * Retourne un iterator sur les fenetres de Livraison.
+     * Retourne un itérateur sur les fenêtres de Livraison.
      *
-     * @return un iterator sur les fenetres de Livraison.
+     * @return un itérateur sur les fenêtres de Livraison.
      */
     public Iterator<FenetreLivraison> getFenetresLivraison() {
         Collection constCollection = Collections.unmodifiableCollection(fenetresLivraison);

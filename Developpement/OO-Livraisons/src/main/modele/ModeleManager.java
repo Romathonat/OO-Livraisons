@@ -156,7 +156,10 @@ public class ModeleManager {
             int sommetPrecedent = tsp.getSolution(indexPrecedentSolution);
             int intersectionPrecedente = correspondance.get(sommetPrecedent);
             Chemin chemin = chemins.get(new DepartArriveeChemin(intersectionPrecedente, entrepot.getId()));
+            //TODO : On ajoute une demande de livraison fictive au chemin contenant l'entrepot comme lieu.
             tournee.AjouterChemin(chemin);
+            // On calcule les temps respectifs de livraison.
+            tournee.CalculerHeuresDemandesLivraisons();
             return tournee.getTempsDeLivraison();
         }
         return -1;
