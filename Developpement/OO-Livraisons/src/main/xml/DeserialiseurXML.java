@@ -21,7 +21,6 @@ import org.xml.sax.SAXException;
 import modele.Plan;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
-import modele.Intersection;
 
 public class DeserialiseurXML {
 
@@ -34,6 +33,7 @@ public class DeserialiseurXML {
      * @throws SAXException
      * @throws IOException
      * @throws ExceptionXML
+     * @throws java.text.ParseException
      */
     public static void chargerPlan(Plan plan) throws ParserConfigurationException,
             SAXException, IOException, ExceptionXML, ParseException {
@@ -54,10 +54,14 @@ public class DeserialiseurXML {
      *
      * @param plan Le plan auquel on va ajouter les données sérialisée dans le
      * document XML
+     * @param ensembleLivraisons L'ensemble de demandes de livraison auquel on va ajouter
+     * les données sérialisée dans le document xml.
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      * @throws ExceptionXML
+     * @throws java.text.ParseException
+     * @throws ExceptionFileChooser
      */
     public static void chargerDemandesLivraisons(Plan plan, EnsembleLivraisons ensembleLivraisons) throws ParserConfigurationException,
             SAXException, IOException, ExceptionXML, ParseException {
