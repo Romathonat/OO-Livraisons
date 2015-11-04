@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -43,8 +44,10 @@ public class Fenetre extends JFrame {
     protected JMenu fichier;
     protected JMenuItem chargerPlan;
     protected JMenuItem chargerDemandesLivraisons;
+    protected JMenuItem genererFeuilleDeRoute;
     protected JMenuItem quitter;
 
+	
     protected JMenu edition;
     protected JMenuItem annuler;
     protected JMenuItem retablir;
@@ -81,10 +84,13 @@ public class Fenetre extends JFrame {
         chargerPlan.addActionListener(new ChargerPlan(this));
         chargerDemandesLivraisons = new JMenuItem("Charger demandes livraisons");
         chargerDemandesLivraisons.addActionListener(new ChargerTournee());
+        genererFeuilleDeRoute = new JMenuItem("Generer feuille de route");
+        genererFeuilleDeRoute.addActionListener(new GenererFeuilleRoute());
         quitter = new JMenuItem("Quitter");
 
         fichier.add(chargerPlan);
         fichier.add(chargerDemandesLivraisons);
+        fichier.add(genererFeuilleDeRoute);
         fichier.add(quitter);
 
         barreMenus.add(fichier);
@@ -229,8 +235,73 @@ public class Fenetre extends JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("OO-Livraisons");
         this.setVisible(true);
+        
     }
-
+    
+    public void sendMessage(String message){
+            JOptionPane.showMessageDialog(null, message);
+    }
+    // ---- Methodes d'activation/desactivation des fonctionnalites ----
+    
+        // -- Activables / Desactivables ---
+    
+    public void activerChargerPlan(boolean activer){
+        chargerPlan.setEnabled(activer);
+    }
+    public void activerChargerDemandesLivraisons(boolean activer){
+        chargerDemandesLivraisons.setEnabled(activer);
+    }
+    public void activerGenererFeuilleRoute(boolean activer){
+        genererFeuilleDeRoute.setEnabled(activer);
+    }
+    public void activerAnnuler(boolean activer){
+        annuler.setEnabled(activer);
+    }
+    public void activerRetablir(boolean activer){
+        retablir.setEnabled(activer);
+    }
+    public void activerAjouterLivraison(boolean activer){
+        ajouterLivraison.setEnabled(activer);
+    }
+    public void activerSupprimerLivraison(boolean activer){
+        supprimerLivraison.setEnabled(activer);
+    }
+    public void activerEchangerLivraison(boolean activer){
+        echangerLivraison.setEnabled(activer);
+    }
+    public void activerCalculerTournee(boolean activer){
+        calculerTournee.setEnabled(activer);
+    }
+    public void activerIntersectionsSelectionnables(boolean activer){
+        vueGraphique.activerIntersectionsSelectionnables(activer);
+    }
+    
+        
+        // --- Activables uniquement ---
+    
+    public void activerQuitter(){
+        quitter.setEnabled(true);
+    }
+    public void activerAPropos(){
+        descriptionProjet.setEnabled(true);
+    }
+        
+        // Desactivation generale (sauf activables uniquement)
+        
+    public void toutDesactiver(){
+        this.activerChargerPlan(false);
+        this.activerChargerDemandesLivraisons(false);
+        this.activerGenererFeuilleRoute(false);
+        this.activerAnnuler(false);
+        this.activerRetablir(false);
+        this.activerAjouterLivraison(false);
+        this.activerSupprimerLivraison(false);
+        this.activerEchangerLivraison(false);
+        this.activerCalculerTournee(false);
+    }
+    
+    // ------ ActionsListeners ------
+    
     private class ChargerPlan implements ActionListener {
 
         JFrame frameParent;
@@ -280,4 +351,15 @@ public class Fenetre extends JFrame {
             repaint();
         }
     }
+    
+    private class GenererFeuilleRoute implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO : Appeler le service de Guillaume
+        }
+    }
+    
 }
+
+
