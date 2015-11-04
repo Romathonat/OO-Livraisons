@@ -31,7 +31,7 @@ public class Tournee {
      * Calcule les horaires auxquels les points de livraisons seront atteints.
      * Il convient d'avoir calculé la tournée auparavant.
      */
-    protected void CalculerHeuresDemandesLivraisons() {
+    public void CalculerHeuresDemandesLivraisons() {
         Iterator<Chemin> it_chemin = this.getChemins();
 
         // initialisation

@@ -7,10 +7,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Observable;
 import java.util.PriorityQueue;
 import java.util.Set;
 
