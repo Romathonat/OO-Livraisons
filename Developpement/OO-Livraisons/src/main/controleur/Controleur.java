@@ -30,6 +30,7 @@ public class Controleur {
     
     protected static void setEtatCourant(Etat etat){
         etatCourant = etat;
+        etatCourant.activerEtDesactiverFonctionnalites();
     }
         
     protected static ModeleManager modeleManager;
@@ -41,10 +42,11 @@ public class Controleur {
     }
     
     public Controleur() {
-        etatCourant = etatInitial;
-        
+       
         modeleManager = new ModeleManager();
         fenetre = new Fenetre(this);
+        Controleur.setEtatCourant(etatInitial);
+        
     }
    
     public synchronized Plan chargerPlan() {

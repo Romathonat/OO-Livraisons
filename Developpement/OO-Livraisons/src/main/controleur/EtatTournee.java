@@ -13,6 +13,14 @@ import modele.Tournee;
  * @author tfavrot
  */
 public class EtatTournee extends EtatLivraisons{
+    
+    @Override
+    protected void activerFonctionnalites(){
+        super.activerFonctionnalites();
+        Controleur.fenetre.activerCalculerTournee(true);
+    }
+    
+    @Override
     public void calculerTournee(){
         Controleur.modeleManager.calculerTournee();
     }

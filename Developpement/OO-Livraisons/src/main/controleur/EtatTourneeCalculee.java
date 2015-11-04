@@ -10,5 +10,11 @@ package controleur;
  * @author Kilian
  */
 public class EtatTourneeCalculee extends EtatSelection {
-    
+    @Override
+    protected void activerFonctionnalites(){
+        super.activerFonctionnalites();
+        Controleur.fenetre.activerGenererFeuilleRoute(true);
+        Controleur.fenetre.activerAnnuler(true);
+        Controleur.fenetre.activerRetablir(true);
+    }
 }
