@@ -77,6 +77,7 @@ public class Fenetre extends JFrame {
     protected JButton calculerTournee;
 
     private Controleur controleur;
+    private Plan plan;
     protected GenerateurCouleur generateurCouleur;
 
     protected List<FenetreLivraisonVue> mesFenetresLivraison;
@@ -328,10 +329,10 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            Plan monPlan = controleur.chargerPlan();
+            plan = controleur.chargerPlan();
             vueGraphique.removeAll();
-            vueGraphique.drawPlan(monPlan);
+            vueTextuelle.removeAll();
+            vueGraphique.drawPlan(plan);
             revalidate();
             repaint();
         }
@@ -348,7 +349,7 @@ public class Fenetre extends JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            vueTextuelle.removeAll();
             vueTextuelle.writeLivraisons(livraisons,null);
             revalidate();
             repaint();
