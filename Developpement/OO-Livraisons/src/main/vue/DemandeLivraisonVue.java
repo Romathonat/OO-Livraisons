@@ -26,7 +26,6 @@ import modele.DemandeLivraison;
 public class DemandeLivraisonVue extends JPanel {
 
     private int height = 100;
-    private Color couleur;
     protected DemandeLivraison demandeLivraison;
     protected FenetreLivraisonVue fenetreLivraisonVue;
     public Date heure;
@@ -35,19 +34,18 @@ public class DemandeLivraisonVue extends JPanel {
     JLabel jLabelAdresse;
     JLabel jLabelHeure;
 
-    public DemandeLivraisonVue(FenetreLivraisonVue fenetreLivraisonVue, DemandeLivraison demandeLivraison, Color c) {
+    public DemandeLivraisonVue(FenetreLivraisonVue fenetreLivraisonVue, DemandeLivraison demandeLivraison) {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         this.fenetreLivraisonVue = fenetreLivraisonVue;
         this.demandeLivraison = demandeLivraison;
-        this.couleur = c;
         //this.setSize(width, height);
         this.setOpaque(true);
         this.setBackground(new Color(0, 0, 0, 0));
         this.setVisible(true);
 
-        this.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, this.couleur));
+        this.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, this.fenetreLivraisonVue.getCouleur()));
 
         this.jLabelClient = new JLabel("Client : random");
         this.jLabelClient.setBorder(new EmptyBorder(0, 5, 0, 0));
