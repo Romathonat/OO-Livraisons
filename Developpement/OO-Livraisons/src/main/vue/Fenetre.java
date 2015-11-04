@@ -173,9 +173,7 @@ public class Fenetre extends JFrame {
         this.tailleEltLegende = new Dimension(210, 20);
         
         this.legende = new JPanel();
-        this.updateLegende(2);
-
-        this.updateLegende();
+        this.updateLegende(0);
         
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
@@ -361,7 +359,7 @@ public class Fenetre extends JFrame {
             Plan monPlan = controleur.chargerPlan();
             vueGraphique.removeAll();
             vueTextuelle.removeAll();
-            vueGraphique.drawPlan(plan);
+            vueGraphique.drawPlan(monPlan);
             updateLegende(1);
             
             revalidate();
