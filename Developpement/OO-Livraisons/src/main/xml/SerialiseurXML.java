@@ -14,15 +14,15 @@ import modele.Chemin;
 import modele.Tournee;
 import modele.Troncon;
 
-
 public class SerialiseurXML {// Singleton
 
     static DateFormat SerialiseurXML_df = new SimpleDateFormat("HH:mm:ss");
 
     /**
-     * Ouvre un fichier xml et ecrit dans ce fichier une description xml de plan
+     * Ouvre un fichier xml et ecrit dans ce fichier une description de la
+     * feuille de route.
      *
-     * @param tournee
+     * @param tournee la tournee à exporter au format txt
      */
     public static void exporterTournee(Tournee tournee) throws IOException {
         // récupération du document.
@@ -37,7 +37,7 @@ public class SerialiseurXML {// Singleton
             throw new IOException("Erreur de sauvegarde");
         }
 
-        // sauvegarde du fichier.
+        // fermeture du fichier.
         bw.close();
     }
 
@@ -45,9 +45,6 @@ public class SerialiseurXML {// Singleton
 
         // sauvegarde des infos de la tournée.
         // Mise en page:
-        /*Element racine = document.createElement("Carnet_de_Route");
-         creerAttribut(document, racine, "Date_Debut", "ADD method Here");
-         creerAttribut(document, racine, "Date_Fin", "ADD method Here");*/
         fichierSortie.println("-----------------");
         fichierSortie.println(" Carnet de Route");
         fichierSortie.println("-----------------");
@@ -109,7 +106,7 @@ public class SerialiseurXML {// Singleton
     }
 
     private static int sauverTroncon(PrintWriter fichierSortie, Troncon troncon) {
-        
+
         String str_troncon = "Depuis l'intersection " + Integer.toString(troncon.getIntersectionDepart().getId());
         str_troncon += " suivre le troncon " + troncon.getNom();
         str_troncon += " jusqu'à l'intersection " + Integer.toString(troncon.getIntersectionArrivee().getId());

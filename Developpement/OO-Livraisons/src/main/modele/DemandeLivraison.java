@@ -48,7 +48,7 @@ public class DemandeLivraison {
      * @param fenetreLivraison La fenêtre horaire de livraison dans laquelle la
      * demande de livraison s'inscrit.
      */
-    public DemandeLivraison(int idDemande, int idClient ,Intersection lieuLivraison, FenetreLivraison fenetreLivraison) {
+    public DemandeLivraison(int idDemande, int idClient, Intersection lieuLivraison, FenetreLivraison fenetreLivraison) {
         this.intersection = lieuLivraison;
         this.fenetreLivraison = fenetreLivraison;
         this.idClient = idClient;
@@ -109,8 +109,26 @@ public class DemandeLivraison {
         return id;
     }
 
+    /**
+     * Fixe l'heure à laquelle le point de livraison sera atteind.
+     *
+     * @return l'heure à laquelle le point de livraison sera atteind.
+     */
     public Date setHeureLivraison(Date heureLivraison) {
         return this.heureLivraison = heureLivraison;
     }
 
+    /**
+     * Verifie que l'heure à laquelle le point de rendez-vous est atteind
+     * respecte la fenetre de livraison.
+     *
+     * @return true si l'heure de livraison est inclu dans la fenetre de
+     * livraison, false sinon.
+     */
+    public boolean RespecteFenetreLivraison() {
+        Date borneInf = this.getFenetreLivraison().getHeureDebut();
+        Date borneSup = this.getFenetreLivraison().getHeureFin();
+
+        return (this.heureLivraison.compareTo(borneInf) >= 0 && this.heureLivraison.compareTo(borneSup) <= 0);
+    }
 }
