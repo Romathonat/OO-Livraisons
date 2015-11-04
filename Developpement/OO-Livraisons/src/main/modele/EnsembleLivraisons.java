@@ -103,4 +103,25 @@ public class EnsembleLivraisons extends Observable{
         Collection constCollection = Collections.unmodifiableCollection(fenetresLivraison);
         return constCollection.iterator();
     }
+    
+    /**
+     * Retourne une demande de livraison de l'ensemble, en fonction de l'intersection de la livraison.
+     * Si la demande de livraison demandée n'existe pas, retourne null.
+     * @param idIntersection L'identifiant de l'intersection de la demande de livraison a retourner.
+     * @return La demande de livraison ou null si une telle DemandeLivraison n'existe pas.
+     */
+    public DemandeLivraison getDemandeLivraison(int idIntersection) {
+        Iterator<FenetreLivraison> itFenetres = fenetresLivraison.iterator();
+        while(itFenetres.hasNext()) {
+            FenetreLivraison fenetre = itFenetres.next();
+            Iterator<DemandeLivraison> itDemande = fenetre.getDemandesLivraison();
+            while (itDemande.hasNext()) {
+                DemandeLivraison livraison  = itDemande.next();
+                if (livraison.getIntersection().getId() == idIntersection) {
+                    return livraison;
+                }
+            }
+        }
+        return null;
+    }
 }

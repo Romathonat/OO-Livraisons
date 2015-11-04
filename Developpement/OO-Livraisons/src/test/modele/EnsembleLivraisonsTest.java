@@ -95,5 +95,19 @@ public class EnsembleLivraisonsTest {
         fenetre = ensembleLivraisons.ajouteFenetreDeLivraison(date5, date6);
         assertNotNull("On peut ajouter une fenetre temporelle qui n'en chevauche pas d'autre entre toutes les autres.", fenetre);
     }
-
+    
+    @Test
+    public void getDemandeLivraisonTest() {
+        EnsembleLivraisons livraisons = new EnsembleLivraisons();
+        Plan plan = new Plan();
+        //On ajoute une intersection au plan.
+        Intersection intersection = plan.ajouterIntersection(1, 0, 0);
+        //La fenetre debute le 1 novembre 2015 à 8h00 et se finit à 9h59.
+        FenetreLivraison fenetre1 = livraisons.ajouteFenetreDeLivraison(new Date(1446361200000L), new Date(1446368399000L));
+        //On ajoute une livraison a l'intersection entre 8h et 10h.
+        DemandeLivraison livraison = fenetre1.ajouterDemandeLivraison(1, 1, intersection);
+        
+        assertNull("La demande de livraison pour l'intersection 2 n'existe pas.", livraisons.getDemandeLivraison(2));
+        assertEquals("On doit pouvoir retrouver la demande de livraison de l'intersection 1.", livraison, livraisons.getDemandeLivraison(1));
+    }
 }

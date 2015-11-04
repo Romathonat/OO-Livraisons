@@ -48,9 +48,9 @@ public class ModeleManagerTest {
         //On fixe l'entrepot sur l'intersection 1.
         livraisons.setEntrepot(intersection1);
         //La fenetre debute le 1 novembre 2015 à 8h00 et se finit à 9h59.
-        FenetreLivraison fenetre1 = livraisons.ajouteFenetreDeLivraison(new Date(1446361200), new Date(1446368399));
+        FenetreLivraison fenetre1 = livraisons.ajouteFenetreDeLivraison(new Date(1446361200000L), new Date(1446368399000L));
         //La fenetre debute le 1 novembre 2015 à 10h00 et se finit à 11h59.
-        FenetreLivraison fenetre2 = livraisons.ajouteFenetreDeLivraison(new Date(1446368400), new Date(1446375599));
+        FenetreLivraison fenetre2 = livraisons.ajouteFenetreDeLivraison(new Date(1446368400000L), new Date(1446375599000L));
         //On ajoute une livraison a l'intersection 6 entre 8h et 10h.
         fenetre1.ajouterDemandeLivraison(1, 1, intersection6);
         //On ajoute une livraison a l'intersection 4 entre 10h et 12h.
