@@ -37,6 +37,8 @@ public class VueGraphique extends JPanel implements Observer{
     private int maxX;
     private int maxY;
     
+    private boolean intersectionsSelectionnables;
+    
     private Date[] debutFenetre = new Date[3]; //que trois fenetre dans les specs
     private Color[] mesCouleurs = new Color[3];
     
@@ -47,6 +49,7 @@ public class VueGraphique extends JPanel implements Observer{
         mesIntersection = new LinkedList<IntersectionVue>();
         maxX = this.getSize().width;
         maxY = this.getSize().height;
+        intersectionsSelectionnables = false;
     }
     
     /**
@@ -212,7 +215,11 @@ public class VueGraphique extends JPanel implements Observer{
         return retour;
     }
 
+    // --- Activation/Desactivation ---
     
+    public void activerIntersectionsSelectionnables(boolean activer){
+        intersectionsSelectionnables = activer;
+    }
 
     
 }
