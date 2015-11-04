@@ -33,7 +33,7 @@ public class Controleur {
     }
         
     protected static ModeleManager modeleManager;
-    private Fenetre fenetre;
+    protected static Fenetre fenetre;
     
     public static void main(String args[]){
         

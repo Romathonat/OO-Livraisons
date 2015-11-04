@@ -235,6 +235,11 @@ public class Fenetre extends JFrame{
         this.setLocationRelativeTo(null);
         this.setTitle("OO-Livraisons");
         this.setVisible(true);
+        
+    }
+
+    public void sendMessage(String message){
+            JOptionPane.showMessageDialog(null, message);
     }
  
     private class ChargerPlan implements ActionListener {
@@ -286,3 +291,5 @@ public class Fenetre extends JFrame{
         }
     }
 }
+
+
