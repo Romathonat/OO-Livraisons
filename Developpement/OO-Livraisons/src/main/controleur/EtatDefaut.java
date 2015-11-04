@@ -84,4 +84,14 @@ public class EtatDefaut implements Etat{
     public void valider() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+       
+    protected void activerFonctionnalites(){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public final void activerEtDesactiverFonctionnalites(){
+        Controleur.fenetre.toutDesactiver();
+        this.activerFonctionnalites();
+    }
 }

@@ -23,6 +23,12 @@ import xml.ExceptionXML;
 public class EtatLivraisons extends EtatPlan{
     
     @Override
+    protected void activerFonctionnalites(){
+        super.activerFonctionnalites();
+        Controleur.fenetre.activerChargerDemandesLivraisons(true);
+    }
+    
+    @Override
     public void chargerLivraisons(Plan plan, EnsembleLivraisons ensembleLivraisons){
         try {
             DeserialiseurXML.chargerDemandesLivraisons(plan, ensembleLivraisons);
