@@ -8,7 +8,10 @@ package vue;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -16,11 +19,13 @@ import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JPanel;
+import modele.Chemin;
 import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
 import modele.Intersection;
 import modele.Plan;
+import modele.Tournee;
 import modele.Troncon;
 
 /**
@@ -28,11 +33,16 @@ import modele.Troncon;
  * @author romain
  */
 public class VueGraphique extends JPanel implements Observer{
-    Collection<TronconVue> mesTroncons;
-    Collection<IntersectionVue> mesIntersection;
+    LinkedList<TronconVue> mesTroncons;
+    LinkedList<IntersectionVue> mesIntersection;
     
     private int maxX;
     private int maxY;
+    
+    private boolean intersectionsSelectionnables;
+    
+    private Date[] debutFenetre = new Date[3]; //que trois fenetre dans les specs
+    private Color[] mesCouleurs = new Color[3];
     
     public VueGraphique()
     {
@@ -41,6 +51,8 @@ public class VueGraphique extends JPanel implements Observer{
         mesIntersection = new LinkedList<IntersectionVue>();
         maxX = this.getSize().width;
         maxY = this.getSize().height;
+        intersectionsSelectionnables = false;
+        this.addMouseListener(new AnnulerSelection());
     }
     
     /**
@@ -51,27 +63,11 @@ public class VueGraphique extends JPanel implements Observer{
      */
     public Point getCoordEchelle(int x, int y)
     {
-        Point monPoint = new Point(x*this.getWidth()/maxX,y*this.getHeight()/maxY);
+        Point monPoint = new Point(x*(this.getWidth()-10)/maxX,y*(this.getHeight()-10)/maxY);
         return monPoint;
     }
     
-    public void creerPlanTest(Plan plan)
-    {
-        plan.ajouterIntersection(1, 10, 27);
-        plan.ajouterIntersection(2, 458, 78);
-        plan.ajouterIntersection(3, 100, 80);
-        plan.ajouterIntersection(4, 21, 400);
-        plan.ajouterIntersection(5, 245, 366);
-        plan.ajouterIntersection(6, 458, 150);
-        
-        //plan.ajouterTroncon(idDepart, idArrivee, nomRue, longueur, vitesse)
-        plan.ajouterTroncon(1,2,"rue1",3,5);
-        plan.ajouterTroncon(3,4,"rue2",3,5);
-        plan.ajouterTroncon(4,5,"rue2",3,5);
-        plan.ajouterTroncon(5,6,"rue2",3,5);
-        plan.ajouterTroncon(6,1,"rue2",3,5);
-        plan.ajouterTroncon(3,1,"rue2",3,5);
-    }
+   
     
     /**
      * Dessine un plan dans la Vue Graphique à partir de plan
@@ -98,7 +94,7 @@ public class VueGraphique extends JPanel implements Observer{
             IntersectionVue interVue = new IntersectionVue((int)interEchelle.getX(),(int)interEchelle.getY(),monInter.getId(), Color.LIGHT_GRAY); 
             this.mesIntersection.add(interVue);
             this.add(interVue);//on l'ajoute à la vue graphique
-            this.setComponentZOrder(interVue, numberComponents++); //we will put a toolTip in the front later
+            this.setComponentZOrder(interVue, numberComponents++); //on met un tool tip sur le front plus tard, donc on met ceci dans des plans plus profonds
         }
         
         while(itTroncon.hasNext())
@@ -112,6 +108,7 @@ public class VueGraphique extends JPanel implements Observer{
             this.add(tronconVue);//on l'ajoute à la vue graphique
             this.setComponentZOrder(tronconVue,  numberComponents++);
         }
+                
         this.revalidate();
         this.repaint();
     }
@@ -122,17 +119,19 @@ public class VueGraphique extends JPanel implements Observer{
      */
     void drawLivraisons(EnsembleLivraisons livraisons) throws Exception {
         Iterator<FenetreLivraison> it = livraisons.getFenetresLivraison();
-        Color[] mesCouleurs = new Color[4];
         mesCouleurs[0] = Color.BLUE;
         mesCouleurs[1] = Color.MAGENTA;
         mesCouleurs[2] = Color.ORANGE;
-        mesCouleurs[3] = Color.GREEN;
+        
         int k = 0;
         
         while(it.hasNext())//pour toutes les fenetres, on change la coloration
         {   
-            Color CouleurCourante = mesCouleurs[k++%4];
+            Color CouleurCourante = mesCouleurs[k++%3];
             FenetreLivraison maFenetre = it.next();
+            
+            debutFenetre[k%3] = maFenetre.getHeureDebut();
+                    
             Iterator<DemandeLivraison> itDemandes = maFenetre.getDemandesLivraison();
             while(itDemandes.hasNext())//pour toutes les demandes de cette fenetre
             {
@@ -161,10 +160,74 @@ public class VueGraphique extends JPanel implements Observer{
         this.repaint();
     }
     
+    /**
+     * Dessine la tournée courante à partir de tournee
+     * @param tournee 
+     */
+    void drawTournee(Tournee tournee) {
+        Iterator<Chemin> itChemins = tournee.getChemins();
+        
+        while(itChemins.hasNext())//pour tous les chemins 
+        {
+            Chemin monChemin = itChemins.next();
+            
+            Iterator<Troncon> itTroncon = monChemin.getTroncons();
+            FenetreLivraison horaire = monChemin.getLivraisonArrivee().getFenetreLivraison(); //n(arrive pas a voir la livraison arrivé!
+            Color maCouleur = choixCouleur(horaire);
+            while(itTroncon.hasNext())//pour tous les troncons de ce chemins
+            {
+                for(int i=0; i<mesTroncons.size();i++){//on cherche leTronconVue correspondant
+                    if(mesTroncons.get(i).getName() == itTroncon.next().getNom()){
+                        mesTroncons.get(i).setColor(maCouleur);
+                    }
+                }
+            }
+        }
+        this.revalidate();
+        this.repaint();
+    }
+    
     @Override
     public void update(Observable o, Object arg) {
         
     }
 
+    private Color choixCouleur(FenetreLivraison horaire) {
+        Color retour = Color.BLACK;
+        for(int i=0; i<debutFenetre.length;i++){
+            if(debutFenetre[i] == horaire.getHeureDebut()){
+                retour = mesCouleurs[i];
+            }
+        }
+        return retour;
+    }
+
+    // --- Activation/Desactivation ---
     
+    public void activerIntersectionsSelectionnables(boolean activer){
+        intersectionsSelectionnables = activer;
+    }
+    private class AnnulerSelection implements MouseListener{
+
+    
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            for(int i=0;i<mesIntersection.size();i++){
+                mesIntersection.get(i).deselection();
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {}
+
+        @Override
+        public void mouseReleased(MouseEvent e) {}
+
+        @Override
+        public void mouseEntered(MouseEvent e) {}
+
+        @Override
+        public void mouseExited(MouseEvent e) {}
+        
+    }
 }

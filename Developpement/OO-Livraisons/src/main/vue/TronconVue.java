@@ -52,4 +52,12 @@ public class TronconVue extends JPanel{
         g2d.setColor(couleur);
         g2d.drawLine(xDebut, yDebut, xFin, yFin);
     }
+    
+    public String getName(){
+        return name;
+    }
+    
+    public void setColor(Color c){
+        this.couleur = c;
+    }
 }

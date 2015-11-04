@@ -30,24 +30,23 @@ public class Controleur {
     
     protected static void setEtatCourant(Etat etat){
         etatCourant = etat;
+        etatCourant.activerEtDesactiverFonctionnalites();
     }
         
-    private ModeleManager modeleManager;
-    private Fenetre fenetre;
+    protected static ModeleManager modeleManager;
+    protected static Fenetre fenetre;
     
     public static void main(String args[]){
         
-        Controleur controleur;
-        Fenetre fenetre;
-        
-        controleur = new Controleur();
+        Controleur controleur = new Controleur();
     }
     
     public Controleur() {
-        etatCourant = etatInitial;
-        
+       
         modeleManager = new ModeleManager();
         fenetre = new Fenetre(this);
+        Controleur.setEtatCourant(etatInitial);
+        
     }
    
     public synchronized Plan chargerPlan() {
@@ -62,11 +61,9 @@ public class Controleur {
         return modeleManager.getEnsembleLivraisons();
     }
     
-    public synchronized void calculerTournee() {
-    }
-    
-    public synchronized void clicGauche() {
-        
+    public synchronized Tournee calculerTournee() {
+        etatCourant.calculerTournee();
+        return modeleManager.getTournee();
     }
     
     public synchronized void undo() {
@@ -86,14 +83,6 @@ public class Controleur {
     }
     
     public synchronized void echangerDeuxPoints() {
-        
-    }
-    
-    public synchronized void clicOk() {
-        
-    }
-    
-    public synchronized void clicAnnuler() {
         
     }
 }

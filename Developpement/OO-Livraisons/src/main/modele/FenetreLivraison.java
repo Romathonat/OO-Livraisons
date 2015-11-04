@@ -67,8 +67,7 @@ public class FenetreLivraison {
      * vérifie que l'intersection passée en paramètre est valide: En plus de ne
      * pas être "null", celle-ci ne doit pas être l'entrepôt.
      *
-     * @param id L'id de la livraison. (cette information n'est pas utilisé par
-     * la suite pour le moment)
+     * @param id L'id de la livraison.
      * @param client L'id du client concerné par cette livraison.
      * @param inter L'intersection à laquelle doit avoir lieu la livraison.
      * @return La demande de livraison, si les conditions d'ajout sont
@@ -79,7 +78,7 @@ public class FenetreLivraison {
             return null;
         }
 
-        DemandeLivraison demande = new DemandeLivraison(inter, this);
+        DemandeLivraison demande = new DemandeLivraison(id, client, inter, this);
         this.listeDemandesLivraison.add(demande);
         return demande;
     }
@@ -99,7 +98,7 @@ public class FenetreLivraison {
      * de la fenêtre de livraison.
      * @return L'ensemble des id des intersections des demandes de livraisons.
      */
-    public Set<Integer> getIdIntersectionsLivraisons() {
+    protected Set<Integer> getIdIntersectionsLivraisons() {
         Set<Integer> idIntersections = new HashSet<>();
         Iterator<DemandeLivraison> itDemande = listeDemandesLivraison.iterator();
         while(itDemande.hasNext()) {

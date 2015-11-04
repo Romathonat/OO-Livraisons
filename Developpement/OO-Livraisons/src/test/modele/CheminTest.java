@@ -84,7 +84,7 @@ public class CheminTest {
         Troncon troncon1 = new Troncon(intersection1, intersection2, "Troncon1", 10.0, 1.0);
         Troncon troncon2 = new Troncon(intersection2, intersection3, "Troncon2", 10.0, 1.0);
         //On met une demande de livraison sur l'intersection 3.
-        DemandeLivraison livraison = new DemandeLivraison(intersection3, null);
+        DemandeLivraison livraison = new DemandeLivraison(0,0,intersection3, null);
         //On essaye de definit la livraison.
         assertFalse("La livraison arrivee, doit etre sur la meme intersection que le dernier troncon du chemin.", chemin.setLivraisonArrivee(livraison));
         //On ajoute les troncons.

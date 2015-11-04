@@ -7,13 +7,14 @@ package modele;
 public class Troncon {
     
     
+    
     /**
-     * La longueur physique d'un tronçon.
+     * La longueur physique d'un tronçon, en mètres.
      */
     private double longueur;
     
     /**
-     * La vitesse moyenne du livreur sur un tronçon.
+     * La vitesse moyenne du livreur sur un tronçon, en mètres par seconde.
      */
     private double vitesse;
     
@@ -68,7 +69,7 @@ public class Troncon {
     /**
      * Retourne la durée (temps) de parcours d'un tronçon, calculée en fonction 
      * de la longeur du tronçon et de la vitesse moyenne de parcours du tronçon. 
-     * @return La durée de parcours du tronçon.
+     * @return La durée de parcours du tronçon, en secondes.
      */
     public double getDuree() {
         return longueur / vitesse;

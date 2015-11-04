@@ -23,20 +23,18 @@ import xml.ExceptionXML;
 public class EtatLivraisons extends EtatPlan{
     
     @Override
+    protected void activerFonctionnalites(){
+        super.activerFonctionnalites();
+        Controleur.fenetre.activerChargerDemandesLivraisons(true);
+    }
+    
+    @Override
     public void chargerLivraisons(Plan plan, EnsembleLivraisons ensembleLivraisons){
         try {
             DeserialiseurXML.chargerDemandesLivraisons(plan, ensembleLivraisons);
             Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ExceptionXML ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(EtatInitial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
+            Controleur.fenetre.sendMessage(ex.getMessage());
         }
     }
 }

@@ -15,7 +15,7 @@ import modele.*;
 public interface Etat {
     public void chargerPlan(Plan plan);
     public void chargerLivraisons(Plan plan,EnsembleLivraisons ensembleLivraisons);
-    public void calculerTournee(Tournee tournee);
+    public void calculerTournee();
     public void clicIntersection(Intersection intersection);
     public void clicPointLivraison(Intersection intersection);
     public void clicVide();
@@ -27,4 +27,5 @@ public interface Etat {
     public void supprimerLivraison(DemandeLivraison livraison, Tournee tournee, List<Commande> listeCmde);
     public void fermer();
     public void valider();
+    public void activerEtDesactiverFonctionnalites();
 }

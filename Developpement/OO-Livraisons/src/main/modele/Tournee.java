@@ -7,6 +7,7 @@ package modele;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,19 +23,42 @@ public class Tournee {
      * La liste des chemins qui composent la tournée.
      */
     private List<Chemin> chemins;
+    long tempsDeLivraison; // en secondes.
 
     /**
      * Constructeur d'une tournée.
      */
     public Tournee() {
-        chemins = new ArrayList<>();
+        chemins = new ArrayList<Chemin>();
+        tempsDeLivraison = -1;
     }
 
     /**
-     * 
+     * Calcule les horaires auxquels les points de livraisons seront atteints.
+     * Il convient d'avoir calculé la tournée auparavant.
      */
     public void CalculerHeuresDemandesLivraisons() {
+        Iterator<Chemin> it_chemin = this.getChemins();
 
+        // initialisation
+        Date instantCourant = (Date) this.chemins.get(0).getLivraisonArrivee().getFenetreLivraison().getHeureDebut().clone();
+
+        while (it_chemin.hasNext()) {
+            // une telle implémentation n'est pas optimale mais le code de Date ne permet pas de faire autrement.
+            Chemin cheminCourant = it_chemin.next();
+            instantCourant.setTime(instantCourant.getTime() + (long) (cheminCourant.getDuree() * 1000));
+
+            // on regarde si on se trouve dans la fenetre de la prochaine livraison.
+            if (cheminCourant.getLivraisonArrivee().getFenetreLivraison().getHeureDebut().compareTo(instantCourant) < 0) { // si c'est le cas, on ivre.
+                instantCourant.setTime(instantCourant.getTime() + cheminCourant.getLivraisonArrivee().getTempsArret()*1000);
+            } else { // sinon on attend le debut de fenetre puis on livre avant de continuer
+                instantCourant.setTime(cheminCourant.getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime() + cheminCourant.getLivraisonArrivee().getTempsArret()*1000);
+            }
+            cheminCourant.getLivraisonArrivee().setHeureLivraison(instantCourant);
+        }
+
+        // on met à jour le temps de livraison en secondes.
+        this.tempsDeLivraison = (instantCourant.getTime() - this.chemins.get(0).getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime()) / 1000;
     }
 
     /**
@@ -66,15 +90,7 @@ public class Tournee {
      *
      * @return La durée en seconde du temps de livraison.
      */
-    public double getTempsDeLivraison() {
-        Iterator<Chemin> it_chemin = Collections.unmodifiableList(chemins).iterator();
-        double dureeTotale = 0;
-        
-        while (it_chemin.hasNext())
-        {
-            dureeTotale += it_chemin.next().getDuree();
-        }
-        
-        return dureeTotale;
+    public long getTempsDeLivraison() {
+        return this.tempsDeLivraison;
     }
 }

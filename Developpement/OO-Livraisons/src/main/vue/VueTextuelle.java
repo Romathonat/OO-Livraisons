@@ -8,65 +8,83 @@ package vue;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
+import modele.Chemin;
 import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
-import modele.Intersection;
-import modele.Plan;
-import modele.Troncon;
+import modele.Tournee;
 
 /**
  *
  * @author Kilian
  */
 public class VueTextuelle extends JPanel {
-    
+
     private Collection<DemandeLivraisonVue> mesDemandesLivraisons;
+    private List<FenetreLivraisonVue> mesFenetresLivraisons;
     private int ecartDemandesLivraisons = 5;
-    
-    public VueTextuelle()
-    {
+    private Color couleurs[];
+
+    public VueTextuelle() {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBackground(Color.white);
+        this.mesFenetresLivraisons = new ArrayList<FenetreLivraisonVue>();
+
+        // TBD create a new color generator.
+        couleurs = new Color[3];
+        couleurs[0] = Color.BLUE;
+        couleurs[1] = Color.MAGENTA;
+        couleurs[2] = Color.ORANGE;
     }
-    
-    public void writeLivraisons(EnsembleLivraisons livraisons)
-    {
-        Iterator<FenetreLivraison> it = livraisons.getFenetresLivraison();
-        Color[] mesCouleurs = new Color[4];
-        mesCouleurs[0] = Color.BLUE;
-        mesCouleurs[1] = Color.MAGENTA;
-        mesCouleurs[2] = Color.ORANGE;
-        mesCouleurs[3] = Color.GREEN;
-        int k = 0;
-        int compteurDemandesLivraisons = 0;
+
+    public void writeLivraisons(EnsembleLivraisons ensembleLivraisons, Tournee tournee) {
+
+        // on raz la fenetre
+        this.removeAll();
+        mesFenetresLivraisons.clear();
+
+        Iterator<FenetreLivraison> it_fenetre = ensembleLivraisons.getFenetresLivraison();
+        int i = 0;
+        /*while (it_fenetre.hasNext()) {
+            FenetreLivraisonVue f = new FenetreLivraisonVue(it_fenetre.next());
+            f.setCouleur(couleurs[i++]);
+        }*/
         
-        while(it.hasNext())//pour toutes les fenetres, on change la coloration
-        {   
-            Color CouleurCourante = mesCouleurs[k++%4];
-            FenetreLivraison maFenetre = it.next();
-            Iterator<DemandeLivraison> itDemandes = maFenetre.getDemandesLivraison();
-            while(itDemandes.hasNext())//pour toutes les demandes de cette fenetre
+        it_fenetre = ensembleLivraisons.getFenetresLivraison();
+
+        if (tournee == null) {
+
+            int compteurDemandesLivraisons = 0;
+
+            while (it_fenetre.hasNext())//pour toutes les fenetres, on change la coloration
             {
-                DemandeLivraisonVue demandeLivraisonVue = new DemandeLivraisonVue(itDemandes.next(), CouleurCourante);
-                System.out.println(demandeLivraisonVue);
-                //this.mesDemandesLivraisons.add(demandeLivraisonVue);            
-                this.add(demandeLivraisonVue);
-                this.add(Box.createRigidArea(new Dimension(0,this.ecartDemandesLivraisons)));
+                Color CouleurCourante = couleurs[i++ % 4];
+                FenetreLivraison maFenetre = it_fenetre.next();
+                Iterator<DemandeLivraison> it_demandes = maFenetre.getDemandesLivraison();
+
+                while (it_demandes.hasNext()) {
+                    DemandeLivraisonVue demandeLivraisonVue = new DemandeLivraisonVue(null, it_demandes.next(), CouleurCourante);
+                    System.out.println(demandeLivraisonVue);
+                    //this.mesDemandesLivraisons.add(demandeLivraisonVue);
+                    this.add(demandeLivraisonVue);
+                    this.add(Box.createRigidArea(new Dimension(0, this.ecartDemandesLivraisons)));
+                }
             }
+        } else {
+
+            Iterator<Chemin> it_chemin = tournee.getChemins();
+
+            while (it_chemin.hasNext()) {
+        // on récupère la couleur associée.
+
+            }
+
         }
         this.revalidate();
         this.repaint();

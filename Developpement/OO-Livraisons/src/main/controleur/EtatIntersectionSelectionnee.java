@@ -10,5 +10,9 @@ package controleur;
  * @author Kilian
  */
 public class EtatIntersectionSelectionnee extends EtatSelection {
-    
+    @Override
+    protected void activerFonctionnalites(){
+        super.activerFonctionnalites();
+        Controleur.fenetre.activerAjouterLivraison(true);
+    }
 }

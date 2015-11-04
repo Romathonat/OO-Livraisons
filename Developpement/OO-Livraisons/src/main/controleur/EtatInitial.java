@@ -19,6 +19,5 @@ import xml.*;
  * @author Kilian
  */
 public class EtatInitial extends EtatPlan {
-
     
 }
