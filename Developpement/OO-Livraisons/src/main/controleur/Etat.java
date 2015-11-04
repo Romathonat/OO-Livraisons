@@ -9,7 +9,7 @@ import java.util.List;
 import modele.*;
 
 /**
- *
+ * Interface définissant l'ensemble des actions possibles du contrôleur.
  * @author Kilian
  */
 public interface Etat {

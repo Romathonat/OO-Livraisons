@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-// imports relatifs à la serialisation XML
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,7 +16,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-// imports des modèles
 import modele.Plan;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
@@ -76,9 +74,15 @@ public class DeserialiseurXML {
         }
     }
 
-    //
-    // Méthode de parsing du document XML pour construire le Plan
-    //
+    /**
+     * Parse un document xml à partir de sa racine du document XML, et renseigne les informations
+     * du plan avec les informations contenues dans le fichier. 
+     * @param noeudDOMRacine La racine du document xml.
+     * @param plan Le plan auquel on doit ajouter les informations. 
+     * @throws ExceptionXML
+     * @throws NumberFormatException
+     * @throws ParseException 
+     */
     private static void construirePlan_APartirDeDOMXML(Element noeudDOMRacine, Plan plan) throws ExceptionXML, NumberFormatException, ParseException {
 
         // Afin de convertir correctement les nombres décimaux (avec une virgule).
@@ -123,9 +127,17 @@ public class DeserialiseurXML {
         }
     }
 
-    //
-    // Méthode de parsing du document XML pour récupérer des demandes de livraison.
-    //
+    /**
+     * Parse un document xml à partir de sa racine du document XML, et renseigne les informations
+     * de l'ensemble de livraisons avec les informations contenues dans le fichier.
+     * @param noeudDOMRacine La racine du document xml.
+     * @param plan Le plan concerné par l'ensemble de livraison considéré. 
+     * @param ensembleLivraisons L'ensemble de demande de livraison auquels les informations
+     * doivent être ajoutées. 
+     * @throws ExceptionXML
+     * @throws NumberFormatException
+     * @throws ParseException 
+     */
     private static void RecupererDemandesLivraison_APartirDeDOMXML(Element noeudDOMRacine, Plan plan,EnsembleLivraisons ensembleLivraisons) throws ExceptionXML, NumberFormatException, ParseException {
 
         // Utilitaire pour parser la date.

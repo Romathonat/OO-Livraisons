@@ -9,15 +9,19 @@ import modele.*;
 import vue.*;
 
 /**
- *
+ * Controleur de l'application, qui fait le lien entre le modéle et la vue. Le 
+ * contrôleur est implémenté en utilisant le pattern State. 
  * @author Kilian
  */
 
 public class Controleur {
-    
-    // - Etats
-    
+
+    /**
+     * L'état courant du contrôleur.
+     */
     private static Etat etatCourant; 
+    
+    
     protected static final EtatInitial etatInitial = new EtatInitial();
     protected static final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
     protected static final EtatLivraisonsChargees etatLivraisonChargee = new EtatLivraisonsChargees();
@@ -28,12 +32,24 @@ public class Controleur {
     protected static final EtatRemplirInformations etatRemplirInformations = new EtatRemplirInformations();
     protected static final EtatChoixProchaineLivraison etatChoixProchaineLivraison = new EtatChoixProchaineLivraison();
     
+    /**
+     * Change l'état courant du contrôleur. 
+     * @param etat Le nouvel état courant du contrôleur.
+     */
     protected static void setEtatCourant(Etat etat){
         etatCourant = etat;
         etatCourant.activerEtDesactiverFonctionnalites();
     }
-        
+    
+    /**
+     * Le modèle de données lié au contrôleur. C'est le point d'entrée du contrôleur
+     * dans le modèle. 
+     */
     protected static ModeleManager modeleManager;
+    
+    /**
+     * La fenêtre graphique de l'application.
+     */
     protected static Fenetre fenetre;
     
     public static void main(String args[]){
@@ -41,6 +57,9 @@ public class Controleur {
         Controleur controleur = new Controleur();
     }
     
+    /**
+     * Constucteur du contrôleur.
+     */
     public Controleur() {
        
         modeleManager = new ModeleManager();
@@ -62,6 +81,7 @@ public class Controleur {
     }
     
     public synchronized Tournee calculerTournee() {
+        modeleManager.resetTournee();
         etatCourant.calculerTournee();
         return modeleManager.getTournee();
     }
