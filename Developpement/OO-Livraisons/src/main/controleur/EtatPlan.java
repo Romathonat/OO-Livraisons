@@ -30,7 +30,7 @@ public class EtatPlan extends EtatDefaut{
             DeserialiseurXML.chargerPlan(plan);
             Controleur.setEtatCourant(Controleur.etatPlanCharge);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
-           Controleur.fenetre.sendMessage(ex.getMessage());
+           Controleur.fenetre.EnvoyerMessage(ex.getMessage());
         }
     }
 }
