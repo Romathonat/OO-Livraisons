@@ -32,7 +32,7 @@ public class Controleur {
         etatCourant = etat;
     }
         
-    private ModeleManager modeleManager;
+    protected static ModeleManager modeleManager;
     private Fenetre fenetre;
     
     public static void main(String args[]){
@@ -62,7 +62,9 @@ public class Controleur {
         return modeleManager.getEnsembleLivraisons();
     }
     
-    public synchronized void calculerTournee() {
+    public synchronized Tournee calculerTournee() {
+        etatCourant.calculerTournee();
+        return modeleManager.getTournee();
     }
     
     public synchronized void clicGauche() {

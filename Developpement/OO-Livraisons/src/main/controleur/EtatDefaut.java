@@ -26,7 +26,7 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void calculerTournee(Tournee tournee) {
+    public void calculerTournee() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -5,10 +5,15 @@
  */
 package controleur;
 
+import modele.ModeleManager;
+import modele.Tournee;
+
 /**
  * Cette classe représente l'ensemble des Etats pouvant effectuer l'opération "calculerTournee".
  * @author tfavrot
  */
 public class EtatTournee extends EtatLivraisons{
-    
+    public void calculerTournee(){
+        Controleur.modeleManager.calculerTournee();
+    }
 }

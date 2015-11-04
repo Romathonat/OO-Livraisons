@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import modele.EnsembleLivraisons;
 import modele.Plan;
+import modele.Tournee;
 
 /**
  *
@@ -113,7 +114,9 @@ public class Fenetre extends JFrame{
         ajouterLivraison = new JButton("Ajouter Livraison");
         supprimerLivraison = new JButton("Supprimer Livraison");
         echangerLivraison = new JButton("Echanger Livraison");
+        
         calculerTournee = new JButton("Calculer Tournée");
+        calculerTournee.addActionListener(new CalculerTournee());
         
         //------Organisation des Pannels
         vueGraphique = new VueGraphique();
@@ -156,9 +159,9 @@ public class Fenetre extends JFrame{
         
         legende.setLayout(new BoxLayout(legende, BoxLayout.PAGE_AXIS));
         int ecartLegende = 15;
-        Dimension tailleEltLegende = new Dimension(210,30);
+        Dimension tailleEltLegende = new Dimension(210,20);
         
-        ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection après chargement");
+        ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
         ElementLegende demandeF1 = new ElementLegende(Color.BLUE, "Demande Fenetre 1");
         ElementLegende demandeF2 = new ElementLegende(Color.MAGENTA, "Demande Fenetre 2");
         ElementLegende demandeF3 = new ElementLegende(Color.ORANGE, "Demande Fenetre 3");
@@ -251,6 +254,18 @@ public class Fenetre extends JFrame{
             } catch (Exception ex) {
                 Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
+            revalidate();
+            repaint();
+        }
+    }
+    private class CalculerTournee implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Tournee tournee = controleur.calculerTournee();
+                        
+            vueGraphique.drawTournee(tournee);
+            
             revalidate();
             repaint();
         }
