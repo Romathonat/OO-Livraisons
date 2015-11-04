@@ -27,8 +27,8 @@ public class DemandeLivraison {
     private FenetreLivraison fenetreLivraison;
 
     /**
-     * Le temps d'arrêt qu'effectue le livreur à un point de livaison.
-     * Par defaut, le temps de livraison est de 10min soit 600 secondes.
+     * Le temps d'arrêt qu'effectue le livreur à un point de livaison. Par
+     * defaut, le temps de livraison est de 10min soit 600 secondes.
      */
     private int tempsArret = 600;
 
@@ -54,6 +54,7 @@ public class DemandeLivraison {
         this.fenetreLivraison = fenetreLivraison;
         this.idClient = idClient;
         this.id = idDemande;
+        this.heureLivraison = null;
     }
 
     /**
@@ -64,9 +65,10 @@ public class DemandeLivraison {
     public Intersection getIntersection() {
         return intersection;
     }
-    
+
     /**
      * Definit le temps d'arret pour effectuer cette livraison.
+     *
      * @param tempsArret Le temps d'arret en secondes.
      */
     public void setTempsArret(int tempsArret) {
@@ -137,6 +139,10 @@ public class DemandeLivraison {
     public boolean RespecteFenetreLivraison() {
         Date borneInf = this.getFenetreLivraison().getHeureDebut();
         Date borneSup = this.getFenetreLivraison().getHeureFin();
+
+        if (this.heureLivraison == null) {
+            return false;
+        }
 
         return (this.heureLivraison.compareTo(borneInf) >= 0 && this.heureLivraison.compareTo(borneSup) <= 0);
     }

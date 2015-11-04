@@ -7,45 +7,52 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Observable;
 import java.util.PriorityQueue;
 import java.util.Set;
 
 /**
- *
+ * Un plan est une cartographie de la ville. Il contient des intersections et 
+ * des tronçons qui relient ces intersections.
  * @author mgaillard
  */
 public class Plan{
 
-    // Attributs
-
-    //private Intersection entrepot;
-    private Map<Integer, Intersection> intersections;
     /**
-     * Le plus grand identifiant donne a une intersection.
+     * La collection d'intersections contenus dans le plan.
+     * La clé primaire de la map est l'id de l'intersection.
+     */
+    private Map<Integer, Intersection> intersections;
+    
+    /**
+     * Le plus grand identifiant des intersections contenues dans le plan.
      */
     private int intersectionsMaxId;
+    
+    /**
+     * La collection d'intersection contenue dans le plan.
+     */
     private Collection<Troncon> troncons;
 
     /**
-     * Valeur maximale de X sur le plan.
+     * Valeur maximale des coordonées d'abscisse des intersections contenues dans le plan.
      */
-    private int Xmax;
+    private int xMax;
     /**
-     * Valeur maximale de Y sur le plan.
+     * Valeur maximale des coordonées d'ordonnée des intersections contenues dans le plan.
      */
-    private int Ymax;
+    private int yMax;
 
-    // Methodes
+    /**
+     * Constructeur d'un plan.
+     */
     public Plan() {
         this.intersections = new HashMap<>();
         this.intersectionsMaxId = 0;
         this.troncons = new LinkedList<>();
-        this.Xmax = 0;
-        this.Ymax = 0;
+        this.xMax = 0;
+        this.yMax = 0;
     }
 
     /**
@@ -62,27 +69,27 @@ public class Plan{
             Intersection intersection = new Intersection(id, x, y);
             intersections.put(id, intersection);
             intersectionsMaxId = Math.max(intersectionsMaxId, id);
-            Xmax = Math.max(Xmax, x);
-            Ymax = Math.max(Ymax, y);
+            xMax = Math.max(xMax, x);
+            yMax = Math.max(yMax, y);
             return intersection;
         }
         return null;
     }
   
     /**
-     * Getter sur le Xmax
-     * @return 
+     * Retourne le xMax du plan.
+     * @return Le xMax du plan.
      */
-    public int getXmax(){
-        return Xmax;
+    public int getXMax(){
+        return xMax;
     }
     
     /**
-     * Getter sur le Ymax
-     * @return 
+     * Retourne le yMax du plan.
+     * @return Le yMax du plan.
      */
     public int getYMax(){
-        return Ymax;
+        return yMax;
     }
     /**
      * Ajoute un troncon au plan. Pour l'intersection de depart du troncon, la
@@ -128,7 +135,7 @@ public class Plan{
     }
 
     /**
-     * Retourne un iterator sur les troncons
+     * Retourne un itérateur sur la collection de tronçons contenus dans le plan.
      *
      * @return
      */
@@ -138,7 +145,7 @@ public class Plan{
     }
 
     /**
-     * Retourne un iterator sur les intersections
+     * Retourne un itérateur sur la collection d'intersections contenues dans le plan.
      *
      * @return
      */
@@ -147,17 +154,27 @@ public class Plan{
     }
     
     /**
-     * Représente une duree pour aller vers une intersection.
+     * Représente la durée nécessaire pour aller vers une intersection.
      */
     private class DistanceIntersection {
 
-        // Attributs
-
+        
+        /**
+         * 
+         */
         public double duree;
+        
+        /**
+         * 
+         */
         public Intersection intersection;
 
-        // Methodes
-
+       
+        /**
+         * 
+         * @param distance
+         * @param intersection 
+         */
         public DistanceIntersection(double distance, Intersection intersection) {
             this.duree = distance;
             this.intersection = intersection;
@@ -179,6 +196,9 @@ public class Plan{
         }
     }
 
+    /**
+     * 
+     */
     private class DistanceIntersectionComparator implements Comparator<DistanceIntersection> {
 
         /**
@@ -204,7 +224,7 @@ public class Plan{
      * @param idArrivees Un ensemble d'id des intersections vers lesquelles calculer les plus courts chemins.
      * @return Une Map indexant tous les chemins entre le point de depart et les points d'arrives.
      */
-    public Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(int idDepart, Set<Integer> idArrivees) {
+    protected Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(int idDepart, Set<Integer> idArrivees) {
         //Tableau des precedences et des distances des noeuds.
         Troncon[] precedent = new Troncon[intersectionsMaxId + 1];
         //Contient les distances par rapport au depart des intersections.
@@ -294,7 +314,7 @@ public class Plan{
      * @param idArrivees L'ensemble des id des intersections d'arrivee.
      * @return Tous les plus courts chemins enter les intersections de depart et d'arrivee.
      */
-    public Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(Set<Integer> idDeparts, Set<Integer> idArrivees) {
+    protected Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(Set<Integer> idDeparts, Set<Integer> idArrivees) {
         //On reserve une map pour contenir tous les chemins. Il y en a n²-n quand il y a n intersections.
         Map<DepartArriveeChemin, Chemin> chemins = new HashMap<>(idDeparts.size() * idArrivees.size());
         //Pour chaque intersection de la fenetre.
@@ -321,7 +341,7 @@ public class Plan{
      * @param arrivee L'intersection d'arrivee du chemin.
      * @return Le plus court chemin entre ces deux intersections.
      */
-    public Chemin calculerPlusCourtChemin(Intersection depart, Intersection arrivee) {
+    protected Chemin calculerPlusCourtChemin(Intersection depart, Intersection arrivee) {
         Set<Integer> arrivees = new HashSet<>();
         arrivees.add(arrivee.getId());
         Map<DepartArriveeChemin, Chemin> chemins = calculerPlusCourtsChemins(depart.getId(), arrivees);

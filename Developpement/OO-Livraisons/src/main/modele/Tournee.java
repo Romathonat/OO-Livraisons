@@ -12,16 +12,22 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ * Une tournée est un ensemble ordonné de chemins. Elle détermine la totalité 
+ * du trajet du livreur depuis l'entrepôt jusqu'à l'entrepôt, en passant par 
+ * les points de livraison.
  * @author tfavrot
  */
 public class Tournee {
 
-    // Attributs
+    /**
+     * La liste des chemins qui composent la tournée.
+     */
     private List<Chemin> chemins;
     long tempsDeLivraison; // en secondes.
 
-    // Methodes
+    /**
+     * Constructeur d'une tournée.
+     */
     public Tournee() {
         chemins = new ArrayList<Chemin>();
         tempsDeLivraison = -1;
@@ -55,6 +61,10 @@ public class Tournee {
         this.tempsDeLivraison = (instantCourant.getTime() - this.chemins.get(0).getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime()) / 1000;
     }
 
+    /**
+     * Retourne la liste des chemins qui composent la tournée.
+     * @return La liste des chemins qui composent la tournée.
+     */
     public Iterator<Chemin> getChemins() {
         List<Chemin> constList = Collections.unmodifiableList(chemins);
         return constList.iterator();
@@ -76,7 +86,7 @@ public class Tournee {
     }
 
     /**
-     * Calcule puis retourne le temps total de livraison estimé.
+     * Calcule, puis retourne le temps total de livraison estimé.
      *
      * @return La durée en seconde du temps de livraison.
      */

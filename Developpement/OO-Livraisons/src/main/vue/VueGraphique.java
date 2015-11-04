@@ -106,7 +106,7 @@ public class VueGraphique extends JPanel implements Observer{
         this.tourneeCourante = null; //on s'assure que ces deux references sont à null quand on charge le plan
         this.livraisonsCourantes = null;
         
-        maxX = plan.getXmax();
+        maxX = plan.getXMax();
         maxY = plan.getYMax();
         
         repaint();//on repaint, en prenant en compte le plan

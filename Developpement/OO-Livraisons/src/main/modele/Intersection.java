@@ -24,7 +24,7 @@ public class Intersection {
     private int idIntersection;
     
     /**
-     * La coordonnée spatiale d'abcisse d'une intersection sur le plan.
+     * La coordonnée spatiale d'abscisse d'une intersection sur le plan.
      */
     private int x;
     
@@ -42,7 +42,7 @@ public class Intersection {
      * Constructeur d'une intersection.
      * @param id L'id identifiant une intersection.
      * @param x La coordonnée spatiale d'ordonnée d'une intersection sur le plan. 
-     * @param y La collection des tronçons qui quittent une intersection.
+     * @param y La coordonnée spatiale d'abscisse d'une intersection sur le plan..
      */
     public Intersection(int id, int x, int y) {
         idIntersection = id;
@@ -51,23 +51,43 @@ public class Intersection {
         tronconsSortants = new ArrayList<>();
     }
     
+    /**
+     * Ajoute un troncon à la collection de tronçons sortant de l'intersection.
+     * @param troncon Le tronçon à ajouter à la collection.
+     */
     protected void ajouterTronconSortant(Troncon troncon){
         tronconsSortants.add(troncon);
     }
     
+    /**
+     * Retourne la collection de tronçons sortant de l'intersection.
+     * @return La collection de tronçons sortant de l'intersection.
+     */
     public Iterator<Troncon> getTronconsSortants() {
         Collection constCollection = Collections.unmodifiableCollection(tronconsSortants);
         return constCollection.iterator();
     }
     
+    /**
+     * Retourne l'id identifiant une intersection.
+     * @return L'id identifiant une intersection.
+     */
     public int getId(){
         return idIntersection;
     }
     
+    /**
+     * Retourne la coordonnée spatiale d'ordonnée d'une intersection sur le plan. 
+     * @return La coordonnée spatiale d'ordonnée d'une intersection sur le plan.
+     */
     public int getX(){
         return x;
     }
     
+    /**
+     * Retourne la coordonnée spatiale d'abscisse d'une intersection sur le plan. 
+     * @return La coordonnée spatiale d'abscisse d'une intersection sur le plan. 
+     */
     public int getY(){
         return y;
     }

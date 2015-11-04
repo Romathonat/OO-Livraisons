@@ -9,7 +9,7 @@ import java.util.List;
 import modele.*;
 
 /**
- *
+ * Interface définissant l'ensemble des actions possibles du contrôleur.
  * @author Kilian
  */
 public interface Etat {
@@ -27,4 +27,5 @@ public interface Etat {
     public void supprimerLivraison(DemandeLivraison livraison, Tournee tournee, List<Commande> listeCmde);
     public void fermer();
     public void valider();
+    public void activerEtDesactiverFonctionnalites();
 }

@@ -6,7 +6,6 @@
 package vue;
 
 import controleur.Controleur;
-import controleur.Etat;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,6 +14,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +62,9 @@ public class Fenetre extends JFrame {
     protected VueTextuelle vueTextuelle;
     protected JPanel panelBoutons;
     protected JPanel legende;
+    protected int ecartLegende;
+    protected Dimension tailleEltLegende;
+    
     protected VueGraphique vueGraphique;
 
     protected JSplitPane panelSeparationGauche;//contient le gauche et le centre
@@ -73,9 +76,13 @@ public class Fenetre extends JFrame {
     protected JButton calculerTournee;
 
     private Controleur controleur;
+    protected GenerateurCouleur generateurCouleur;
 
+    protected List<FenetreLivraisonVue> mesFenetresLivraison;
+    
     public Fenetre(Controleur c) {
         controleur = c;
+        generateurCouleur = new GenerateurCouleur();
 
         barreMenus = new JMenuBar();
 
@@ -122,6 +129,7 @@ public class Fenetre extends JFrame {
 
         //------Organisation des Pannels
         vueGraphique = new VueGraphique();
+  
 
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
@@ -154,53 +162,12 @@ public class Fenetre extends JFrame {
 
         //----------LEGENDE----------
         legende = new JPanel();
-
-        JLabel titre = new JLabel("Legende:");
-        Font font = titre.getFont();
-        Map attributes = font.getAttributes();
-        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        titre.setFont(font.deriveFont(attributes));
-        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        legende.setLayout(new BoxLayout(legende, BoxLayout.PAGE_AXIS));
-        int ecartLegende = 15;
-        Dimension tailleEltLegende = new Dimension(210, 20);
-
-        ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
-        ElementLegende entrepot = new ElementLegende(VueGraphique.CouleurEntrepot, "Entrepôt");
-        ElementLegende demandeF1 = new ElementLegende(Color.BLUE, "Demande Fenetre 1");
-        ElementLegende demandeF2 = new ElementLegende(Color.MAGENTA, "Demande Fenetre 2");
-        ElementLegende demandeF3 = new ElementLegende(Color.ORANGE, "Demande Fenetre 3");
         
-        legende.add(titre);
-
-        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-        legende.add(neutre);
-        neutre.setMinimumSize(tailleEltLegende);
-        neutre.setMaximumSize(tailleEltLegende);
+        this.ecartLegende = 15;
+        this.tailleEltLegende = new Dimension(210, 20);
+        this.updateLegende();
         
-        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-        legende.add(entrepot);
-        entrepot.setMinimumSize(tailleEltLegende);
-        entrepot.setMaximumSize(tailleEltLegende);
         
-        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-        legende.add(demandeF1);
-        demandeF1.setMinimumSize(tailleEltLegende);
-        demandeF1.setMaximumSize(tailleEltLegende);
-
-        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-        legende.add(demandeF2);
-        demandeF2.setMinimumSize(tailleEltLegende);
-        demandeF2.setMaximumSize(tailleEltLegende);
-
-        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-        legende.add(demandeF3);
-        demandeF3.setMinimumSize(tailleEltLegende);
-        demandeF3.setMaximumSize(tailleEltLegende);
-
-        legende.add(Box.createRigidArea(new Dimension(0, 300))); //on ajoute de l'espace à la fin pour que la legende ne prenne pas toute la place
-
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);
@@ -243,6 +210,49 @@ public class Fenetre extends JFrame {
         this.setVisible(true);
         
     }
+    
+    public void updateLegende()
+    {
+        JLabel titre = new JLabel("Legende:");
+        Font font = titre.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        titre.setFont(font.deriveFont(attributes));
+        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        legende.setLayout(new BoxLayout(legende, BoxLayout.PAGE_AXIS));
+        
+        ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
+        ElementLegende demandeF1 = new ElementLegende(generateurCouleur.getCouleurSuivante(), "Demande Fenetre 1");
+        ElementLegende demandeF2 = new ElementLegende(generateurCouleur.getCouleurSuivante(), "Demande Fenetre 2");
+        ElementLegende demandeF3 = new ElementLegende(generateurCouleur.getCouleurSuivante(), "Demande Fenetre 3");
+
+        legende.add(titre);
+
+        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+        legende.add(neutre);
+        neutre.setMinimumSize(tailleEltLegende);
+        neutre.setMaximumSize(tailleEltLegende);
+
+        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+        legende.add(demandeF1);
+        demandeF1.setMinimumSize(tailleEltLegende);
+        demandeF1.setMaximumSize(tailleEltLegende);
+
+        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+        legende.add(demandeF2);
+        demandeF2.setMinimumSize(tailleEltLegende);
+        demandeF2.setMaximumSize(tailleEltLegende);
+
+        legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+        legende.add(demandeF3);
+        demandeF3.setMinimumSize(tailleEltLegende);
+        demandeF3.setMaximumSize(tailleEltLegende);
+
+        legende.add(Box.createRigidArea(new Dimension(0, 300))); //on ajoute de l'espace à la fin pour que la legende ne prenne pas toute la place
+
+    }
+    
     
     public void sendMessage(String message){
             JOptionPane.showMessageDialog(null, message);
@@ -336,7 +346,7 @@ public class Fenetre extends JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            vueTextuelle.removeAll();
             vueTextuelle.writeLivraisons(livraisons,null);
             revalidate();
             repaint();
