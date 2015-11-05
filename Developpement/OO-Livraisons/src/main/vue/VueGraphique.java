@@ -33,7 +33,7 @@ import modele.Troncon;
  */
 public class VueGraphique extends JPanel implements Observer{
  
-    private Fenetre fenetre;
+    private Vue vue;
     private int maxX;
     private int maxY;
     private int rayonInter = 10;
@@ -45,14 +45,14 @@ public class VueGraphique extends JPanel implements Observer{
     
     /**
      * Constucteur d'une vue graphique
-     * @param fenetre La fenêtre graphique dans laquelle est contenue la vue graphique. 
+     * @param vue 
      */
-    public VueGraphique(Fenetre fenetre) {
-        this.fenetre = fenetre;
+    public VueGraphique(Vue vue) {
+        this.vue = vue;
         this.setBackground(Color.white);
         this.maxX = this.getSize().width;
         this.maxY = this.getSize().height;
-        this.addMouseListener(new ecouteurSouris(this.fenetre));       
+        this.addMouseListener(new ecouteurSouris(this.vue.fenetre));       
     }
     
     /**
@@ -78,11 +78,11 @@ public class VueGraphique extends JPanel implements Observer{
         initialiserGraphics2d(g2D); //on initialise le pinceau pour qu'il dessine bien
         
               
-        if(this.fenetre.planCourant != null){
+        if(this.vue.planCourant != null){
             dessinerPlan(g2D);
-            if(this.fenetre.ensembleLivraisonsCourant != null){
+            if(this.vue.ensembleLivraisonsCourant != null){
                 dessinerLivraisons(g2D);
-                if(this.fenetre.tourneeCourante != null){
+                if(this.vue.tourneeCourante != null){
                     dessinerTournee(g2D);
                 }
             }
@@ -95,8 +95,8 @@ public class VueGraphique extends JPanel implements Observer{
      */
     public void drawPlan() {
         
-        maxX = this.fenetre.planCourant.getXMax();
-        maxY = this.fenetre.planCourant.getYMax();
+        maxX = this.vue.planCourant.getXMax();
+        maxY = this.vue.planCourant.getYMax();
         
         repaint();
     }
@@ -116,7 +116,7 @@ public class VueGraphique extends JPanel implements Observer{
      * @param g2D 
      */
     public void dessinerInterNeutre(Graphics2D g2D){
-        Iterator<Entry<Integer, Intersection>> itInter = this.fenetre.planCourant.getIntersections();
+        Iterator<Entry<Integer, Intersection>> itInter = this.vue.planCourant.getIntersections();
         
         while(itInter.hasNext()){
             Intersection monInter = itInter.next().getValue();
@@ -133,7 +133,7 @@ public class VueGraphique extends JPanel implements Observer{
      * @param g2D 
      */
     public void dessinerTronconNeutre(Graphics2D g2D){
-        Iterator<Troncon> itTroncon = this.fenetre.planCourant.getTroncons();
+        Iterator<Troncon> itTroncon = this.vue.planCourant.getTroncons();
         
         while(itTroncon.hasNext()){
             Troncon monTroncon = itTroncon.next();
@@ -173,11 +173,11 @@ public class VueGraphique extends JPanel implements Observer{
     void dessinerLivraisons(Graphics2D g2D){
         
         //on dessine d'abord l'entrepôt
-        Intersection entrepot = this.fenetre.ensembleLivraisonsCourant.getEntrepot();
+        Intersection entrepot = this.vue.ensembleLivraisonsCourant.getEntrepot();
         g2D.setColor(this.CouleurEntrepot);
         dessinerUneIntersection(entrepot, g2D);
         
-        Iterator<FenetreLivraison> itFenetres = this.fenetre.ensembleLivraisonsCourant.getFenetresLivraison();
+        Iterator<FenetreLivraison> itFenetres = this.vue.ensembleLivraisonsCourant.getFenetresLivraison();
         
         int k = 0; //indice des couleurs
         
@@ -204,7 +204,7 @@ public class VueGraphique extends JPanel implements Observer{
     }
     
     private void dessinerTournee(Graphics2D g2D) {
-        Iterator<Chemin> itChemins = this.fenetre.tourneeCourante.getChemins();
+        Iterator<Chemin> itChemins = this.vue.tourneeCourante.getChemins();
         
         while(itChemins.hasNext()){
             Chemin monChemin = itChemins.next();
@@ -220,8 +220,8 @@ public class VueGraphique extends JPanel implements Observer{
      * Initialise le tableau des fenetres (correspondance avec les couleurs)
      */
     public void initialiserCouleurEtFenetre(){
-        if(this.fenetre.ensembleLivraisonsCourant != null){
-            Iterator<FenetreLivraison> itFenetres = this.fenetre.ensembleLivraisonsCourant.getFenetresLivraison();
+        if(this.vue.ensembleLivraisonsCourant != null){
+            Iterator<FenetreLivraison> itFenetres = this.vue.ensembleLivraisonsCourant.getFenetresLivraison();
             mesCouleurs[0] = Color.BLUE;
             mesCouleurs[1] = Color.MAGENTA;
             mesCouleurs[2] = Color.ORANGE;

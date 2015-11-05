@@ -47,11 +47,7 @@ import modele.Tournee;
 public class Fenetre extends JFrame {
 
     protected JMenuBar barreMenus;
-
-    protected JPanel barreStatus;
-    protected JLabel statusRigth;
-    protected JLabel statusLeft;
-
+    
     protected JMenu fichier;
     protected JMenuItem chargerPlan;
     protected JMenuItem chargerDemandesLivraisons;
@@ -68,14 +64,9 @@ public class Fenetre extends JFrame {
     protected JPanel panelPrincipal;
     protected JPanel panelGauche;
     protected JPanel panelDroit;
-    protected VueTextuelle vueTextuelle;
     protected JPanel panelBoutons;
 
-    protected JPanel legende;
-    protected int ecartLegende;
-    protected Dimension tailleEltLegende;
-
-    protected VueGraphique vueGraphique;
+    
 
     protected JSplitPane panelSeparationGauche;//contient le gauche et le centre
     protected JSplitPane panelSeparationDroit;//contient le droit et le panelSeparationGauche
@@ -86,36 +77,16 @@ public class Fenetre extends JFrame {
     protected JButton calculerTournee;
 
     protected Controleur controleur;
-    protected GenerateurCouleur generateurCouleur;
-    
-    protected Plan planCourant; //il nous faut garder ces references pour redessiner le plan quand repaint est appelle
-    protected EnsembleLivraisons ensembleLivraisonsCourant;//attention doivent être mise à null si on recharge juste le plan !
-    protected Tournee tourneeCourante;
 
-    protected List<FenetreLivraisonVue> listFenetresLivraisonVue;
-    protected List<DemandeLivraisonVue> listDemandesLivraisonVue;
-    protected List<CheminVue> listCheminVue;
+    
+    protected Vue vue;
 
     public Fenetre(Controleur controleur) {
         this.controleur = controleur;
-        
-        this.planCourant = null;
-        this.ensembleLivraisonsCourant = null;
-        this.tourneeCourante = null;
                 
-        generateurCouleur = new GenerateurCouleur();
-        listFenetresLivraisonVue = new ArrayList<>();
-        listDemandesLivraisonVue = new ArrayList<>();
-        listCheminVue = new ArrayList<>();
+        this.vue = new Vue(this);
 
         barreMenus = new JMenuBar();
-
-        barreStatus = new JPanel();
-        barreStatus.setLayout(new BorderLayout());
-        statusRigth = new JLabel("OO-Livraison");
-        statusLeft = new JLabel("");
-        barreStatus.add(statusRigth, BorderLayout.WEST);
-        barreStatus.add(statusLeft, BorderLayout.EAST);
 
         //----Fichier-----
         fichier = new JMenu("Fichier");
@@ -159,7 +130,6 @@ public class Fenetre extends JFrame {
         calculerTournee.addActionListener(new CalculerTournee(this));
 
         //------Organisation des Pannels
-        vueGraphique = new VueGraphique(this);
 
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
@@ -190,30 +160,24 @@ public class Fenetre extends JFrame {
         calculerTournee.setMinimumSize(tailleBouton);
         calculerTournee.setMaximumSize(tailleBouton);
 
-        //----------LEGENDE----------
-        this.ecartLegende = 15;
-        this.tailleEltLegende = new Dimension(210, 20);
-
-        this.legende = new JPanel();
-        this.updateLegende(0);
 
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);
-        panelGauche.add(legende);
+        panelGauche.add(vue.vueLegende);
 
         // Tests avec la scrollbar
-        vueTextuelle = new VueTextuelle();
-        vueTextuelle.setLayout(new BoxLayout(vueTextuelle, BoxLayout.PAGE_AXIS));
+        
+        
         panelDroit = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(vueTextuelle);
+        JScrollPane scrollPane = new JScrollPane(this.vue.vueTextuelle);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         //scrollPane.setBounds(0, 0, 300, 600);
 
         //panelDroit.add(scrollPane);
         //panelDroit.setPreferredSize(new Dimension(300,600));
-        panelSeparationGauche = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelGauche, vueGraphique);
+        panelSeparationGauche = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelGauche, this.vue.vueGraphique);
         panelSeparationGauche.setOneTouchExpandable(true);
         panelSeparationGauche.setDividerLocation(210);
 
@@ -226,7 +190,7 @@ public class Fenetre extends JFrame {
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.add(barreMenus, BorderLayout.NORTH);
         panelPrincipal.add(panelSeparationDroit, BorderLayout.CENTER);
-        panelPrincipal.add(barreStatus, BorderLayout.SOUTH);
+        panelPrincipal.add(vue.vueStatus, BorderLayout.SOUTH);
 
         this.add(panelPrincipal);
 
@@ -241,63 +205,8 @@ public class Fenetre extends JFrame {
 
     }
 
-    public void updateLegende(int etat) {
-        legende.removeAll();
 
-        JLabel titre = new JLabel("Legende:");
-        Font font = titre.getFont();
-        Map attributes = font.getAttributes();
-        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        titre.setFont(font.deriveFont(attributes));
-        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        legende.setLayout(new BoxLayout(legende, BoxLayout.PAGE_AXIS));
-
-        legende.add(titre);
-
-        // on a chargé le plan.
-        if (etat > 0) {
-            // Legende des intersections.
-            ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
-            legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-            legende.add(neutre);
-            neutre.setMinimumSize(tailleEltLegende);
-            neutre.setMaximumSize(tailleEltLegende);
-        }
-
-        // on a chargé les livraisons.
-        if (etat > 1) {
-
-            // legende de l'entrepot
-            ElementLegende legendeFenetre = new ElementLegende(Color.GREEN, "Entrepot");
-            legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-            legende.add(legendeFenetre);
-            legendeFenetre.setMinimumSize(tailleEltLegende);
-            legendeFenetre.setMaximumSize(tailleEltLegende);
-
-            // Legende des fenetres de livraison.
-            Iterator<FenetreLivraisonVue> it_flv = this.listFenetresLivraisonVue.iterator();
-            int i = 0;
-            while (it_flv.hasNext()) {
-                i++;
-                legendeFenetre = new ElementLegende(it_flv.next().getCouleur(), "Demande Fenetre " + Integer.toString(i));
-                legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-                legende.add(legendeFenetre);
-                legendeFenetre.setMinimumSize(tailleEltLegende);
-                legendeFenetre.setMaximumSize(tailleEltLegende);
-            }
-
-            legende.add(Box.createRigidArea(new Dimension(0, 300)));
-        }
-
-        legende.validate();
-        legende.repaint();
-
-    }
-
-    public void changerStatus(String status) {
-        this.statusRigth.setText(status);
-    }
 
     /**
      * Affiche une popup contenant un message particulier.
@@ -308,28 +217,6 @@ public class Fenetre extends JFrame {
         JOptionPane.showMessageDialog(null, message);
     }
     
-    public void resetEnsembleLivraisons(){
-        this.ensembleLivraisonsCourant = null;
-        this.resetTournee();
-    }
-    
-    public void resetTournee(){
-        this.tourneeCourante = null;
-    }
-    
-    public void setPlanCourant(Plan plan){
-        this.planCourant = plan;
-    }
-    
-    public void setEnsembleLivraisonsCourant(EnsembleLivraisons ensembleLivraisons){
-        this.ensembleLivraisonsCourant = ensembleLivraisons;
-    }
-    
-    public void setTourneeCourante (Tournee tournee){
-        this.tourneeCourante = tournee;
-    }
-    
-
     // ---- Methodes d'activation/desactivation des fonctionnalites ----
     // -- Activables / Desactivables ---
     public void activerChargerPlan(boolean activer) {
@@ -404,23 +291,10 @@ public class Fenetre extends JFrame {
 
             Plan nouveauPlan = controleur.chargerPlan();
 
-            if (nouveauPlan == this.fenetre.planCourant) { // en cas de problème de chargement.
+            if (nouveauPlan == this.fenetre.vue.planCourant) { // en cas de problème de chargement.
                 return;
             }
-            this.fenetre.setPlanCourant(nouveauPlan);
-            this.fenetre.resetEnsembleLivraisons();
-            
-            // RAZ des objets graphiques.
-            vueGraphique.removeAll();
-            vueTextuelle.removeAll();
-
-            // Dessin du plan.
-            vueGraphique.drawPlan();
-
-            // Mise à jour de la légende.
-            this.fenetre.updateLegende(1);
-            this.fenetre.changerStatus("Plan chargé");
-
+            this.fenetre.vue.updatePlan(nouveauPlan);
             revalidate();
             repaint();
         }
@@ -436,40 +310,13 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EnsembleLivraisons nouvelEnsembleLivraisons = controleur.chargerLivraisons();
+            EnsembleLivraisons  nouvelEnsembleLivraisons = controleur.chargerLivraisons();
             
-            if (nouvelEnsembleLivraisons == this.fenetre.ensembleLivraisonsCourant ) { // en cas de problème de chargement.
+            if (nouvelEnsembleLivraisons == this.fenetre.vue.ensembleLivraisonsCourant ) { // en cas de problème de chargement.
                 return;
             }
-            
-            this.fenetre.setEnsembleLivraisonsCourant(nouvelEnsembleLivraisons);
-            this.fenetre.resetTournee();
+            this.fenetre.vue.updateEnsembleLivraisons(nouvelEnsembleLivraisons);
 
-            // mise à jour des objets visuels
-            listFenetresLivraisonVue.clear();
-            listDemandesLivraisonVue.clear();
-
-            Iterator<FenetreLivraison> it_fenetre = this.fenetre.ensembleLivraisonsCourant.getFenetresLivraison();
-            Iterator<DemandeLivraison> it_demande = null;
-
-            while (it_fenetre.hasNext()) {
-                FenetreLivraison fenetreLivraison = it_fenetre.next();
-                FenetreLivraisonVue fenetreLivraisonVue = new FenetreLivraisonVue(fenetreLivraison, generateurCouleur.getCouleurSuivante());
-                listFenetresLivraisonVue.add(fenetreLivraisonVue);
-
-                it_demande = fenetreLivraison.getDemandesLivraison();
-                while (it_demande.hasNext()) {
-                    listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetreLivraisonVue, it_demande.next()));
-                }
-            }
-
-
-            vueGraphique.drawLivraisons();
-
-            this.fenetre.updateLegende(2);
-            vueTextuelle.UpdateVueTextuelle(listDemandesLivraisonVue.iterator());
-
-            this.fenetre.changerStatus("Demandes de livraison chargée");
             revalidate();
             repaint();
         }
@@ -488,52 +335,13 @@ public class Fenetre extends JFrame {
 
             Tournee nouvelleTournee = controleur.calculerTournee();
 
-            if (nouvelleTournee == this.fenetre.tourneeCourante) { // au cas ou le calcul de la tournee échouerai.
+            if (nouvelleTournee == this.fenetre.vue.tourneeCourante) { // au cas ou le calcul de la tournee échouerai.
                 return;
             }
-            this.fenetre.setTourneeCourante(nouvelleTournee);
-
-            // Mise à jour des elements graphiques.
-            listDemandesLivraisonVue.clear();
-            Iterator<Chemin> it_chemin = this.fenetre.tourneeCourante.getChemins();
-            Iterator<DemandeLivraison> it_demande = null;
-
-            while (it_chemin.hasNext()) {
-                Chemin chemin = it_chemin.next();
-                FenetreLivraisonVue fenetreLivraisonVue = getFenetreCorrespondante(chemin.getLivraisonArrivee());
-
-                if (fenetreLivraisonVue == null) {
-                    continue;
-                }
-
-                listCheminVue.add(new CheminVue(fenetreLivraisonVue, chemin));
-                DemandeLivraisonVue demandeVue = new DemandeLivraisonVue(fenetreLivraisonVue, chemin.getLivraisonArrivee());
-                listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetreLivraisonVue, chemin.getLivraisonArrivee()));
-            }
-
-            // mise à jour de la vue textuelle.
-            vueTextuelle.UpdateVueTextuelle(listDemandesLivraisonVue.iterator());
-
-            // mise àjour de la vue graphique.
-            vueGraphique.drawTournee();
-            this.fenetre.changerStatus("Tournée calculée");
-
+            this.fenetre.vue.updateTournee(nouvelleTournee);
+            
             revalidate();
             repaint();
-
-        }
-
-        private FenetreLivraisonVue getFenetreCorrespondante(DemandeLivraison demandeLivraison) {
-            Iterator<FenetreLivraisonVue> it_fenetreVue = listFenetresLivraisonVue.iterator();
-            while (it_fenetreVue.hasNext()) {
-
-                FenetreLivraisonVue fenetreVue = it_fenetreVue.next();
-                if (demandeLivraison.getFenetreLivraison().getHeureDebut().compareTo(fenetreVue.getFenetre().getHeureDebut()) == 0) {
-                    return fenetreVue;
-                }
-            }
-            // la fenetre n'a pas été trouvée.
-            return null;
         }
     }
 
