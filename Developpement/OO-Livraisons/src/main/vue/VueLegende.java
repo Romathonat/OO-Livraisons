@@ -51,7 +51,7 @@ public class VueLegende extends JPanel {
         // on a chargé le plan.
         if (etat > 0) {
             // Legende des intersections.
-            ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
+            VueElementLegende neutre = new VueElementLegende(Color.LIGHT_GRAY, "Intersection");
             this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
             this.add(neutre);
             neutre.setMinimumSize(tailleEltLegende);
@@ -62,18 +62,18 @@ public class VueLegende extends JPanel {
         if (etat > 1) {
 
             // legende de l'entrepot
-            ElementLegende legendeFenetre = new ElementLegende(GenerateurCouleur.getCouleurEntrepot(), "Entrepot");
+            VueElementLegende legendeFenetre = new VueElementLegende(GenerateurCouleur.getCouleurEntrepot(), "Entrepot");
             this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
             this.add(legendeFenetre);
             legendeFenetre.setMinimumSize(tailleEltLegende);
             legendeFenetre.setMaximumSize(tailleEltLegende);
 
             // Legende des fenetres de livraison.
-            Iterator<FenetreLivraisonVue> it_flv = this.vue.listFenetresLivraisonVue.iterator();
+            Iterator<VueFenetreLivraison> it_flv = this.vue.listFenetresLivraisonVue.iterator();
             int i = 0;
             while (it_flv.hasNext()) {
                 i++;
-                legendeFenetre = new ElementLegende(it_flv.next().getCouleur(), "Demande Fenetre " + Integer.toString(i));
+                legendeFenetre = new VueElementLegende(it_flv.next().getCouleur(), "Demande Fenetre " + Integer.toString(i));
                 this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
                 this.add(legendeFenetre);
                 legendeFenetre.setMinimumSize(tailleEltLegende);

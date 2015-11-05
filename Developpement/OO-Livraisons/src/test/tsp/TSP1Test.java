@@ -21,7 +21,7 @@ public class TSP1Test {
         
         TSP1 tsp = new TSP1();
         tsp.chercheSolution(60000, graphe);
-        assertEquals("Le cout de la solution optimale doit etre de 46.", 48.24, tsp.getCoutSolution(), 0);
+        assertEquals("Le cout de la solution optimale doit etre de 48.24.", 48.24, tsp.getCoutSolution(), 0);
         assertEquals("Le premier sommet est 0.", 0, (int)tsp.getSolution(0));
         assertEquals("Le deuxième sommet est 3.", 3, (int)tsp.getSolution(1));
         assertEquals("Le troisième sommet est 2.", 2, (int)tsp.getSolution(2));

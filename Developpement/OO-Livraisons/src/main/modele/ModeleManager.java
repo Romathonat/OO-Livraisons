@@ -17,6 +17,8 @@ import org.xml.sax.SAXException;
 import tsp.Graphe;
 import tsp.GrapheCreux;
 import tsp.TSP1;
+import tsp.TSP2;
+import tsp.TSP3;
 import tsp.TemplateTSP;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
@@ -191,7 +193,7 @@ public class ModeleManager {
             //On transpose les identifiants des intersections en identifiants du graphe.
             int sommetGrapheDepart = Collections.binarySearch(correspondance, itineraire.idDepart);
             int sommetGrapheArrivee = Collections.binarySearch(correspondance, itineraire.idArrivee);
-            graphe.ajouterArc(sommetGrapheDepart, sommetGrapheArrivee, (int)chemin.getDuree()*10);
+            graphe.ajouterArc(sommetGrapheDepart, sommetGrapheArrivee, chemin.getDuree());
         }
         return graphe;
     }
@@ -263,7 +265,7 @@ public class ModeleManager {
             Graphe graphe = modeliserGrapheTsp(correspondance, chemins);
                         
             //On calcule la solution du problème.
-            TSP1 tsp = new TSP1();
+            TemplateTSP tsp = new TSP1();
             tsp.chercheSolution(60000, graphe);
             
             //On interprete la solution du problème et on la transforme en tournee.
