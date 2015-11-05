@@ -97,8 +97,8 @@ public class Controleur {
         
     }
     
-    public synchronized void clicPlan(int x, int y){
-        etatCourant.clicPlan(x,y);
+    public synchronized void clicPlan(int x, int y) {
+        etatCourant.clicPlan(x, y);
     }
     
     public synchronized void ajouterLivraison(DemandeLivraison livraison) {
