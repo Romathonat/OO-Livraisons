@@ -39,7 +39,7 @@ public class GrapheCreux implements Graphe {
     }
     
     /**
-     * Ajoute une arete au graphe entre les sommets i et j dont le cout est cout.
+     * Ajoute un arc au graphe entre les sommets i et j dont le cout est cout.
      * @param i Sommet de depart.
      * @param j Sommet d'arrivee.
      * @param cout Cout de l'arc.

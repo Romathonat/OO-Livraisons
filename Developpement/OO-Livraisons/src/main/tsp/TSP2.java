@@ -11,22 +11,30 @@ public class TSP2 extends TSP1 {
     @Override
     protected double bound(Integer sommetCourant, Collection<Integer> nonVus) {
         //L'algorithme consiste a calculer la somme des arc de couts min sortant des sommets non vus.
-        double sommeCoutsMin = coutMinSuccesseur(sommetCourant);
+        double sommeCoutsMin = coutMinSuccesseur(sommetCourant, nonVus);
         Iterator<Integer> it = nonVus.iterator();
         while (it.hasNext()) {
             Integer s = it.next();
-            sommeCoutsMin += coutMinSuccesseur(s);
+            sommeCoutsMin += coutMinSuccesseur(s, nonVus);
         }
         return sommeCoutsMin;
     }
     
-    private double coutMinSuccesseur(Integer sommet) {
+    private double coutMinSuccesseur(Integer sommet, Collection<Integer> nonVus) {
         double coutMin = Double.MAX_VALUE;
-        for (int i = 0;i < g.getNbSommets();i++) {
-            double cout = g.getCout(sommet, i);
+        Iterator<Integer> it = nonVus.iterator();
+        //On regarde le min vers les sommets non vus.
+        while (it.hasNext()) {
+            Integer s = it.next();
+            double cout = g.getCout(sommet, s);
             if (cout >= 0.0) {
                 coutMin = Math.min(coutMin, cout);
             }
+        }
+        //On regarde le cout min vers le point de depart.
+        double coutDepart = g.getCout(sommet, 0);
+        if (coutDepart >= 0.0) {
+            coutMin = Math.min(coutMin, coutDepart);
         }
         return coutMin;
     }
