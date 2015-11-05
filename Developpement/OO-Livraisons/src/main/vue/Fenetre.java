@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import modele.Chemin;
 import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
@@ -45,14 +47,13 @@ import modele.Tournee;
 public class Fenetre extends JFrame {
 
     protected JMenuBar barreMenus;
-
+    
     protected JMenu fichier;
     protected JMenuItem chargerPlan;
     protected JMenuItem chargerDemandesLivraisons;
     protected JMenuItem genererFeuilleDeRoute;
     protected JMenuItem quitter;
 
-	
     protected JMenu edition;
     protected JMenuItem annuler;
     protected JMenuItem retablir;
@@ -63,14 +64,9 @@ public class Fenetre extends JFrame {
     protected JPanel panelPrincipal;
     protected JPanel panelGauche;
     protected JPanel panelDroit;
-    protected VueTextuelle vueTextuelle;
     protected JPanel panelBoutons;
+
     
-    protected JPanel legende;
-    protected int ecartLegende;
-    protected Dimension tailleEltLegende;
-    
-    protected VueGraphique vueGraphique;
 
     protected JSplitPane panelSeparationGauche;//contient le gauche et le centre
     protected JSplitPane panelSeparationDroit;//contient le droit et le panelSeparationGauche
@@ -80,18 +76,15 @@ public class Fenetre extends JFrame {
     protected JButton echangerLivraison;
     protected JButton calculerTournee;
 
-    private Controleur controleur;
-    protected GenerateurCouleur generateurCouleur;
+    protected Controleur controleur;
 
-    protected List<FenetreLivraisonVue> listFenetresLivraisonVue;
-    protected List<DemandeLivraisonVue> listDemandesLivraisonVue;
+    
+    protected Vue vue;
 
-    public Fenetre(Controleur c) {
-        controleur = c;
-
-        generateurCouleur = new GenerateurCouleur();
-        listFenetresLivraisonVue = new ArrayList<FenetreLivraisonVue>();
-        listDemandesLivraisonVue = new ArrayList<DemandeLivraisonVue>();
+    public Fenetre(Controleur controleur) {
+        this.controleur = controleur;
+                
+        this.vue = new Vue(this);
 
         barreMenus = new JMenuBar();
 
@@ -100,7 +93,7 @@ public class Fenetre extends JFrame {
         chargerPlan = new JMenuItem("Charger Plan");
         chargerPlan.addActionListener(new ChargerPlan(this));
         chargerDemandesLivraisons = new JMenuItem("Charger demandes livraisons");
-        chargerDemandesLivraisons.addActionListener(new ChargerDemandesLivraisons());
+        chargerDemandesLivraisons.addActionListener(new ChargerDemandesLivraisons(this));
         genererFeuilleDeRoute = new JMenuItem("Generer feuille de route");
         genererFeuilleDeRoute.addActionListener(new GenererFeuilleRoute());
         quitter = new JMenuItem("Quitter");
@@ -134,11 +127,9 @@ public class Fenetre extends JFrame {
         supprimerLivraison = new JButton("Supprimer Livraison");
         echangerLivraison = new JButton("Echanger Livraison");
         calculerTournee = new JButton("Calculer Tournée");
-        calculerTournee.addActionListener(new CalculerTournee());
+        calculerTournee.addActionListener(new CalculerTournee(this));
 
         //------Organisation des Pannels
-        vueGraphique = new VueGraphique(this.controleur);
-  
 
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
@@ -169,30 +160,24 @@ public class Fenetre extends JFrame {
         calculerTournee.setMinimumSize(tailleBouton);
         calculerTournee.setMaximumSize(tailleBouton);
 
-        //----------LEGENDE----------
-        this.ecartLegende = 15;
-        this.tailleEltLegende = new Dimension(210, 20);
-        
-        this.legende = new JPanel();
-        this.updateLegende(0);
-        
+
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);
-        panelGauche.add(legende);
+        panelGauche.add(vue.vueLegende);
 
         // Tests avec la scrollbar
-        vueTextuelle = new VueTextuelle();
-        vueTextuelle.setLayout(new BoxLayout(vueTextuelle, BoxLayout.PAGE_AXIS));
+        
+        
         panelDroit = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(vueTextuelle);
+        JScrollPane scrollPane = new JScrollPane(this.vue.vueTextuelle);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         //scrollPane.setBounds(0, 0, 300, 600);
 
         //panelDroit.add(scrollPane);
         //panelDroit.setPreferredSize(new Dimension(300,600));
-        panelSeparationGauche = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelGauche, vueGraphique);
+        panelSeparationGauche = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelGauche, this.vue.vueGraphique);
         panelSeparationGauche.setOneTouchExpandable(true);
         panelSeparationGauche.setDividerLocation(210);
 
@@ -205,6 +190,7 @@ public class Fenetre extends JFrame {
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.add(barreMenus, BorderLayout.NORTH);
         panelPrincipal.add(panelSeparationDroit, BorderLayout.CENTER);
+        panelPrincipal.add(vue.vueStatus, BorderLayout.SOUTH);
 
         this.add(panelPrincipal);
 
@@ -219,105 +205,58 @@ public class Fenetre extends JFrame {
 
     }
 
-    public void updateLegende(int Etat) {
-        legende.removeAll();
 
-        JLabel titre = new JLabel("Legende:");
-        Font font = titre.getFont();
-        Map attributes = font.getAttributes();
-        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-        titre.setFont(font.deriveFont(attributes));
-        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        legende.setLayout(new BoxLayout(legende, BoxLayout.PAGE_AXIS));
-        
-        legende.add(titre);
 
-        //TODO Supprimer les 6 lignes suivantes.
-        /*FenetreLivraisonVue f1 = new FenetreLivraisonVue(null, generateurCouleur.getCouleurSuivante());
-        FenetreLivraisonVue f2 = new FenetreLivraisonVue(null, generateurCouleur.getCouleurSuivante());
-        FenetreLivraisonVue f3 = new FenetreLivraisonVue(null, generateurCouleur.getCouleurSuivante());
-        listFenetresLivraisonVue.add(f1);
-        listFenetresLivraisonVue.add(f2);
-        listFenetresLivraisonVue.add(f3);*/
-        
-        if (Etat > 0) {
-            // Legende des intersections.
-            ElementLegende neutre = new ElementLegende(Color.LIGHT_GRAY, "Intersection");
-            legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-            legende.add(neutre);
-            neutre.setMinimumSize(tailleEltLegende);
-            neutre.setMaximumSize(tailleEltLegende);
-        }
-        if (Etat > 1) {
-
-            // legende de l'entrepot
-            ElementLegende legendeFenetre = new ElementLegende(Color.GREEN, "Entrepot");
-            legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-            legende.add(legendeFenetre);
-            legendeFenetre.setMinimumSize(tailleEltLegende);
-            legendeFenetre.setMaximumSize(tailleEltLegende);
-
-            // Legende des fenetres de livraison.
-            Iterator<FenetreLivraisonVue> it_flv = this.listFenetresLivraisonVue.iterator();
-            int i = 0;
-            while (it_flv.hasNext()) {
-                i++;
-                legendeFenetre = new ElementLegende(it_flv.next().getCouleur(), "Demande Fenetre " + Integer.toString(i));
-                legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
-                legende.add(legendeFenetre);
-                legendeFenetre.setMinimumSize(tailleEltLegende);
-                legendeFenetre.setMaximumSize(tailleEltLegende);
-            }
-
-            legende.add(Box.createRigidArea(new Dimension(0, 300)));
-        }
-
-        legende.validate();
-        legende.repaint();
-
-    }
-
-    public void sendMessage(String message) {
+    /**
+     * Affiche une popup contenant un message particulier.
+     *
+     * @param message Le message à afficher dans la popup.
+     */
+    public void EnvoyerMessage(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
+    
     // ---- Methodes d'activation/desactivation des fonctionnalites ----
-
     // -- Activables / Desactivables ---
     public void activerChargerPlan(boolean activer) {
         chargerPlan.setEnabled(activer);
     }
-    public void activerChargerDemandesLivraisons(boolean activer){
+
+    public void activerChargerDemandesLivraisons(boolean activer) {
         chargerDemandesLivraisons.setEnabled(activer);
     }
-    public void activerGenererFeuilleRoute(boolean activer){
+
+    public void activerGenererFeuilleRoute(boolean activer) {
         genererFeuilleDeRoute.setEnabled(activer);
     }
-    public void activerAnnuler(boolean activer){
+
+    public void activerAnnuler(boolean activer) {
         annuler.setEnabled(activer);
     }
-    public void activerRetablir(boolean activer){
+
+    public void activerRetablir(boolean activer) {
         retablir.setEnabled(activer);
     }
-    public void activerAjouterLivraison(boolean activer){
+
+    public void activerAjouterLivraison(boolean activer) {
         ajouterLivraison.setEnabled(activer);
     }
-    public void activerSupprimerLivraison(boolean activer){
+
+    public void activerSupprimerLivraison(boolean activer) {
         supprimerLivraison.setEnabled(activer);
     }
-    public void activerEchangerLivraison(boolean activer){
+
+    public void activerEchangerLivraison(boolean activer) {
         echangerLivraison.setEnabled(activer);
     }
-    public void activerCalculerTournee(boolean activer){
+
+    public void activerCalculerTournee(boolean activer) {
         calculerTournee.setEnabled(activer);
     }
 
-    
-    
-        
-        // --- Activables uniquement ---
-    
-    public void activerQuitter(){
+    // --- Activables uniquement ---
+    public void activerQuitter() {
         quitter.setEnabled(true);
     }
 
@@ -337,64 +276,47 @@ public class Fenetre extends JFrame {
         this.activerEchangerLivraison(false);
         this.activerCalculerTournee(false);
     }
-    
+
     // ------ ActionsListeners ------
-    
     private class ChargerPlan implements ActionListener {
 
-        JFrame frameParent;
+        Fenetre fenetre;
 
         public ChargerPlan(JFrame frameParent) {
-            this.frameParent = frameParent;
+            this.fenetre = (Fenetre) frameParent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            Plan monPlan = controleur.chargerPlan();
-            vueGraphique.removeAll();
-            vueTextuelle.removeAll();
-            vueGraphique.drawPlan(monPlan);
-            updateLegende(1);
-            
+            Plan nouveauPlan = controleur.chargerPlan();
+
+            if (nouveauPlan == this.fenetre.vue.planCourant) { // en cas de problème de chargement.
+                return;
+            }
+            this.fenetre.vue.updatePlan(nouveauPlan);
             revalidate();
             repaint();
-            vueGraphique.drawPlan(monPlan);
         }
     }
 
     private class ChargerDemandesLivraisons implements ActionListener {
 
+        Fenetre fenetre;
+
+        public ChargerDemandesLivraisons(JFrame frameParent) {
+            this.fenetre = (Fenetre) frameParent;
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            EnsembleLivraisons ensembleLivraisons = controleur.chargerLivraisons();
-
-            try { //au cas ou un point n'est pas dejà dessiné
-                vueGraphique.drawLivraisons(ensembleLivraisons);
-            } catch (Exception ex) {
-                Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            EnsembleLivraisons  nouvelEnsembleLivraisons = controleur.chargerLivraisons();
+            
+            if (nouvelEnsembleLivraisons == this.fenetre.vue.ensembleLivraisonsCourant ) { // en cas de problème de chargement.
+                return;
             }
+            this.fenetre.vue.updateEnsembleLivraisons(nouvelEnsembleLivraisons);
 
-            // mise à jour des objets visuels
-            listFenetresLivraisonVue.clear();
-            listDemandesLivraisonVue.clear();
-
-            Iterator<FenetreLivraison> it_fenetre = ensembleLivraisons.getFenetresLivraison();
-            Iterator<DemandeLivraison> it_demande = null;
-
-            while (it_fenetre.hasNext()) {
-                FenetreLivraison fenetreLivraison = it_fenetre.next();
-                FenetreLivraisonVue fenetreLivraisonVue = new FenetreLivraisonVue(fenetreLivraison, generateurCouleur.getCouleurSuivante());
-                listFenetresLivraisonVue.add(fenetreLivraisonVue);
-
-                it_demande = fenetreLivraison.getDemandesLivraison();
-                while (it_demande.hasNext()) {
-                    listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetreLivraisonVue, it_demande.next()));
-                }
-            }
-
-            updateLegende(2);
-            vueTextuelle.UpdateVueTextuelle(listDemandesLivraisonVue.iterator());
             revalidate();
             repaint();
         }
@@ -402,12 +324,22 @@ public class Fenetre extends JFrame {
 
     private class CalculerTournee implements ActionListener {
 
+        Fenetre fenetre;
+
+        public CalculerTournee(JFrame frameParent) {
+            this.fenetre = (Fenetre) frameParent;
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            Tournee tournee = controleur.calculerTournee();
 
-            vueGraphique.drawTournee(tournee);
+            Tournee nouvelleTournee = controleur.calculerTournee();
 
+            if (nouvelleTournee == this.fenetre.vue.tourneeCourante) { // au cas ou le calcul de la tournee échouerai.
+                return;
+            }
+            this.fenetre.vue.updateTournee(nouvelleTournee);
+            
             revalidate();
             repaint();
         }
@@ -422,5 +354,3 @@ public class Fenetre extends JFrame {
     }
 
 }
-
-

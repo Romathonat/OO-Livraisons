@@ -29,12 +29,12 @@ public class EtatLivraisons extends EtatPlan{
     }
     
     @Override
-    public void chargerLivraisons(Plan plan, EnsembleLivraisons ensembleLivraisons){
+    public void chargerLivraisons(){
         try {
-            DeserialiseurXML.chargerDemandesLivraisons(plan, ensembleLivraisons);
+            Controleur.modeleManager.chargerEnsembleLivraisons();
             Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
-            Controleur.fenetre.sendMessage(ex.getMessage());
+            Controleur.fenetre.EnvoyerMessage(ex.getMessage());
         }
     }
 }

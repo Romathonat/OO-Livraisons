@@ -16,12 +16,12 @@ import modele.*;
 public class EtatDefaut implements Etat{
 
     @Override
-    public void chargerPlan(Plan plan) {
+    public void chargerPlan() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void chargerLivraisons(Plan plan, EnsembleLivraisons ensembleLivraisons) {
+    public void chargerLivraisons() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

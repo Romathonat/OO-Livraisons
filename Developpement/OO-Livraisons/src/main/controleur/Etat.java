@@ -13,8 +13,8 @@ import modele.*;
  * @author Kilian
  */
 public interface Etat {
-    public void chargerPlan(Plan plan);
-    public void chargerLivraisons(Plan plan,EnsembleLivraisons ensembleLivraisons);
+    public void chargerPlan();
+    public void chargerLivraisons();
     public void calculerTournee();
     public void clicPlan(int x, int y);
     public void clicIntersection(Intersection intersection);

@@ -41,7 +41,7 @@ public class Tournee {
         Iterator<Chemin> it_chemin = this.getChemins();
 
         // initialisation
-        Date instantCourant = (Date) this.chemins.get(0).getLivraisonArrivee().getFenetreLivraison().getHeureDebut().clone();
+        Date instantCourant = new Date(this.chemins.get(0).getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime());
 
         while (it_chemin.hasNext()) {
             // une telle implémentation n'est pas optimale mais le code de Date ne permet pas de faire autrement.

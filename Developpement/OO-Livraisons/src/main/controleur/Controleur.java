@@ -65,23 +65,19 @@ public class Controleur {
         modeleManager = new ModeleManager();
         fenetre = new Fenetre(this);
         Controleur.setEtatCourant(etatInitial);
-        
     }
    
     public synchronized Plan chargerPlan() {
-        modeleManager.resetPlan();
-        etatCourant.chargerPlan(modeleManager.getPlan());
+        etatCourant.chargerPlan();
         return modeleManager.getPlan();
     }
     
     public synchronized EnsembleLivraisons chargerLivraisons() {
-        modeleManager.resetEnsembleLivraisons();
-        etatCourant.chargerLivraisons(modeleManager.getPlan(),modeleManager.getEnsembleLivraisons());
+        etatCourant.chargerLivraisons();
         return modeleManager.getEnsembleLivraisons();
     }
     
     public synchronized Tournee calculerTournee() {
-        modeleManager.resetTournee();
         etatCourant.calculerTournee();
         return modeleManager.getTournee();
     }

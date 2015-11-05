@@ -1,0 +1,7 @@
+- On a du revoir plusieurs fois ,au cours du déveleppement, la conception détaillée notamment le diagramme de classes, diagramme d'états-transitions;
+- Le déveleppement en équipe nécessite un ordonnancemnt des taches efficace pour permettre à chaque membre d'entamer sa tache de déveleppement du code au moment opportun, le diagramme de séquence était un bon outil pour réaliser ceci 
+- Des taches ont été mal estimées comme (exemple), par contre d'autres ont été surestimées, ceci est du au manque d'expérience dans ce sens 
+- On a réservé un temps important à la conception pace qu'on a estimé qu'une bonne conception faciltera l'implémentation et l'intégration et aussi aidera à répartir les taches de déveleppement
+- Le projet parait au début abordable mais au cours de l'implémentation on a commencé à apercevoir des difficultés de plus en plus
+- On du implémenter des classe et méthodes mathématiques et avec une complexité acceptable (O(logn)) pour que notre application interagit correctement avec l'utilisateur
+- La coordination et la communication demeurent des points clés pour la réussite de ce projet et aussi d'éviter les conflits au sein du groupe d'ou le role du chef de projet

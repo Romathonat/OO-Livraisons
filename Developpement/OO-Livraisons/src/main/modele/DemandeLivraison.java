@@ -126,7 +126,7 @@ public class DemandeLivraison {
      * @return l'heure à laquelle le point de livraison sera atteind.
      */
     public Date setHeureLivraison(Date heureLivraison) {
-        return this.heureLivraison = heureLivraison;
+        return this.heureLivraison = new Date(heureLivraison.getTime());
     }
 
     /**
