@@ -85,8 +85,12 @@ public class Fenetre extends JFrame {
     protected JButton echangerLivraison;
     protected JButton calculerTournee;
 
-    private Controleur controleur;
+    protected Controleur controleur;
     protected GenerateurCouleur generateurCouleur;
+    
+    protected Plan planCourant; //il nous faut garder ces references pour redessiner le plan quand repaint est appelle
+    protected EnsembleLivraisons ensembleLivraisonsCourant;//attention doivent être mise à null si on recharge juste le plan !
+    protected Tournee tourneeCourante;
 
     protected List<FenetreLivraisonVue> listFenetresLivraisonVue;
     protected List<DemandeLivraisonVue> listDemandesLivraisonVue;
@@ -151,7 +155,7 @@ public class Fenetre extends JFrame {
         calculerTournee.addActionListener(new CalculerTournee(this));
 
         //------Organisation des Pannels
-        vueGraphique = new VueGraphique(this.controleur);
+        vueGraphique = new VueGraphique(this);
 
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
@@ -299,6 +303,28 @@ public class Fenetre extends JFrame {
     public void EnvoyerMessage(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
+    
+    public void resetEnsembleLivraisons(){
+        this.ensembleLivraisonsCourant = null;
+        this.resetTournee();
+    }
+    
+    public void resetTournee(){
+        this.tourneeCourante = null;
+    }
+    
+    protected void setPlanCourant(Plan plan){
+        this.planCourant = plan;
+    }
+    
+    protected void setEnsembleLivraisonsCourant(EnsembleLivraisons ensembleLivraisons){
+        this.ensembleLivraisonsCourant = ensembleLivraisons;
+    }
+    
+    protected void setTourneeCourante (Tournee tournee){
+        this.tourneeCourante = tournee;
+    }
+    
 
     // ---- Methodes d'activation/desactivation des fonctionnalites ----
     // -- Activables / Desactivables ---
@@ -363,31 +389,33 @@ public class Fenetre extends JFrame {
     // ------ ActionsListeners ------
     private class ChargerPlan implements ActionListener {
 
-        Fenetre frameParent;
+        Fenetre fenetre;
 
         public ChargerPlan(JFrame frameParent) {
-            this.frameParent = (Fenetre) frameParent;
+            this.fenetre = (Fenetre) frameParent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            Plan monPlan = controleur.chargerPlan();
+            Plan nouveauPlan = controleur.chargerPlan();
 
-            if (monPlan == null) { // en cas de problème de chargement.
+            if (nouveauPlan == this.fenetre.planCourant) { // en cas de problème de chargement.
                 return;
             }
-
+            this.fenetre.setPlanCourant(nouveauPlan);
+            this.fenetre.resetEnsembleLivraisons();
+            
             // RAZ des objets graphiques.
             vueGraphique.removeAll();
             vueTextuelle.removeAll();
 
             // Dessin du plan.
-            vueGraphique.drawPlan(monPlan);
+            vueGraphique.drawPlan();
 
             // Mise à jour de la légende.
-            updateLegende(1);
-            frameParent.changerStatus("Plan chargé");
+            this.fenetre.updateLegende(1);
+            this.fenetre.changerStatus("Plan chargé");
 
             revalidate();
             repaint();
@@ -396,21 +424,28 @@ public class Fenetre extends JFrame {
 
     private class ChargerDemandesLivraisons implements ActionListener {
 
-        Fenetre frameParent;
+        Fenetre fenetre;
 
         public ChargerDemandesLivraisons(JFrame frameParent) {
-            this.frameParent = (Fenetre) frameParent;
+            this.fenetre = (Fenetre) frameParent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EnsembleLivraisons ensembleLivraisons = controleur.chargerLivraisons();
+            EnsembleLivraisons nouvelEnsembleLivraisons = controleur.chargerLivraisons();
+            
+            if (nouvelEnsembleLivraisons == this.fenetre.ensembleLivraisonsCourant ) { // en cas de problème de chargement.
+                return;
+            }
+            
+            this.fenetre.setEnsembleLivraisonsCourant(nouvelEnsembleLivraisons);
+            this.fenetre.resetTournee();
 
             // mise à jour des objets visuels
             listFenetresLivraisonVue.clear();
             listDemandesLivraisonVue.clear();
 
-            Iterator<FenetreLivraison> it_fenetre = ensembleLivraisons.getFenetresLivraison();
+            Iterator<FenetreLivraison> it_fenetre = this.fenetre.ensembleLivraisonsCourant.getFenetresLivraison();
             Iterator<DemandeLivraison> it_demande = null;
 
             while (it_fenetre.hasNext()) {
@@ -424,17 +459,13 @@ public class Fenetre extends JFrame {
                 }
             }
 
-            // TBD changer parce que c'est pas bon.
-            try { //au cas ou un point n'est pas dejà dessiné
-                vueGraphique.drawLivraisons(ensembleLivraisons);
-            } catch (Exception ex) {
-                Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
-            updateLegende(2);
+            vueGraphique.drawLivraisons();
+
+            this.fenetre.updateLegende(2);
             vueTextuelle.UpdateVueTextuelle(listDemandesLivraisonVue.iterator());
 
-            frameParent.changerStatus("Demandes de livraison chargée");
+            this.fenetre.changerStatus("Demandes de livraison chargée");
             revalidate();
             repaint();
         }
@@ -442,24 +473,25 @@ public class Fenetre extends JFrame {
 
     private class CalculerTournee implements ActionListener {
 
-        Fenetre frameParent;
+        Fenetre fenetre;
 
         public CalculerTournee(JFrame frameParent) {
-            this.frameParent = (Fenetre) frameParent;
+            this.fenetre = (Fenetre) frameParent;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            Tournee tournee = controleur.calculerTournee();
+            Tournee nouvelleTournee = controleur.calculerTournee();
 
-            if (tournee == null) { // au cas ou le calcul de la tournee échouerai.
+            if (nouvelleTournee == this.fenetre.tourneeCourante) { // au cas ou le calcul de la tournee échouerai.
                 return;
             }
+            this.fenetre.setTourneeCourante(nouvelleTournee);
 
             // Mise à jour des elements graphiques.
             listDemandesLivraisonVue.clear();
-            Iterator<Chemin> it_chemin = tournee.getChemins();
+            Iterator<Chemin> it_chemin = this.fenetre.tourneeCourante.getChemins();
             Iterator<DemandeLivraison> it_demande = null;
 
             while (it_chemin.hasNext()) {
@@ -479,8 +511,8 @@ public class Fenetre extends JFrame {
             vueTextuelle.UpdateVueTextuelle(listDemandesLivraisonVue.iterator());
 
             // mise àjour de la vue graphique.
-            vueGraphique.drawTournee(tournee);
-            frameParent.changerStatus("Tournée calculée");
+            vueGraphique.drawTournee();
+            this.fenetre.changerStatus("Tournée calculée");
 
             revalidate();
             repaint();

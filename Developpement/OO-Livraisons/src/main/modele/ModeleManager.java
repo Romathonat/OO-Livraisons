@@ -1,5 +1,8 @@
 package modele;
 
+import controleur.Controleur;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -9,10 +12,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 import tsp.Graphe;
 import tsp.GrapheCreux;
 import tsp.TSP1;
 import tsp.TemplateTSP;
+import xml.DeserialiseurXML;
+import xml.ExceptionXML;
 
 /**
  * Le ModeleManager est le point d'entrée du contrôleur sur le modèle. Contient 
@@ -46,9 +53,9 @@ public class ModeleManager {
      * Contructeur du ModeleManager
      */
     public ModeleManager() {
-        this.plan = new Plan();
-        this.ensembleLivraisons = new EnsembleLivraisons();
-        this.tournee = new Tournee();
+        this.plan = null;
+        this.ensembleLivraisons = null;
+        this.tournee = null;
         this.tempsDerniereTourneeCalculee = Long.MAX_VALUE;
     }
 
@@ -80,7 +87,7 @@ public class ModeleManager {
      * Remet à l'état initial le plan, l'ensemble de livraison, et la tournée(si elle a été calculée) du ModeleManager. 
      */
     public void resetPlan(){
-        this.plan = new Plan();
+        this.plan = null;
         this.resetEnsembleLivraisons();
     }
     
@@ -89,7 +96,7 @@ public class ModeleManager {
      * Le plan actuellement chargé sera conservé.
      */
     public void resetEnsembleLivraisons(){
-        this.ensembleLivraisons = new EnsembleLivraisons();
+        this.ensembleLivraisons = null;
         this.resetTournee();
     }
     
@@ -98,8 +105,23 @@ public class ModeleManager {
      * Le plan et l'ensemble de livraisons actuellement chargés seront conservé.
      */
     public void resetTournee(){
-        this.tournee = new Tournee();
+        this.tournee = null;
     }
+    
+    public void chargerPlan() throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
+            Plan planIntermédiaire = new Plan();
+            DeserialiseurXML.chargerPlan(planIntermédiaire);
+            this.plan = planIntermédiaire;
+            this.resetEnsembleLivraisons();
+    }
+    
+    public void chargerEnsembleLivraisons() throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
+        EnsembleLivraisons ensembleLivraisonsIntermediaire = new EnsembleLivraisons();
+        DeserialiseurXML.chargerDemandesLivraisons(this.plan, ensembleLivraisonsIntermediaire);
+        this.ensembleLivraisons = ensembleLivraisonsIntermediaire;
+        this.resetTournee();
+    }
+             
     
     /**
      * Calcule tous les plus courts chemins entre les intersections de l'ensemble des livraisons.
@@ -245,8 +267,8 @@ public class ModeleManager {
             tsp.chercheSolution(60000, graphe);
             
             //On interprete la solution du problème et on la transforme en tournee.
-            tournee = transformerSolutionTspEnTournee(tsp, correspondance, chemins);
-            tournee.CalculerHeuresDemandesLivraisons();
+            this.tournee = transformerSolutionTspEnTournee(tsp, correspondance, chemins);
+            this.tournee.CalculerHeuresDemandesLivraisons();
             return tournee.getTempsDeLivraison();
         }
         return -1;

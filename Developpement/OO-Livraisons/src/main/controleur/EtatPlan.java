@@ -25,9 +25,9 @@ public class EtatPlan extends EtatDefaut{
     }
     
     @Override
-    public void chargerPlan(Plan plan){
-        try {
-            DeserialiseurXML.chargerPlan(plan);
+    public void chargerPlan(){
+        try{
+            Controleur.modeleManager.chargerPlan();
             Controleur.setEtatCourant(Controleur.etatPlanCharge);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
            Controleur.fenetre.EnvoyerMessage(ex.getMessage());
