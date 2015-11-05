@@ -269,7 +269,7 @@ public class Fenetre extends JFrame {
         if (etat > 1) {
 
             // legende de l'entrepot
-            ElementLegende legendeFenetre = new ElementLegende(Color.GREEN, "Entrepot");
+            ElementLegende legendeFenetre = new ElementLegende(GenerateurCouleur.getCouleurEntrepot(), "Entrepot");
             legende.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
             legende.add(legendeFenetre);
             legendeFenetre.setMinimumSize(tailleEltLegende);
@@ -459,7 +459,7 @@ public class Fenetre extends JFrame {
 
                 it_demande = fenetreLivraison.getDemandesLivraison();
                 while (it_demande.hasNext()) {
-                    listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetreLivraisonVue, it_demande.next()));
+                    listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetre, fenetreLivraisonVue, it_demande.next()));
                 }
             }
 
@@ -496,7 +496,6 @@ public class Fenetre extends JFrame {
             // Mise à jour des elements graphiques.
             listDemandesLivraisonVue.clear();
             Iterator<Chemin> it_chemin = this.fenetre.tourneeCourante.getChemins();
-            Iterator<DemandeLivraison> it_demande = null;
 
             while (it_chemin.hasNext()) {
                 Chemin chemin = it_chemin.next();
@@ -507,8 +506,7 @@ public class Fenetre extends JFrame {
                 }
 
                 listCheminVue.add(new CheminVue(fenetreLivraisonVue, chemin));
-                DemandeLivraisonVue demandeVue = new DemandeLivraisonVue(fenetreLivraisonVue, chemin.getLivraisonArrivee());
-                listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetreLivraisonVue, chemin.getLivraisonArrivee()));
+                listDemandesLivraisonVue.add(new DemandeLivraisonVue(this.fenetre, fenetreLivraisonVue, chemin.getLivraisonArrivee()));
             }
 
             // mise à jour de la vue textuelle.

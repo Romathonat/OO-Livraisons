@@ -38,5 +38,8 @@ public class GenerateurCouleur {
     public Color getCouleurAt(int i) {
         return this.couleurs[i % nombreCouleur];
     }
-
+    
+    public static Color getCouleurEntrepot(){
+        return new Color (16,96,34);
+    }
 }

@@ -8,13 +8,16 @@ package vue;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.lang.reflect.Array;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import modele.DemandeLivraison;
@@ -29,15 +32,16 @@ public class DemandeLivraisonVue extends JPanel {
     protected DemandeLivraison demandeLivraison;
     protected FenetreLivraisonVue fenetreLivraisonVue;
     public Date heure;
+    protected Fenetre fenetre;
 
     JLabel jLabelClient;
     JLabel jLabelAdresse;
     JLabel jLabelHeure;
 
-    public DemandeLivraisonVue(FenetreLivraisonVue fenetreLivraisonVue, DemandeLivraison demandeLivraison) {
+    public DemandeLivraisonVue(Fenetre fenetreParent, FenetreLivraisonVue fenetreLivraisonVue, DemandeLivraison demandeLivraison) {
         super();
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-
+        
+        this.fenetre = fenetreParent;
         this.fenetreLivraisonVue = fenetreLivraisonVue;
         this.demandeLivraison = demandeLivraison;
 
@@ -60,34 +64,42 @@ public class DemandeLivraisonVue extends JPanel {
             this.jLabelHeure.setBorder(new EmptyBorder(0, 5, 0, 0));
             this.add(this.jLabelHeure);
         }
+
+        // ComposantGraphique.
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.setBackground(Color.WHITE);
+        this.setVisible(true);
+        
+        addMouseListener(new MouseAdapter() {
+            private Color background;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                background = getBackground();
+                setBackground(new Color(113, 142, 164));
+                repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                setBackground(background);
+            }
+        });
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        this.setOpaque(true);
-        this.setBackground(new Color(0, 0, 0, 0));
-        this.setVisible(true);
-
-        this.setBorder(BorderFactory.createMatteBorder(0, 4, 0, 0, this.getCouleur()));
-
-        Graphics2D g2d = (Graphics2D) g;
-
-        // change here to put color less fluo.
-        g2d.setColor(Color.WHITE);
-        g2d.drawRect(0, 0, this.getWidth(), this.getHeight());
-        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+        this.setBorder(BorderFactory.createMatteBorder(1, 4, 1, 1, this.getCouleur()));
     }
 
-    
-    public Color getCouleur()
-    {
+    public Color getCouleur() {
         boolean test = this.demandeLivraison.RespecteFenetreLivraison();
-        
-        if (this.demandeLivraison.getHeureLivraison() == null || this.demandeLivraison.RespecteFenetreLivraison())
-        {
+
+        if (this.demandeLivraison.getHeureLivraison() == null || this.demandeLivraison.RespecteFenetreLivraison()) {
             return this.fenetreLivraisonVue.getCouleur();
         }
         return Color.RED;
     }
+
 }
