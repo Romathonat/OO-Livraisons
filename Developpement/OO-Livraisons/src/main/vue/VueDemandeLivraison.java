@@ -26,11 +26,11 @@ import modele.DemandeLivraison;
  *
  * @author Kilian
  */
-public class DemandeLivraisonVue extends JPanel {
+public class VueDemandeLivraison extends JPanel {
 
     private int height = 100;
     protected DemandeLivraison demandeLivraison;
-    protected FenetreLivraisonVue fenetreLivraisonVue;
+    protected VueFenetreLivraison fenetreLivraisonVue;
     public Date heure;
     protected Fenetre fenetre;
 
@@ -38,7 +38,7 @@ public class DemandeLivraisonVue extends JPanel {
     JLabel jLabelAdresse;
     JLabel jLabelHeure;
 
-    public DemandeLivraisonVue(Fenetre fenetreParent, FenetreLivraisonVue fenetreLivraisonVue, DemandeLivraison demandeLivraison) {
+    public VueDemandeLivraison(Fenetre fenetreParent, VueFenetreLivraison fenetreLivraisonVue, DemandeLivraison demandeLivraison) {
         super();
         
         this.fenetre = fenetreParent;

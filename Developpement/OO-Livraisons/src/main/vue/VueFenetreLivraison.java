@@ -7,12 +7,12 @@ import modele.FenetreLivraison;
  *
  * @author Guillaume Kheng
  */
-public class FenetreLivraisonVue {
+public class VueFenetreLivraison {
 
     private FenetreLivraison fenetre;
     private Color couleur;
 
-    FenetreLivraisonVue(FenetreLivraison fenetre, Color couleur) {
+    VueFenetreLivraison(FenetreLivraison fenetre, Color couleur) {
         this.fenetre = fenetre;
         this.couleur = couleur;
     }

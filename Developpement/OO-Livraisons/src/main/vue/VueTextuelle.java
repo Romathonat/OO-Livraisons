@@ -19,7 +19,7 @@ import javax.swing.BoxLayout;
  */
 public class VueTextuelle extends JPanel {
 
-    private Collection<DemandeLivraisonVue> mesDemandesLivraisons;
+    private Collection<VueDemandeLivraison> mesDemandesLivraisons;
     private int ecartDemandesLivraisons;
 
     public VueTextuelle() {
@@ -29,14 +29,14 @@ public class VueTextuelle extends JPanel {
         this.ecartDemandesLivraisons = 5;
     }
 
-    public void UpdateVueTextuelle(Iterator<DemandeLivraisonVue> it_demandeLivraisonVue) {
+    public void UpdateVueTextuelle(Iterator<VueDemandeLivraison> it_demandeLivraisonVue) {
 
         // on raz la fenetre
         this.removeAll();
 
         while (it_demandeLivraisonVue.hasNext())//pour toutes les fenetres, on change la coloration
         {
-            DemandeLivraisonVue demandeLivraisonVue = it_demandeLivraisonVue.next();
+            VueDemandeLivraison demandeLivraisonVue = it_demandeLivraisonVue.next();
             System.out.println(demandeLivraisonVue);
             //this.mesDemandesLivraisons.add(demandeLivraisonVue);
             this.add(demandeLivraisonVue);

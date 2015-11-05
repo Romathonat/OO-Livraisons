@@ -11,12 +11,12 @@ import modele.Chemin;
  *
  * @author Guillaume Kheng
  */
-public class CheminVue {
+public class VueChemin {
     
     private Chemin chemin;
-    private FenetreLivraisonVue fenetreLivraisonVue;
+    private VueFenetreLivraison fenetreLivraisonVue;
 
-    public CheminVue(FenetreLivraisonVue fenetreVue, Chemin chemin) {
+    public VueChemin(VueFenetreLivraison fenetreVue, Chemin chemin) {
         this.chemin = chemin;
         this.fenetreLivraisonVue = fenetreVue;
     }
@@ -25,7 +25,7 @@ public class CheminVue {
         return chemin;
     }
 
-    public FenetreLivraisonVue getFenetreLivraisonVue() {
+    public VueFenetreLivraison getFenetreLivraisonVue() {
         return fenetreLivraisonVue;
     }
     

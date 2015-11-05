@@ -28,9 +28,9 @@ public class Vue {
     protected VueTextuelle vueTextuelle;
     protected VueLegende vueLegende;
     protected VueStatus vueStatus;
-    protected List<FenetreLivraisonVue> listFenetresLivraisonVue;
-    protected List<DemandeLivraisonVue> listDemandesLivraisonVue;
-    protected List<CheminVue> listCheminVue;
+    protected List<VueFenetreLivraison> listFenetresLivraisonVue;
+    protected List<VueDemandeLivraison> listDemandesLivraisonVue;
+    protected List<VueChemin> listCheminVue;
     
     protected GenerateurCouleur generateurCouleur;
     
@@ -117,12 +117,12 @@ public class Vue {
 
             while (it_fenetre.hasNext()) {
                 FenetreLivraison fenetreLivraison = it_fenetre.next();
-                FenetreLivraisonVue fenetreLivraisonVue = new FenetreLivraisonVue(fenetreLivraison, generateurCouleur.getCouleurSuivante());
+                VueFenetreLivraison fenetreLivraisonVue = new VueFenetreLivraison(fenetreLivraison, generateurCouleur.getCouleurSuivante());
                 listFenetresLivraisonVue.add(fenetreLivraisonVue);
 
                 it_demande = fenetreLivraison.getDemandesLivraison();
                 while (it_demande.hasNext()) {
-                    listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetre, fenetreLivraisonVue, it_demande.next()));
+                    listDemandesLivraisonVue.add(new VueDemandeLivraison(fenetre, fenetreLivraisonVue, it_demande.next()));
                 }
             }
 
@@ -146,14 +146,14 @@ public class Vue {
 
             while (it_chemin.hasNext()) {
                 Chemin chemin = it_chemin.next();
-                FenetreLivraisonVue fenetreLivraisonVue = getFenetreCorrespondante(chemin.getLivraisonArrivee());
+                VueFenetreLivraison fenetreLivraisonVue = getFenetreCorrespondante(chemin.getLivraisonArrivee());
 
                 if (fenetreLivraisonVue == null) {
                     continue;
                 }
 
-                listCheminVue.add(new CheminVue(fenetreLivraisonVue, chemin));
-                listDemandesLivraisonVue.add(new DemandeLivraisonVue(this.fenetre, fenetreLivraisonVue, chemin.getLivraisonArrivee()));
+                listCheminVue.add(new VueChemin(fenetreLivraisonVue, chemin));
+                listDemandesLivraisonVue.add(new VueDemandeLivraison(this.fenetre, fenetreLivraisonVue, chemin.getLivraisonArrivee()));
             }
 
             // mise à jour de la vue textuelle.
@@ -165,11 +165,11 @@ public class Vue {
             this.vueStatus.changerStatus("Tournée calculée");
     }
     
-    private FenetreLivraisonVue getFenetreCorrespondante(DemandeLivraison demandeLivraison) {
-        Iterator<FenetreLivraisonVue> it_fenetreVue = listFenetresLivraisonVue.iterator();
+    private VueFenetreLivraison getFenetreCorrespondante(DemandeLivraison demandeLivraison) {
+        Iterator<VueFenetreLivraison> it_fenetreVue = listFenetresLivraisonVue.iterator();
         while (it_fenetreVue.hasNext()) {
 
-            FenetreLivraisonVue fenetreVue = it_fenetreVue.next();
+            VueFenetreLivraison fenetreVue = it_fenetreVue.next();
             if (demandeLivraison.getFenetreLivraison().getHeureDebut().compareTo(fenetreVue.getFenetre().getHeureDebut()) == 0) {
                 return fenetreVue;
             }

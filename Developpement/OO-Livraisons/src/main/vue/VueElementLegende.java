@@ -19,12 +19,12 @@ import javax.swing.border.EmptyBorder;
  *
  * @author romain
  */
-public class ElementLegende extends JPanel{
+public class VueElementLegende extends JPanel{
     private Color couleur;
     private String texte;
     private JLabel label;
     
-    public ElementLegende (Color c, String s){
+    public VueElementLegende (Color c, String s){
         this.couleur = c;
         this.texte = s;
         this.setPreferredSize(new Dimension(20,200));
