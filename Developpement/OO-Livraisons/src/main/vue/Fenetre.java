@@ -207,7 +207,9 @@ public class Fenetre extends JFrame {
 
 
 
-
+    public Vue getVue(){
+        return this.vue;
+    }
     /**
      * Affiche une popup contenant un message particulier.
      *

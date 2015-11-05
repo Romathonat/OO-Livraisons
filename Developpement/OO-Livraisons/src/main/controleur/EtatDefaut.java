@@ -96,7 +96,5 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void clicPlan(int x, int y) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void clicPlan(int x, int y) {}
 }

@@ -37,7 +37,7 @@ public class VueGraphique extends JPanel implements Observer{
     private int maxX;
     private int maxY;
     private int rayonInter = 10;
-
+    private int rayonSelection = 15;
     
     private Date[] mesDebutsFenetre = new Date[3]; //que trois fenetres dans les specs
     private Color[] mesCouleurs = new Color[3];//ces deux tableaux correspondent
@@ -54,7 +54,9 @@ public class VueGraphique extends JPanel implements Observer{
         this.maxY = this.getSize().height;
         this.addMouseListener(new ecouteurSouris(this.vue.fenetre));       
     }
-    
+    public int getRayonInter(){
+        return this.rayonInter;
+    }
     /**
      * Retourne un point dont les coordonnes x et y sont à l'échelle de la fenêtre
      * @param x
@@ -77,7 +79,6 @@ public class VueGraphique extends JPanel implements Observer{
         Graphics2D g2D = (Graphics2D) g;
         initialiserGraphics2d(g2D); //on initialise le pinceau pour qu'il dessine bien
         
-              
         if(this.vue.planCourant != null){
             dessinerPlan(g2D);
             if(this.vue.ensembleLivraisonsCourant != null){
@@ -126,7 +127,17 @@ public class VueGraphique extends JPanel implements Observer{
     
     public void dessinerUneIntersection(Intersection monInter, Graphics2D g2D){
         Point coordonnesInter = getCoordEchelle(monInter.getX(),monInter.getY());
-        g2D.fillOval(coordonnesInter.x-(int)rayonInter/2, coordonnesInter.y-(int)rayonInter/2, rayonInter, rayonInter);
+        
+        Iterator<Integer> itInterSelectionne = this.vue.getInterSelectionne();
+        int rayonDessin = rayonInter;
+        
+        while(itInterSelectionne.hasNext()){ //on verifie que l'intersection qu'on dessine a été selectionnée ou pas
+            if(itInterSelectionne.next() == monInter.getId()){
+                rayonDessin = this.rayonSelection;
+            }
+        }
+        
+        g2D.fillOval(coordonnesInter.x-(int)rayonDessin/2, coordonnesInter.y-(int)rayonDessin/2, rayonDessin, rayonDessin);
     }
     /**
      * Dessine les troncons avec g2D

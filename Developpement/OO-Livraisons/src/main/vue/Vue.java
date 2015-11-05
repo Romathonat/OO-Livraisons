@@ -31,6 +31,7 @@ public class Vue {
     protected List<FenetreLivraisonVue> listFenetresLivraisonVue;
     protected List<DemandeLivraisonVue> listDemandesLivraisonVue;
     protected List<CheminVue> listCheminVue;
+    protected List<Integer> intersectionSelectionnees;
     
     protected GenerateurCouleur generateurCouleur;
     
@@ -59,10 +60,33 @@ public class Vue {
         listFenetresLivraisonVue = new ArrayList<>();
         listDemandesLivraisonVue = new ArrayList<>();
         listCheminVue = new ArrayList<>();
+        intersectionSelectionnees = new ArrayList<>();
         
         generateurCouleur = new GenerateurCouleur();
     }
     
+    public VueGraphique getVueGraphique(){
+        return this.vueGraphique;
+    }
+    
+    /**
+     * indique quelle intersection a été selectionnée et si elle est un point de livraison
+     * @param id
+     * @param isPointLivraison 
+     */
+    public void ajouterInterSelectionnee(int id, boolean isPointLivraison){
+        this.intersectionSelectionnees.add(id);
+        this.vueGraphique.repaint();
+    }
+    
+    public void supprimerInterSelectionee(){
+        this.intersectionSelectionnees.clear();
+        this.vueGraphique.repaint();
+    }
+    
+    public Iterator<Integer> getInterSelectionne(){
+        return this.intersectionSelectionnees.iterator();
+    }
     public void resetEnsembleLivraisons(){
         this.ensembleLivraisonsCourant = null;
         this.resetTournee();
