@@ -62,7 +62,7 @@ public class VueLegende extends JPanel {
         if (etat > 1) {
 
             // legende de l'entrepot
-            ElementLegende legendeFenetre = new ElementLegende(Color.GREEN, "Entrepot");
+            ElementLegende legendeFenetre = new ElementLegende(GenerateurCouleur.getCouleurEntrepot(), "Entrepot");
             this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
             this.add(legendeFenetre);
             legendeFenetre.setMinimumSize(tailleEltLegende);

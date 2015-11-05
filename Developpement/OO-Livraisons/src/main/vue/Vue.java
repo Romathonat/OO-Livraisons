@@ -122,7 +122,7 @@ public class Vue {
 
                 it_demande = fenetreLivraison.getDemandesLivraison();
                 while (it_demande.hasNext()) {
-                    listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetreLivraisonVue, it_demande.next()));
+                    listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetre, fenetreLivraisonVue, it_demande.next()));
                 }
             }
 
@@ -153,8 +153,7 @@ public class Vue {
                 }
 
                 listCheminVue.add(new CheminVue(fenetreLivraisonVue, chemin));
-                DemandeLivraisonVue demandeVue = new DemandeLivraisonVue(fenetreLivraisonVue, chemin.getLivraisonArrivee());
-                listDemandesLivraisonVue.add(new DemandeLivraisonVue(fenetreLivraisonVue, chemin.getLivraisonArrivee()));
+                listDemandesLivraisonVue.add(new DemandeLivraisonVue(this.fenetre, fenetreLivraisonVue, chemin.getLivraisonArrivee()));
             }
 
             // mise à jour de la vue textuelle.

@@ -8,17 +8,10 @@ package vue;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import modele.Chemin;
-import modele.DemandeLivraison;
-import modele.EnsembleLivraisons;
-import modele.FenetreLivraison;
-import modele.Tournee;
 
 /**
  *
@@ -41,8 +34,6 @@ public class VueTextuelle extends JPanel {
         // on raz la fenetre
         this.removeAll();
 
-        int compteurDemandesLivraisons = 0;
-
         while (it_demandeLivraisonVue.hasNext())//pour toutes les fenetres, on change la coloration
         {
             DemandeLivraisonVue demandeLivraisonVue = it_demandeLivraisonVue.next();
@@ -55,4 +46,5 @@ public class VueTextuelle extends JPanel {
         this.revalidate();
         this.repaint();
     }
+
 }
