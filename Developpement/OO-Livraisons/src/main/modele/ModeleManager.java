@@ -53,9 +53,9 @@ public class ModeleManager {
      * Contructeur du ModeleManager
      */
     public ModeleManager() {
-        this.plan = null;
-        this.ensembleLivraisons = null;
-        this.tournee = null;
+        this.plan = new Plan();
+        this.ensembleLivraisons = new EnsembleLivraisons();
+        this.tournee = new Tournee();
         this.tempsDerniereTourneeCalculee = Long.MAX_VALUE;
     }
 

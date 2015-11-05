@@ -96,9 +96,13 @@ public class Fenetre extends JFrame {
     protected List<DemandeLivraisonVue> listDemandesLivraisonVue;
     protected List<CheminVue> listCheminVue;
 
-    public Fenetre(Controleur c) {
-        controleur = c;
-
+    public Fenetre(Controleur controleur) {
+        this.controleur = controleur;
+        
+        this.planCourant = null;
+        this.ensembleLivraisonsCourant = null;
+        this.tourneeCourante = null;
+                
         generateurCouleur = new GenerateurCouleur();
         listFenetresLivraisonVue = new ArrayList<>();
         listDemandesLivraisonVue = new ArrayList<>();
@@ -313,15 +317,15 @@ public class Fenetre extends JFrame {
         this.tourneeCourante = null;
     }
     
-    protected void setPlanCourant(Plan plan){
+    public void setPlanCourant(Plan plan){
         this.planCourant = plan;
     }
     
-    protected void setEnsembleLivraisonsCourant(EnsembleLivraisons ensembleLivraisons){
+    public void setEnsembleLivraisonsCourant(EnsembleLivraisons ensembleLivraisons){
         this.ensembleLivraisonsCourant = ensembleLivraisons;
     }
     
-    protected void setTourneeCourante (Tournee tournee){
+    public void setTourneeCourante (Tournee tournee){
         this.tourneeCourante = tournee;
     }
     
