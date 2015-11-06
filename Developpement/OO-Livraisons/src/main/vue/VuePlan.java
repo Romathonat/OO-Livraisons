@@ -12,11 +12,18 @@ import modele.Plan;
  * @author Nicolas
  */
 public class VuePlan {
-    protected Plan plan;
-    protected Vue vue;
+    private Plan plan;
+    private Vue vue;
     
     public VuePlan(Vue vue,Plan plan){
         this.vue = vue;
         this.plan = plan;
+    }
+
+    /**
+     * @return the plan
+     */
+    public Plan getPlan() {
+        return plan;
     }
 }

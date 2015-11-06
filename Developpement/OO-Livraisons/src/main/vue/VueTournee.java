@@ -6,6 +6,7 @@
 package vue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import modele.Chemin;
@@ -16,9 +17,9 @@ import modele.Tournee;
  * @author Nicolas
  */
 public class VueTournee {
-    protected List<VueChemin> listCheminVue;
-    protected Tournee tournee;
-    protected Vue vue;
+    private List<VueChemin> listCheminVue;
+    private Tournee tournee;
+    private Vue vue;
     
     public VueTournee(Vue vue, Tournee tournee){
         this.vue = vue;
@@ -36,8 +37,23 @@ public class VueTournee {
                 }
 
                 this.listCheminVue.add(new VueChemin(fenetreLivraisonVue, chemin));
-                fenetreLivraisonVue.listDemandesLivraisonVue.add(new VueDemandeLivraison(fenetreLivraisonVue, chemin.getLivraisonArrivee()));
+                fenetreLivraisonVue.addVueDemandeLivraison(new VueDemandeLivraison(fenetreLivraisonVue, chemin.getLivraisonArrivee()));
             }
         }
+    }
+
+    /**
+     * @return the listCheminVue
+     */
+    public Iterator<VueChemin> getListCheminVue() {
+        List constList = Collections.unmodifiableList(this.listCheminVue);
+        return constList.iterator();
+    }
+
+    /**
+     * @return the tournee
+     */
+    public Tournee getTournee() {
+        return tournee;
     }
 }

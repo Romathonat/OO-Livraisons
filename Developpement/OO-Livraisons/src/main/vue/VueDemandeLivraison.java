@@ -29,8 +29,8 @@ import modele.DemandeLivraison;
 public class VueDemandeLivraison extends JPanel {
 
     private int height = 100;
-    protected DemandeLivraison demandeLivraison;
-    protected VueFenetreLivraison fenetreLivraisonVue;
+    private DemandeLivraison demandeLivraison;
+    private VueFenetreLivraison fenetreLivraisonVue;
     public Date heure;
 
     JLabel jLabelClient;
@@ -46,7 +46,7 @@ public class VueDemandeLivraison extends JPanel {
         this.jLabelClient = new JLabel("Client : " + Integer.toString(demandeLivraison.getIdClient()));
         this.jLabelClient.setBorder(new EmptyBorder(0, 5, 0, 0));
 
-        this.jLabelAdresse = new JLabel("Adresse : x = " + this.demandeLivraison.getIntersection().getX() + ", y = " + this.demandeLivraison.getIntersection().getY());
+        this.jLabelAdresse = new JLabel("Adresse : x = " + this.getDemandeLivraison().getIntersection().getX() + ", y = " + this.getDemandeLivraison().getIntersection().getY());
         this.jLabelAdresse.setBorder(new EmptyBorder(0, 5, 0, 0));
 
         this.jLabelHeure = null;
@@ -92,12 +92,19 @@ public class VueDemandeLivraison extends JPanel {
     }
 
     public Color getCouleur() {
-        boolean test = this.demandeLivraison.RespecteFenetreLivraison();
+        boolean test = this.getDemandeLivraison().RespecteFenetreLivraison();
 
-        if (this.demandeLivraison.getHeureLivraison() == null || this.demandeLivraison.RespecteFenetreLivraison()) {
+        if (this.getDemandeLivraison().getHeureLivraison() == null || this.getDemandeLivraison().RespecteFenetreLivraison()) {
             return this.fenetreLivraisonVue.getCouleur();
         }
         return GenerateurCouleur.getCouleurFenetreHorsHoraire();
+    }
+
+    /**
+     * @return the demandeLivraison
+     */
+    public DemandeLivraison getDemandeLivraison() {
+        return this.demandeLivraison;
     }
 
 }

@@ -25,6 +25,7 @@ public class VueElementLegende extends JPanel{
     private JLabel label;
     
     public VueElementLegende (Color c, String s){
+        super();
         this.couleur = c;
         this.texte = s;
         this.setPreferredSize(new Dimension(20,200));

@@ -14,11 +14,11 @@ import javax.swing.JPanel;
  * @author Nicolas
  */
 public class VueStatus extends JPanel {
-    protected JLabel statusRigth;
-    protected JLabel statusLeft;
+    private JLabel statusRigth;
+    private JLabel statusLeft;
     
     public VueStatus(){
-        
+        super();
         this.setLayout(new BorderLayout());
         this.statusRigth = new JLabel("OO-Livraison");
         this.statusLeft = new JLabel("");

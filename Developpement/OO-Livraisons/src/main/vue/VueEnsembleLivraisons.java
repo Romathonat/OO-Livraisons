@@ -6,6 +6,7 @@
 package vue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import modele.DemandeLivraison;
@@ -17,14 +18,14 @@ import modele.FenetreLivraison;
  * @author Nicolas
  */
 public class VueEnsembleLivraisons{
-    protected List<VueFenetreLivraison> listFenetresLivraisonVue;
-    protected EnsembleLivraisons ensembleLivraison;
-    protected Vue vue;
+    private List<VueFenetreLivraison> listVueFenetreLivraison;
+    private EnsembleLivraisons ensembleLivraison;
+    private Vue vue;
     
     public VueEnsembleLivraisons(Vue vue, EnsembleLivraisons ensembleLivraisons){
         this.vue = vue;
         this.ensembleLivraison = ensembleLivraisons;
-        this.listFenetresLivraisonVue = new ArrayList<>();
+        this.listVueFenetreLivraison = new ArrayList<>();
         
         if(this.ensembleLivraison != null){
             Iterator<FenetreLivraison> it_fenetre = this.ensembleLivraison.getFenetresLivraison();
@@ -33,20 +34,35 @@ public class VueEnsembleLivraisons{
             while (it_fenetre.hasNext()) {
                 FenetreLivraison fenetreLivraison = it_fenetre.next();
                 VueFenetreLivraison fenetreLivraisonVue = new VueFenetreLivraison(fenetreLivraison, this.vue.generateurCouleur.getCouleurSuivante());
-                this.listFenetresLivraisonVue.add(fenetreLivraisonVue);
+                this.listVueFenetreLivraison.add(fenetreLivraisonVue);
 
                 it_demande = fenetreLivraison.getDemandesLivraison();
                 while (it_demande.hasNext()) {
-                    fenetreLivraisonVue.listDemandesLivraisonVue.add(new VueDemandeLivraison(fenetreLivraisonVue, it_demande.next()));
+                    fenetreLivraisonVue.addVueDemandeLivraison(new VueDemandeLivraison(fenetreLivraisonVue, it_demande.next()));
                 }
             }
         }
     }
     
     protected void clearDemandeLivraisons(){
-        for (VueFenetreLivraison vueFenetreLivraison : this.listFenetresLivraisonVue) {
-            vueFenetreLivraison.clearDemandesLivraison();
+        for (VueFenetreLivraison vueFenetreLivraison : this.listVueFenetreLivraison) {
+            vueFenetreLivraison.clearDemandesLivraisonVue();
         }
+    }
+
+    /**
+     * @return the listFenetresLivraisonVue
+     */
+    public Iterator<VueFenetreLivraison> getListVueFenetresLivraison() {
+        List constList = Collections.unmodifiableList(this.listVueFenetreLivraison);
+        return constList.iterator();
+    }
+
+    /**
+     * @return the ensembleLivraison
+     */
+    public EnsembleLivraisons getEnsembleLivraison() {
+        return ensembleLivraison;
     }
     
 }

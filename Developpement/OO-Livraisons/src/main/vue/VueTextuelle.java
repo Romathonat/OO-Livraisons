@@ -22,6 +22,7 @@ public class VueTextuelle extends JPanel {
     private int ecartDemandesLivraisons;
 
     public VueTextuelle() {
+        super();
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBackground(Color.white);
 
@@ -35,9 +36,10 @@ public class VueTextuelle extends JPanel {
 
         while (it_fenetreVue.hasNext())//pour toutes les fenetres, on change la coloration
         {
-            for (VueDemandeLivraison vueDemandeLivraison : it_fenetreVue.next().listDemandesLivraisonVue){
+            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonVue();
+            while(it_vueDemandeLivraison.hasNext()){
 
-                this.add(vueDemandeLivraison);
+                this.add(it_vueDemandeLivraison.next());
                 this.add(Box.createRigidArea(new Dimension(0, this.ecartDemandesLivraisons)));
             }
         }

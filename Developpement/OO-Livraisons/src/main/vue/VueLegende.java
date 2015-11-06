@@ -23,10 +23,11 @@ import javax.swing.JPanel;
  */
 public class VueLegende extends JPanel {
     private Vue vue;
-    protected int ecartLegende;
-    protected Dimension tailleEltLegende;
+    private int ecartLegende;
+    private Dimension tailleEltLegende;
     
     public VueLegende(Vue vue){
+        super();
         this.vue = vue;
         this.ecartLegende = 15;
         this.tailleEltLegende = new Dimension(210, 20);
@@ -49,48 +50,48 @@ public class VueLegende extends JPanel {
         this.add(titre);
 
         // on a chargé le plan.
-        if (this.vue.vuePlan.plan != null) {
+        if (this.vue.vuePlan.getPlan() != null) {
             // Legende des intersections.
             VueElementLegende neutre = new VueElementLegende(Color.LIGHT_GRAY, "Intersection");
             this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
             this.add(neutre);
-            neutre.setMinimumSize(tailleEltLegende);
-            neutre.setMaximumSize(tailleEltLegende);
+            neutre.setMinimumSize(this.tailleEltLegende);
+            neutre.setMaximumSize(this.tailleEltLegende);
         }
 
         // on a chargé les livraisons.
-        if (vue.vueEnsembleLivraisons.ensembleLivraison != null) {
+        if (this.vue.vueEnsembleLivraisons.getEnsembleLivraison() != null) {
 
             // legende de l'entrepot
             VueElementLegende legendeFenetre = new VueElementLegende(GenerateurCouleur.getCouleurEntrepot(), "Entrepot");
-            this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+            this.add(Box.createRigidArea(new Dimension(0, this.ecartLegende)));
             this.add(legendeFenetre);
-            legendeFenetre.setMinimumSize(tailleEltLegende);
-            legendeFenetre.setMaximumSize(tailleEltLegende);
+            legendeFenetre.setMinimumSize(this.tailleEltLegende);
+            legendeFenetre.setMaximumSize(this.tailleEltLegende);
 
             // Legende des fenetres de livraison.
-            Iterator<VueFenetreLivraison> it_flv = this.vue.vueEnsembleLivraisons.listFenetresLivraisonVue.iterator();
+            Iterator<VueFenetreLivraison> it_flv = this.vue.vueEnsembleLivraisons.getListVueFenetresLivraison();
             int i = 0;
             while (it_flv.hasNext()) {
                 i++;
                 legendeFenetre = new VueElementLegende(it_flv.next().getCouleur(), "Demande Fenetre " + Integer.toString(i));
-                this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+                this.add(Box.createRigidArea(new Dimension(0, this.ecartLegende)));
                 this.add(legendeFenetre);
-                legendeFenetre.setMinimumSize(tailleEltLegende);
-                legendeFenetre.setMaximumSize(tailleEltLegende);
+                legendeFenetre.setMinimumSize(this.tailleEltLegende);
+                legendeFenetre.setMaximumSize(this.tailleEltLegende);
             }
 
             
         }
         
-        if(this.vue.vueTournee.tournee != null){
+        if(this.vue.vueTournee.getTournee() != null){
             VueElementLegende legendeFenetre = new VueElementLegende(
                     GenerateurCouleur.getCouleurFenetreHorsHoraire(), 
                     "Livraison Hors Horaire");
-            this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+            this.add(Box.createRigidArea(new Dimension(0, this.ecartLegende)));
             this.add(legendeFenetre);
-            legendeFenetre.setMinimumSize(tailleEltLegende);
-            legendeFenetre.setMaximumSize(tailleEltLegende);
+            legendeFenetre.setMinimumSize(this.tailleEltLegende);
+            legendeFenetre.setMaximumSize(this.tailleEltLegende);
         }
         
         this.add(Box.createRigidArea(new Dimension(0, 300)));

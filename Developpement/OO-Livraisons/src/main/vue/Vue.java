@@ -33,7 +33,6 @@ public class Vue {
     protected VueTournee vueTournee;
     protected VuePlan vuePlan;
     
-    
     protected List<Integer> intersectionSelectionnees;
     
     protected GenerateurCouleur generateurCouleur;
@@ -100,7 +99,7 @@ public class Vue {
    
     
     protected void updatePlan(Plan plan){
-        if (plan == this.vuePlan.plan) { // en cas de problème de chargement.
+        if (plan == this.vuePlan.getPlan()) { // en cas de problème de chargement.
             return;
         }
         this.vuePlan = new VuePlan(this, plan);
@@ -115,7 +114,7 @@ public class Vue {
     }
     
     protected void updateEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
-        if (ensembleLivraisons == this.vueEnsembleLivraisons.ensembleLivraison ) { // en cas de problème de chargement.
+        if (ensembleLivraisons == this.vueEnsembleLivraisons.getEnsembleLivraison()) { // en cas de problème de chargement.
             return;
         }
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, ensembleLivraisons);
@@ -126,21 +125,19 @@ public class Vue {
 
         this.vueLegende.updateLegende();
 
-        this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.listFenetresLivraisonVue.iterator());
+        this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.getListVueFenetresLivraison());
 
         this.vueStatus.changerStatus("Demandes de livraison chargée");
     }
     
     protected void updateTournee(Tournee tournee){
-        if (tournee == this.vueTournee.tournee) { // au cas ou le calcul de la tournee échouerai.
+        if (tournee == this.vueTournee.getTournee()) { // au cas ou le calcul de la tournee échouerai.
             return;
         }
-
-        this.vueEnsembleLivraisons.clearDemandeLivraisons();
-        
+        this.vueEnsembleLivraisons.clearDemandeLivraisons(); //On les enlève pour les remmettre dans l'ordre    
         this.vueTournee = new VueTournee(this, tournee);
               
-        this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.listFenetresLivraisonVue.iterator());
+        this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.getListVueFenetresLivraison());
 
         this.vueGraphique.drawTournee();
 
@@ -149,7 +146,7 @@ public class Vue {
     }
     
     protected VueFenetreLivraison getFenetreCorrespondante(DemandeLivraison demandeLivraison) {
-        Iterator<VueFenetreLivraison> it_fenetreVue = vueEnsembleLivraisons.listFenetresLivraisonVue.iterator();
+        Iterator<VueFenetreLivraison> it_fenetreVue = vueEnsembleLivraisons.getListVueFenetresLivraison();
         while (it_fenetreVue.hasNext()) {
 
             VueFenetreLivraison fenetreVue = it_fenetreVue.next();
