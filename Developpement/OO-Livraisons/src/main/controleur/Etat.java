@@ -5,6 +5,7 @@
  */
 package controleur;
 
+import java.io.File;
 import java.util.List;
 import modele.*;
 
@@ -13,8 +14,8 @@ import modele.*;
  * @author Kilian
  */
 public interface Etat {
-    public void chargerPlan();
-    public void chargerLivraisons();
+    public void chargerPlan(File file);
+    public void chargerLivraisons(File file);
     public void calculerTournee();
     public void clicPlan(int x, int y);
     public void clicIntersection(Intersection intersection);

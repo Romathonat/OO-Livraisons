@@ -1,6 +1,6 @@
 package modele;
 
-import controleur.Controleur;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -17,8 +17,6 @@ import org.xml.sax.SAXException;
 import tsp.Graphe;
 import tsp.GrapheCreux;
 import tsp.TSP1;
-import tsp.TSP2;
-import tsp.TSP3;
 import tsp.TemplateTSP;
 import xml.DeserialiseurXML;
 import xml.ExceptionXML;
@@ -110,16 +108,16 @@ public class ModeleManager {
         this.tournee = null;
     }
     
-    public void chargerPlan() throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
+    public void chargerPlan(File file) throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
             Plan planIntermédiaire = new Plan();
-            DeserialiseurXML.chargerPlan(planIntermédiaire);
+            DeserialiseurXML.chargerPlan(file, planIntermédiaire);
             this.plan = planIntermédiaire;
             this.resetEnsembleLivraisons();
     }
     
-    public void chargerEnsembleLivraisons() throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
+    public void chargerEnsembleLivraisons(File file) throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
         EnsembleLivraisons ensembleLivraisonsIntermediaire = new EnsembleLivraisons();
-        DeserialiseurXML.chargerDemandesLivraisons(this.plan, ensembleLivraisonsIntermediaire);
+        DeserialiseurXML.chargerDemandesLivraisons(file, this.plan, ensembleLivraisonsIntermediaire);
         this.ensembleLivraisons = ensembleLivraisonsIntermediaire;
         this.resetTournee();
     }

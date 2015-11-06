@@ -25,6 +25,7 @@ public class DeserialiseurXML {
     /**
      * Ouvre un fichier xml et cree un plan à partir du contenu du fichier
      *
+     * @param file
      * @param plan Le plan auquel on va ajouter les données sérialisée dans le
      * document XML
      * @throws ParserConfigurationException
@@ -33,23 +34,24 @@ public class DeserialiseurXML {
      * @throws ExceptionXML
      * @throws java.text.ParseException
      */
-    public static void chargerPlan(Plan plan) throws ParserConfigurationException,
-            SAXException, IOException, ExceptionXML, ParseException {
-        File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
+    public static void chargerPlan(File file, Plan plan) throws ParserConfigurationException,
+        SAXException, IOException, ExceptionXML, ParseException {
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document document = docBuilder.parse(xml);
+        Document document = docBuilder.parse(file);
         Element racine = document.getDocumentElement();
         if (racine.getNodeName().equals("Reseau")) {
             construirePlan_APartirDeDOMXML(racine, plan);
         } else {
             throw new ExceptionXML("Document non conforme");
         }
+     
     }
 
     /**
      * Ouvre un fichier xml et charge un ensemble de livraisons à partir du
      * contenu du fichier
      *
+     * @param file
      * @param plan Le plan auquel on va ajouter les données sérialisée dans le
      * document XML
      * @param ensembleLivraisons L'ensemble de demandes de livraison auquel on va ajouter
@@ -61,17 +63,18 @@ public class DeserialiseurXML {
      * @throws java.text.ParseException
      * @throws ExceptionFileChooser
      */
-    public static void chargerDemandesLivraisons(Plan plan, EnsembleLivraisons ensembleLivraisons) throws ParserConfigurationException,
+    public static void chargerDemandesLivraisons(File file, Plan plan, EnsembleLivraisons ensembleLivraisons) throws ParserConfigurationException,
             SAXException, IOException, ExceptionXML, ParseException {
-        File xml = OuvreurDeFichierXML.getInstance().ouvre(true);
+
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document document = docBuilder.parse(xml);
+        Document document = docBuilder.parse(file);
         Element racine = document.getDocumentElement();
         if (racine.getNodeName().equals("JourneeType")) {
             RecupererDemandesLivraison_APartirDeDOMXML(racine, plan, ensembleLivraisons);
         } else {
             throw new ExceptionXML("Document non conforme");
         }
+
     }
 
     /**

@@ -1,5 +1,6 @@
 package xml;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Iterator;
@@ -26,7 +27,7 @@ public class DeserialiseurXMLtest {
 
         showMessageDialog(null, "Indiquer au programme plan10x10Test_1_.xml");
         try {
-            DeserialiseurXML.chargerPlan(plan);
+            DeserialiseurXML.chargerPlan(new File(""), plan);
         } catch (ParserConfigurationException ex) {
             assertNotNull("Erreur de Configuration du parser", null);
         } catch (SAXException ex) {
@@ -74,7 +75,7 @@ public class DeserialiseurXMLtest {
         plan = new Plan();
         showMessageDialog(null, "Indiquer au programme plan10x10Test_2_.xml");
         try {
-            DeserialiseurXML.chargerPlan(plan);
+            DeserialiseurXML.chargerPlan(new File(""), plan);
         } catch (ParserConfigurationException ex) {
             assertNotNull("Erreur de Configuration du parser", null);
         } catch (SAXException ex) {
@@ -90,7 +91,7 @@ public class DeserialiseurXMLtest {
         // Test du chargement des livraisons.
         showMessageDialog(null, "Indiquer au programme LivraisonTest_2_.xml");
         try {
-            DeserialiseurXML.chargerDemandesLivraisons(plan, ensembleLivraisons);
+            DeserialiseurXML.chargerDemandesLivraisons(new File(""), plan, ensembleLivraisons);
         } catch (ParserConfigurationException ex) {
             assertNotNull("Erreur de Configuration du parser", null);
         } catch (SAXException ex) {

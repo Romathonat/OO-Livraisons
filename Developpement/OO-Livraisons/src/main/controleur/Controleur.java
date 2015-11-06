@@ -5,6 +5,7 @@
  */
 package controleur;
 
+import java.io.File;
 import modele.*;
 import vue.*;
 
@@ -66,14 +67,14 @@ public class Controleur {
         fenetre = new Fenetre(this);
         Controleur.setEtatCourant(etatInitial);
     }
-   
-    public synchronized Plan chargerPlan() {
-        etatCourant.chargerPlan();
+    
+    public synchronized Plan chargerPlan(File file) {
+        etatCourant.chargerPlan(file);
         return modeleManager.getPlan();
     }
     
-    public synchronized EnsembleLivraisons chargerLivraisons() {
-        etatCourant.chargerLivraisons();
+    public synchronized EnsembleLivraisons chargerLivraisons(File file) {
+        etatCourant.chargerLivraisons(file);
         return modeleManager.getEnsembleLivraisons();
     }
     

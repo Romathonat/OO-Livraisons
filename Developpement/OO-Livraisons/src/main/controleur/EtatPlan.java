@@ -5,6 +5,7 @@
  */
 package controleur;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,9 +26,9 @@ public class EtatPlan extends EtatDefaut{
     }
     
     @Override
-    public void chargerPlan(){
+    public void chargerPlan(File file){
         try{
-            Controleur.modeleManager.chargerPlan();
+            Controleur.modeleManager.chargerPlan(file);
             Controleur.setEtatCourant(Controleur.etatPlanCharge);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
            Controleur.fenetre.EnvoyerMessage(ex.getMessage());

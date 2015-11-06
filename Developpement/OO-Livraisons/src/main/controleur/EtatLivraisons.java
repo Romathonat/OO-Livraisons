@@ -5,15 +5,11 @@
  */
 package controleur;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
-import modele.EnsembleLivraisons;
-import modele.Plan;
 import org.xml.sax.SAXException;
-import xml.DeserialiseurXML;
 import xml.ExceptionXML;
 
 /**
@@ -29,9 +25,9 @@ public class EtatLivraisons extends EtatPlan{
     }
     
     @Override
-    public void chargerLivraisons(){
+    public void chargerLivraisons(File file){
         try {
-            Controleur.modeleManager.chargerEnsembleLivraisons();
+            Controleur.modeleManager.chargerEnsembleLivraisons(file);
             Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
             Controleur.fenetre.EnvoyerMessage(ex.getMessage());

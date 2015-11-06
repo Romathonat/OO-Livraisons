@@ -5,6 +5,7 @@
  */
 package controleur;
 
+import java.io.File;
 import java.util.List;
 import modele.DemandeLivraison;
 import modele.*;
@@ -16,12 +17,12 @@ import modele.*;
 public class EtatDefaut implements Etat{
 
     @Override
-    public void chargerPlan() {
+    public void chargerPlan(File file) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void chargerLivraisons() {
+    public void chargerLivraisons(File file) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

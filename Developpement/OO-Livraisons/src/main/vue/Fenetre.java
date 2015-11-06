@@ -7,25 +7,16 @@ package vue;
 
 import controleur.Controleur;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.File;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -33,18 +24,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import modele.Chemin;
-import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
-import modele.FenetreLivraison;
 import modele.Plan;
 import modele.Tournee;
+import xml.ExceptionXML;
+import xml.OuvreurFichierXML;
 
 /**
  *
  * @author romain
  */
 public class Fenetre extends JFrame {
+    
+
 
     protected JMenuBar barreMenus;
     
@@ -276,6 +268,8 @@ public class Fenetre extends JFrame {
         this.activerCalculerTournee(false);
     }
 
+
+        
     // ------ ActionsListeners ------
     private class ChargerPlan implements ActionListener {
 
@@ -287,15 +281,18 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            Plan nouveauPlan = controleur.chargerPlan();
-
-
+            File file = OuvreurFichierXML.getInstance().selectionFichierXML(true);
+            if (file == null){
+                return;
+            }
+            Plan nouveauPlan = controleur.chargerPlan(file);
             this.fenetre.vue.updatePlan(nouveauPlan);
             revalidate();
             repaint();
         }
     }
+    
+
 
     private class ChargerDemandesLivraisons implements ActionListener {
 
@@ -307,7 +304,11 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EnsembleLivraisons  nouvelEnsembleLivraisons = controleur.chargerLivraisons();
+            File file = OuvreurFichierXML.getInstance().selectionFichierXML(true);
+            if (file == null){
+                return;
+            }
+            EnsembleLivraisons  nouvelEnsembleLivraisons = controleur.chargerLivraisons(file);
             
             this.fenetre.vue.updateEnsembleLivraisons(nouvelEnsembleLivraisons);
 
