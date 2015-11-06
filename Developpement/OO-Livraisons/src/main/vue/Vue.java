@@ -28,15 +28,17 @@ public class Vue {
     protected VueTextuelle vueTextuelle;
     protected VueLegende vueLegende;
     protected VueStatus vueStatus;
-    protected List<VueFenetreLivraison> listFenetresLivraisonVue;
-    protected List<VueDemandeLivraison> listDemandesLivraisonVue;
-    protected List<VueChemin> listCheminVue;
+    
+    protected VueEnsembleLivraisons vueEnsembleLivraisons;
+    protected VueTournee vueTournee;
+    
+    
     protected List<Integer> intersectionSelectionnees;
     
     protected GenerateurCouleur generateurCouleur;
     
-    protected Plan planCourant; //il nous faut garder ces references pour redessiner le plan quand repaint est appelle
-    protected EnsembleLivraisons ensembleLivraisonsCourant;//attention doivent être mise à null si on recharge juste le plan !
+    protected Plan planCourant; 
+    protected EnsembleLivraisons ensembleLivraisonsCourant;
     protected Tournee tourneeCourante;
     
     
@@ -55,11 +57,11 @@ public class Vue {
         this.vueLegende = new VueLegende(this);
         this.vueLegende.updateLegende(0);
         
-        vueStatus = new VueStatus();
+        this.vueStatus = new VueStatus();
         
-        listFenetresLivraisonVue = new ArrayList<>();
-        listDemandesLivraisonVue = new ArrayList<>();
-        listCheminVue = new ArrayList<>();
+        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, ensembleLivraisonsCourant);
+        this.vueTournee = new VueTournee(this, tourneeCourante);
+        
         intersectionSelectionnees = new ArrayList<>();
         
         generateurCouleur = new GenerateurCouleur();
@@ -94,6 +96,7 @@ public class Vue {
     
     public void resetTournee(){
         this.tourneeCourante = null;
+        this.vueTournee = new VueTournee(this, tourneeCourante);
     }
     
     public void setPlanCourant(Plan plan){
@@ -130,67 +133,38 @@ public class Vue {
     protected void updateEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
                     
             this.ensembleLivraisonsCourant = ensembleLivraisons;
+            this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, ensembleLivraisons);
+            
             this.resetTournee();
 
-            // mise à jour des objets visuels
-            this.listFenetresLivraisonVue.clear();
-            this.listDemandesLivraisonVue.clear();
-
-            Iterator<FenetreLivraison> it_fenetre = this.ensembleLivraisonsCourant.getFenetresLivraison();
-            Iterator<DemandeLivraison> it_demande = null;
-
-            while (it_fenetre.hasNext()) {
-                FenetreLivraison fenetreLivraison = it_fenetre.next();
-                VueFenetreLivraison fenetreLivraisonVue = new VueFenetreLivraison(fenetreLivraison, generateurCouleur.getCouleurSuivante());
-                listFenetresLivraisonVue.add(fenetreLivraisonVue);
-
-                it_demande = fenetreLivraison.getDemandesLivraison();
-                while (it_demande.hasNext()) {
-                    listDemandesLivraisonVue.add(new VueDemandeLivraison(fenetre, fenetreLivraisonVue, it_demande.next()));
-                }
-            }
-
-
-            vueGraphique.drawLivraisons();
+            this.vueGraphique.drawLivraisons();
 
             this.vueLegende.updateLegende(2);
             
-            vueTextuelle.UpdateVueTextuelle(listDemandesLivraisonVue.iterator());
+            this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.listFenetresLivraisonVue.iterator());
 
             this.vueStatus.changerStatus("Demandes de livraison chargée");
     }
     
     protected void updateTournee(Tournee tournee){
+        
+        this.vueEnsembleLivraisons.clearDemandeLivraisons();
+        
         this.tourneeCourante = tournee;
-
-            // Mise à jour des elements graphiques.
-            listDemandesLivraisonVue.clear();
-            Iterator<Chemin> it_chemin = this.fenetre.vue.tourneeCourante.getChemins();
-            Iterator<DemandeLivraison> it_demande = null;
-
-            while (it_chemin.hasNext()) {
-                Chemin chemin = it_chemin.next();
-                VueFenetreLivraison fenetreLivraisonVue = getFenetreCorrespondante(chemin.getLivraisonArrivee());
-
-                if (fenetreLivraisonVue == null) {
-                    continue;
-                }
-
-                listCheminVue.add(new VueChemin(fenetreLivraisonVue, chemin));
-                listDemandesLivraisonVue.add(new VueDemandeLivraison(this.fenetre, fenetreLivraisonVue, chemin.getLivraisonArrivee()));
-            }
-
-            // mise à jour de la vue textuelle.
-            vueTextuelle.UpdateVueTextuelle(listDemandesLivraisonVue.iterator());
-
-            // mise àjour de la vue graphique.
-            vueGraphique.drawTournee();
+        this.vueTournee = new VueTournee(this, tournee);
+        
+        
+        
             
-            this.vueStatus.changerStatus("Tournée calculée");
+        vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.listFenetresLivraisonVue.iterator());
+
+        vueGraphique.drawTournee();
+
+        this.vueStatus.changerStatus("Tournée calculée");
     }
     
-    private VueFenetreLivraison getFenetreCorrespondante(DemandeLivraison demandeLivraison) {
-        Iterator<VueFenetreLivraison> it_fenetreVue = listFenetresLivraisonVue.iterator();
+    protected VueFenetreLivraison getFenetreCorrespondante(DemandeLivraison demandeLivraison) {
+        Iterator<VueFenetreLivraison> it_fenetreVue = vueEnsembleLivraisons.listFenetresLivraisonVue.iterator();
         while (it_fenetreVue.hasNext()) {
 
             VueFenetreLivraison fenetreVue = it_fenetreVue.next();

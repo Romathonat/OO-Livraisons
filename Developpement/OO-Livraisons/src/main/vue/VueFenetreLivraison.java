@@ -1,6 +1,8 @@
 package vue;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import modele.FenetreLivraison;
 
 /**
@@ -9,16 +11,19 @@ import modele.FenetreLivraison;
  */
 public class VueFenetreLivraison {
 
-    private FenetreLivraison fenetre;
+    protected FenetreLivraison fenetreLivraison;
+    protected List<VueDemandeLivraison> listDemandesLivraisonVue;
     private Color couleur;
 
     VueFenetreLivraison(FenetreLivraison fenetre, Color couleur) {
-        this.fenetre = fenetre;
+        this.fenetreLivraison = fenetre;
         this.couleur = couleur;
+        
+        listDemandesLivraisonVue = new ArrayList<>();
     }
 
     public FenetreLivraison getFenetre() {
-        return fenetre;
+        return fenetreLivraison;
     }
 
     public Color getCouleur() {
@@ -27,6 +32,10 @@ public class VueFenetreLivraison {
 
     public void setCouleur(Color couleur) {
         this.couleur = couleur;
+    }
+    
+    protected void clearDemandesLivraison(){
+        this.listDemandesLivraisonVue.clear();
     }
 
 }

@@ -39,10 +39,6 @@ public class VueGraphique extends JPanel implements Observer{
     private int rayonInter = 10;
     private int rayonSelection = 15;
     
-    private Date[] mesDebutsFenetre = new Date[3]; //que trois fenetres dans les specs
-    private Color[] mesCouleurs = new Color[3];//ces deux tableaux correspondent
-    public static Color CouleurEntrepot = new Color(165,233,224);
-    
     /**
      * Constucteur d'une vue graphique
      * @param vue 
@@ -81,9 +77,9 @@ public class VueGraphique extends JPanel implements Observer{
         
         if(this.vue.planCourant != null){
             dessinerPlan(g2D);
-            if(this.vue.ensembleLivraisonsCourant != null){
+            if(this.vue.vueEnsembleLivraisons.ensembleLivraison != null){
                 dessinerLivraisons(g2D);
-                if(this.vue.tourneeCourante != null){
+                if(this.vue.vueTournee.tournee != null){
                     dessinerTournee(g2D);
                 }
             }
@@ -172,7 +168,6 @@ public class VueGraphique extends JPanel implements Observer{
      * @param livraisons 
      */
     void drawLivraisons()  {
-        initialiserCouleurEtFenetre();
         this.repaint();
     }
     
@@ -184,24 +179,22 @@ public class VueGraphique extends JPanel implements Observer{
     void dessinerLivraisons(Graphics2D g2D){
         
         //on dessine d'abord l'entrepôt
-        Intersection entrepot = this.vue.ensembleLivraisonsCourant.getEntrepot();
-        g2D.setColor(this.CouleurEntrepot);
+        Intersection entrepot = this.vue.vueEnsembleLivraisons.ensembleLivraison.getEntrepot();
+        g2D.setColor(GenerateurCouleur.getCouleurEntrepot());
         dessinerUneIntersection(entrepot, g2D);
         
-        Iterator<FenetreLivraison> itFenetres = this.vue.ensembleLivraisonsCourant.getFenetresLivraison();
+        Iterator<VueFenetreLivraison> itFenetres = this.vue.vueEnsembleLivraisons.listFenetresLivraisonVue.iterator();
         
-        int k = 0; //indice des couleurs
-        
-        while(itFenetres.hasNext()){
-            Color CouleurCourante = mesCouleurs[k++%3];
+        while(itFenetres.hasNext()){           
+            VueFenetreLivraison fenetreLivraisonVue = itFenetres.next();
             
-            g2D.setColor(CouleurCourante);
-            FenetreLivraison maFenetre = itFenetres.next();
-            Iterator<DemandeLivraison> itDemandes = maFenetre.getDemandesLivraison();
+            Iterator<VueDemandeLivraison> itDemandes = fenetreLivraisonVue.listDemandesLivraisonVue.iterator();
             
             while(itDemandes.hasNext())//pour toutes les demandes de cette fenetre
             {
-                Intersection monIntersection = itDemandes.next().getIntersection();
+                VueDemandeLivraison vueDemandeLivraison = itDemandes.next();
+                g2D.setColor(vueDemandeLivraison.getCouleur());
+                Intersection monIntersection = vueDemandeLivraison.demandeLivraison.getIntersection();
                 dessinerUneIntersection(monIntersection, g2D);
             }
         }
@@ -215,31 +208,14 @@ public class VueGraphique extends JPanel implements Observer{
     }
     
     private void dessinerTournee(Graphics2D g2D) {
-        Iterator<Chemin> itChemins = this.vue.tourneeCourante.getChemins();
+        Iterator<VueChemin> itChemins = this.vue.vueTournee.listCheminVue.iterator();
         
         while(itChemins.hasNext()){
-            Chemin monChemin = itChemins.next();
-            g2D.setColor(choixCouleur(monChemin.getLivraisonArrivee().getFenetreLivraison()));
-            Iterator<Troncon> itTroncon = monChemin.getTroncons();
+            VueChemin vueChemin = itChemins.next();
+            g2D.setColor(vueChemin.getFenetreLivraisonVue().getCouleur());
+            Iterator<Troncon> itTroncon = vueChemin.getChemin().getTroncons();
             while(itTroncon.hasNext()){
                 dessinerUnTroncon(itTroncon.next(),g2D);
-            }
-        }
-    }
-    
-    /**
-     * Initialise le tableau des fenetres (correspondance avec les couleurs)
-     */
-    public void initialiserCouleurEtFenetre(){
-        if(this.vue.ensembleLivraisonsCourant != null){
-            Iterator<FenetreLivraison> itFenetres = this.vue.ensembleLivraisonsCourant.getFenetresLivraison();
-            mesCouleurs[0] = Color.BLUE;
-            mesCouleurs[1] = Color.MAGENTA;
-            mesCouleurs[2] = Color.ORANGE;
-            
-            int k = 0; //indice des couleurs
-            while(itFenetres.hasNext()){
-                mesDebutsFenetre[k++%3] = itFenetres.next().getHeureDebut();
             }
         }
     }
@@ -247,16 +223,6 @@ public class VueGraphique extends JPanel implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         
-    }
-
-    private Color choixCouleur(FenetreLivraison horaire) {
-        Color retour = CouleurEntrepot;
-        for(int i=0; i<mesDebutsFenetre.length;i++){
-            if(mesDebutsFenetre[i] == horaire.getHeureDebut()){
-                retour = mesCouleurs[i];
-            }
-        }
-        return retour;
     }
 
     // --- Activation/Desactivation ---

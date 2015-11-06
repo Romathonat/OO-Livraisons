@@ -13,8 +13,8 @@ import modele.Chemin;
  */
 public class VueChemin {
     
-    private Chemin chemin;
-    private VueFenetreLivraison fenetreLivraisonVue;
+    protected Chemin chemin;
+    protected VueFenetreLivraison fenetreLivraisonVue;
 
     public VueChemin(VueFenetreLivraison fenetreVue, Chemin chemin) {
         this.chemin = chemin;

@@ -42,4 +42,8 @@ public class GenerateurCouleur {
     public static Color getCouleurEntrepot(){
         return new Color (16,96,34);
     }
+    
+    public static Color getCouleurFenetreHorsHoraire(){
+        return Color.RED;
+    }
 }

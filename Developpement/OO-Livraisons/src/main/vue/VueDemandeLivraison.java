@@ -32,16 +32,14 @@ public class VueDemandeLivraison extends JPanel {
     protected DemandeLivraison demandeLivraison;
     protected VueFenetreLivraison fenetreLivraisonVue;
     public Date heure;
-    protected Fenetre fenetre;
 
     JLabel jLabelClient;
     JLabel jLabelAdresse;
     JLabel jLabelHeure;
 
-    public VueDemandeLivraison(Fenetre fenetreParent, VueFenetreLivraison fenetreLivraisonVue, DemandeLivraison demandeLivraison) {
+    public VueDemandeLivraison(VueFenetreLivraison fenetreLivraisonVue, DemandeLivraison demandeLivraison) {
         super();
-        
-        this.fenetre = fenetreParent;
+ 
         this.fenetreLivraisonVue = fenetreLivraisonVue;
         this.demandeLivraison = demandeLivraison;
 
@@ -90,7 +88,7 @@ public class VueDemandeLivraison extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        this.setBorder(BorderFactory.createMatteBorder(1, 4, 1, 1, this.getCouleur()));
+        this.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 0, this.getCouleur()));
     }
 
     public Color getCouleur() {
@@ -99,7 +97,7 @@ public class VueDemandeLivraison extends JPanel {
         if (this.demandeLivraison.getHeureLivraison() == null || this.demandeLivraison.RespecteFenetreLivraison()) {
             return this.fenetreLivraisonVue.getCouleur();
         }
-        return Color.RED;
+        return GenerateurCouleur.getCouleurFenetreHorsHoraire();
     }
 
 }

@@ -69,7 +69,7 @@ public class VueLegende extends JPanel {
             legendeFenetre.setMaximumSize(tailleEltLegende);
 
             // Legende des fenetres de livraison.
-            Iterator<VueFenetreLivraison> it_flv = this.vue.listFenetresLivraisonVue.iterator();
+            Iterator<VueFenetreLivraison> it_flv = this.vue.vueEnsembleLivraisons.listFenetresLivraisonVue.iterator();
             int i = 0;
             while (it_flv.hasNext()) {
                 i++;
