@@ -5,6 +5,7 @@
  */
 package xml;
 
+import xmlModele.SerialiseurXML;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;

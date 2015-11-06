@@ -18,7 +18,7 @@ import tsp.Graphe;
 import tsp.GrapheCreux;
 import tsp.TSP1;
 import tsp.TemplateTSP;
-import xml.DeserialiseurXML;
+import xmlModele.DeserialiseurXML;
 import xml.ExceptionXML;
 
 /**

@@ -1,4 +1,4 @@
-package xml;
+package xmlModele;
 
 import java.io.BufferedWriter;
 import java.io.File;

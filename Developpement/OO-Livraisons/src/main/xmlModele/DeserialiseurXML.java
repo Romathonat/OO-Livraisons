@@ -1,4 +1,4 @@
-package xml;
+package xmlModele;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +19,7 @@ import org.xml.sax.SAXException;
 import modele.Plan;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
+import xml.ExceptionXML;
 
 public class DeserialiseurXML {
 

@@ -13,7 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import modele.EnsembleLivraisons;
 import modele.Plan;
 import org.xml.sax.SAXException;
-import xml.DeserialiseurXML;
+import xmlModele.DeserialiseurXML;
 import xml.ExceptionXML;
 
 /**
