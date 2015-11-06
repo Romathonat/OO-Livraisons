@@ -75,7 +75,7 @@ public class VueGraphique extends JPanel implements Observer{
         Graphics2D g2D = (Graphics2D) g;
         initialiserGraphics2d(g2D); //on initialise le pinceau pour qu'il dessine bien
         
-        if(this.vue.planCourant != null){
+        if(this.vue.vuePlan.plan != null){
             dessinerPlan(g2D);
             if(this.vue.vueEnsembleLivraisons.ensembleLivraison != null){
                 dessinerLivraisons(g2D);
@@ -92,8 +92,8 @@ public class VueGraphique extends JPanel implements Observer{
      */
     public void drawPlan() {
         
-        maxX = this.vue.planCourant.getXMax();
-        maxY = this.vue.planCourant.getYMax();
+        maxX = this.vue.vuePlan.plan.getXMax();
+        maxY = this.vue.vuePlan.plan.getYMax();
         
         repaint();
     }
@@ -113,7 +113,7 @@ public class VueGraphique extends JPanel implements Observer{
      * @param g2D 
      */
     public void dessinerInterNeutre(Graphics2D g2D){
-        Iterator<Entry<Integer, Intersection>> itInter = this.vue.planCourant.getIntersections();
+        Iterator<Entry<Integer, Intersection>> itInter = this.vue.vuePlan.plan.getIntersections();
         
         while(itInter.hasNext()){
             Intersection monInter = itInter.next().getValue();
@@ -140,7 +140,7 @@ public class VueGraphique extends JPanel implements Observer{
      * @param g2D 
      */
     public void dessinerTronconNeutre(Graphics2D g2D){
-        Iterator<Troncon> itTroncon = this.vue.planCourant.getTroncons();
+        Iterator<Troncon> itTroncon = this.vue.vuePlan.plan.getTroncons();
         
         while(itTroncon.hasNext()){
             Troncon monTroncon = itTroncon.next();

@@ -293,9 +293,7 @@ public class Fenetre extends JFrame {
 
             Plan nouveauPlan = controleur.chargerPlan();
 
-            if (nouveauPlan == this.fenetre.vue.planCourant) { // en cas de problème de chargement.
-                return;
-            }
+
             this.fenetre.vue.updatePlan(nouveauPlan);
             revalidate();
             repaint();
@@ -314,9 +312,6 @@ public class Fenetre extends JFrame {
         public void actionPerformed(ActionEvent e) {
             EnsembleLivraisons  nouvelEnsembleLivraisons = controleur.chargerLivraisons();
             
-            if (nouvelEnsembleLivraisons == this.fenetre.vue.ensembleLivraisonsCourant ) { // en cas de problème de chargement.
-                return;
-            }
             this.fenetre.vue.updateEnsembleLivraisons(nouvelEnsembleLivraisons);
 
             revalidate();
@@ -337,9 +332,6 @@ public class Fenetre extends JFrame {
 
             Tournee nouvelleTournee = controleur.calculerTournee();
 
-            if (nouvelleTournee == this.fenetre.vue.tourneeCourante) { // au cas ou le calcul de la tournee échouerai.
-                return;
-            }
             this.fenetre.vue.updateTournee(nouvelleTournee);
             
             revalidate();

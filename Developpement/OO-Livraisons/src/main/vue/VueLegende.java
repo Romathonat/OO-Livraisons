@@ -34,7 +34,7 @@ public class VueLegende extends JPanel {
         
     }
     
-    public void updateLegende(int etat) {
+    public void updateLegende() {
         this.removeAll();
 
         JLabel titre = new JLabel("Legende:");
@@ -49,7 +49,7 @@ public class VueLegende extends JPanel {
         this.add(titre);
 
         // on a chargé le plan.
-        if (etat > 0) {
+        if (this.vue.vuePlan.plan != null) {
             // Legende des intersections.
             VueElementLegende neutre = new VueElementLegende(Color.LIGHT_GRAY, "Intersection");
             this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
@@ -59,7 +59,7 @@ public class VueLegende extends JPanel {
         }
 
         // on a chargé les livraisons.
-        if (etat > 1) {
+        if (vue.vueEnsembleLivraisons.ensembleLivraison != null) {
 
             // legende de l'entrepot
             VueElementLegende legendeFenetre = new VueElementLegende(GenerateurCouleur.getCouleurEntrepot(), "Entrepot");
@@ -80,8 +80,20 @@ public class VueLegende extends JPanel {
                 legendeFenetre.setMaximumSize(tailleEltLegende);
             }
 
-            this.add(Box.createRigidArea(new Dimension(0, 300)));
+            
         }
+        
+        if(this.vue.vueTournee.tournee != null){
+            VueElementLegende legendeFenetre = new VueElementLegende(
+                    GenerateurCouleur.getCouleurFenetreHorsHoraire(), 
+                    "Livraison Hors Horaire");
+            this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
+            this.add(legendeFenetre);
+            legendeFenetre.setMinimumSize(tailleEltLegende);
+            legendeFenetre.setMaximumSize(tailleEltLegende);
+        }
+        
+        this.add(Box.createRigidArea(new Dimension(0, 300)));
 
         this.validate();
         this.repaint();

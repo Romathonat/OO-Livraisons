@@ -31,36 +31,30 @@ public class Vue {
     
     protected VueEnsembleLivraisons vueEnsembleLivraisons;
     protected VueTournee vueTournee;
+    protected VuePlan vuePlan;
     
     
     protected List<Integer> intersectionSelectionnees;
     
     protected GenerateurCouleur generateurCouleur;
     
-    protected Plan planCourant; 
-    protected EnsembleLivraisons ensembleLivraisonsCourant;
-    protected Tournee tourneeCourante;
-    
-    
     public Vue(Fenetre fenetre){
         
         this.fenetre = fenetre;
-        
-        this.planCourant = null;
-        this.ensembleLivraisonsCourant = null;
-        this.tourneeCourante = null;
         
         this.vueGraphique = new VueGraphique(this);
         
         this.vueTextuelle = new VueTextuelle();
         
-        this.vueLegende = new VueLegende(this);
-        this.vueLegende.updateLegende(0);
+        
         
         this.vueStatus = new VueStatus();
         
-        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, ensembleLivraisonsCourant);
-        this.vueTournee = new VueTournee(this, tourneeCourante);
+        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, null);
+        this.vueTournee = new VueTournee(this, null);
+        this.vuePlan = new VuePlan(this, null);
+        
+        this.vueLegende = new VueLegende(this);
         
         intersectionSelectionnees = new ArrayList<>();
         
@@ -89,77 +83,68 @@ public class Vue {
     public Iterator<Integer> getInterSelectionne(){
         return this.intersectionSelectionnees.iterator();
     }
+    
+    public void resetPlan(){
+        this.vuePlan = new VuePlan(this, null);
+        this.resetEnsembleLivraisons();
+    }
     public void resetEnsembleLivraisons(){
-        this.ensembleLivraisonsCourant = null;
+        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, null);
         this.resetTournee();
+                
     }
     
     public void resetTournee(){
-        this.tourneeCourante = null;
-        this.vueTournee = new VueTournee(this, tourneeCourante);
+        this.vueTournee = new VueTournee(this, null);
     }
-    
-    public void setPlanCourant(Plan plan){
-        this.planCourant = plan;
-    }
-    
-    public void setEnsembleLivraisonsCourant(EnsembleLivraisons ensembleLivraisons){
-        this.ensembleLivraisonsCourant = ensembleLivraisons;
-    }
-    
-    public void setTourneeCourante (Tournee tournee){
-        this.tourneeCourante = tournee;
-    }
+   
     
     protected void updatePlan(Plan plan){
-        
-        this.planCourant = plan;
+        if (plan == this.vuePlan.plan) { // en cas de problème de chargement.
+            return;
+        }
+        this.vuePlan = new VuePlan(this, plan);
         this.resetEnsembleLivraisons();
-        
-        // RAZ des objets graphiques.
-        vueGraphique.removeAll();
-        vueTextuelle.removeAll();
             
         // Dessin du plan.
         vueGraphique.drawPlan();
-        
-
 
         // Mise à jour de la légende.
-        this.vueLegende.updateLegende(1);
+        this.vueLegende.updateLegende();
         this.vueStatus.changerStatus("Plan chargé");
     }
     
     protected void updateEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
-                    
-            this.ensembleLivraisonsCourant = ensembleLivraisons;
-            this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, ensembleLivraisons);
-            
-            this.resetTournee();
+        if (ensembleLivraisons == this.vueEnsembleLivraisons.ensembleLivraison ) { // en cas de problème de chargement.
+            return;
+        }
+        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, ensembleLivraisons);
 
-            this.vueGraphique.drawLivraisons();
+        this.resetTournee();
 
-            this.vueLegende.updateLegende(2);
-            
-            this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.listFenetresLivraisonVue.iterator());
+        this.vueGraphique.drawLivraisons();
 
-            this.vueStatus.changerStatus("Demandes de livraison chargée");
+        this.vueLegende.updateLegende();
+
+        this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.listFenetresLivraisonVue.iterator());
+
+        this.vueStatus.changerStatus("Demandes de livraison chargée");
     }
     
     protected void updateTournee(Tournee tournee){
-        
+        if (tournee == this.vueTournee.tournee) { // au cas ou le calcul de la tournee échouerai.
+            return;
+        }
+
         this.vueEnsembleLivraisons.clearDemandeLivraisons();
         
-        this.tourneeCourante = tournee;
         this.vueTournee = new VueTournee(this, tournee);
-        
-        
-        
-            
-        vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.listFenetresLivraisonVue.iterator());
+              
+        this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.listFenetresLivraisonVue.iterator());
 
-        vueGraphique.drawTournee();
+        this.vueGraphique.drawTournee();
 
+        this.vueLegende.updateLegende();
         this.vueStatus.changerStatus("Tournée calculée");
     }
     
