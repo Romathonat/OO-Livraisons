@@ -66,8 +66,6 @@ public class Fenetre extends JFrame {
     protected JPanel panelDroit;
     protected JPanel panelBoutons;
 
-    
-
     protected JSplitPane panelSeparationGauche;//contient le gauche et le centre
     protected JSplitPane panelSeparationDroit;//contient le droit et le panelSeparationGauche
 
@@ -77,7 +75,6 @@ public class Fenetre extends JFrame {
     protected JButton calculerTournee;
 
     protected Controleur controleur;
-
     
     protected Vue vue;
 

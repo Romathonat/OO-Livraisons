@@ -50,7 +50,7 @@ public class VueLegende extends JPanel {
         this.add(titre);
 
         // on a chargé le plan.
-        if (this.vue.vuePlan.getPlan() != null) {
+        if (this.vue.getVuePlan().getPlan() != null) {
             // Legende des intersections.
             VueElementLegende neutre = new VueElementLegende(Color.LIGHT_GRAY, "Intersection");
             this.add(Box.createRigidArea(new Dimension(0, ecartLegende)));
@@ -60,7 +60,7 @@ public class VueLegende extends JPanel {
         }
 
         // on a chargé les livraisons.
-        if (this.vue.vueEnsembleLivraisons.getEnsembleLivraison() != null) {
+        if (this.vue.getVueEnsembleLivraisons().getEnsembleLivraison() != null) {
 
             // legende de l'entrepot
             VueElementLegende legendeFenetre = new VueElementLegende(GenerateurCouleur.getCouleurEntrepot(), "Entrepot");
@@ -70,7 +70,7 @@ public class VueLegende extends JPanel {
             legendeFenetre.setMaximumSize(this.tailleEltLegende);
 
             // Legende des fenetres de livraison.
-            Iterator<VueFenetreLivraison> it_flv = this.vue.vueEnsembleLivraisons.getListVueFenetresLivraison();
+            Iterator<VueFenetreLivraison> it_flv = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
             int i = 0;
             while (it_flv.hasNext()) {
                 i++;
@@ -84,7 +84,7 @@ public class VueLegende extends JPanel {
             
         }
         
-        if(this.vue.vueTournee.getTournee() != null){
+        if(this.vue.getVueTournee().getTournee() != null){
             VueElementLegende legendeFenetre = new VueElementLegende(
                     GenerateurCouleur.getCouleurFenetreHorsHoraire(), 
                     "Livraison Hors Horaire");

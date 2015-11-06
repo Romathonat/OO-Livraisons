@@ -8,11 +8,8 @@ package vue;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.swing.BoxLayout;
-import modele.Chemin;
 import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
-import modele.FenetreLivraison;
 import modele.Plan;
 import modele.Tournee;
 
@@ -29,13 +26,13 @@ public class Vue {
     protected VueLegende vueLegende;
     protected VueStatus vueStatus;
     
-    protected VueEnsembleLivraisons vueEnsembleLivraisons;
-    protected VueTournee vueTournee;
-    protected VuePlan vuePlan;
+    private VueEnsembleLivraisons vueEnsembleLivraisons;
+    private VueTournee vueTournee;
+    private VuePlan vuePlan;
     
-    protected List<Integer> intersectionSelectionnees;
+    private List<Integer> intersectionSelectionnees;
     
-    protected GenerateurCouleur generateurCouleur;
+    private GenerateurCouleur generateurCouleur;
     
     public Vue(Fenetre fenetre){
         
@@ -44,9 +41,7 @@ public class Vue {
         this.vueGraphique = new VueGraphique(this);
         
         this.vueTextuelle = new VueTextuelle();
-        
-        
-        
+
         this.vueStatus = new VueStatus();
         
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, null);
@@ -70,36 +65,36 @@ public class Vue {
      * @param isPointLivraison 
      */
     public void ajouterInterSelectionnee(int id, boolean isPointLivraison){
-        this.intersectionSelectionnees.add(id);
+        this.getIntersectionSelectionnees().add(id);
         this.vueGraphique.repaint();
     }
     
     public void supprimerInterSelectionee(){
-        this.intersectionSelectionnees.clear();
+        this.getIntersectionSelectionnees().clear();
         this.vueGraphique.repaint();
     }
     
     public Iterator<Integer> getInterSelectionne(){
-        return this.intersectionSelectionnees.iterator();
+        return this.getIntersectionSelectionnees().iterator();
     }
     
-    public void resetPlan(){
+    protected void resetPlan(){
         this.vuePlan = new VuePlan(this, null);
         this.resetEnsembleLivraisons();
     }
-    public void resetEnsembleLivraisons(){
+    
+    protected void resetEnsembleLivraisons(){
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, null);
         this.resetTournee();
                 
     }
     
-    public void resetTournee(){
+    protected void resetTournee(){
         this.vueTournee = new VueTournee(this, null);
     }
    
-    
     protected void updatePlan(Plan plan){
-        if (plan == this.vuePlan.getPlan()) { // en cas de problème de chargement.
+        if (plan == this.getVuePlan().getPlan()) { // en cas de problème de chargement.
             return;
         }
         this.vuePlan = new VuePlan(this, plan);
@@ -114,7 +109,7 @@ public class Vue {
     }
     
     protected void updateEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
-        if (ensembleLivraisons == this.vueEnsembleLivraisons.getEnsembleLivraison()) { // en cas de problème de chargement.
+        if (ensembleLivraisons == this.getVueEnsembleLivraisons().getEnsembleLivraison()) { // en cas de problème de chargement.
             return;
         }
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, ensembleLivraisons);
@@ -125,19 +120,19 @@ public class Vue {
 
         this.vueLegende.updateLegende();
 
-        this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.getListVueFenetresLivraison());
+        this.vueTextuelle.UpdateVueTextuelle(getVueEnsembleLivraisons().getListVueFenetresLivraison());
 
         this.vueStatus.changerStatus("Demandes de livraison chargée");
     }
     
     protected void updateTournee(Tournee tournee){
-        if (tournee == this.vueTournee.getTournee()) { // au cas ou le calcul de la tournee échouerai.
+        if (tournee == this.getVueTournee().getTournee()) { // au cas ou le calcul de la tournee échouerai.
             return;
         }
-        this.vueEnsembleLivraisons.clearDemandeLivraisons(); //On les enlève pour les remmettre dans l'ordre    
+        this.getVueEnsembleLivraisons().clearDemandeLivraisons(); //On les enlève pour les remmettre dans l'ordre    
         this.vueTournee = new VueTournee(this, tournee);
               
-        this.vueTextuelle.UpdateVueTextuelle(vueEnsembleLivraisons.getListVueFenetresLivraison());
+        this.vueTextuelle.UpdateVueTextuelle(getVueEnsembleLivraisons().getListVueFenetresLivraison());
 
         this.vueGraphique.drawTournee();
 
@@ -146,7 +141,7 @@ public class Vue {
     }
     
     protected VueFenetreLivraison getFenetreCorrespondante(DemandeLivraison demandeLivraison) {
-        Iterator<VueFenetreLivraison> it_fenetreVue = vueEnsembleLivraisons.getListVueFenetresLivraison();
+        Iterator<VueFenetreLivraison> it_fenetreVue = getVueEnsembleLivraisons().getListVueFenetresLivraison();
         while (it_fenetreVue.hasNext()) {
 
             VueFenetreLivraison fenetreVue = it_fenetreVue.next();
@@ -156,6 +151,41 @@ public class Vue {
         }
         // la fenetre n'a pas été trouvée.
         return null;
+    }
+
+    /**
+     * @return the vueEnsembleLivraisons
+     */
+    protected VueEnsembleLivraisons getVueEnsembleLivraisons() {
+        return vueEnsembleLivraisons;
+    }
+
+    /**
+     * @return the vueTournee
+     */
+    protected VueTournee getVueTournee() {
+        return vueTournee;
+    }
+
+    /**
+     * @return the vuePlan
+     */
+    protected VuePlan getVuePlan() {
+        return vuePlan;
+    }
+
+    /**
+     * @return the intersectionSelectionnees
+     */
+    protected List<Integer> getIntersectionSelectionnees() {
+        return intersectionSelectionnees;
+    }
+
+    /**
+     * @return the generateurCouleur
+     */
+    protected GenerateurCouleur getGenerateurCouleur() {
+        return generateurCouleur;
     }
     
     
