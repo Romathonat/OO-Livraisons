@@ -6,12 +6,14 @@
 package vue;
 
 import controleur.Controleur;
+import controleur.EtatRemplirInformations;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Iterator;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -24,7 +26,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
+import modele.FenetreLivraison;
+import modele.Intersection;
 import modele.Plan;
 import modele.Tournee;
 import xml.ExceptionXML;
@@ -35,11 +40,9 @@ import xml.OuvreurFichierXML;
  * @author romain
  */
 public class Fenetre extends JFrame {
-    
-
 
     protected JMenuBar barreMenus;
-    
+
     protected JMenu fichier;
     protected JMenuItem chargerPlan;
     protected JMenuItem chargerDemandesLivraisons;
@@ -67,12 +70,12 @@ public class Fenetre extends JFrame {
     protected JButton calculerTournee;
 
     protected Controleur controleur;
-    
+
     protected Vue vue;
 
     public Fenetre(Controleur controleur) {
         this.controleur = controleur;
-                
+
         this.vue = new Vue(this);
 
         barreMenus = new JMenuBar();
@@ -113,13 +116,13 @@ public class Fenetre extends JFrame {
 
         //---------creation des boutons
         ajouterLivraison = new JButton("Ajouter Livraison");
+        ajouterLivraison.addActionListener(new AjouterIntersecion(this));
         supprimerLivraison = new JButton("Supprimer Livraison");
         echangerLivraison = new JButton("Echanger Livraison");
         calculerTournee = new JButton("Calculer Tournée");
         calculerTournee.addActionListener(new CalculerTournee(this));
 
         //------Organisation des Pannels
-
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
         int ecartBoutons = 15;
@@ -149,15 +152,12 @@ public class Fenetre extends JFrame {
         calculerTournee.setMinimumSize(tailleBouton);
         calculerTournee.setMaximumSize(tailleBouton);
 
-
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);
         panelGauche.add(vue.vueLegende);
 
         // Tests avec la scrollbar
-        
-        
         panelDroit = new JPanel();
         JScrollPane scrollPane = new JScrollPane(this.vue.vueTextuelle);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -194,11 +194,10 @@ public class Fenetre extends JFrame {
 
     }
 
-
-
-    public Vue getVue(){
+    public Vue getVue() {
         return this.vue;
     }
+
     /**
      * Affiche une popup contenant un message particulier.
      *
@@ -207,7 +206,7 @@ public class Fenetre extends JFrame {
     public void EnvoyerMessage(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
-    
+
     // ---- Methodes d'activation/desactivation des fonctionnalites ----
     // -- Activables / Desactivables ---
     public void activerChargerPlan(boolean activer) {
@@ -268,8 +267,10 @@ public class Fenetre extends JFrame {
         this.activerCalculerTournee(false);
     }
 
+    public void afficherErreurAjoutPoint() {
+        JOptionPane.showMessageDialog(null, "Le point selectionné n'est pas valide");
+    }
 
-        
     // ------ ActionsListeners ------
     private class ChargerPlan implements ActionListener {
 
@@ -282,7 +283,7 @@ public class Fenetre extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             File file = OuvreurFichierXML.getInstance().selectionFichierXML(true);
-            if (file == null){
+            if (file == null) {
                 return;
             }
             Plan nouveauPlan = controleur.chargerPlan(file);
@@ -291,8 +292,6 @@ public class Fenetre extends JFrame {
             repaint();
         }
     }
-    
-
 
     private class ChargerDemandesLivraisons implements ActionListener {
 
@@ -305,11 +304,11 @@ public class Fenetre extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             File file = OuvreurFichierXML.getInstance().selectionFichierXML(true);
-            if (file == null){
+            if (file == null) {
                 return;
             }
-            EnsembleLivraisons  nouvelEnsembleLivraisons = controleur.chargerLivraisons(file);
-            
+            EnsembleLivraisons nouvelEnsembleLivraisons = controleur.chargerLivraisons(file);
+
             this.fenetre.vue.updateEnsembleLivraisons(nouvelEnsembleLivraisons);
 
             revalidate();
@@ -331,9 +330,39 @@ public class Fenetre extends JFrame {
             Tournee nouvelleTournee = controleur.calculerTournee();
 
             this.fenetre.vue.updateTournee(nouvelleTournee);
-            
+
             revalidate();
             repaint();
+        }
+    }
+
+    private class AjouterIntersecion implements ActionListener {
+
+        Fenetre fenetre;
+
+        public AjouterIntersecion(JFrame frameParent) {
+            this.fenetre = (Fenetre) frameParent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            fenetre.controleur.demandeAjoutPoint();
+            while (fenetre.controleur.isEtatRemplirInformations()) {//tant qu'on est dans l'etat remplir information, on y reste
+                DemandeLivraison maDemande = afficherPopUp(); 
+
+                fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
+            }
+        }
+
+        public DemandeLivraison afficherPopUp() {
+            Integer idInter = vue.getPremiereInterSelectionnee();
+            Intersection monInter = vue.getVuePlan().getPlan().getIntersection(idInter);
+            Iterator<FenetreLivraison> itFenetre = vue.getVueEnsembleLivraisons().getEnsembleLivraison().getFenetresLivraison();
+
+            DialogInfosDemande dialog = new DialogInfosDemande(fenetre, monInter, itFenetre);
+            DemandeLivraison maDemande = dialog.showDialog();
+
+            return maDemande;
         }
     }
 

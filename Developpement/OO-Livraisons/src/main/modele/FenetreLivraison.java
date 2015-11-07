@@ -5,6 +5,7 @@
  */
 package modele;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -106,5 +107,11 @@ public class FenetreLivraison {
             idIntersections.add(livraison.getIntersection().getId());
         }
         return idIntersections;
+    }
+    
+    @Override
+    public String toString() {
+        SimpleDateFormat monFormat = new SimpleDateFormat("HH:mm:ss");
+        return monFormat.format(this.heureDebut)+" à "+monFormat.format(this.heureFin);
     }
 }

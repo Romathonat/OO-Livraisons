@@ -60,6 +60,14 @@ public class Vue {
     }
     
     /**
+     * 
+     * @return la première intersection selectionne
+     */
+    public Integer getPremiereInterSelectionnee(){
+        return this.getIntersectionSelectionnees().get(0);
+    }
+    
+    /**
      * indique quelle intersection a été selectionnée et si elle est un point de livraison
      * @param id
      * @param isPointLivraison 
@@ -86,7 +94,6 @@ public class Vue {
     protected void resetEnsembleLivraisons(){
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, null);
         this.resetTournee();
-                
     }
     
     protected void resetTournee(){
@@ -125,7 +132,7 @@ public class Vue {
         this.vueStatus.changerStatus("Demandes de livraison chargée");
     }
     
-    protected void updateTournee(Tournee tournee){
+    public void updateTournee(Tournee tournee){
         if (tournee == this.getVueTournee().getTournee()) { // au cas ou le calcul de la tournee échouerai.
             return;
         }

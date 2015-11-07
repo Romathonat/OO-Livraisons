@@ -5,6 +5,12 @@
  */
 package controleur;
 
+import java.awt.Point;
+import static java.lang.Math.pow;
+import java.util.Iterator;
+import java.util.Map;
+import modele.Intersection;
+
 /**
  *
  * @author Kilian
@@ -12,6 +18,42 @@ package controleur;
 public class EtatChoixProchaineLivraison extends EtatDefaut {
     @Override
     protected void activerFonctionnalites(){
-        super.activerFonctionnalites();
     }
+    
+    public void clicPlan(int x, int y){
+        Iterator<Map.Entry<Integer, Intersection>> itInter = Controleur.modeleManager.getPlan().getIntersections();
+        //on cherche si on trouve un point qui correspond à l'endroit où on a cliqué
+        int rayon = Controleur.fenetre.getVue().getVueGraphique().getRayonInter();
+        
+        boolean interTrouve = false;
+        
+        while(itInter.hasNext()){
+            Intersection monInter = itInter.next().getValue();
+            Point coord = Controleur.fenetre.getVue().getVueGraphique().getCoordEchelle(monInter.getX(), monInter.getY());
+            
+            if(pow(coord.x - x,2)+pow(coord.y - y,2) <= pow(rayon,2)){
+                interTrouve = true;
+                
+                if(Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(monInter.getId()) == null){ //si ce n'est pas une demande de livraison
+                    Controleur.fenetre.afficherErreurAjoutPoint();
+                }
+                else{
+                    //ici on a deux points selectionnes, on definit la nouvelle tournee et on sera bon
+                    
+                    
+                    
+                    //ATTENTION A CHANGER APRES
+                    Controleur.modeleManager.calculerTournee();
+                    Controleur.fenetre.getVue().updateTournee(Controleur.modeleManager.getTournee());
+                    
+                        
+                    Controleur.fenetre.getVue().supprimerInterSelectionee();
+                    Controleur.setEtatCourant(Controleur.etatTourneeCalculee);//on a fini ce use case, on revient à cet etat
+                }
+                break;
+            }
+        }        
+    }
+    
+    
 }

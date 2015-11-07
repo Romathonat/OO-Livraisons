@@ -6,6 +6,7 @@
 package controleur;
 
 import java.io.File;
+import java.util.List;
 import modele.*;
 import vue.*;
 
@@ -68,6 +69,11 @@ public class Controleur {
         Controleur.setEtatCourant(etatInitial);
     }
     
+    
+    public boolean isEtatRemplirInformations(){
+        return this.getEtatCourant() == etatRemplirInformations;
+    }
+    
     public synchronized Plan chargerPlan(File file) {
         etatCourant.chargerPlan(file);
         return modeleManager.getPlan();
@@ -98,8 +104,18 @@ public class Controleur {
         etatCourant.clicPlan(x, y);
     }
     
-    public synchronized void ajouterLivraison(DemandeLivraison livraison) {
+    public synchronized void selectionerIntersection(Intersection inter){
+        etatCourant.selectionerIntersection(inter);
+    }
+    /**
+     * Permet simplement le passage dans l'état suivant d'après le diagramme etatTransitio
+     */
+    public synchronized void demandeAjoutPoint() {
+        etatCourant.demandeAjoutPoint();
+    }
     
+    public synchronized void ajouterLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/) {
+        etatCourant.ajouterLivraison(livraison/*, listeCmde*/);
     }
     
     public synchronized void genererFeuilleRoute() {

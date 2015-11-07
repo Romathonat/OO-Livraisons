@@ -5,6 +5,10 @@
  */
 package controleur;
 
+import java.util.List;
+import modele.DemandeLivraison;
+import modele.Tournee;
+
 /**
  *
  * @author Kilian
@@ -14,5 +18,11 @@ public class EtatIntersectionSelectionnee extends EtatSelection {
     protected void activerFonctionnalites(){
         super.activerFonctionnalites();
         Controleur.fenetre.activerAjouterLivraison(true);
+    }
+   
+    
+    @Override
+    public void demandeAjoutPoint() {
+        Controleur.setEtatCourant(Controleur.etatRemplirInformations);
     }
 }

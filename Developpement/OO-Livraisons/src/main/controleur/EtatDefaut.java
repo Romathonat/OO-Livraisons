@@ -57,7 +57,7 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void ajouterLivraison(DemandeLivraison livraison, Tournee tournee, List<Commande> listeCmde) {
+    public void ajouterLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -98,4 +98,16 @@ public class EtatDefaut implements Etat{
 
     @Override
     public void clicPlan(int x, int y) {}
+
+    
+
+    @Override
+    public void demandeAjoutPoint() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void selectionerIntersection(Intersection inter) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
