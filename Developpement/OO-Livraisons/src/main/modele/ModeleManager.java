@@ -206,7 +206,7 @@ public class ModeleManager {
     private Tournee transformerSolutionTspEnTournee(TemplateTSP tsp, ArrayList<Integer> correspondance, Map<DepartArriveeChemin, Chemin> chemins) {
         Tournee nouvelleTournee = new Tournee();
         //On part de l'entrepot.
-        Intersection entrepot = ensembleLivraisons.getEntrepot();
+        Intersection entrepot = this.ensembleLivraisons.getEntrepot();
         int sommetEntrepot = Collections.binarySearch(correspondance, entrepot.getId());
         int offsetEntrepot = tsp.trouverIndexSommet(sommetEntrepot);
         //On parcourt circulairement la solution depuis l'entrepot.
@@ -220,7 +220,7 @@ public class ModeleManager {
             //On ajoute ce chemin a la tournee.
             Chemin chemin = chemins.get(new DepartArriveeChemin(intersectionPrecedente, intersection));
             //On definit la demande de livraison a l'arrivee du chemin.
-            DemandeLivraison livraison = ensembleLivraisons.getDemandeLivraison(intersection);
+            DemandeLivraison livraison = this.ensembleLivraisons.getDemandeLivraison(intersection);
             chemin.setLivraisonArrivee(livraison);
             nouvelleTournee.AjouterChemin(chemin);
 
