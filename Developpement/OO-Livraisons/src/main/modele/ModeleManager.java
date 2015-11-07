@@ -109,9 +109,9 @@ public class ModeleManager {
     }
     
     public void chargerPlan(File file) throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
-            Plan planIntermédiaire = new Plan();
-            DeserialiseurXML.chargerPlan(file, planIntermédiaire);
-            this.plan = planIntermédiaire;
+            Plan planIntermediaire = new Plan();
+            DeserialiseurXML.chargerPlan(file, planIntermediaire);
+            this.plan = planIntermediaire;
             this.resetEnsembleLivraisons();
     }
     
