@@ -20,20 +20,25 @@ import modele.DemandeLivraison;
 
 /**
  * Représente graphiquement une demande de livraison.
+ *
  * @author Kilian
  */
 public class VueDemandeLivraison extends JPanel {
 
     /**
+     * Renseigne si la demande de livraison est selectionnee ou non.
+     */
+    private boolean estSelectionnee;
+
+    /**
      * La demande de livraison associée à la VueDemandeLivraison.
      */
     private DemandeLivraison demandeLivraison;
-    
+
     /**
      * La vue de la fenêtre de livraison associée à la demande de livraison.
      */
     private VueFenetreLivraison VueFenetreLivraison;
-
 
     JLabel jLabelClient;
     JLabel jLabelAdresse;
@@ -41,12 +46,14 @@ public class VueDemandeLivraison extends JPanel {
 
     /**
      * Constructeur d'une VueDemandeLivraison.
-     * @param VuefenetreLivraison La vue de la fenêtre de livraison associée à la demande de livraison.
-     * @param demandeLivraison 
+     *
+     * @param VuefenetreLivraison La vue de la fenêtre de livraison associée à
+     * la demande de livraison.
+     * @param demandeLivraison
      */
     public VueDemandeLivraison(VueFenetreLivraison VuefenetreLivraison, DemandeLivraison demandeLivraison) {
         super();
- 
+
         this.VueFenetreLivraison = VuefenetreLivraison;
         this.demandeLivraison = demandeLivraison;
 
@@ -72,22 +79,13 @@ public class VueDemandeLivraison extends JPanel {
 
         // ComposantGraphique.
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.setBackground(Color.WHITE);
         this.setVisible(true);
-        
+
         addMouseListener(new MouseAdapter() {
-            private Color background;
 
             @Override
             public void mousePressed(MouseEvent e) {
-                background = getBackground();
-                setBackground(new Color(113, 142, 164));
-                repaint();
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                setBackground(background);
+                // TO DO: Ajouter ici le code pour appeler le controller et lui indiquer que l'user a selectionner une demande.
             }
         });
     }
@@ -97,31 +95,47 @@ public class VueDemandeLivraison extends JPanel {
         super.paintComponent(g);
 
         this.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 0, this.getCouleur()));
+
+        if (this.estSelectionnee) {
+            this.setBackground(new Color(113, 142, 164));
+        } else {
+            this.setBackground(Color.WHITE);
+        }
     }
 
     /**
-     * Retourne la couleur associée à la demande de livraison.Si l'heure de livraison
-     * de la tournée a été renseignée et que la demande de livraison n'est pas dans
-     * sa fenêtre horaire prévue, retourne la couleur standard d'une demande de 
-     * livraison hors horaire.
-     * @return La couleur associée à la demande de livraison.  
+     * Retourne la couleur associée à la demande de livraison.Si l'heure de
+     * livraison de la tournée a été renseignée et que la demande de livraison
+     * n'est pas dans sa fenêtre horaire prévue, retourne la couleur standard
+     * d'une demande de livraison hors horaire.
+     *
+     * @return La couleur associée à la demande de livraison.
      */
     public Color getCouleur() {
 
         if (this.getDemandeLivraison().getHeureLivraison() == null || this.getDemandeLivraison().RespecteFenetreLivraison()) {
             return this.VueFenetreLivraison.getCouleur();
-        }
-        else{
+        } else {
             return GenerateurCouleur.getCouleurDemandeHorsHoraire();
         }
     }
 
     /**
      * Retourne la demande de livraison associée à la VueDemandeLivraison.
+     *
      * @return La demande de livraison associée à la VueDemandeLivraison.
      */
     public DemandeLivraison getDemandeLivraison() {
         return this.demandeLivraison;
     }
 
+    /**
+     * Permet de selectionner une DemandeLivraison en fonction de l'Id de
+     * l'intersection qui lui est associée.
+     *
+     * @return True si la demande est effectivement selectionnee. False sinon.
+     */
+    public boolean Selectionner(int idIntersection) {
+        return this.estSelectionnee = this.demandeLivraison.getIntersection().getId() == idIntersection;
+    }
 }

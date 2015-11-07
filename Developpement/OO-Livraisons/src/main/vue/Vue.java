@@ -116,6 +116,7 @@ public class Vue {
      */
     public void ajouterInterSelectionnee(int id, boolean isPointLivraison){
         this.intersectionSelectionnees.add(id);
+        this.vueTextuelle.mettreAjourLivraisonsSelectionnees();
         this.vueGraphique.repaint();
     }
     
@@ -124,6 +125,7 @@ public class Vue {
      */
     public void supprimerInterSelectionee(){
         this.intersectionSelectionnees.clear();
+        this.vueTextuelle.mettreAjourLivraisonsSelectionnees();
         this.vueGraphique.repaint();
     }
     
@@ -206,7 +208,7 @@ public class Vue {
 
         this.vueLegende.updateLegende();
 
-        this.vueTextuelle.UpdateVueTextuelle();
+        this.vueTextuelle.mettreAJourListeDemandes();
 
         this.vueStatus.changerStatusDroit("Demandes de livraison chargée");
     }
@@ -225,7 +227,7 @@ public class Vue {
         this.getVueEnsembleLivraisons().clearDemandeLivraisons(); //On les enlève pour les remmettre dans l'ordre    
         this.vueTournee = new VueTournee(this, tournee);
               
-        this.vueTextuelle.UpdateVueTextuelle();
+        this.vueTextuelle.mettreAJourListeDemandes();
 
         this.vueGraphique.repaint();
 
