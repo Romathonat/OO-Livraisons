@@ -10,6 +10,7 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
+import static javafx.beans.binding.Bindings.and;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -50,11 +51,9 @@ public class DialogInfosDemande extends JDialog {
         int idClientInt = 0;
         int idDemandeInt = 0;
         
-        try{
+        if(!monIdClient.getText().isEmpty() && !monIdDemande.getText().isEmpty()){
             idClientInt = Integer.parseInt(monIdClient.getText());
             idDemandeInt = Integer.parseInt(monIdDemande.getText());
-        }catch(Exception e){
-            e.printStackTrace();
         }
                 
         DemandeLivraison retour = new DemandeLivraison(idClientInt,idDemandeInt, this.interCourante, (FenetreLivraison) MaListeFenetres.getSelectedItem());
