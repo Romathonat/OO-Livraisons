@@ -14,17 +14,30 @@ import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
 
 /**
- *
+ * Représente graphiquement un ensemble de livraison. Contient une liste de VueFenetreLivraison
+ * associées aux fenêtre de livraison de l'ensemble de livraison.
  * @author Nicolas
  */
 public class VueEnsembleLivraisons{
-    private List<VueFenetreLivraison> listVueFenetreLivraison;
-    private EnsembleLivraisons ensembleLivraison;
-    private Vue vue;
     
-    public VueEnsembleLivraisons(Vue vue, EnsembleLivraisons ensembleLivraisons){
-        this.vue = vue;
+    /**
+     * La liste des vueFenetreLivraison associées aux fenêtre de livraison de 
+     * l'ensemble de livraison.
+     */
+    private List<VueFenetreLivraison> listVueFenetreLivraison;
+    
+    /**
+     * L'ensemble de livraison associé à la VueEnsembleLivraison.
+     */
+    private EnsembleLivraisons ensembleLivraison;
+    
+    /**
+     * Constructeur d'une VueEnsembleLivraison.
+     * @param ensembleLivraisons L'ensemble de livraison associé à la VueEnsembleLivraison.
+     */
+    public VueEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
         this.ensembleLivraison = ensembleLivraisons;
+        
         this.listVueFenetreLivraison = new ArrayList<>();
         
         if(this.ensembleLivraison != null){
@@ -44,6 +57,9 @@ public class VueEnsembleLivraisons{
         }
     }
     
+    /**
+     * Vide la liste des VueFenetreLivraison.
+     */
     protected void clearDemandeLivraisons(){
         for (VueFenetreLivraison vueFenetreLivraison : this.listVueFenetreLivraison) {
             vueFenetreLivraison.clearDemandesLivraisonVue();
@@ -51,7 +67,8 @@ public class VueEnsembleLivraisons{
     }
 
     /**
-     * @return the listFenetresLivraisonVue
+     * Retourne un itérateur sur la liste de VueFenetreLivraison. 
+     * @return Un itérateur sur la liste de VueFenetreLivraison. 
      */
     public Iterator<VueFenetreLivraison> getListVueFenetresLivraison() {
         List constList = Collections.unmodifiableList(this.listVueFenetreLivraison);
@@ -59,7 +76,8 @@ public class VueEnsembleLivraisons{
     }
 
     /**
-     * @return the ensembleLivraison
+     * Retourne l'ensemble de livraison associé à la VueEnsembleLivraison.
+     * @return L'ensemble de livraison associé à la VueEnsembleLivraison.
      */
     public EnsembleLivraisons getEnsembleLivraison() {
         return ensembleLivraison;

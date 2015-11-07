@@ -16,25 +16,37 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 /**
- *
+ * Représente graphiquement un élément de légende.
  * @author romain
  */
 public class VueElementLegende extends JPanel{
+    
+    /**
+     * La couleur de l'élément de légende.
+     */
     private Color couleur;
-    private String texte;
+    
+    /**
+     * Le texte d'un élément de légende.
+     */
     private JLabel label;
     
-    public VueElementLegende (Color c, String s){
+    /**
+     * Constructeur d'une VueLegende.
+     * @param color La couleur de l'élément de légende.
+     * @param texte Le texte d'un élément de légende.
+     */
+    public VueElementLegende (Color color, String texte){
         super();
-        this.couleur = c;
-        this.texte = s;
+        this.couleur = color;
         this.setPreferredSize(new Dimension(20,200));
-        label = new JLabel(s);
+        label = new JLabel(texte);
         label.setBorder(new EmptyBorder(0, 20, 0, 0));
         label.setFont(new Font("Calibri",1,10));
         this.add(label);
     }
     
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
                 

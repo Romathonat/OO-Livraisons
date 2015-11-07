@@ -7,46 +7,53 @@ package vue;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import modele.DemandeLivraison;
 
 /**
- *
+ * Représente graphiquement une demande de livraison.
  * @author Kilian
  */
 public class VueDemandeLivraison extends JPanel {
 
-    private int height = 100;
+    /**
+     * La demande de livraison associée à la VueDemandeLivraison.
+     */
     private DemandeLivraison demandeLivraison;
-    private VueFenetreLivraison fenetreLivraisonVue;
-    public Date heure;
+    
+    /**
+     * La vue de la fenêtre de livraison associée à la demande de livraison.
+     */
+    private VueFenetreLivraison VueFenetreLivraison;
+
 
     JLabel jLabelClient;
     JLabel jLabelAdresse;
     JLabel jLabelHeure;
 
-    public VueDemandeLivraison(VueFenetreLivraison fenetreLivraisonVue, DemandeLivraison demandeLivraison) {
+    /**
+     * Constructeur d'une VueDemandeLivraison.
+     * @param VuefenetreLivraison La vue de la fenêtre de livraison associée à la demande de livraison.
+     * @param demandeLivraison 
+     */
+    public VueDemandeLivraison(VueFenetreLivraison VuefenetreLivraison, DemandeLivraison demandeLivraison) {
         super();
  
-        this.fenetreLivraisonVue = fenetreLivraisonVue;
+        this.VueFenetreLivraison = VuefenetreLivraison;
         this.demandeLivraison = demandeLivraison;
 
         this.jLabelClient = new JLabel("Client : " + Integer.toString(demandeLivraison.getIdClient()));
         this.jLabelClient.setBorder(new EmptyBorder(0, 5, 0, 0));
 
-        this.jLabelAdresse = new JLabel("Adresse : x = " + this.getDemandeLivraison().getIntersection().getX() + ", y = " + this.getDemandeLivraison().getIntersection().getY());
+        this.jLabelAdresse = new JLabel("Adresse : x = " + this.demandeLivraison.getIntersection().getX() + ", y = " + this.demandeLivraison.getIntersection().getY());
         this.jLabelAdresse.setBorder(new EmptyBorder(0, 5, 0, 0));
 
         this.jLabelHeure = null;
@@ -85,23 +92,33 @@ public class VueDemandeLivraison extends JPanel {
         });
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         this.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 0, this.getCouleur()));
     }
 
+    /**
+     * Retourne la couleur associée à la demande de livraison.Si l'heure de livraison
+     * de la tournée a été renseignée et que la demande de livraison n'est pas dans
+     * sa fenêtre horaire prévue, retourne la couleur standard d'une demande de 
+     * livraison hors horaire.
+     * @return La couleur associée à la demande de livraison.  
+     */
     public Color getCouleur() {
-        boolean test = this.getDemandeLivraison().RespecteFenetreLivraison();
 
         if (this.getDemandeLivraison().getHeureLivraison() == null || this.getDemandeLivraison().RespecteFenetreLivraison()) {
-            return this.fenetreLivraisonVue.getCouleur();
+            return this.VueFenetreLivraison.getCouleur();
         }
-        return GenerateurCouleur.getCouleurDemandeHorsHoraire();
+        else{
+            return GenerateurCouleur.getCouleurDemandeHorsHoraire();
+        }
     }
 
     /**
-     * @return the demandeLivraison
+     * Retourne la demande de livraison associée à la VueDemandeLivraison.
+     * @return La demande de livraison associée à la VueDemandeLivraison.
      */
     public DemandeLivraison getDemandeLivraison() {
         return this.demandeLivraison;

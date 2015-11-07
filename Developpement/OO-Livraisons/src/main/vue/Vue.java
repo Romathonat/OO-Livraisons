@@ -84,7 +84,7 @@ public class Vue {
 
         this.vueStatus = new VueStatus();
         
-        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, null);
+        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(null);
         this.vueTournee = new VueTournee(this, null);
         this.vuePlan = new VuePlan(this, null);
         
@@ -144,7 +144,7 @@ public class Vue {
      * seront alors des nouveaux objets de même type, vides 
      */
     protected void resetEnsembleLivraisons(){
-        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, null);
+        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(null);
         this.resetTournee();
                 
     }
@@ -191,7 +191,7 @@ public class Vue {
         if (ensembleLivraisons == this.getVueEnsembleLivraisons().getEnsembleLivraison()) { // en cas de problème de chargement.
             return;
         }
-        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this, ensembleLivraisons);
+        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(ensembleLivraisons);
 
         this.resetTournee();
 
