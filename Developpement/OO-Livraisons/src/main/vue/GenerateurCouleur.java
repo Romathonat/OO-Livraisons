@@ -1,6 +1,7 @@
 package vue;
 
 import java.awt.Color;
+import xml.OuvreurFichierXML;
 
 /**
  *
@@ -13,8 +14,17 @@ public class GenerateurCouleur {
     private int nextColor;
     
     private int nombreCouleur;
+    
+    private static GenerateurCouleur instance = null;
+    
+    public static GenerateurCouleur getInstance() {
+           if (instance == null) {
+            instance = new GenerateurCouleur();
+        }
+        return instance;
+    }
 
-    public GenerateurCouleur() {
+    private GenerateurCouleur() {
 
         nombreCouleur = 6;
         

@@ -52,7 +52,7 @@ public class Vue {
         
         intersectionSelectionnees = new ArrayList<>();
         
-        generateurCouleur = new GenerateurCouleur();
+        generateurCouleur = GenerateurCouleur.getInstance();
     }
     
     public VueGraphique getVueGraphique(){
