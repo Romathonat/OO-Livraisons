@@ -30,7 +30,7 @@ public class EtatRemplirInformations extends EtatDefaut {
             Controleur.setEtatCourant(Controleur.etatChoixProchaineLivraison);
         }
         else{
-            Controleur.fenetre.afficherErreurAjoutPoint();
+            Controleur.fenetre.afficherMessage("Le point selectionné n'est pas valide");
         }
     }
 }
