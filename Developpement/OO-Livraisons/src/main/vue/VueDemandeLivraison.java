@@ -97,7 +97,7 @@ public class VueDemandeLivraison extends JPanel {
         if (this.getDemandeLivraison().getHeureLivraison() == null || this.getDemandeLivraison().RespecteFenetreLivraison()) {
             return this.fenetreLivraisonVue.getCouleur();
         }
-        return GenerateurCouleur.getCouleurFenetreHorsHoraire();
+        return GenerateurCouleur.getCouleurDemandeHorsHoraire();
     }
 
     /**

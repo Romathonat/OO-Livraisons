@@ -86,7 +86,7 @@ public class VueLegende extends JPanel {
         
         if(this.vue.getVueTournee().getTournee() != null){
             VueElementLegende legendeFenetre = new VueElementLegende(
-                    GenerateurCouleur.getCouleurFenetreHorsHoraire(), 
+                    GenerateurCouleur.getCouleurDemandeHorsHoraire(), 
                     "Livraison Hors Horaire");
             this.add(Box.createRigidArea(new Dimension(0, this.ecartLegende)));
             this.add(legendeFenetre);
