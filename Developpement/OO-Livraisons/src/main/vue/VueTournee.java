@@ -38,7 +38,7 @@ public class VueTournee {
      * @param vue La vue dans laquelle s'inscrit la VueTournee.
      * @param tournee La tournée associée à la VueTournee.
      */
-    public VueTournee(Vue vue, Tournee tournee){
+    protected VueTournee(Vue vue, Tournee tournee){
         this.vue = vue;
         this.tournee = tournee;
         VuelistChemin = new ArrayList<>();
@@ -67,7 +67,7 @@ public class VueTournee {
      * Retourne un itérateur sur la liste de VueChemin.
      * @return Un itérateur sur la liste de VueChemin.
      */
-    public Iterator<VueChemin> getListVueChemin() {
+    protected Iterator<VueChemin> getListVueChemin() {
         List constList = Collections.unmodifiableList(this.VuelistChemin);
         return constList.iterator();
     }
@@ -76,7 +76,7 @@ public class VueTournee {
      * Retourne la tournée associée à la VueTournee.
      * @return La tournée associée à la VueTournee.
      */
-    public Tournee getTournee() {
+    protected Tournee getTournee() {
         return tournee;
     }
 }

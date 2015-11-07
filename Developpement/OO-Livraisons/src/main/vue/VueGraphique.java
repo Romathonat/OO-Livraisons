@@ -61,6 +61,7 @@ public class VueGraphique extends JPanel{
         this.maxY = this.getSize().height;
         this.addMouseListener(new ecouteurSouris(this.vue.fenetre));       
     }
+    
     public int getRayonInter(){
         return this.rayonInter;
     }

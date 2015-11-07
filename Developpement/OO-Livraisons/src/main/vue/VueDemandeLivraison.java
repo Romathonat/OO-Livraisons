@@ -51,7 +51,7 @@ public class VueDemandeLivraison extends JPanel {
      * la demande de livraison.
      * @param demandeLivraison
      */
-    public VueDemandeLivraison(VueFenetreLivraison VuefenetreLivraison, DemandeLivraison demandeLivraison) {
+    protected VueDemandeLivraison(VueFenetreLivraison VuefenetreLivraison, DemandeLivraison demandeLivraison) {
         super();
 
         this.VueFenetreLivraison = VuefenetreLivraison;
@@ -111,7 +111,7 @@ public class VueDemandeLivraison extends JPanel {
      *
      * @return La couleur associée à la demande de livraison.
      */
-    public Color getCouleur() {
+    protected Color getCouleur() {
 
         if (this.getDemandeLivraison().getHeureLivraison() == null || this.getDemandeLivraison().RespecteFenetreLivraison()) {
             return this.VueFenetreLivraison.getCouleur();
@@ -125,7 +125,7 @@ public class VueDemandeLivraison extends JPanel {
      *
      * @return La demande de livraison associée à la VueDemandeLivraison.
      */
-    public DemandeLivraison getDemandeLivraison() {
+    protected DemandeLivraison getDemandeLivraison() {
         return this.demandeLivraison;
     }
 
@@ -135,7 +135,7 @@ public class VueDemandeLivraison extends JPanel {
      *
      * @return True si la demande est effectivement selectionnee. False sinon.
      */
-    public boolean Selectionner(int idIntersection) {
+    protected boolean Selectionner(int idIntersection) {
         return this.estSelectionnee = this.demandeLivraison.getIntersection().getId() == idIntersection;
     }
 }

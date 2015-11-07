@@ -246,7 +246,7 @@ public class Vue {
         while (it_fenetreVue.hasNext()) {
 
             VueFenetreLivraison fenetreVue = it_fenetreVue.next();
-            if (demandeLivraison.getFenetreLivraison().getHeureDebut().compareTo(fenetreVue.getFenetre().getHeureDebut()) == 0) {
+            if (demandeLivraison.getFenetreLivraison().getHeureDebut().compareTo(fenetreVue.getFenetreLivraison().getHeureDebut()) == 0) {
                 return fenetreVue;
             }
         }

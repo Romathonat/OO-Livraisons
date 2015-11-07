@@ -35,7 +35,7 @@ public class VueEnsembleLivraisons{
      * Constructeur d'une VueEnsembleLivraison.
      * @param ensembleLivraisons L'ensemble de livraison associé à la VueEnsembleLivraison.
      */
-    public VueEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
+    protected VueEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
         this.ensembleLivraison = ensembleLivraisons;
         
         this.listVueFenetreLivraison = new ArrayList<>();
@@ -70,7 +70,7 @@ public class VueEnsembleLivraisons{
      * Retourne un itérateur sur la liste de VueFenetreLivraison. 
      * @return Un itérateur sur la liste de VueFenetreLivraison. 
      */
-    public Iterator<VueFenetreLivraison> getListVueFenetresLivraison() {
+    protected Iterator<VueFenetreLivraison> getListVueFenetresLivraison() {
         List constList = Collections.unmodifiableList(this.listVueFenetreLivraison);
         return constList.iterator();
     }
@@ -79,7 +79,7 @@ public class VueEnsembleLivraisons{
      * Retourne l'ensemble de livraison associé à la VueEnsembleLivraison.
      * @return L'ensemble de livraison associé à la VueEnsembleLivraison.
      */
-    public EnsembleLivraisons getEnsembleLivraison() {
+    protected EnsembleLivraisons getEnsembleLivraison() {
         return ensembleLivraison;
     }
     

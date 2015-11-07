@@ -43,7 +43,7 @@ public class VueFenetreLivraison {
      * Retourne la fenêtre de livraison que représente la VueFenetreLivraison
      * @return La fenêtre de livraison que représente la VueFenetreLivraison
      */
-    protected FenetreLivraison getFenetre() {
+    protected FenetreLivraison getFenetreLivraison() {
         return this.fenetreLivraison;
     }
 

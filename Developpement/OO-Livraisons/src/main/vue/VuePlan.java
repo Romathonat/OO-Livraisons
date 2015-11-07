@@ -28,7 +28,7 @@ public class VuePlan {
      * @param vue La vue dans laquelle s'inscrit la VuePlan.
      * @param plan Le plan associé à la VuePlan.
      */
-    public VuePlan(Vue vue,Plan plan){
+    protected VuePlan(Vue vue,Plan plan){
         this.vue = vue;
         this.plan = plan;
     }
@@ -37,7 +37,7 @@ public class VuePlan {
      * Retourne le plan associé à la VuePlan.
      * @return Le plan associé à la VuePlan.
      */
-    public Plan getPlan() {
+    protected Plan getPlan() {
         return plan;
     }
 }
