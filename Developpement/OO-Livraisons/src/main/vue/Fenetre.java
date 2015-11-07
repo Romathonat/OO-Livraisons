@@ -6,18 +6,19 @@
 package vue;
 
 import controleur.Controleur;
-import controleur.EtatRemplirInformations;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -32,8 +33,8 @@ import modele.FenetreLivraison;
 import modele.Intersection;
 import modele.Plan;
 import modele.Tournee;
-import xml.ExceptionXML;
 import xml.OuvreurFichierXML;
+import xmlModele.SerialiseurXML;
 
 /**
  * La fenêter graphique de l'application.
@@ -459,7 +460,11 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO : Appeler le service de Guillaume
+            try {
+                SerialiseurXML.exporterTournee(vue.getVueTournee().getTournee());
+            } catch (IOException ex) {
+                Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
