@@ -135,6 +135,15 @@ public class Plan{
     }
 
     /**
+     * Retourne un itérateur sur la collection d'intersections contenues dans le plan.
+     *
+     * @return
+     */
+    public Iterator<Entry<Integer, Intersection>> getIntersections() {
+        return this.intersections.entrySet().iterator();
+    }
+    
+    /**
      * Retourne un itérateur sur la collection de tronçons contenus dans le plan.
      *
      * @return
@@ -144,14 +153,7 @@ public class Plan{
         return constCollection.iterator();
     }
 
-    /**
-     * Retourne un itérateur sur la collection d'intersections contenues dans le plan.
-     *
-     * @return
-     */
-    public Iterator<Entry<Integer, Intersection>> getIntersections() {
-        return this.intersections.entrySet().iterator();
-    }
+
     
     /**
      * Représente la durée nécessaire pour aller vers une intersection.

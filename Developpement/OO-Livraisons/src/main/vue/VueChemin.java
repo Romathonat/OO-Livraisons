@@ -8,23 +8,43 @@ package vue;
 import modele.Chemin;
 
 /**
- *
+ * Représente la vue graphique d'un chemin.
  * @author Guillaume Kheng
  */
 public class VueChemin {
     
+    /**
+     * Le chemin associé à la VueChemin.
+     */
     private Chemin chemin;
+    
+    /**
+     * La vue de la fenêtre de livraison associé à la VueChemin.
+     */
     private VueFenetreLivraison fenetreLivraisonVue;
 
+    /**
+     * Constucteur d'une VueChemin.
+     * @param fenetreVue La vue de la fenêtre de livraison associé à la VueChemin
+     * @param chemin Le chemin que représente la VueChemin.
+     */
     public VueChemin(VueFenetreLivraison fenetreVue, Chemin chemin) {
         this.chemin = chemin;
         this.fenetreLivraisonVue = fenetreVue;
     }
 
+    /**
+     * Retourne le chemin associé à la VueChemin.
+     * @return Le chemin associé à la VueChemin.
+     */
     public Chemin getChemin() {
         return chemin;
     }
 
+    /**
+     * Retourne la vue de la fenêtre de livraison associé au chemin.
+     * @return La vue de la fenêtre de livraison associé au chemin.
+     */
     public VueFenetreLivraison getFenetreLivraisonVue() {
         return fenetreLivraisonVue;
     }

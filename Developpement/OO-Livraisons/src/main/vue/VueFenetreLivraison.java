@@ -56,8 +56,8 @@ public class VueFenetreLivraison {
     }
     
     /**
-     * 
-     * @param couleur 
+     * Retourne la couleur associée à la fenêtre de livraison.
+     * @param La couleur associée à la fenêtre de livraison.
      */
     protected void setCouleur(Color couleur) {
         this.couleur = couleur;
@@ -71,14 +71,18 @@ public class VueFenetreLivraison {
     }
     
     /**
-     * 
-     * @return 
+     * Retourne un itérateur sur la liste de vue de demandes de livraison.
+     * @return Un itérateur sur la liste de vue de demandes de livraison.
      */
     protected Iterator<VueDemandeLivraison> getVueDemandeLivraisonVue(){
         List constList = Collections.unmodifiableList(this.listDemandesLivraisonVue);
         return constList.iterator();
     }
     
+    /**
+     * Ajoute une VueDemandeLivraison à la liste de vue de demandes de livraison.
+     * @param vueDemandeLivraison La VueDemandeLivraison à ajouter à la liste.
+     */
     protected void addVueDemandeLivraison(VueDemandeLivraison vueDemandeLivraison){
         this.listDemandesLivraisonVue.add(vueDemandeLivraison);
     }

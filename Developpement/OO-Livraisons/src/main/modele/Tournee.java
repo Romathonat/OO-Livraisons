@@ -69,7 +69,7 @@ public class Tournee {
         List<Chemin> constList = Collections.unmodifiableList(chemins);
         return constList.iterator();
     }
-
+    
     /**
      * Ajoute un chemin à la collection de chemins. Cette fonction vérifie que
      * le chemin passé en paramètre n'est pas "null".

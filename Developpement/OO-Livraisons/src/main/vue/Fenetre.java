@@ -36,7 +36,7 @@ import xml.ExceptionXML;
 import xml.OuvreurFichierXML;
 
 /**
- *
+ * La fenêter graphique de l'application.
  * @author romain
  */
 public class Fenetre extends JFrame {
@@ -69,13 +69,23 @@ public class Fenetre extends JFrame {
     protected JButton echangerLivraison;
     protected JButton calculerTournee;
 
+    /**
+     * Le controleur de l'application.
+     */
     protected Controleur controleur;
-
+    
+    /**
+     * La vue courante de l'application
+     */
     protected Vue vue;
 
+    /**
+     * Constructeur d'une fenêtre.
+     * @param controleur Le controleur de l'application.
+     */
     public Fenetre(Controleur controleur) {
         this.controleur = controleur;
-
+                
         this.vue = new Vue(this);
 
         barreMenus = new JMenuBar();
@@ -123,6 +133,7 @@ public class Fenetre extends JFrame {
         calculerTournee.addActionListener(new CalculerTournee(this));
 
         //------Organisation des Pannels
+
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
         int ecartBoutons = 15;
@@ -152,12 +163,15 @@ public class Fenetre extends JFrame {
         calculerTournee.setMinimumSize(tailleBouton);
         calculerTournee.setMaximumSize(tailleBouton);
 
+
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);
         panelGauche.add(vue.vueLegende);
 
         // Tests avec la scrollbar
+        
+        
         panelDroit = new JPanel();
         JScrollPane scrollPane = new JScrollPane(this.vue.vueTextuelle);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -194,7 +208,12 @@ public class Fenetre extends JFrame {
 
     }
 
-    public Vue getVue() {
+
+    /**
+     * Retourne la vue courante de l'application.
+     * @return La vue courante de l'application.
+     */
+    public Vue getVue(){
         return this.vue;
     }
 
@@ -206,55 +225,122 @@ public class Fenetre extends JFrame {
     public void EnvoyerMessage(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
-
+    
     // ---- Methodes d'activation/desactivation des fonctionnalites ----
-    // -- Activables / Desactivables ---
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de chargement du plan.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerChargerPlan(boolean activer) {
         chargerPlan.setEnabled(activer);
     }
 
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de chargement de demandes de livraisons.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerChargerDemandesLivraisons(boolean activer) {
         chargerDemandesLivraisons.setEnabled(activer);
     }
 
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de génération de feuille de route.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerGenererFeuilleRoute(boolean activer) {
         genererFeuilleDeRoute.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité d'annulation d'une modification de la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerAnnuler(boolean activer) {
         annuler.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de rétablissement d'une modification de la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerRetablir(boolean activer) {
         retablir.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité d'ajout de livraison à la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerAjouterLivraison(boolean activer) {
         ajouterLivraison.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de suppression de livraison à la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerSupprimerLivraison(boolean activer) {
         supprimerLivraison.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité d'échange de livraisons entre deux livraison de la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerEchangerLivraison(boolean activer) {
         echangerLivraison.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de calcul de la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerCalculerTournee(boolean activer) {
         calculerTournee.setEnabled(activer);
     }
 
     // --- Activables uniquement ---
+    
+    /**
+     * Active graphiquement la fonctionnalité de fermeture de l'application.
+     * Cette fonctionnalité n'est pas désactivable.
+     */
     public void activerQuitter() {
         quitter.setEnabled(true);
     }
-
+    
+    /**
+     * Active graphiquement la fonctionnalité d'affichage de l'à propos de 
+     * l'application.
+     * Cette fonctionnalité n'est pas désactivable.
+     */
     public void activerAPropos() {
         descriptionProjet.setEnabled(true);
     }
 
-    // Desactivation generale (sauf activables uniquement)
+    /**
+     * Désactive graphiquement l'ensemble des fonctionnalités désactivables de
+     * l'application.
+     */
     public void toutDesactiver() {
         this.activerChargerPlan(false);
         this.activerChargerDemandesLivraisons(false);
@@ -271,6 +357,7 @@ public class Fenetre extends JFrame {
         JOptionPane.showMessageDialog(null, "Le point selectionné n'est pas valide");
     }
 
+        
     // ------ ActionsListeners ------
     private class ChargerPlan implements ActionListener {
 
@@ -292,6 +379,8 @@ public class Fenetre extends JFrame {
             repaint();
         }
     }
+    
+
 
     private class ChargerDemandesLivraisons implements ActionListener {
 
@@ -330,7 +419,7 @@ public class Fenetre extends JFrame {
             Tournee nouvelleTournee = controleur.calculerTournee();
 
             this.fenetre.vue.updateTournee(nouvelleTournee);
-
+            
             revalidate();
             repaint();
         }

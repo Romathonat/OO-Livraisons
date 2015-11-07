@@ -10,15 +10,34 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- *
+ * Elément graphique de status d'une vue. 
  * @author Nicolas
  */
 public class VueStatus extends JPanel {
+    
+    
+    /**
+     * La vue dans laquelle s'inscrit la VueLegende.
+     */
+    private Vue vue;
+    
+    /**
+     * Message de status de droite de la barre de status.
+     */
     private JLabel statusRigth;
+    
+    /**
+     * Message de status de gauche de la barre de status.
+     */
     private JLabel statusLeft;
     
-    public VueStatus(){
+    /**
+     * Constructeur d'une VueStatus.
+     * @param vue La vue dans laquelle s'inscrit la VueLegende.
+     */
+    public VueStatus(Vue vue){
         super();
+        this.vue = vue;
         this.setLayout(new BorderLayout());
         this.statusRigth = new JLabel("OO-Livraison");
         this.statusLeft = new JLabel("");
@@ -28,9 +47,9 @@ public class VueStatus extends JPanel {
     
     /**
      * Change le message côté droit de la barre de status
-     * @param status 
+     * @param status Le messase de status à afficher dans la barre de status.
      */
-    public void changerStatus(String status) {
+    public void changerStatusDroit(String status) {
         this.statusRigth.setText(status);
     }
 }
