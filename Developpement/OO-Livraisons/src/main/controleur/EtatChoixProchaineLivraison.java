@@ -39,13 +39,16 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
                 else{
                     //ici on a deux points selectionnes, on definit la nouvelle tournee et on sera bon
                     
+                    Intersection interDepart;
+                    Intersection interArrive = monInter;
+                    Intersection nouvelleDemande;
                     
-                    
+                    //on cherche l'interDepart en trouvant la demande de livraison qui precede interArrive
+                    //Iterator<Chemin> itChemin = Controleur.fenetre.ge
                     //ATTENTION A CHANGER APRES
                     Controleur.modeleManager.calculerTournee();
                     Controleur.fenetre.getVue().updateTournee(Controleur.modeleManager.getTournee());
                     
-                        
                     Controleur.fenetre.getVue().supprimerInterSelectionee();
                     Controleur.setEtatCourant(Controleur.etatTourneeCalculee);//on a fini ce use case, on revient à cet etat
                 }
