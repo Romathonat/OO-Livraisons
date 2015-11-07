@@ -12,36 +12,47 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import modele.Chemin;
-import modele.DemandeLivraison;
-import modele.EnsembleLivraisons;
-import modele.FenetreLivraison;
 import modele.Intersection;
-import modele.Tournee;
 import modele.Troncon;
 
 /**
- *
+ * La vue graphique est la composante de dessin de la vue. 
  * @author romain
  */
-public class VueGraphique extends JPanel implements Observer{
+public class VueGraphique extends JPanel{
  
+    /**
+     * La vue dans laquelle s'inscrit la VueGraphique.
+     */
     private Vue vue;
-    private int maxX;
-    private int maxY;
-    private int rayonInter = 10;
-    private int rayonSelection = 15;
     
     /**
-     * Constucteur d'une vue graphique
-     * @param vue 
+     * La coordonnée maximale en abcisses des intersection à dessiner. 
+     */
+    private int maxX;
+    
+    /**
+     * La coordonnée maximale en ordonnée des intersection à dessiner. 
+     */
+    private int maxY;
+    
+    /**
+     * Le rayon du cercle représentant une intersection. 
+     */
+    private final int rayonInter = 10;
+    
+    /**
+     * Le rayon du cercle représentant une intersection selectionnée. 
+     */
+    private final int rayonSelection = 15;
+    
+    /**
+     * Constucteur d'une VueGraphique
+     * @param vue La vue dans laquelle s'inscrit la VueGraphique.
      */
     public VueGraphique(Vue vue) {
         this.vue = vue;
@@ -55,25 +66,25 @@ public class VueGraphique extends JPanel implements Observer{
     }
     /**
      * Retourne un point dont les coordonnes x et y sont à l'échelle de la fenêtre
-     * @param x
-     * @param y
-     * @return 
+     * @param x La coordonnée en abscisse du point à retourner, avant mise à l'échelle. 
+     * @param y La coordonnée en ordonnée du point à retourner, avant mise à l'échelle.
+     * @return Le point, avec les coordonnées mise à l'échelle.
      */
-    public Point getCoordEchelle(int x, int y)
+    public Point getPointCoordEchelle(int x, int y)
     {
-        Point monPoint = new Point(x*(this.getWidth()-10)/maxX,y*(this.getHeight()-10)/maxY);
+        Point monPoint = new Point(x*(this.getWidth()-10)/this.maxX,y*(this.getHeight()-10)/this.maxY);
         return monPoint;
     }
     
     /**
-     * Permet à la fenetre de se rafraichir correctement 
-     * @param g 
+     * Permet à la vue graphique de se dessiner correctement. 
+     * @param g L'objet graphics à utiliser pour dessiner.
      */
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
-        initialiserGraphics2d(g2D); //on initialise le pinceau pour qu'il dessine bien
+        initialiserGraphics2d(g2D);
         
         if(this.vue.getVuePlan().getPlan() != null){
             dessinerPlan(g2D);
@@ -87,30 +98,20 @@ public class VueGraphique extends JPanel implements Observer{
     }
     
     /**
-     * Ajoute la reference du plan, et le dessine via repaint()
-     * @param plan 
-     */
-    public void drawPlan() {
-        
-        maxX = this.vue.getVuePlan().getPlan().getXMax();
-        maxY = this.vue.getVuePlan().getPlan().getYMax();
-        
-        repaint();
-    }
-    
-    /**
-     * Dessine le plan à partir du plan courant avec le pinceau g2D
-     * @param g2D 
+     * Dessine le plan à partir du plan de la vue.
+     * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
     public void dessinerPlan(Graphics2D g2D){
+        maxX = this.vue.getVuePlan().getPlan().getXMax();
+        maxY = this.vue.getVuePlan().getPlan().getYMax();
         g2D.setColor(Color.LIGHT_GRAY);
         dessinerInterNeutre(g2D);
         dessinerTronconNeutre(g2D);
     }
     
     /**
-     * Dessine les intersections avec g2D
-     * @param g2D 
+     * Dessine l'ensemble des intersections du plan de la vue.
+     * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
     public void dessinerInterNeutre(Graphics2D g2D){
         Iterator<Entry<Integer, Intersection>> itInter = this.vue.getVuePlan().getPlan().getIntersections();
@@ -121,23 +122,9 @@ public class VueGraphique extends JPanel implements Observer{
         }
     }
     
-    public void dessinerUneIntersection(Intersection monInter, Graphics2D g2D){
-        Point coordonnesInter = getCoordEchelle(monInter.getX(),monInter.getY());
-        
-        Iterator<Integer> itInterSelectionne = this.vue.getInterSelectionne();
-        int rayonDessin = rayonInter;
-        
-        while(itInterSelectionne.hasNext()){ //on verifie que l'intersection qu'on dessine a été selectionnée ou pas
-            if(itInterSelectionne.next() == monInter.getId()){
-                rayonDessin = this.rayonSelection;
-            }
-        }
-        
-        g2D.fillOval(coordonnesInter.x-(int)rayonDessin/2, coordonnesInter.y-(int)rayonDessin/2, rayonDessin, rayonDessin);
-    }
     /**
-     * Dessine les troncons avec g2D
-     * @param g2D 
+     * Dessine l'ensemble des troncons du plan de la vue. 
+     * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
     public void dessinerTronconNeutre(Graphics2D g2D){
         Iterator<Troncon> itTroncon = this.vue.getVuePlan().getPlan().getTroncons();
@@ -148,33 +135,51 @@ public class VueGraphique extends JPanel implements Observer{
         }
     }
     
-    public void dessinerUnTroncon(Troncon monTroncon, Graphics2D g2D){
-        Point coordonnesTronconDepart = getCoordEchelle(monTroncon.getIntersectionDepart().getX(),monTroncon.getIntersectionDepart().getY());
-        Point coordonnesTronconArrivee = getCoordEchelle(monTroncon.getIntersectionArrivee().getX(),monTroncon.getIntersectionArrivee().getY());
+    /**
+     * Dessine une intercection. 
+     * @param intercection L'intercection à dessiner.
+     * @param g2D L'objet Graphics2D à utiliser pour dessiner.
+     */
+    public void dessinerUneIntersection(Intersection intercection, Graphics2D g2D){
+        Point coordonnesInter = getPointCoordEchelle(intercection.getX(),intercection.getY());
+        
+        Iterator<Integer> itInterSelectionne = this.vue.getInterSelectionne();
+        int rayonDessin = rayonInter;
+        
+        while(itInterSelectionne.hasNext()){ 
+            if(itInterSelectionne.next() == intercection.getId()){
+                rayonDessin = this.rayonSelection;
+            }
+        }
+        
+        g2D.fillOval(coordonnesInter.x-(int)rayonDessin/2, coordonnesInter.y-(int)rayonDessin/2, rayonDessin, rayonDessin);
+    }
+
+    
+    /**
+     * Dessine un tronçon. 
+     * @param troncon Le troncon à dessiner.
+     * @param g2D L'objet Graphics2D à utiliser pour dessiner.
+     */
+    public void dessinerUnTroncon(Troncon troncon, Graphics2D g2D){
+        Point coordonnesTronconDepart = getPointCoordEchelle(troncon.getIntersectionDepart().getX(),troncon.getIntersectionDepart().getY());
+        Point coordonnesTronconArrivee = getPointCoordEchelle(troncon.getIntersectionArrivee().getX(),troncon.getIntersectionArrivee().getY());
 
         g2D.drawLine(coordonnesTronconDepart.x, coordonnesTronconDepart.y, coordonnesTronconArrivee.x, coordonnesTronconArrivee.y);
     }
     
     /**
-     * Initialise le Graphics2D pour dessiner
+     * Initialise le Graphics2D pour dessiner.
+     * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
     public void initialiserGraphics2d(Graphics2D g2D){
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON );
         g2D.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY );
-    }
+    } 
     
     /**
-     * Ajoute la reference de livraison, et la dessine via repaint()
-     * @param livraisons 
-     */
-    void drawLivraisons()  {
-        this.repaint();
-    }
-    
-    
-    /**
-     * Dessine les demandes de livraison avec g2D
-     * @param g2D 
+     * Dessine l'ensemble des demandes de livraison.
+     * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
     void dessinerLivraisons(Graphics2D g2D){
         
@@ -199,14 +204,11 @@ public class VueGraphique extends JPanel implements Observer{
             }
         }
     }
-    /**
-     * Dessine la tournée courante à partir de tournee
-     * @param tournee 
-     */
-    void drawTournee() {
-        this.repaint();
-    }
     
+    /**
+     * Dessine la tournée. 
+     * @param g2D L'objet Graphics2D à utiliser pour dessiner.
+     */
     private void dessinerTournee(Graphics2D g2D) {
         Iterator<VueChemin> itChemins = this.vue.getVueTournee().getListCheminVue();
         
@@ -218,11 +220,6 @@ public class VueGraphique extends JPanel implements Observer{
                 dessinerUnTroncon(itTroncon.next(),g2D);
             }
         }
-    }
-    
-    @Override
-    public void update(Observable o, Object arg) {
-        
     }
 
     // --- Activation/Desactivation ---

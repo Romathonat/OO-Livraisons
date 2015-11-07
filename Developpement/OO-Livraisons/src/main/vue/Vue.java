@@ -171,10 +171,8 @@ public class Vue {
         this.vuePlan = new VuePlan(this, plan);
         this.resetEnsembleLivraisons();
             
-        // Dessin du plan.
-        vueGraphique.drawPlan();
+        this.vueGraphique.repaint();
 
-        // Mise à jour de la légende.
         this.vueLegende.updateLegende();
         this.vueStatus.changerStatus("Plan chargé");
     }
@@ -185,7 +183,7 @@ public class Vue {
      * mets à jour l'ensemble de livraison connu et l'ensemble des composans
      * de la vue. Sinon, ne fait rien. 
      * 
-     * @param ensembleLivraisons
+     * @param ensembleLivraisons L'ensemble de livraison avec lequel on veut mettre à jour la vue. 
      */
     protected void updateEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
         if (ensembleLivraisons == this.getVueEnsembleLivraisons().getEnsembleLivraison()) { // en cas de problème de chargement.
@@ -195,7 +193,7 @@ public class Vue {
 
         this.resetTournee();
 
-        this.vueGraphique.drawLivraisons();
+        this.vueGraphique.repaint();
 
         this.vueLegende.updateLegende();
 
@@ -209,6 +207,7 @@ public class Vue {
      * connue par la vueTournée de la vue, mets à jour la tournée connue et 
      * l'ensemble des composans de la vue. Sinon, ne fait rien. 
      * 
+     * @param tournee La tournée avec lequel on veut mettre à jour la vue. 
      */
     protected void updateTournee(Tournee tournee){
         if (tournee == this.getVueTournee().getTournee()) { // au cas ou le calcul de la tournee échouerai.
@@ -219,7 +218,7 @@ public class Vue {
               
         this.vueTextuelle.UpdateVueTextuelle(getVueEnsembleLivraisons().getListVueFenetresLivraison());
 
-        this.vueGraphique.drawTournee();
+        this.vueGraphique.repaint();
 
         this.vueLegende.updateLegende();
         this.vueStatus.changerStatus("Tournée calculée");

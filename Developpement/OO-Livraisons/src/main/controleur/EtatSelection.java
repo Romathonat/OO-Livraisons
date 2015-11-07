@@ -33,7 +33,7 @@ public class EtatSelection extends EtatTournee{
         
         while(itInter.hasNext()){
             Intersection monInter = itInter.next().getValue();
-            Point coord = Controleur.fenetre.getVue().getVueGraphique().getCoordEchelle(monInter.getX(), monInter.getY());
+            Point coord = Controleur.fenetre.getVue().getVueGraphique().getPointCoordEchelle(monInter.getX(), monInter.getY());
             
             if(pow(coord.x - x,2)+pow(coord.y - y,2) <= pow(rayon,2)){
                 interTrouve = true;
