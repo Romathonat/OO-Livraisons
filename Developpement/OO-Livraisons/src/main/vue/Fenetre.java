@@ -31,7 +31,7 @@ import xml.ExceptionXML;
 import xml.OuvreurFichierXML;
 
 /**
- *
+ * La fenêter graphique de l'application.
  * @author romain
  */
 public class Fenetre extends JFrame {
@@ -66,10 +66,20 @@ public class Fenetre extends JFrame {
     protected JButton echangerLivraison;
     protected JButton calculerTournee;
 
+    /**
+     * Le controleur de l'application.
+     */
     protected Controleur controleur;
     
+    /**
+     * La vue courante de l'application
+     */
     protected Vue vue;
 
+    /**
+     * Constructeur d'une fenêtre.
+     * @param controleur Le controleur de l'application.
+     */
     public Fenetre(Controleur controleur) {
         this.controleur = controleur;
                 
@@ -195,10 +205,14 @@ public class Fenetre extends JFrame {
     }
 
 
-
+    /**
+     * Retourne la vue courante de l'application.
+     * @return La vue courante de l'application.
+     */
     public Vue getVue(){
         return this.vue;
     }
+    
     /**
      * Affiche une popup contenant un message particulier.
      *
@@ -209,53 +223,120 @@ public class Fenetre extends JFrame {
     }
     
     // ---- Methodes d'activation/desactivation des fonctionnalites ----
-    // -- Activables / Desactivables ---
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de chargement du plan.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerChargerPlan(boolean activer) {
         chargerPlan.setEnabled(activer);
     }
 
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de chargement de demandes de livraisons.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerChargerDemandesLivraisons(boolean activer) {
         chargerDemandesLivraisons.setEnabled(activer);
     }
 
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de génération de feuille de route.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerGenererFeuilleRoute(boolean activer) {
         genererFeuilleDeRoute.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité d'annulation d'une modification de la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerAnnuler(boolean activer) {
         annuler.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de rétablissement d'une modification de la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerRetablir(boolean activer) {
         retablir.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité d'ajout de livraison à la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerAjouterLivraison(boolean activer) {
         ajouterLivraison.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de suppression de livraison à la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerSupprimerLivraison(boolean activer) {
         supprimerLivraison.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité d'échange de livraisons entre deux livraison de la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerEchangerLivraison(boolean activer) {
         echangerLivraison.setEnabled(activer);
     }
-
+    
+    /**
+     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
+     * fonctionnalité de calcul de la tournée.
+     * @param activer true pour activer la fonctionnalité, 
+     * false pour la désactiver.
+     */
     public void activerCalculerTournee(boolean activer) {
         calculerTournee.setEnabled(activer);
     }
 
     // --- Activables uniquement ---
+    
+    /**
+     * Active graphiquement la fonctionnalité de fermeture de l'application.
+     * Cette fonctionnalité n'est pas désactivable.
+     */
     public void activerQuitter() {
         quitter.setEnabled(true);
     }
-
+    
+    /**
+     * Active graphiquement la fonctionnalité d'affichage de l'à propos de 
+     * l'application.
+     * Cette fonctionnalité n'est pas désactivable.
+     */
     public void activerAPropos() {
         descriptionProjet.setEnabled(true);
     }
 
-    // Desactivation generale (sauf activables uniquement)
+    /**
+     * Désactive graphiquement l'ensemble des fonctionnalités désactivables de
+     * l'application.
+     */
     public void toutDesactiver() {
         this.activerChargerPlan(false);
         this.activerChargerDemandesLivraisons(false);
