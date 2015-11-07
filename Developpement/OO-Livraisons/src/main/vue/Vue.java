@@ -80,9 +80,9 @@ public class Vue {
         
         this.vueGraphique = new VueGraphique(this);
         
-        this.vueTextuelle = new VueTextuelle();
+        this.vueTextuelle = new VueTextuelle(this);
 
-        this.vueStatus = new VueStatus();
+        this.vueStatus = new VueStatus(this);
         
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(null);
         this.vueTournee = new VueTournee(this, null);
@@ -174,7 +174,7 @@ public class Vue {
         this.vueGraphique.repaint();
 
         this.vueLegende.updateLegende();
-        this.vueStatus.changerStatus("Plan chargé");
+        this.vueStatus.changerStatusDroit("Plan chargé");
     }
     
     /**
@@ -197,9 +197,9 @@ public class Vue {
 
         this.vueLegende.updateLegende();
 
-        this.vueTextuelle.UpdateVueTextuelle(getVueEnsembleLivraisons().getListVueFenetresLivraison());
+        this.vueTextuelle.UpdateVueTextuelle();
 
-        this.vueStatus.changerStatus("Demandes de livraison chargée");
+        this.vueStatus.changerStatusDroit("Demandes de livraison chargée");
     }
     
     /**
@@ -216,12 +216,12 @@ public class Vue {
         this.getVueEnsembleLivraisons().clearDemandeLivraisons(); //On les enlève pour les remmettre dans l'ordre    
         this.vueTournee = new VueTournee(this, tournee);
               
-        this.vueTextuelle.UpdateVueTextuelle(getVueEnsembleLivraisons().getListVueFenetresLivraison());
+        this.vueTextuelle.UpdateVueTextuelle();
 
         this.vueGraphique.repaint();
 
         this.vueLegende.updateLegende();
-        this.vueStatus.changerStatus("Tournée calculée");
+        this.vueStatus.changerStatusDroit("Tournée calculée");
     }
     
     /**

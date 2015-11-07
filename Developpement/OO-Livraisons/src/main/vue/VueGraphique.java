@@ -20,7 +20,7 @@ import modele.Intersection;
 import modele.Troncon;
 
 /**
- * La vue graphique est la composante de dessin de la vue. 
+ * Élement graphique de dessin d'une vue.
  * @author romain
  */
 public class VueGraphique extends JPanel{
@@ -210,7 +210,7 @@ public class VueGraphique extends JPanel{
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
     private void dessinerTournee(Graphics2D g2D) {
-        Iterator<VueChemin> itChemins = this.vue.getVueTournee().getListCheminVue();
+        Iterator<VueChemin> itChemins = this.vue.getVueTournee().getListVueChemin();
         
         while(itChemins.hasNext()){
             VueChemin vueChemin = itChemins.next();

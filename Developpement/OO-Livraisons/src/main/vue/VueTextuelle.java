@@ -14,26 +14,41 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 
 /**
- *
+ * Élément graphique d'affichage textuel de la vue.
  * @author Kilian
  */
 public class VueTextuelle extends JPanel {
 
+    /**
+     * La vue dans laquelle s'inscrit la vue textuelle.
+     */
+    private Vue vue;
+    
+    /**
+     * L'écart entre deux éléments de la vue textuelle.
+     */
     private int ecartDemandesLivraisons;
 
-    public VueTextuelle() {
+    /**
+     * Constructeur d'une VueTextuelle.
+     * @param vue La vue dans laquelle s'inscrit la vue textuelle.
+     */
+    public VueTextuelle(Vue vue) {
         super();
+        
+        this.vue = vue;
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setBackground(Color.white);
 
         this.ecartDemandesLivraisons = 5;
     }
 
-    public void UpdateVueTextuelle(Iterator<VueFenetreLivraison> it_fenetreVue) {
-
-        // on raz la fenetre
+    /**
+     * Mets à jour la VueTextuelle. 
+     */
+    public void UpdateVueTextuelle() {
         this.removeAll();
-
+        Iterator<VueFenetreLivraison> it_fenetreVue = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
         while (it_fenetreVue.hasNext())//pour toutes les fenetres, on change la coloration
         {
             Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonVue();
