@@ -24,12 +24,11 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
         Iterator<Map.Entry<Integer, Intersection>> itInter = Controleur.modeleManager.getPlan().getIntersections();
         //on cherche si on trouve un point qui correspond à l'endroit où on a cliqué
         int rayon = Controleur.fenetre.getVue().getVueGraphique().getRayonInter();
-        
         boolean interTrouve = false;
         
         while(itInter.hasNext()){
             Intersection monInter = itInter.next().getValue();
-            Point coord = Controleur.fenetre.getVue().getVueGraphique().getCoordEchelle(monInter.getX(), monInter.getY());
+            Point coord = Controleur.fenetre.getVue().getVueGraphique().getPointCoordEchelle(monInter.getX(), monInter.getY());
             
             if(pow(coord.x - x,2)+pow(coord.y - y,2) <= pow(rayon,2)){
                 interTrouve = true;

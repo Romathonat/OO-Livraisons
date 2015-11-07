@@ -107,7 +107,7 @@ public class Vue {
         return this.getIntersectionSelectionnees().get(0);
     }
     
-    
+    /**
      * Ajoute une intersection à la liste l'intersections selectionnées et, en indiquant
      * si l'intersection rajoutée est un point de livraison.
      * @param id L'id de l'intersection à ajouter. 
