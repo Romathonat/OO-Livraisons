@@ -36,7 +36,7 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
                 interTrouve = true;
                 
                 if(Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(monInter.getId()) == null){ //si ce n'est pas une demande de livraison
-                    Controleur.fenetre.afficherErreurAjoutPoint();
+                    Controleur.fenetre.afficherMessage("Le point selectionné n'est pas valide");
                 }
                 else{
                     //ici on a deux points selectionnes, on definit la nouvelle tournee et on sera bon
