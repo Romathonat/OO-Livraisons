@@ -66,11 +66,6 @@ public class Vue {
     private List<Integer> intersectionSelectionnees;
     
     /**
-     * Le générateur de couleur utilisé par la vue. 
-     */
-    private GenerateurCouleur generateurCouleur;
-    
-    /**
      * Constructeur d'une Vue.
      * @param fenetre La fenêtre graphique dans laquelle s'inscrit la Vue.
      */
@@ -92,7 +87,6 @@ public class Vue {
         
         intersectionSelectionnees = new ArrayList<>();
         
-        generateurCouleur = GenerateurCouleur.getInstance();
     }
     
     public VueGraphique getVueGraphique(){
@@ -185,7 +179,7 @@ public class Vue {
 
         // Mise à jour de la légende.
         this.vueLegende.updateLegende();
-        this.vueStatus.changerStatusDroit("Plan chargé");
+        this.vueStatus.updateStatusDroit("Plan chargé");
     }
     
     /**
@@ -210,7 +204,7 @@ public class Vue {
 
         this.vueTextuelle.mettreAJourListeDemandes();
 
-        this.vueStatus.changerStatusDroit("Demandes de livraison chargée");
+        this.vueStatus.updateStatusDroit("Demandes de livraison chargée");
     }
     
     /**
@@ -232,7 +226,7 @@ public class Vue {
         this.vueGraphique.repaint();
 
         this.vueLegende.updateLegende();
-        this.vueStatus.changerStatusDroit("Tournée calculée");
+        this.vueStatus.updateStatusDroit("Tournée calculée");
     }
     
     /**
@@ -283,14 +277,6 @@ public class Vue {
      */
     protected List<Integer> getIntersectionSelectionnees() {
         return intersectionSelectionnees;
-    }
-
-    /**
-     * @return the generateurCouleur
-     */
-    protected GenerateurCouleur getGenerateurCouleur() {
-        return generateurCouleur;
-    }
-    
+    } 
     
 }

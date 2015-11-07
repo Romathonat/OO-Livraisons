@@ -21,16 +21,16 @@ public class VueChemin {
     /**
      * La vue de la fenêtre de livraison associé à la VueChemin.
      */
-    private VueFenetreLivraison fenetreLivraisonVue;
+    private VueFenetreLivraison VueFenetreLivraisonVue;
 
     /**
      * Constucteur d'une VueChemin.
-     * @param fenetreVue La vue de la fenêtre de livraison associé à la VueChemin
+     * @param vueFenetreLivraison La vue de la fenêtre de livraison associé à la VueChemin
      * @param chemin Le chemin que représente la VueChemin.
      */
-    protected VueChemin(VueFenetreLivraison fenetreVue, Chemin chemin) {
+    protected VueChemin(VueFenetreLivraison vueFenetreLivraison, Chemin chemin) {
         this.chemin = chemin;
-        this.fenetreLivraisonVue = fenetreVue;
+        this.VueFenetreLivraisonVue = vueFenetreLivraison;
     }
 
     /**
@@ -45,8 +45,8 @@ public class VueChemin {
      * Retourne la vue de la fenêtre de livraison associé au chemin.
      * @return La vue de la fenêtre de livraison associé au chemin.
      */
-    protected VueFenetreLivraison getFenetreLivraisonVue() {
-        return fenetreLivraisonVue;
+    protected VueFenetreLivraison getVueFenetreLivraison() {
+        return VueFenetreLivraisonVue;
     }
     
 }

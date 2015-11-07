@@ -57,7 +57,7 @@ public class VueTextuelle extends JPanel {
         Iterator<VueFenetreLivraison> it_fenetreVue = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
         while (it_fenetreVue.hasNext())//pour toutes les fenetres, on change la coloration
         {
-            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonVue();
+            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonList();
             while (it_vueDemandeLivraison.hasNext()) {
 
                 this.add(it_vueDemandeLivraison.next());
@@ -80,7 +80,7 @@ public class VueTextuelle extends JPanel {
         // On commence par deselectionner toutes les livraisons.
         Iterator<VueFenetreLivraison> it_fenetreVue = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
         while (it_fenetreVue.hasNext()) {
-            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonVue();
+            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonList();
             while (it_vueDemandeLivraison.hasNext()) {
                 it_vueDemandeLivraison.next().Selectionner(-1);
             }
@@ -93,7 +93,7 @@ public class VueTextuelle extends JPanel {
 
         it_fenetreVue = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
         while (it_fenetreVue.hasNext()) {
-            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonVue();
+            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonList();
             while (it_vueDemandeLivraison.hasNext()) {
                 // Reperage des demandes de livraison selectionnee.
                 VueDemandeLivraison vueDemandeLivraison = it_vueDemandeLivraison.next();
@@ -110,7 +110,7 @@ public class VueTextuelle extends JPanel {
         super.paintComponent(grphcs);
         Iterator<VueFenetreLivraison> it_fenetreVue = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
         while (it_fenetreVue.hasNext()) {
-            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonVue();
+            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonList();
             while (it_vueDemandeLivraison.hasNext()) {
                 it_vueDemandeLivraison.next().repaint();
             }
