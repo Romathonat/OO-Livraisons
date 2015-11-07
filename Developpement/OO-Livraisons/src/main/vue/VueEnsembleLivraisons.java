@@ -46,7 +46,7 @@ public class VueEnsembleLivraisons{
 
             while (it_fenetre.hasNext()) {
                 FenetreLivraison fenetreLivraison = it_fenetre.next();
-                VueFenetreLivraison fenetreLivraisonVue = new VueFenetreLivraison(fenetreLivraison, GenerateurCouleur.getInstance().getCouleurSuivante());
+                VueFenetreLivraison fenetreLivraisonVue = new VueFenetreLivraison(fenetreLivraison, GenerateurCouleur.getInstance().getCouleur());
                 this.listVueFenetreLivraison.add(fenetreLivraisonVue);
 
                 it_demande = fenetreLivraison.getDemandesLivraison();
@@ -62,7 +62,7 @@ public class VueEnsembleLivraisons{
      */
     protected void clearDemandeLivraisons(){
         for (VueFenetreLivraison vueFenetreLivraison : this.listVueFenetreLivraison) {
-            vueFenetreLivraison.clearDemandesLivraisonVue();
+            vueFenetreLivraison.clearVuesDemandesLivraison();
         }
     }
 

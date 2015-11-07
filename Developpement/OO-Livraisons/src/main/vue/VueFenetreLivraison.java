@@ -21,7 +21,7 @@ public class VueFenetreLivraison {
     /**
      * La liste de vueDemandeLivraison contenues.
      */
-    private List<VueDemandeLivraison> listDemandesLivraisonVue;
+    private List<VueDemandeLivraison> listVueDemandesLivraison;
     
     /**
      * La couleur associée à la fenêtre de livraison.
@@ -36,7 +36,7 @@ public class VueFenetreLivraison {
     VueFenetreLivraison(FenetreLivraison fenetre, Color couleur) {
         this.fenetreLivraison = fenetre;
         this.couleur = couleur;
-        this.listDemandesLivraisonVue = new ArrayList<>();
+        this.listVueDemandesLivraison = new ArrayList<>();
     }
 
     /**
@@ -66,16 +66,16 @@ public class VueFenetreLivraison {
     /**
      * Vide la liste de DemandeLivraisonVue. 
      */
-    protected void clearDemandesLivraisonVue(){
-        this.listDemandesLivraisonVue.clear();
+    protected void clearVuesDemandesLivraison(){
+        this.listVueDemandesLivraison.clear();
     }
     
     /**
      * Retourne un itérateur sur la liste de vue de demandes de livraison.
      * @return Un itérateur sur la liste de vue de demandes de livraison.
      */
-    protected Iterator<VueDemandeLivraison> getVueDemandeLivraisonVue(){
-        List constList = Collections.unmodifiableList(this.listDemandesLivraisonVue);
+    protected Iterator<VueDemandeLivraison> getVueDemandeLivraisonList(){
+        List constList = Collections.unmodifiableList(this.listVueDemandesLivraison);
         return constList.iterator();
     }
     
@@ -84,7 +84,7 @@ public class VueFenetreLivraison {
      * @param vueDemandeLivraison La VueDemandeLivraison à ajouter à la liste.
      */
     protected void addVueDemandeLivraison(VueDemandeLivraison vueDemandeLivraison){
-        this.listDemandesLivraisonVue.add(vueDemandeLivraison);
+        this.listVueDemandesLivraison.add(vueDemandeLivraison);
     }
 
 }

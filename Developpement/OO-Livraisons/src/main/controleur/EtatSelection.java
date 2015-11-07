@@ -27,6 +27,7 @@ public class EtatSelection extends EtatTournee {
         super.activerFonctionnalites();
     }
 
+    @Override
     public void clicPlan(int x, int y) {
         Iterator<Map.Entry<Integer, Intersection>> itInter = Controleur.modeleManager.getPlan().getIntersections();
         //on cherche si on trouve un point qui correspond à l'endroit où on a cliqué
