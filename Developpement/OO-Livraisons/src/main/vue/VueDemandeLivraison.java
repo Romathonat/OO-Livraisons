@@ -85,7 +85,7 @@ public class VueDemandeLivraison extends JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                // TO DO: Ajouter ici le code pour appeler le controller et lui indiquer que l'user a selectionner une demande.
+                // TO DO appeler controleur.selectionnerIntersection(this.getDemandeLivraison().getIntersection())
             }
         });
     }

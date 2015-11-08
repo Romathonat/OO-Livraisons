@@ -24,6 +24,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -459,6 +460,7 @@ public class Fenetre extends JFrame {
                 SerialiseurXML.exporterTournee(vue.getVueTournee().getTournee());
             } catch (IOException ex) {
                 Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                showMessageDialog(null, "L'exportation a échoué.");
             }
         }
     }
