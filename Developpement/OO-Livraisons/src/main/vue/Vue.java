@@ -228,7 +228,7 @@ public class Vue {
         this.vueLegende.updateLegende();
         this.vueStatus.updateStatusDroit("Tournée calculée");
     }
-    
+
     /**
      * Retourne la vue de la fenêtre de livraison correspondante à la demande de
      * livraison passée en paramètre. 
