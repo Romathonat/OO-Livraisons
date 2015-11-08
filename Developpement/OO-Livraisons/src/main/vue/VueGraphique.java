@@ -6,6 +6,7 @@
 package vue;
 
 import controleur.Controleur;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,8 +14,12 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.QuadCurve2D;
 import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.JFrame;
@@ -53,6 +58,15 @@ public class VueGraphique extends JPanel{
      */
     private final int rayonSelection = 15;
     
+    /**
+     * Le decalage entre les troncons qui se chevauchent lors du dessin de la tournée
+     */
+    private final int decalageTronconChevauchement = 20;
+    
+    /**
+     * L'epaisseur du trait du dessin des troncons
+     */
+    private final int epaisseurTrait = 2;
     /**
      * Constucteur d'une VueGraphique
      * @param vue La vue dans laquelle s'inscrit la VueGraphique.
@@ -132,7 +146,7 @@ public class VueGraphique extends JPanel{
         
         while(itTroncon.hasNext()){
             Troncon monTroncon = itTroncon.next();
-            dessinerTroncon(monTroncon,g2D);
+            dessinerTroncon(monTroncon,g2D,0);
         }
     }
     
@@ -161,12 +175,33 @@ public class VueGraphique extends JPanel{
      * Dessine un tronçon. 
      * @param troncon Le troncon à dessiner.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
+     * @param offset le decalage à appliquer (chevauchement de troncons)
      */
-    private void dessinerTroncon(Troncon troncon, Graphics2D g2D){
+    private void dessinerTroncon(Troncon troncon, Graphics2D g2D, int offset){
         Point coordonnesTronconDepart = getPointCoordEchelle(troncon.getIntersectionDepart().getX(),troncon.getIntersectionDepart().getY());
         Point coordonnesTronconArrivee = getPointCoordEchelle(troncon.getIntersectionArrivee().getX(),troncon.getIntersectionArrivee().getY());
+        
+        //on calcule le vecteur formé par ces deux coordonnees
+        int xVecteur = coordonnesTronconArrivee.x - coordonnesTronconDepart.x;
+        int yVecteur = coordonnesTronconArrivee.y - coordonnesTronconDepart.y;
+        
+        //on trouve l'offset (demo math sur papier basé sur produit scalaire)
+        double xOffset = sqrt(pow(yVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * offset * decalageTronconChevauchement;
+        double yOffset = sqrt(pow(xVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * offset * decalageTronconChevauchement;
+        
+        g2D.setStroke(new BasicStroke(epaisseurTrait, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)); //on change l'epaisseur du trait
+        
+        if(offset != 0){ //si ls troncons se chevauchent, on les dessine "curvé"
+            QuadCurve2D q = new QuadCurve2D.Float();
+            int decalage = 0;
+            
+            q.setCurve(coordonnesTronconDepart.x, coordonnesTronconDepart.y, (coordonnesTronconDepart.x+coordonnesTronconArrivee.x+xOffset)/2, (coordonnesTronconDepart.y+coordonnesTronconArrivee.y+yOffset)/2, coordonnesTronconArrivee.x, coordonnesTronconArrivee.y);
 
-        g2D.drawLine(coordonnesTronconDepart.x, coordonnesTronconDepart.y, coordonnesTronconArrivee.x, coordonnesTronconArrivee.y);
+            g2D.draw(q);
+        }
+        else{
+            g2D.drawLine(coordonnesTronconDepart.x, coordonnesTronconDepart.y, coordonnesTronconArrivee.x, coordonnesTronconArrivee.y);
+        }
     }
     
     /**
@@ -213,16 +248,36 @@ public class VueGraphique extends JPanel{
     private void dessinerTournee(Graphics2D g2D) {
         Iterator<VueChemin> itChemins = this.vue.getVueTournee().getListVueChemin();
         
+        List<Troncon> tronconsDejaDessines = new LinkedList<Troncon>(); //cache pour se souvenir de ce qu'on a dessiné
+        
+        
         while(itChemins.hasNext()){
             VueChemin vueChemin = itChemins.next();
             g2D.setColor(vueChemin.getVueFenetreLivraison().getCouleur());
             Iterator<Troncon> itTroncon = vueChemin.getChemin().getTroncons();
+            
             while(itTroncon.hasNext()){
-                dessinerTroncon(itTroncon.next(),g2D);
+                Troncon tronconCourant = itTroncon.next();
+                int nbTronconsDejaDessines = nombreTronconDejaDessine(tronconsDejaDessines, tronconCourant);
+                dessinerTroncon(tronconCourant,g2D,nbTronconsDejaDessines);
+                tronconsDejaDessines.add(tronconCourant); //on ajoute ce troncon apres l'avoir dessine
             }
         }
     }
     
+    public int nombreTronconDejaDessine(List<Troncon> listeTroncons, Troncon t){
+        int total = 0;
+        for(int i=0; i<listeTroncons.size();i++){
+            if(listeTroncons.get(i).getIntersectionDepart() == t.getIntersectionDepart() && listeTroncons.get(i).getIntersectionArrivee()== t.getIntersectionArrivee()){
+                total += 1;
+            }
+            
+            else if(listeTroncons.get(i).getIntersectionDepart() == t.getIntersectionArrivee() && listeTroncons.get(i).getIntersectionArrivee()== t.getIntersectionDepart()){
+                total += 1;
+            }
+        }
+        return total;
+    }
     /**
      * Vérifie si une intersection se trouve aux coordonnées spécifiées,et 
      * renvoie l'intersection si elle a été trouvée. 
