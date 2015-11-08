@@ -54,8 +54,10 @@ public class VueTextuelle extends JPanel {
     public void mettreAJourListeDemandes() {
 
         this.removeAll();
+        
+        
         Iterator<VueFenetreLivraison> it_fenetreVue = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
-        while (it_fenetreVue.hasNext())//pour toutes les fenetres, on change la coloration
+        while (it_fenetreVue.hasNext())
         {
             Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonList();
             while (it_vueDemandeLivraison.hasNext()) {
@@ -65,7 +67,7 @@ public class VueTextuelle extends JPanel {
             }
         }
 
- 
+        this.revalidate();
         this.repaint();
 
     }

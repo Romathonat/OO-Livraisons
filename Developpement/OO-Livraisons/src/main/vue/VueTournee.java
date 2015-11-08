@@ -42,7 +42,11 @@ public class VueTournee {
         this.vue = vue;
         this.tournee = tournee;
         VuelistChemin = new ArrayList<>();
+        
+       
+        
         if (this.tournee != null){
+            this.vue.getVueEnsembleLivraisons().clearDemandeLivraisons(); //On les enlève pour les remmettre dans l'ordre
             Iterator<Chemin> it_chemin = this.tournee.getChemins();
             while (it_chemin.hasNext()) {
                 Chemin chemin = it_chemin.next();

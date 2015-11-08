@@ -176,6 +176,7 @@ public class Vue {
     public void updateVueEnsembleLivraisons() {
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this.vueEnsembleLivraisons.getEnsembleLivraison());
         this.vueTournee = new VueTournee(this, this.vueTournee.getTournee());
+        this.updateComposantsGraphiques();
     }
 
     /**
@@ -184,12 +185,13 @@ public class Vue {
      */
     public void updateVueTournee() {
         this.vueTournee = new VueTournee(this, this.vueTournee.getTournee());
+        this.updateComposantsGraphiques();
     }
 
     /**
      * Mets à jour les composants graphique de la vue.
      */
-    public void updateComposantsGraphiques() {
+    protected void updateComposantsGraphiques() {
         this.vueGraphique.repaint();
         this.vueLegende.updateLegende();
         this.vueTextuelle.mettreAJourListeDemandes();
@@ -247,7 +249,7 @@ public class Vue {
         if (tournee == this.getVueTournee().getTournee()) { // au cas ou le calcul de la tournee échouerai.
             return;
         }
-        this.getVueEnsembleLivraisons().clearDemandeLivraisons(); //On les enlève pour les remmettre dans l'ordre    
+            
         this.vueTournee = new VueTournee(this, tournee);
 
         this.updateComposantsGraphiques();

@@ -74,7 +74,7 @@ public class Fenetre extends JFrame {
     /**
      * Le controleur de l'application.
      */
-    protected Controleur controleur;
+    protected static Controleur controleur;
     
     /**
      * La vue courante de l'application
@@ -86,7 +86,7 @@ public class Fenetre extends JFrame {
      * @param controleur Le controleur de l'application.
      */
     public Fenetre(Controleur controleur) {
-        this.controleur = controleur;
+        Fenetre.controleur = controleur;
                 
         this.vue = new Vue(this);
 
@@ -433,11 +433,11 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            fenetre.controleur.demandeAjoutPoint();
-            while (fenetre.controleur.isEtatRemplirInformations()) {//tant qu'on est dans l'etat remplir information, on y reste
+            Fenetre.controleur.demandeAjoutPoint();
+            while (Fenetre.controleur.isEtatRemplirInformations()) {//tant qu'on est dans l'etat remplir information, on y reste
                 DemandeLivraison maDemande = afficherPopUp(); 
 
-                fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
+                Fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
             }
         }
 
@@ -479,7 +479,7 @@ public class Fenetre extends JFrame {
                     options[0]); //default button title
 
             if (n == 1) {
-                fenetre.controleur.supprimerLivraison(demandeASupprimer);
+                Fenetre.controleur.supprimerLivraison(demandeASupprimer);
             }
             
             
