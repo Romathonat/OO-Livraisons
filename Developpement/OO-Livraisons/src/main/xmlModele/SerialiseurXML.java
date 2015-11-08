@@ -13,6 +13,7 @@ import javax.swing.JFileChooser;
 import modele.Chemin;
 import modele.Tournee;
 import modele.Troncon;
+import xml.GenerateurFichierRoute;
 
 public class SerialiseurXML {// Singleton
 
@@ -26,7 +27,8 @@ public class SerialiseurXML {// Singleton
      */
     public static void exporterTournee(Tournee tournee) throws IOException {
         // récupération du document.
-        File fichierTxt = SerialiseurXML.ouvreFichier();
+        File fichierTxt = GenerateurFichierRoute.getInstance().ouvreFichier();
+       
         FileWriter fw = new FileWriter(fichierTxt);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter fichierSortie = new PrintWriter(bw);
@@ -112,16 +114,5 @@ public class SerialiseurXML {// Singleton
         str_troncon += " jusqu'à l'intersection " + Integer.toString(troncon.getIntersectionArrivee().getId());
         fichierSortie.println(str_troncon);
         return 0;
-    }
-
-    public static File ouvreFichier() {
-        int returnVal;
-        JFileChooser jFileChooserXML = new JFileChooser();
-        jFileChooserXML.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        returnVal = jFileChooserXML.showSaveDialog(null);
-        if (returnVal != JFileChooser.APPROVE_OPTION) {
-            return null;
-        }
-        return new File(jFileChooserXML.getSelectedFile().getAbsolutePath());
     }
 }
