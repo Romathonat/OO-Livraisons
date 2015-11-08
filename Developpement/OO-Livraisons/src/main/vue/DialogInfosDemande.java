@@ -54,7 +54,7 @@ public class DialogInfosDemande extends JDialog {
             idClientInt = Integer.parseInt(monIdClient.getText());
             idDemandeInt = Integer.parseInt(monIdDemande.getText());
         }
-                
+
         DemandeLivraison retour = new DemandeLivraison(idClientInt,idDemandeInt, this.interCourante, (FenetreLivraison) MaListeFenetres.getSelectedItem());
         return retour;
     }
@@ -62,7 +62,6 @@ public class DialogInfosDemande extends JDialog {
     public DialogInfosDemande(JFrame parent, Intersection inter, Iterator<FenetreLivraison> itFenetre) {
         super(parent);
         this.interCourante = inter;
-        
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
         JPanel monPanel = (JPanel)this.getContentPane();
         

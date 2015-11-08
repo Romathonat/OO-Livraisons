@@ -3249,7 +3249,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "Etat SelectionnerSecondeIntersection",
+											"text": "Etat SelectionSecondeIntersection",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5
 										},
@@ -8318,7 +8318,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFQhbcRBF6Tac0="
 					},
-					"name": "Etat SelectionnerSecondeIntersection",
+					"name": "Etat SelectionSecondeIntersection",
 					"visibility": "public",
 					"kind": "opaque",
 					"isLocallyReentrant": false,

@@ -97,18 +97,26 @@ public class Tournee {
         if (chemin == null) {
             return null;
         }
-
-        Iterator<Chemin> it_chemin = this.chemins.iterator();
-        int i = 0;
-        while (it_chemin.hasNext()) {
-            if (it_chemin.next().getIntersectionDepart().getId() == chemin.getIntersectionArrivee().getId()) {
-                break;
+        
+        if(this.chemins.isEmpty()){
+            this.chemins.add(chemin);
+        } else {
+            boolean trouve = false;
+            Iterator<Chemin> it_chemin = this.chemins.iterator();
+            int i = 0;
+            while (it_chemin.hasNext()) {
+                if (it_chemin.next().getIntersectionArrivee().getId() == chemin.getIntersectionDepart().getId()) {
+                    this.chemins.add(i+1, chemin);
+                    trouve = true;
+                    break;
+                }
+                i++;
             }
-            i++;
-        }
-        this.chemins.add(i, chemin);
+            if (trouve == false){
+                this.chemins.add(0, chemin);
+            }
+        }       
 
-        // on met à jour les heures de livraison
         this.CalculerHeuresDemandesLivraisons();
 
         return chemin;
