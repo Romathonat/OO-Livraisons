@@ -219,6 +219,13 @@ public class ModeleManager {
                 // intersection precedent la demande de livraison.
                 interDepart = cheminDepart.getIntersectionDepart();
 
+                if (!itChemin.hasNext())
+                {
+                    this.tournee.supprimerChemin(cheminDepart);
+                    this.ensembleLivraisons.supprimerDemandeLivraison(demandeASupprimer);
+                    return;
+                }
+                
                 Chemin cheminArrivee = itChemin.next();
                 // intersection suivant la demande de livraison.
                 interArrivee = cheminArrivee.getIntersectionArrivee();
