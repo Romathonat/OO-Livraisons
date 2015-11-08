@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import modele.Plan;
 import org.xml.sax.SAXException;
 import xmlModele.DeserialiseurXML;
-import xml.ExceptionXML;
+import io.ExceptionXML;
 
 /**
  * Cette classe représente l'ensemble des états qui peuvent charger un plan.

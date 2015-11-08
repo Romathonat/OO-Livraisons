@@ -34,7 +34,7 @@ import modele.FenetreLivraison;
 import modele.Intersection;
 import modele.Plan;
 import modele.Tournee;
-import xml.OuvreurFichierXML;
+import io.OuvreurFichierXML;
 import xmlModele.SerialiseurXML;
 
 /**

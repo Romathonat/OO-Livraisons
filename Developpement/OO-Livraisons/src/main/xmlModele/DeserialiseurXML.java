@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 import modele.Plan;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
-import xml.ExceptionXML;
+import io.ExceptionXML;
 
 public class DeserialiseurXML {
 

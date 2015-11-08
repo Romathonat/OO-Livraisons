@@ -54,7 +54,7 @@ public class VueTournee {
                 VueFenetreLivraison fenetreLivraisonVue = this.vue.getFenetreCorrespondante(chemin.getLivraisonArrivee());
                 
                 if (fenetreLivraisonVue == null) {//cas de l'entrepôt
-                    this.VuelistChemin.add(new VueChemin(new VueFenetreLivraison(chemin.getLivraisonArrivee().getFenetreLivraison(), null), chemin));
+                    this.VuelistChemin.add(new VueChemin(new VueFenetreLivraison(chemin.getLivraisonArrivee().getFenetreLivraison(), null, 0), chemin));
                     continue;
                 }
 

@@ -43,10 +43,11 @@ public class VueEnsembleLivraisons{
         if(this.ensembleLivraison != null){
             Iterator<FenetreLivraison> it_fenetre = this.ensembleLivraison.getFenetresLivraison();
             Iterator<DemandeLivraison> it_demande = null;
+            int nbFenetres = 0;
 
             while (it_fenetre.hasNext()) {
                 FenetreLivraison fenetreLivraison = it_fenetre.next();
-                VueFenetreLivraison fenetreLivraisonVue = new VueFenetreLivraison(fenetreLivraison, GenerateurCouleur.getInstance().getCouleur());
+                VueFenetreLivraison fenetreLivraisonVue = new VueFenetreLivraison(fenetreLivraison, GenerateurCouleur.getInstance().getCouleur(), ++nbFenetres);
                 this.listVueFenetreLivraison.add(fenetreLivraisonVue);
 
                 it_demande = fenetreLivraison.getDemandesLivraison();
