@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 import modele.Chemin;
 import modele.Tournee;
 import modele.Troncon;
-import xml.GenerateurFichierRoute;
+import io.GenerateurFichierRoute;
 
 public class SerialiseurXML {// Singleton
 

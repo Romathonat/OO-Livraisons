@@ -39,8 +39,11 @@ public class Tournee {
      * Il convient d'avoir calculé la tournée auparavant.
      */
     public void CalculerHeuresDemandesLivraisons() {
-        Iterator<Chemin> it_chemin = this.getChemins();
+        Iterator<Chemin> it_chemin = this.chemins.iterator();
 
+        if (!it_chemin.hasNext()) {
+            return;
+        }
         // initialisation
         Date instantCourant = new Date(this.chemins.get(0).getLivraisonArrivee().getFenetreLivraison().getHeureDebut().getTime());
 
@@ -130,24 +133,28 @@ public class Tournee {
     public long getTempsDeLivraison() {
         return this.tempsDeLivraison;
     }
-    
+
     /**
-     * Retourne le chemin dont la livraison d'arrivée précède dans la tournée la livraison spécifiée 
-     * @param demandeLivraison La livraison qui se trouve après la livraison recherchée.
-     * @return Le chemin dont la livraison d'arrivée précède dans la tournée la livraison spécifiée , 
-     * null si la demande de livraison spécifiée n'existe pas dans la tournée.
+     * Retourne le chemin dont la livraison d'arrivée précède dans la tournée la
+     * livraison spécifiée
+     *
+     * @param demandeLivraison La livraison qui se trouve après la livraison
+     * recherchée.
+     * @return Le chemin dont la livraison d'arrivée précède dans la tournée la
+     * livraison spécifiée , null si la demande de livraison spécifiée n'existe
+     * pas dans la tournée.
      */
-    public Chemin getCheminDemandeLivraison(DemandeLivraison demandeLivraison){
+    public Chemin getCheminDemandeLivraison(DemandeLivraison demandeLivraison) {
         //on trouve l'interDepart en trouvant la demande de livraison qui precede interArrive
         Iterator<Chemin> itChemin = this.getChemins();
 
-        while(itChemin.hasNext()){
+        while (itChemin.hasNext()) {
             Chemin chemin = itChemin.next();
-            if(chemin.getLivraisonArrivee() == demandeLivraison){
-               return chemin;
+            if (chemin.getLivraisonArrivee() == demandeLivraison) {
+                return chemin;
             }
         }
         return null;
     }
-            
+
 }

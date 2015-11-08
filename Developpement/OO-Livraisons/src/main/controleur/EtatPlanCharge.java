@@ -14,7 +14,7 @@ import modele.EnsembleLivraisons;
 import modele.Plan;
 import org.xml.sax.SAXException;
 import xmlModele.DeserialiseurXML;
-import xml.ExceptionXML;
+import io.ExceptionXML;
 
 /**
  *
