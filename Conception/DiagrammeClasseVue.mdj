@@ -311,7 +311,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+envoyerMessage(message: String)",
+											"text": "+afficherMessage(message: String)",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										},
@@ -11403,7 +11403,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFQhZW4z/P/7dk="
 							},
-							"name": "envoyerMessage",
+							"name": "afficherMessage",
 							"visibility": "public",
 							"isStatic": false,
 							"isLeaf": false,
