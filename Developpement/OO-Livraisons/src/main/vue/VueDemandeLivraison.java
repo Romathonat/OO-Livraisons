@@ -7,6 +7,7 @@ package vue;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
@@ -51,7 +52,7 @@ public class VueDemandeLivraison extends JPanel {
      * la demande de livraison.
      * @param demandeLivraison
      */
-    protected VueDemandeLivraison(VueFenetreLivraison VuefenetreLivraison, DemandeLivraison demandeLivraison) {
+    protected VueDemandeLivraison(VueFenetreLivraison VuefenetreLivraison, final DemandeLivraison demandeLivraison) {
         super();
 
         this.VueFenetreLivraison = VuefenetreLivraison;
@@ -85,6 +86,7 @@ public class VueDemandeLivraison extends JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                Fenetre.controleur.selectionerIntersection(demandeLivraison.getIntersection());
                 // TO DO appeler controleur.selectionnerIntersection(this.getDemandeLivraison().getIntersection())
             }
         });

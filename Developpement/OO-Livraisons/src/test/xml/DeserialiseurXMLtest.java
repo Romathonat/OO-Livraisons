@@ -1,5 +1,6 @@
 package xml;
 
+import io.ExceptionXML;
 import xmlModele.DeserialiseurXML;
 import java.io.File;
 import java.io.IOException;

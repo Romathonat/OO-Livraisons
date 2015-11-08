@@ -34,7 +34,7 @@ import modele.FenetreLivraison;
 import modele.Intersection;
 import modele.Plan;
 import modele.Tournee;
-import xml.OuvreurFichierXML;
+import io.OuvreurFichierXML;
 import xmlModele.SerialiseurXML;
 
 /**
@@ -447,8 +447,9 @@ public class Fenetre extends JFrame {
             Fenetre.controleur.demandeAjoutPoint();
             while (Fenetre.controleur.isEtatRemplirInformations()) {//tant qu'on est dans l'etat remplir information, on y reste
                 DemandeLivraison maDemande = afficherPopUp();
-
-                Fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
+                if (maDemande != null){
+                    Fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
+                }
             }
         }
 
@@ -478,20 +479,20 @@ public class Fenetre extends JFrame {
             // récupération de la demande à supprimer.
             DemandeLivraison demandeASupprimer = fenetre.vue.getDemandeLivraison(fenetre.vue.getPremiereInterSelectionnee());
 
-            Object[] options = {"Annuler la suppression",
-                "Supprimer le point de Livraison"};
+            /*Object[] options = {"Annuler la suppression",
+            "Supprimer le point de Livraison"};
             int n = JOptionPane.showOptionDialog(null,
-                    "Etes vous sûr de vouloir supprimer la demande de livraison n° " + Integer.toString(demandeASupprimer.getId()),
-                    "Confirmer la Suppression",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null, //do not use a custom Icon
-                    options, //the titles of buttons
-                    options[0]); //default button title
-
-            if (n == 1) {
-                Fenetre.controleur.supprimerLivraison(demandeASupprimer);
-            }
+            "Etes vous sûr de vouloir supprimer la demande de livraison n° " + Integer.toString(demandeASupprimer.getId()),
+            "Confirmer la Suppression",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null, //do not use a custom Icon
+            options, //the titles of buttons
+            options[0]); //default button title
+            
+            if (n == 1) {*/
+            Fenetre.controleur.supprimerLivraison(demandeASupprimer);
+            //}
 
         }
     }

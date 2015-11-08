@@ -59,9 +59,11 @@ public class VueTextuelle extends JPanel {
         Iterator<VueFenetreLivraison> it_fenetreVue = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
         while (it_fenetreVue.hasNext())
         {
-            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonList();
+            VueFenetreLivraison currentFenetreVue = it_fenetreVue.next();
+            this.add(currentFenetreVue);
+            this.add(Box.createRigidArea(new Dimension(0, this.ecartDemandesLivraisons)));
+            Iterator<VueDemandeLivraison> it_vueDemandeLivraison = currentFenetreVue.getVueDemandeLivraisonList();
             while (it_vueDemandeLivraison.hasNext()) {
-
                 this.add(it_vueDemandeLivraison.next());
                 this.add(Box.createRigidArea(new Dimension(0, this.ecartDemandesLivraisons)));
             }
@@ -69,7 +71,6 @@ public class VueTextuelle extends JPanel {
 
         this.revalidate();
         this.repaint();
-
     }
 
     /**

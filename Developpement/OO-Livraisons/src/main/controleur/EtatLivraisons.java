@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
-import xml.ExceptionXML;
+import io.ExceptionXML;
 
 /**
  * Cet Etat représente l'ensemble des Etats pouvant effectuer l'action "chargerLivraisons".

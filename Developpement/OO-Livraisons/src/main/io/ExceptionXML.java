@@ -1,4 +1,4 @@
-package xml;
+package io;
 
 public class ExceptionXML extends Exception {
 

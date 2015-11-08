@@ -262,7 +262,7 @@ public class Vue {
     }
 
     /**
-     * Renvoit, si elle existe, la demande de livraison au niveau de
+     * Renvoie, si elle existe, la demande de livraison au niveau de
      * l'intersection qui a pour id "idIntersection"
      *
      * @param idIntersection L'id de l'intersection choisit.
