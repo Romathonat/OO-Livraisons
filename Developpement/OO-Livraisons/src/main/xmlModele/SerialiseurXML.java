@@ -91,9 +91,9 @@ public class SerialiseurXML {// Singleton
 
         fichierSortie.println("Itinéraire jusqu'à la prochaine demande de livraison:");
         //fichierSortie.println("  - Intersection de départ:  " + Integer.toString(chemin.getIntersectionDepart().getId()));
-        fichierSortie.println("  - point de livraison:  " + Integer.toString(chemin.getIntersectionArrivee().getId()));
+        fichierSortie.println("  - point de livraison:      " + Integer.toString(chemin.getIntersectionArrivee().getId()));
         fichierSortie.println("  - Heure estimée d'arrivée: " + SerialiseurXML_df.format(chemin.getLivraisonArrivee().getHeureLivraison()));
-        fichierSortie.println("  - Id du client livré:      " + Integer.toString(chemin.getLivraisonArrivee().getIdClient()));
+        fichierSortie.println("  - Nom du client livré:     " + Integer.toString(chemin.getLivraisonArrivee().getIdClient()));
         fichierSortie.println("--------------------------------------------------");
 
         Iterator<Troncon> it_troncon = chemin.getTroncons();
