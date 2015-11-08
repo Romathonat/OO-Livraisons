@@ -14,7 +14,7 @@ import modele.Intersection;
  *
  * @author Kilian
  */
-public class EtatDeuxPointsLivraisonSelectionnes extends EtatDefaut {
+public class EtatSelectionSecondeIntersection extends EtatSelection {
 
     @Override
     protected void activerFonctionnalites() {

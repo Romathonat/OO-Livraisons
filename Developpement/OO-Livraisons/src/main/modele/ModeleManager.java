@@ -67,7 +67,6 @@ public class ModeleManager {
 
     /**
      * Retourne le plan du ModeleManager
-     *
      * @return Le plan du ModeleManager
      */
     public Plan getPlan() {
@@ -76,7 +75,6 @@ public class ModeleManager {
 
     /**
      * Retourne l'ensemble de livraison du ModeleManger.
-     *
      * @return L'ensemble de livraison du ModeleManger.
      */
     public EnsembleLivraisons getEnsembleLivraisons() {
@@ -184,14 +182,16 @@ public class ModeleManager {
             }
         }
 
+
         Chemin cheminDepart = this.plan.calculerPlusCourtChemin(interDepart, demandeLivraison.getIntersection());
         Chemin cheminArrive = this.plan.calculerPlusCourtChemin(demandeLivraison.getIntersection(), interArrive);
         cheminDepart.setLivraisonArrivee(demandeLivraison);
         cheminArrive.setLivraisonArrivee(demandeLivraisonArrivee);
 
-        this.tournee.AjouterChemin(cheminDepart);
         this.tournee.AjouterChemin(cheminArrive);
-
+        this.tournee.AjouterChemin(cheminDepart);
+        
+        
         return demandeLivraison;
     }
 
@@ -391,6 +391,8 @@ public class ModeleManager {
     public double calculerTournee() {
         if (ensembleLivraisons != null) {
             Intersection entrepot = ensembleLivraisons.getEntrepot();
+            
+
 
             //Dans un ensemble, on retient toutes les intersections visitées.
             Set<Integer> intersections = new TreeSet<>();
