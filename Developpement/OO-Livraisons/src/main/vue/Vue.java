@@ -226,8 +226,7 @@ public class Vue {
 
         this.resetVueTournee();
 
-       this.updateComposantsGraphiques();
-
+        this.updateComposantsGraphiques();
 
         this.vueStatus.updateStatusDroit("Demandes de livraison chargée");
     }
