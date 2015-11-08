@@ -312,7 +312,7 @@ public class VueGraphique extends JPanel{
         
         @Override
         public void mouseClicked(MouseEvent e) {
-            this.fenetre.controleur.clicPlan(e.getX(), e.getY());
+            Fenetre.controleur.clicPlan(e.getX(), e.getY());
         }
 
         @Override

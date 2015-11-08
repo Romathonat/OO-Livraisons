@@ -187,9 +187,10 @@ public class ModeleManager {
         Chemin cheminArrive = this.plan.calculerPlusCourtChemin(demandeLivraison.getIntersection(), interArrive);
         cheminDepart.setLivraisonArrivee(demandeLivraison);
         cheminArrive.setLivraisonArrivee(demandeLivraisonArrivee);
-
-        this.tournee.AjouterChemin(cheminArrive);
+        
         this.tournee.AjouterChemin(cheminDepart);
+        this.tournee.AjouterChemin(cheminArrive);
+        
         
         
         return demandeLivraison;
@@ -219,6 +220,13 @@ public class ModeleManager {
                 // intersection precedent la demande de livraison.
                 interDepart = cheminDepart.getIntersectionDepart();
 
+                if (!itChemin.hasNext())
+                {
+                    this.tournee.supprimerChemin(cheminDepart);
+                    this.ensembleLivraisons.supprimerDemandeLivraison(demandeASupprimer);
+                    return;
+                }
+                
                 Chemin cheminArrivee = itChemin.next();
                 // intersection suivant la demande de livraison.
                 interArrivee = cheminArrivee.getIntersectionArrivee();
