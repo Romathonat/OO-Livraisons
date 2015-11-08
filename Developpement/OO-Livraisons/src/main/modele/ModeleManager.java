@@ -178,8 +178,9 @@ public class ModeleManager {
         cheminDepart.setLivraisonArrivee(demandeLivraison);
         cheminArrive.setLivraisonArrivee(demandeLivraisonArrivee);
 
-        this.tournee.AjouterChemin(cheminDepart);
         this.tournee.AjouterChemin(cheminArrive);
+        this.tournee.AjouterChemin(cheminDepart);
+        
         
         return demandeLivraison;
     }
