@@ -506,7 +506,7 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //fenetre.controleur.echangerDeuxLivraisons();
+            fenetre.controleur.echangerDeuxLivraisons();
         }
     }
 

@@ -34,7 +34,7 @@ public class Controleur {
     protected static final EtatLivraisonsChargees etatLivraisonChargee = new EtatLivraisonsChargees();
     protected static final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
     protected static final EtatPointLivraisonSelectionne etatPointLivraisonSelectionne = new EtatPointLivraisonSelectionne();
-    protected static final EtatDeuxPointsLivraisonSelectionnes etatdeuxPointsLivraisonSelectionnes = new EtatDeuxPointsLivraisonSelectionnes();
+    protected static final EtatSelectionSecondeIntersection etatdeuxPointsLivraisonSelectionnes = new EtatSelectionSecondeIntersection();
     protected static final EtatIntersectionSelectionnee etatIntersectionSelectionnee = new EtatIntersectionSelectionnee();
     protected static final EtatRemplirInformations etatRemplirInformations = new EtatRemplirInformations();
     protected static final EtatChoixProchaineLivraison etatChoixProchaineLivraison = new EtatChoixProchaineLivraison();
