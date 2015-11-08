@@ -6,14 +6,10 @@
 package vue;
 
 import java.awt.Dimension;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-import static javafx.beans.binding.Bindings.and;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import modele.DemandeLivraison;
-import modele.FenetreLivraison;
 import modele.Intersection;
 
 /**
@@ -31,12 +26,10 @@ import modele.Intersection;
 public class DialogInfosDemande extends JDialog {
     JPanel idDemande;
     JPanel idClient;
-    JPanel listeFenetres;
     JPanel fin;
     
     JTextField monIdClient;
     JTextField monIdDemande;
-    JComboBox MaListeFenetres;
     JButton ok;
     
     Intersection interCourante; 
@@ -56,11 +49,11 @@ public class DialogInfosDemande extends JDialog {
             idDemandeInt = Integer.parseInt(monIdDemande.getText());
         }
                 
-        DemandeLivraison retour = new DemandeLivraison(idClientInt,idDemandeInt, this.interCourante, (FenetreLivraison) MaListeFenetres.getSelectedItem());
+        DemandeLivraison retour = new DemandeLivraison(idClientInt,idDemandeInt, this.interCourante, null);
         return retour;
     }
     
-    public DialogInfosDemande(JFrame parent, Intersection inter, Iterator<FenetreLivraison> itFenetre) {
+    public DialogInfosDemande(JFrame parent, Intersection inter) {
         super(parent);
         this.interCourante = inter;
         
@@ -69,7 +62,6 @@ public class DialogInfosDemande extends JDialog {
         
         idDemande = new JPanel();
         idClient = new JPanel();
-        listeFenetres = new JPanel();
         fin = new JPanel();
         
         monPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -96,19 +88,8 @@ public class DialogInfosDemande extends JDialog {
         
         fin.add(ok);
         
-        MaListeFenetres = new JComboBox();
-        JLabel llisteFenetre = new JLabel("Fenetre horaire:");
-        
-        while(itFenetre.hasNext()){
-            MaListeFenetres.addItem(itFenetre.next());
-        }
-        
-        listeFenetres.add(llisteFenetre);
-        listeFenetres.add(MaListeFenetres);
-        
         this.add(idDemande);
         this.add(idClient);
-        this.add(listeFenetres);
         this.add(fin);
         
         setModalityType(ModalityType.APPLICATION_MODAL);

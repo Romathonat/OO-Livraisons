@@ -48,15 +48,12 @@ public class GenerateurCouleur {
      */
     private GenerateurCouleur() {
 
-        nombreCouleur = 6;
+        nombreCouleur = 3;
         
         this.couleurs = new Color[nombreCouleur];
         this.couleurs[0] = Color.BLUE;
         this.couleurs[1] = Color.MAGENTA;
         this.couleurs[2] = Color.ORANGE;
-        this.couleurs[3] = Color.PINK;
-        this.couleurs[4] = Color.YELLOW;
-        this.couleurs[5] = Color.CYAN;
 
         this.indiceCouleur = 0;
     }

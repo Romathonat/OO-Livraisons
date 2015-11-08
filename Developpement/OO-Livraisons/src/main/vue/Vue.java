@@ -143,9 +143,9 @@ public class Vue {
      * VueEnsembleLivraisons et la VueTournee de la vue seront alors des 
      * nouveaux objets de même type, vides 
      */
-    protected void resetPlan(){
+    protected void resetVuePlan(){
         this.vuePlan = new VuePlan(this, null);
-        this.resetEnsembleLivraisons();
+        this.resetVueEnsembleLivraisons();
     }
     
     /**
@@ -153,9 +153,9 @@ public class Vue {
      * VueTournee de la vue. La VueEnsembleLivraisons et la VueTournee de la vue 
      * seront alors des nouveaux objets de même type, vides 
      */
-    protected void resetEnsembleLivraisons(){
+    protected void resetVueEnsembleLivraisons(){
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(null);
-        this.resetTournee();
+        this.resetVueTournee();
                 
     }
     
@@ -163,18 +163,29 @@ public class Vue {
      * Remet à zéro la vue tournée de la vue. 
      * La VueTournee de la vue sera alors un nouvel objet VueTournee vide. 
      */
-    protected void resetTournee(){
+    protected void resetVueTournee(){
         this.vueTournee = new VueTournee(this, null);
     }
     
-    public void updateVuesMetier(){
-       this.vuePlan = new VuePlan(this, this.vuePlan.getPlan());
-       this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this.vueEnsembleLivraisons.getEnsembleLivraison());
-       this.vueTournee = new VueTournee(this, this.vueTournee.getTournee());
-       this.updateComposantsGraphiques();
+    /**
+     * Mets à jour la VueEnsembleLivraison et la VueTournee de la vue avec les derniers changement du modèle. 
+     */
+    public void updateVueEnsembleLivraisons(){
+        this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this.vueEnsembleLivraisons.getEnsembleLivraison());
+        this.vueTournee = new VueTournee(this, this.vueTournee.getTournee());
     }
     
-    public void updateComposantsGraphiques(){
+    /**
+     * Mets à jour la VueTournee de la vue avec les derniers changement du modèle. 
+     */
+    public void updateVueTournee(){
+        this.vueTournee = new VueTournee(this, this.vueTournee.getTournee());
+    }
+    
+    /**
+     * Mets à jour les composants graphique de la vue. 
+     */
+    protected void updateComposantsGraphiques(){
         this.vueGraphique.repaint();
         this.vueLegende.updateLegende();
         this.vueTextuelle.mettreAJourListeDemandes();   
@@ -182,17 +193,17 @@ public class Vue {
    
     /**
      * Si le plan passé en paramètre est différent du plan actuellement connu 
-     * par la vuePlan de la vue, mets à jour le plan connu et l'ensemble des composans
+     * par la vuePlan de la vue, mets à jour le plan connu et l'ensemble des composants graphiques
      * de la vue. Sinon, ne fait rien. 
      * 
      * @param plan Le plan avec lequel on veut mettre à jour la vue. 
      */
-    protected void updatePlan(Plan plan){
+    protected void updateVuePlan(Plan plan){
         if (plan == this.getVuePlan().getPlan()) { // en cas de problème de chargement.
             return;
         }
         this.vuePlan = new VuePlan(this, plan);
-        this.resetEnsembleLivraisons();
+        this.resetVueEnsembleLivraisons();
  
        this.updateComposantsGraphiques();
 
@@ -202,18 +213,18 @@ public class Vue {
     /**
      * Si l'ensemble de livraison passé en paramètre est différent de l'ensemble 
      * de livraison actuellement connu par la vueEnsembleLivraisons de la vue, 
-     * mets à jour l'ensemble de livraison connu et l'ensemble des composans
+     * mets à jour l'ensemble de livraison connu et l'ensemble des composants
      * de la vue. Sinon, ne fait rien. 
      * 
      * @param ensembleLivraisons L'ensemble de livraison avec lequel on veut mettre à jour la vue. 
      */
-    protected void updateEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
+    protected void updateVueEnsembleLivraisons(EnsembleLivraisons ensembleLivraisons){
         if (ensembleLivraisons == this.getVueEnsembleLivraisons().getEnsembleLivraison()) { // en cas de problème de chargement.
             return;
         }
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(ensembleLivraisons);
 
-        this.resetTournee();
+        this.resetVueTournee();
 
        this.updateComposantsGraphiques();
 
@@ -224,11 +235,11 @@ public class Vue {
     /**
      * Si la tournée passé en paramètre est différente de da tournée actuellement 
      * connue par la vueTournée de la vue, mets à jour la tournée connue et 
-     * l'ensemble des composans de la vue. Sinon, ne fait rien. 
+     * l'ensemble des composants de la vue. Sinon, ne fait rien. 
      * 
      * @param tournee La tournée avec lequel on veut mettre à jour la vue. 
      */
-    public void updateTournee(Tournee tournee){
+    protected void updateVueTournee(Tournee tournee){
         if (tournee == this.getVueTournee().getTournee()) { // au cas ou le calcul de la tournee échouerai.
             return;
         }

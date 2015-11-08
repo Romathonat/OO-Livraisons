@@ -46,7 +46,7 @@ public class ModeleManager {
     private Tournee tournee;
     
     /**
-     * 
+     * La livraison en attente d'être ajoutée. 
      */
     private DemandeLivraison bufferLivraison;
     /**
@@ -113,6 +113,15 @@ public class ModeleManager {
         this.tournee = null;
     }
     
+    /**
+     * Charge un plan depuis un fichier xml. 
+     * @param file
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws ExceptionXML
+     * @throws ParseException 
+     */
     public void chargerPlan(File file) throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
             Plan planIntermediaire = new Plan();
             DeserialiseurXML.chargerPlan(file, planIntermediaire);
@@ -120,6 +129,15 @@ public class ModeleManager {
             this.resetEnsembleLivraisons();
     }
     
+    /**
+     * Charge un ensemble de livraison depuis un fichier xml.
+     * @param file
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws ExceptionXML
+     * @throws ParseException 
+     */
     public void chargerEnsembleLivraisons(File file) throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
         EnsembleLivraisons ensembleLivraisonsIntermediaire = new EnsembleLivraisons();
         DeserialiseurXML.chargerDemandesLivraisons(file, this.plan, ensembleLivraisonsIntermediaire);
@@ -127,9 +145,16 @@ public class ModeleManager {
         this.resetTournee();
     }
     
-    public void ajouterNouvelleLivraison( DemandeLivraison demandeLivraisonArrivee, Intersection intersectionNouvelle){
+    /**
+     * Ajoute au modèle la demande de livraison présente dans le buffer d'ajout. La demande de livraison est ajoutée à sa fenêtre, 
+     *  et,dans la tournée, elle est placée avant la demande de livraison spécifiée. 
+     * Pour le bon fonctionnement de cette méthode, la tournée doit déjà avoir été calculée.
+     * @param demandeLivraisonArrivee La livraison après laquelle la nouvelle demande de livraison doit être insérée dans la tournée.  
+     * @return La nouvelle demande de livraison qui a été ajoutée.   
+     */
+    public DemandeLivraison ajouterNouvelleLivraison(DemandeLivraison demandeLivraisonArrivee){
         
-        DemandeLivraison demandeLivraison = this.bufferLivraison.getFenetreLivraison().ajouterDemandeLivraison(bufferLivraison.getId(), bufferLivraison.getIdClient(), bufferLivraison.getIntersection());
+        DemandeLivraison demandeLivraison = demandeLivraisonArrivee.getFenetreLivraison().ajouterDemandeLivraison(bufferLivraison.getId(), bufferLivraison.getIdClient(), bufferLivraison.getIntersection());
         
         Intersection interDepart = null;
         Intersection interArrive = demandeLivraisonArrivee.getIntersection();
@@ -148,13 +173,15 @@ public class ModeleManager {
         }
 
 
-        Chemin cheminDepart = this.plan.calculerPlusCourtChemin(interDepart, intersectionNouvelle);
-        Chemin cheminArrive = this.plan.calculerPlusCourtChemin(intersectionNouvelle, interArrive);
+        Chemin cheminDepart = this.plan.calculerPlusCourtChemin(interDepart, demandeLivraison.getIntersection());
+        Chemin cheminArrive = this.plan.calculerPlusCourtChemin(demandeLivraison.getIntersection(), interArrive);
         cheminDepart.setLivraisonArrivee(demandeLivraison);
         cheminArrive.setLivraisonArrivee(demandeLivraisonArrivee);
 
         this.tournee.AjouterChemin(cheminDepart);
         this.tournee.AjouterChemin(cheminArrive);
+        
+        return demandeLivraison;
     }
              
     
@@ -377,14 +404,8 @@ public class ModeleManager {
     }
 
     /**
-     * @return the bufferLivraison
-     */
-    public DemandeLivraison getBufferLivraison() {
-        return bufferLivraison;
-    }
-
-    /**
-     * @param bufferLivraison the bufferLivraison to set
+     * Remplit le buffer d'ajout avec une demande de livraison à ajouter.
+     * @param bufferLivraison La demande de livraison à ajouter.
      */
     public void setBufferLivraison(DemandeLivraison bufferLivraison) {
         this.bufferLivraison = bufferLivraison;

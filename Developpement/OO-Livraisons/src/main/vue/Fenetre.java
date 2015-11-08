@@ -371,7 +371,7 @@ public class Fenetre extends JFrame {
                 return;
             }
             Plan nouveauPlan = controleur.chargerPlan(file);
-            this.fenetre.vue.updatePlan(nouveauPlan);
+            this.fenetre.vue.updateVuePlan(nouveauPlan);
             revalidate();
             repaint();
         }
@@ -395,7 +395,7 @@ public class Fenetre extends JFrame {
             }
             EnsembleLivraisons nouvelEnsembleLivraisons = controleur.chargerLivraisons(file);
 
-            this.fenetre.vue.updateEnsembleLivraisons(nouvelEnsembleLivraisons);
+            this.fenetre.vue.updateVueEnsembleLivraisons(nouvelEnsembleLivraisons);
 
             revalidate();
             repaint();
@@ -415,7 +415,7 @@ public class Fenetre extends JFrame {
 
             Tournee nouvelleTournee = controleur.calculerTournee();
 
-            this.fenetre.vue.updateTournee(nouvelleTournee);
+            this.fenetre.vue.updateVueTournee(nouvelleTournee);
             
             revalidate();
             repaint();
@@ -443,9 +443,8 @@ public class Fenetre extends JFrame {
         public DemandeLivraison afficherPopUp() {
             Integer idInter = vue.getPremiereInterSelectionnee();
             Intersection monInter = vue.getVuePlan().getPlan().getIntersection(idInter);
-            Iterator<FenetreLivraison> itFenetre = vue.getVueEnsembleLivraisons().getEnsembleLivraison().getFenetresLivraison();
 
-            DialogInfosDemande dialog = new DialogInfosDemande(fenetre, monInter, itFenetre);
+            DialogInfosDemande dialog = new DialogInfosDemande(fenetre, monInter);
             DemandeLivraison maDemande = dialog.showDialog();
 
             return maDemande;
