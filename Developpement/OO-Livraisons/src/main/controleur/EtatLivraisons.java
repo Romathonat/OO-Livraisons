@@ -30,7 +30,7 @@ public class EtatLivraisons extends EtatPlan{
             Controleur.modeleManager.chargerEnsembleLivraisons(file);
             Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
-            Controleur.fenetre.EnvoyerMessage(ex.getMessage());
+            Controleur.fenetre.afficherMessage(ex.getMessage());
         }
     }
 }
