@@ -129,7 +129,10 @@ public class Fenetre extends JFrame {
         //---------creation des boutons
         ajouterLivraison = new JButton("Ajouter Livraison");
         ajouterLivraison.addActionListener(new AjouterLivraison(this));
+        
         supprimerLivraison = new JButton("Supprimer Livraison");
+        supprimerLivraison.addActionListener(new supprimerPointLivraison(this));
+        
         echangerLivraison = new JButton("Echanger Livraison");
         calculerTournee = new JButton("Calculer Tournée");
         calculerTournee.addActionListener(new CalculerTournee(this));
@@ -449,6 +452,38 @@ public class Fenetre extends JFrame {
         }
     }
 
+    private class supprimerPointLivraison implements ActionListener {
+
+        Fenetre fenetre;
+
+        public supprimerPointLivraison(JFrame frameParent) {
+            this.fenetre = (Fenetre) frameParent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // récupération de la demande à supprimer.
+            DemandeLivraison demandeASupprimer = fenetre.vue.getDemandeLivraison(fenetre.vue.getPremiereInterSelectionnee());
+            
+            Object[] options = {"Annuler la suppression",
+                "Supprimer le point de Livraison"};
+            int n = JOptionPane.showOptionDialog(null,
+                    "Etes vous sûr de vouloir supprimer la demande de livraison n° " + Integer.toString(demandeASupprimer.getId()),
+                    "Confirmer la Suppression",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null, //do not use a custom Icon
+                    options, //the titles of buttons
+                    options[0]); //default button title
+
+            if (n == 1) {
+                fenetre.controleur.supprimerLivraison(demandeASupprimer);
+            }
+            
+            
+        }
+    }
+    
     private class GenererFeuilleRoute implements ActionListener {
 
         @Override

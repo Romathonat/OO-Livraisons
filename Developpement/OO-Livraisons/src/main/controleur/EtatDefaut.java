@@ -72,7 +72,7 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void supprimerLivraison(DemandeLivraison livraison, Tournee tournee, List<Commande> listeCmde) {
+    public void supprimerLivraison(DemandeLivraison livraison/*, Tournee tournee, List<Commande> listeCmde*/) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

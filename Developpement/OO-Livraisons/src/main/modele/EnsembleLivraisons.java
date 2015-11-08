@@ -15,25 +15,26 @@ import java.util.Map.Entry;
 import java.util.Observable;
 
 /**
- * Un ensemble de livraison modélise un regroupement, ordonné temporellement, 
- * des fenêtres de livraison, qui contiennent-elles même les demandes 
- * de livraison. L'ensemble de livraison spécifie l'emplacement d'un entrepot qui 
+ * Un ensemble de livraison modélise un regroupement, ordonné temporellement,
+ * des fenêtres de livraison, qui contiennent-elles même les demandes de
+ * livraison. L'ensemble de livraison spécifie l'emplacement d'un entrepot qui
  * stocke les produits qui doivent etre livrés.
+ *
  * @author gkheng
  */
-public class EnsembleLivraisons extends Observable{
-    
+public class EnsembleLivraisons extends Observable {
+
     /**
      * La liste des fenêtres de livraison contenue dans l'ensemble de livraison.
      */
     private List<FenetreLivraison> fenetresLivraison;
-    
+
     /**
-     * L'intersection qui localise l'entrepôt ou sont stockés les produits à livrer.
+     * L'intersection qui localise l'entrepôt ou sont stockés les produits à
+     * livrer.
      */
     private Intersection entrepot;
 
-    
     /**
      * Constructeur standard de la classe EnsembleLivraison.
      */
@@ -59,15 +60,17 @@ public class EnsembleLivraisons extends Observable{
     public Intersection setEntrepot(Intersection entrepot) {
         return this.entrepot = entrepot;
     }
-    
+
     /**
-     * Ajoute une fenêtre temporelle de livraison à l'ensemble des fenêtres. 
-     * Cette fonction vérifie que les différentes fenêtres de livraisons ne se 
-     * chevauchent pas. La fenêtre doit être "bien formée" càd heureDébut avant heureFin.
+     * Ajoute une fenêtre temporelle de livraison à l'ensemble des fenêtres.
+     * Cette fonction vérifie que les différentes fenêtres de livraisons ne se
+     * chevauchent pas. La fenêtre doit être "bien formée" càd heureDébut avant
+     * heureFin.
      *
      * @param heureDebut L'heure de début de la fenêtre temporelle à ajouter.
      * @param heureFin L'heure de fin de la fenêtre temporelle à ajouter.
-     * @return La fenêtre, si les conditions d'ajout sont respectées, null sinon.
+     * @return La fenêtre, si les conditions d'ajout sont respectées, null
+     * sinon.
      */
     public FenetreLivraison ajouteFenetreDeLivraison(Date heureDebut, Date heureFin) {
         // Test de cohérence.
@@ -76,7 +79,7 @@ public class EnsembleLivraisons extends Observable{
         }
 
         // Detection d'intersections éventuelles entre les plages horaires.
-        for (int i = 0; i < fenetresLivraison.size(); i++ ) {
+        for (int i = 0; i < fenetresLivraison.size(); i++) {
             FenetreLivraison fen = fenetresLivraison.get(i);
             if (fen.getHeureDebut().compareTo(heureDebut) < 0) {
                 if (fen.getHeureFin().compareTo(heureDebut) > 0) { // intersection type ABAB ou ABBA
@@ -88,8 +91,8 @@ public class EnsembleLivraisons extends Observable{
                 }
             }
         }
-        
-        FenetreLivraison fenetre = new FenetreLivraison (heureDebut, heureFin);
+
+        FenetreLivraison fenetre = new FenetreLivraison(heureDebut, heureFin);
         this.fenetresLivraison.add(fenetre);
         return fenetre;
     }
@@ -103,25 +106,38 @@ public class EnsembleLivraisons extends Observable{
         Collection constCollection = Collections.unmodifiableCollection(fenetresLivraison);
         return constCollection.iterator();
     }
-    
+
     /**
-     * Retourne une demande de livraison de l'ensemble, en fonction de l'intersection de la livraison.
-     * Si la demande de livraison demandée n'existe pas, retourne null.
-     * @param idIntersection L'identifiant de l'intersection de la demande de livraison a retourner.
-     * @return La demande de livraison ou null si une telle DemandeLivraison n'existe pas.
+     * Retourne une demande de livraison de l'ensemble, en fonction de
+     * l'intersection de la livraison. Si la demande de livraison demandée
+     * n'existe pas, retourne null.
+     *
+     * @param idIntersection L'identifiant de l'intersection de la demande de
+     * livraison a retourner.
+     * @return La demande de livraison ou null si une telle DemandeLivraison
+     * n'existe pas.
      */
     public DemandeLivraison getDemandeLivraison(int idIntersection) {
         Iterator<FenetreLivraison> itFenetres = fenetresLivraison.iterator();
-        while(itFenetres.hasNext()) {
+        while (itFenetres.hasNext()) {
             FenetreLivraison fenetre = itFenetres.next();
             Iterator<DemandeLivraison> itDemande = fenetre.getDemandesLivraison();
             while (itDemande.hasNext()) {
-                DemandeLivraison livraison  = itDemande.next();
+                DemandeLivraison livraison = itDemande.next();
                 if (livraison.getIntersection().getId() == idIntersection) {
                     return livraison;
                 }
             }
         }
         return null;
+    }
+
+    public void supprimerDemandeLivraison(DemandeLivraison demandeASupprimer) {
+        Iterator<FenetreLivraison> it_fenetre = this.fenetresLivraison.iterator();
+        while (it_fenetre.hasNext()) {
+            if (it_fenetre.next().supprimerDemandeLivraison(demandeASupprimer)) {
+                break;
+            }
+        }
     }
 }

@@ -76,6 +76,9 @@ public class Tournee {
      */
     public void supprimerChemin(Chemin chemin){
         this.chemins.remove(chemin);
+        
+        // on met à jour les heures de livraison
+        this.CalculerHeuresDemandesLivraisons();
     }
     /**
      * Ajoute un chemin à la collection de chemins. Cette fonction vérifie que
@@ -87,9 +90,12 @@ public class Tournee {
     public Chemin AjouterChemin(Chemin chemin) {
         if (chemin != null) {
             this.chemins.add(chemin);
-            return chemin;
         }
-        return null;
+        
+        // on met à jour les heures de livraison
+        this.CalculerHeuresDemandesLivraisons();
+        
+        return chemin;
     }
 
     /**

@@ -118,6 +118,10 @@ public class Controleur {
         etatCourant.ajouterLivraison(livraison/*, listeCmde*/);
     }
     
+    public synchronized void supprimerLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/) {
+        etatCourant.supprimerLivraison(livraison/*, listeCmde*/);
+    }
+    
     public synchronized void genererFeuilleRoute() {
         
     }

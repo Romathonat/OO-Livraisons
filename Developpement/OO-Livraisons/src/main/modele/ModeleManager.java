@@ -183,6 +183,49 @@ public class ModeleManager {
         
         return demandeLivraison;
     }
+    
+    
+    /**
+     * Supprime la demande de livraison passée en paramètre de la tournee.
+     * La demande est supprimée de la tournée et de la liste interne de demande de livraison.
+     * @param demandeASupprimer La livraison à supprimer.
+     */
+    public void supprimerDemandeLivraison(DemandeLivraison demandeASupprimer){
+        
+        Intersection interDepart = null;
+        Intersection interArrivee = null;
+        Intersection interLivraison = demandeASupprimer.getIntersection();
+        DemandeLivraison demandeSuivante = null;
+        
+        // On cherche à trouver l'intersection de départ qui précède l'intersection de la demande de livraison à supprimer.
+        Iterator<Chemin> itChemin = this.tournee.getChemins();
+        
+        while (itChemin.hasNext()) {
+            Chemin cheminDepart = itChemin.next();
+            if (cheminDepart.getIntersectionArrivee() == interLivraison) {
+                
+                // intersection precedent la demande de livraison.
+                interDepart = cheminDepart.getIntersectionDepart();
+                
+                Chemin cheminArrivee = itChemin.next();
+                // intersection suivant la demande de livraison.
+                interArrivee = cheminArrivee.getIntersectionArrivee();
+                demandeSuivante = cheminArrivee.getLivraisonArrivee();
+                
+                //on enlève le chemin "entrant" et le chemin "sortant" de la demande de livraison.
+                this.tournee.supprimerChemin(cheminDepart);
+                this.tournee.supprimerChemin(cheminArrivee);
+                break;
+            }
+        }
+        
+        // a ce stade on a un "trou" dans la tournee entre les intersection interDepart et interArrivee.
+        Chemin chemin = this.plan.calculerPlusCourtChemin(interDepart, interArrivee);
+        chemin.setLivraisonArrivee(demandeSuivante);
+        tournee.AjouterChemin(chemin);
+        
+        this.ensembleLivraisons.supprimerDemandeLivraison(demandeASupprimer);
+    }
              
     
     /**
