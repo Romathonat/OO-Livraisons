@@ -122,4 +122,19 @@ public class Tournee {
     public long getTempsDeLivraison() {
         return this.tempsDeLivraison;
     }
+    
+
+    public Chemin getCheminDemandeLivraison(DemandeLivraison demandeLivraison){
+        //on trouve l'interDepart en trouvant la demande de livraison qui precede interArrive
+        Iterator<Chemin> itChemin = this.getChemins();
+
+        while(itChemin.hasNext()){
+            Chemin chemin = itChemin.next();
+            if(chemin.getLivraisonArrivee() == demandeLivraison){
+               return chemin;
+            }
+        }
+        return null;
+    }
+            
 }

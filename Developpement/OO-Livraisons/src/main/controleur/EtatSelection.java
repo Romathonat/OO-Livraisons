@@ -40,7 +40,12 @@ public class EtatSelection extends EtatTournee {
             Controleur.fenetre.getVue().supprimerInterSelectionee();//on supprime d'apres le schema etat-transition
             Controleur.fenetre.getVue().ajouterInterSelectionnee(inter.getId(), true);
             Controleur.setEtatCourant(Controleur.etatPointLivraisonSelectionne);
-        } 
+        }
+        else if (Controleur.modeleManager.getEnsembleLivraisons().getEntrepot().getId() == inter.getId()){
+            Controleur.fenetre.getVue().supprimerInterSelectionee();
+            Controleur.fenetre.getVue().ajouterInterSelectionnee(inter.getId(), false);
+            Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+        }
         else {
             Controleur.fenetre.getVue().supprimerInterSelectionee();
             Controleur.fenetre.getVue().ajouterInterSelectionnee(inter.getId(), false);
