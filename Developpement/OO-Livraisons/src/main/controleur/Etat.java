@@ -25,13 +25,13 @@ public interface Etat {
     public void redo(List<Commande> listeCmde);
     public void ajouterLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/);
     public void genererFeuilleRoute();
-    public void echangerDeuxLivraisons(DemandeLivraison livraison1, DemandeLivraison livraison2, Tournee tournee, List<Commande> listeCmde);
-    public void supprimerLivraison(DemandeLivraison livraison, Tournee tournee, List<Commande> listeCmde);
+    public void echangerDeuxLivraisons(/* List<Commande> listeCmde*/);
+    public void supprimerLivraison(DemandeLivraison livraison/*, Tournee tournee, List<Commande> listeCmde*/);
     public void fermer();
     public void valider();
     public void activerEtDesactiverFonctionnalites();
 
-    public void demandeAjoutPoint();
+    public void preparerAjouterPoint();
 
     public void selectionerIntersection(Intersection inter);
 }

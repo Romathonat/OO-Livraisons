@@ -26,7 +26,8 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
             DemandeLivraison demandeLivraisonArrivee = Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(intersection.getId());
             if(demandeLivraisonArrivee == null){ //si ce n'est pas une demande de livraison
                 Controleur.fenetre.afficherMessage("Le point selectionné n'est pas valide");
-            } else{
+            } 
+            else{
                 Controleur.modeleManager.ajouterNouvelleLivraison(demandeLivraisonArrivee);
 
                 Controleur.fenetre.getVue().supprimerInterSelectionee();

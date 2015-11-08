@@ -18,7 +18,7 @@ public class EtatIntersectionSelectionnee extends EtatSelection {
    
     
     @Override
-    public void demandeAjoutPoint() {
+    public void preparerAjouterPoint() {
         Controleur.setEtatCourant(Controleur.etatRemplirInformations);
     }
 }

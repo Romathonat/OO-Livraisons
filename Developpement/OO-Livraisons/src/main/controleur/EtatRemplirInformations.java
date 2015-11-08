@@ -25,7 +25,6 @@ public class EtatRemplirInformations extends EtatDefaut {
     @Override
     public void ajouterLivraison(DemandeLivraison demandeLivraison) {
         if(Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(demandeLivraison.getId()) == null){
-            //ajout de la demande dans la bonne fenetre de livraison (peut paraître bizarre ici c'est normal)
             Controleur.modeleManager.setBufferLivraison(demandeLivraison);
             Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Selectionnez une demande de livraison");
             Controleur.setEtatCourant(Controleur.etatChoixProchaineLivraison);

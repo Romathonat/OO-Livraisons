@@ -67,12 +67,12 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void echangerDeuxLivraisons(DemandeLivraison livraison1, DemandeLivraison livraison2, Tournee tournee, List<Commande> listeCmde) {
+    public void echangerDeuxLivraisons(/*List<Commande> listeCmde*/) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void supprimerLivraison(DemandeLivraison livraison, Tournee tournee, List<Commande> listeCmde) {
+    public void supprimerLivraison(DemandeLivraison livraison/*, Tournee tournee, List<Commande> listeCmde*/) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -102,7 +102,7 @@ public class EtatDefaut implements Etat{
     
 
     @Override
-    public void demandeAjoutPoint() {
+    public void preparerAjouterPoint() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

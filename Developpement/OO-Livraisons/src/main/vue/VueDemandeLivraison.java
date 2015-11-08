@@ -24,7 +24,7 @@ import modele.DemandeLivraison;
  * @author Kilian
  */
 public class VueDemandeLivraison extends JPanel {
-
+    
     /**
      * Renseigne si la demande de livraison est selectionnee ou non.
      */

@@ -114,4 +114,14 @@ public class FenetreLivraison {
         SimpleDateFormat monFormat = new SimpleDateFormat("HH:mm:ss");
         return monFormat.format(this.heureDebut)+" à "+monFormat.format(this.heureFin);
     }
+
+    /**
+     * Supprime la demande de livraison de la fenetre correspondant à celle passée en paramètre.
+     * @param demandeASupprimer la demande à supprimer.
+     * @return true si la demande a été trouvée ET supprimée, false sinon.
+     */
+    boolean supprimerDemandeLivraison(DemandeLivraison demandeASupprimer) {
+        
+        return listeDemandesLivraison.remove(demandeASupprimer);
+    }
 }
