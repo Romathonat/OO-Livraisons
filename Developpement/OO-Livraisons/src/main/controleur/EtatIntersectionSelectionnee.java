@@ -9,7 +9,7 @@ package controleur;
  *
  * @author Kilian
  */
-public class EtatIntersectionSelectionnee extends EtatSelection {
+public class EtatIntersectionSelectionnee extends EtatTourneeCalculee {
     @Override
     protected void activerFonctionnalites(){
         super.activerFonctionnalites();
