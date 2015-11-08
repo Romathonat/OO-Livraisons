@@ -75,13 +75,8 @@ public class Fenetre extends JFrame {
     /**
      * Le controleur de l'application.
      */
-<<<<<<< HEAD
-    protected Controleur controleur;
-
-=======
     protected static Controleur controleur;
-    
->>>>>>> 262ea2fa7b146743ca418505fe09f28b57f38654
+
     /**
      * La vue courante de l'application
      */
@@ -93,13 +88,9 @@ public class Fenetre extends JFrame {
      * @param controleur Le controleur de l'application.
      */
     public Fenetre(Controleur controleur) {
-<<<<<<< HEAD
         this.controleur = controleur;
 
-=======
         Fenetre.controleur = controleur;
-                
->>>>>>> 262ea2fa7b146743ca418505fe09f28b57f38654
         this.vue = new Vue(this);
 
         barreMenus = new JMenuBar();
@@ -147,7 +138,7 @@ public class Fenetre extends JFrame {
 
         echangerLivraison = new JButton("Echanger Livraison");
         echangerLivraison.addActionListener(new EchangerDeuxPointsLivraison(this));
-        
+
         calculerTournee = new JButton("Calculer Tournée");
         calculerTournee.addActionListener(new CalculerTournee(this));
 
@@ -452,15 +443,10 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-            fenetre.controleur.demandeAjoutPoint();
-            while (fenetre.controleur.isEtatRemplirInformations()) {//tant qu'on est dans l'etat remplir information, on y reste
-                DemandeLivraison maDemande = afficherPopUp();
-=======
+
             Fenetre.controleur.demandeAjoutPoint();
             while (Fenetre.controleur.isEtatRemplirInformations()) {//tant qu'on est dans l'etat remplir information, on y reste
-                DemandeLivraison maDemande = afficherPopUp(); 
->>>>>>> 262ea2fa7b146743ca418505fe09f28b57f38654
+                DemandeLivraison maDemande = afficherPopUp();
 
                 Fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
             }
