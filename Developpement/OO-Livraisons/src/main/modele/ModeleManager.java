@@ -187,9 +187,10 @@ public class ModeleManager {
         Chemin cheminArrive = this.plan.calculerPlusCourtChemin(demandeLivraison.getIntersection(), interArrive);
         cheminDepart.setLivraisonArrivee(demandeLivraison);
         cheminArrive.setLivraisonArrivee(demandeLivraisonArrivee);
-
-        this.tournee.AjouterChemin(cheminArrive);
+        
         this.tournee.AjouterChemin(cheminDepart);
+        this.tournee.AjouterChemin(cheminArrive);
+        
         
         
         return demandeLivraison;

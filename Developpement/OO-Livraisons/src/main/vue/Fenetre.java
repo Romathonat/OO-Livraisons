@@ -447,8 +447,9 @@ public class Fenetre extends JFrame {
             Fenetre.controleur.demandeAjoutPoint();
             while (Fenetre.controleur.isEtatRemplirInformations()) {//tant qu'on est dans l'etat remplir information, on y reste
                 DemandeLivraison maDemande = afficherPopUp();
-
-                Fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
+                if (maDemande != null){
+                    Fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
+                }
             }
         }
 
