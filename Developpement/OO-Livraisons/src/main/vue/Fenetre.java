@@ -442,7 +442,9 @@ public class Fenetre extends JFrame {
             Integer idInter = vue.getPremiereInterSelectionnee();
             Intersection monInter = vue.getVuePlan().getPlan().getIntersection(idInter);
 
-            DialogInfosDemande dialog = new DialogInfosDemande(fenetre, monInter);
+            Iterator<FenetreLivraison> itFenetre = vue.getVueEnsembleLivraisons().getEnsembleLivraison().getFenetresLivraison();
+ 
+            DialogInfosDemande dialog = new DialogInfosDemande(fenetre, monInter, itFenetre);
             DemandeLivraison maDemande = dialog.showDialog();
 
             return maDemande;
