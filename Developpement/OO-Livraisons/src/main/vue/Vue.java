@@ -89,8 +89,14 @@ public class Vue {
         
     }
     
+
+    
     public VueGraphique getVueGraphique(){
         return this.vueGraphique;
+    }
+    
+    public VueStatus getVueStatus(){
+        return this.vueStatus;
     }
     
     /**
@@ -160,6 +166,19 @@ public class Vue {
     protected void resetTournee(){
         this.vueTournee = new VueTournee(this, null);
     }
+    
+    public void updateVuesMetier(){
+       this.vuePlan = new VuePlan(this, this.vuePlan.getPlan());
+       this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this.vueEnsembleLivraisons.getEnsembleLivraison());
+       this.vueTournee = new VueTournee(this, this.vueTournee.getTournee());
+       this.updateComposantsGraphiques();
+    }
+    
+    public void updateComposantsGraphiques(){
+        this.vueGraphique.repaint();
+        this.vueLegende.updateLegende();
+        this.vueTextuelle.mettreAJourListeDemandes();   
+    }
    
     /**
      * Si le plan passé en paramètre est différent du plan actuellement connu 
@@ -174,11 +193,9 @@ public class Vue {
         }
         this.vuePlan = new VuePlan(this, plan);
         this.resetEnsembleLivraisons();
-            
-        this.vueGraphique.repaint();
+ 
+       this.updateComposantsGraphiques();
 
-        // Mise à jour de la légende.
-        this.vueLegende.updateLegende();
         this.vueStatus.updateStatusDroit("Plan chargé");
     }
     
@@ -198,11 +215,8 @@ public class Vue {
 
         this.resetTournee();
 
-        this.vueGraphique.repaint();
+       this.updateComposantsGraphiques();
 
-        this.vueLegende.updateLegende();
-
-        this.vueTextuelle.mettreAJourListeDemandes();
 
         this.vueStatus.updateStatusDroit("Demandes de livraison chargée");
     }
@@ -221,11 +235,8 @@ public class Vue {
         this.getVueEnsembleLivraisons().clearDemandeLivraisons(); //On les enlève pour les remmettre dans l'ordre    
         this.vueTournee = new VueTournee(this, tournee);
               
-        this.vueTextuelle.mettreAJourListeDemandes();
+       this.updateComposantsGraphiques();
 
-        this.vueGraphique.repaint();
-
-        this.vueLegende.updateLegende();
         this.vueStatus.updateStatusDroit("Tournée calculée");
     }
 

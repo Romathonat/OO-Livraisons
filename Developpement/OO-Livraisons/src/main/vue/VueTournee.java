@@ -44,22 +44,19 @@ public class VueTournee {
         VuelistChemin = new ArrayList<>();
         if (this.tournee != null){
             Iterator<Chemin> it_chemin = this.tournee.getChemins();
-            VueFenetreLivraison derniereFenetreLivraisonVue = null;
-            Chemin dernierChemin = null;
             while (it_chemin.hasNext()) {
                 Chemin chemin = it_chemin.next();
-                dernierChemin = chemin;
+
                 VueFenetreLivraison fenetreLivraisonVue = this.vue.getFenetreCorrespondante(chemin.getLivraisonArrivee());
                 
-                if (fenetreLivraisonVue == null) {
+                if (fenetreLivraisonVue == null) {//cas de l'entrepôt
+                    this.VuelistChemin.add(new VueChemin(new VueFenetreLivraison(chemin.getLivraisonArrivee().getFenetreLivraison(), null), chemin));
                     continue;
                 }
-                derniereFenetreLivraisonVue = fenetreLivraisonVue;
 
                 this.VuelistChemin.add(new VueChemin(fenetreLivraisonVue, chemin));
                 fenetreLivraisonVue.addVueDemandeLivraison(new VueDemandeLivraison(fenetreLivraisonVue, chemin.getLivraisonArrivee()));
             }
-            this.VuelistChemin.add(new VueChemin(derniereFenetreLivraisonVue,dernierChemin));
         }
     }
 

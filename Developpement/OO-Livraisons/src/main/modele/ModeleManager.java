@@ -48,6 +48,10 @@ public class ModeleManager {
     /**
      * 
      */
+    private DemandeLivraison bufferLivraison;
+    /**
+     * 
+     */
     private long tempsDerniereTourneeCalculee;
 
     /**
@@ -123,11 +127,12 @@ public class ModeleManager {
         this.resetTournee();
     }
     
-    public void ajouterNouvelleLivraison( Intersection intersectionArrivee, Intersection intersectionNouvelle){
-        //ici on a deux points selectionnes, on definit la nouvelle tournee et on sera bon
+    public void ajouterNouvelleLivraison( DemandeLivraison demandeLivraisonArrivee, Intersection intersectionNouvelle){
+        
+        DemandeLivraison demandeLivraison = this.bufferLivraison.getFenetreLivraison().ajouterDemandeLivraison(bufferLivraison.getId(), bufferLivraison.getIdClient(), bufferLivraison.getIntersection());
         
         Intersection interDepart = null;
-        Intersection interArrive = intersectionArrivee;
+        Intersection interArrive = demandeLivraisonArrivee.getIntersection();
 
         //on trouve l'interDepart en trouvant la demande de livraison qui precede interArrive
         Iterator<Chemin> itChemin = this.tournee.getChemins();
@@ -145,6 +150,8 @@ public class ModeleManager {
 
         Chemin cheminDepart = this.plan.calculerPlusCourtChemin(interDepart, intersectionNouvelle);
         Chemin cheminArrive = this.plan.calculerPlusCourtChemin(intersectionNouvelle, interArrive);
+        cheminDepart.setLivraisonArrivee(demandeLivraison);
+        cheminArrive.setLivraisonArrivee(demandeLivraisonArrivee);
 
         this.tournee.AjouterChemin(cheminDepart);
         this.tournee.AjouterChemin(cheminArrive);
@@ -367,5 +374,19 @@ public class ModeleManager {
         tournee.AjouterChemin(chemin);
 
         return tournee.getTempsDeLivraison() ;
+    }
+
+    /**
+     * @return the bufferLivraison
+     */
+    public DemandeLivraison getBufferLivraison() {
+        return bufferLivraison;
+    }
+
+    /**
+     * @param bufferLivraison the bufferLivraison to set
+     */
+    public void setBufferLivraison(DemandeLivraison bufferLivraison) {
+        this.bufferLivraison = bufferLivraison;
     }
 }

@@ -5,10 +5,6 @@
  */
 package controleur;
 
-import java.util.List;
-import modele.DemandeLivraison;
-import modele.Tournee;
-
 /**
  *
  * @author Kilian
