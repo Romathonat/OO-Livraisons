@@ -6,9 +6,14 @@
 package controleur;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static javax.swing.JOptionPane.showMessageDialog;
 import modele.*;
 import vue.*;
+import xmlModele.SerialiseurXML;
 
 /**
  * Controleur de l'application, qui fait le lien entre le modéle et la vue. Le 
@@ -111,7 +116,7 @@ public class Controleur {
      * Permet simplement le passage dans l'état suivant d'après le diagramme etatTransitio
      */
     public synchronized void demandeAjoutPoint() {
-        etatCourant.demandeAjoutPoint();
+        etatCourant.preparerAjouterPoint();
     }
     
     public synchronized void ajouterLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/) {
@@ -123,10 +128,15 @@ public class Controleur {
     }
     
     public synchronized void genererFeuilleRoute() {
-        
+        try {
+                SerialiseurXML.exporterTournee(modeleManager.getTournee());
+            } catch (IOException ex) {
+                Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
+                showMessageDialog(null, "L'exportation a échoué.");
+            }
     }
     
-    public synchronized void echangerDeuxPoints() {
-        
+    public synchronized void echangerDeuxLivraisons() {
+        etatCourant.echangerDeuxLivraisons();
     }
 }

@@ -129,6 +129,10 @@ public class Vue {
         this.vueTextuelle.mettreAjourLivraisonsSelectionnees();
         this.vueGraphique.repaint();
     }
+    
+    public void supprimerDerniereInterSelectionnee() {
+        this.intersectionSelectionnees.remove(this.intersectionSelectionnees.size() - 1);
+    }
 
     /**
      * Retourne un itérateur sur la liste des intercections sélectionnées.

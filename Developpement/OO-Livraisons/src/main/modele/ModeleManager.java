@@ -23,9 +23,10 @@ import xmlModele.DeserialiseurXML;
 import xml.ExceptionXML;
 
 /**
- * Le ModeleManager est le point d'entrée du contrôleur sur le modèle. Contient 
- * toutes les instances des objets métiers avec lequels le contrôleur a besoin 
- * d'interagir. 
+ * Le ModeleManager est le point d'entrée du contrôleur sur le modèle. Contient
+ * toutes les instances des objets métiers avec lequels le contrôleur a besoin
+ * d'interagir.
+ *
  * @author Kilian
  */
 public class ModeleManager {
@@ -34,23 +35,23 @@ public class ModeleManager {
      * Le plan chargé.
      */
     private Plan plan;
-    
+
     /**
      * L'ensemble de livraison chargé.
      */
     private EnsembleLivraisons ensembleLivraisons;
-    
+
     /**
-     * La tournée. 
+     * La tournée.
      */
     private Tournee tournee;
-    
+
     /**
-     * La livraison en attente d'être ajoutée. 
+     * La livraison en attente d'être ajoutée.
      */
     private DemandeLivraison bufferLivraison;
     /**
-     * 
+     *
      */
     private long tempsDerniereTourneeCalculee;
 
@@ -82,89 +83,98 @@ public class ModeleManager {
 
     /**
      * Retourne la tournée du ModeleManager
+     *
      * @return La tournée du ModeleManager
      */
     public Tournee getTournee() {
         return this.tournee;
     }
-    
+
     /**
-     * Remet à l'état initial le plan, l'ensemble de livraison, et la tournée(si elle a été calculée) du ModeleManager. 
+     * Remet à l'état initial le plan, l'ensemble de livraison, et la tournée(si
+     * elle a été calculée) du ModeleManager.
      */
-    public void resetPlan(){
+    public void resetPlan() {
         this.plan = null;
         this.resetEnsembleLivraisons();
     }
-    
+
     /**
-     * Remet à l'état initial l'ensemble de livraison et la tournée (si elle a été calculée) du ModeleManager.
-     * Le plan actuellement chargé sera conservé.
+     * Remet à l'état initial l'ensemble de livraison et la tournée (si elle a
+     * été calculée) du ModeleManager. Le plan actuellement chargé sera
+     * conservé.
      */
-    public void resetEnsembleLivraisons(){
+    public void resetEnsembleLivraisons() {
         this.ensembleLivraisons = null;
         this.resetTournee();
     }
-    
+
     /**
-     * Remet à l'état initial la tournée (si elle a été calculée) du ModeleManager.
-     * Le plan et l'ensemble de livraisons actuellement chargés seront conservé.
+     * Remet à l'état initial la tournée (si elle a été calculée) du
+     * ModeleManager. Le plan et l'ensemble de livraisons actuellement chargés
+     * seront conservé.
      */
-    public void resetTournee(){
+    public void resetTournee() {
         this.tournee = null;
     }
-    
+
     /**
-     * Charge un plan depuis un fichier xml. 
+     * Charge un plan depuis un fichier xml.
+     *
      * @param file
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      * @throws ExceptionXML
-     * @throws ParseException 
+     * @throws ParseException
      */
-    public void chargerPlan(File file) throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
+    public void chargerPlan(File file) throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException {
         Plan planIntermediaire = new Plan();
         DeserialiseurXML.chargerPlan(file, planIntermediaire);
         this.plan = planIntermediaire;
         this.resetEnsembleLivraisons();
     }
-    
+
     /**
      * Charge un ensemble de livraison depuis un fichier xml.
+     *
      * @param file
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      * @throws ExceptionXML
-     * @throws ParseException 
+     * @throws ParseException
      */
-    public void chargerEnsembleLivraisons(File file) throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException{
+    public void chargerEnsembleLivraisons(File file) throws ParserConfigurationException, SAXException, IOException, ExceptionXML, ParseException {
         EnsembleLivraisons ensembleLivraisonsIntermediaire = new EnsembleLivraisons();
         DeserialiseurXML.chargerDemandesLivraisons(file, this.plan, ensembleLivraisonsIntermediaire);
         this.ensembleLivraisons = ensembleLivraisonsIntermediaire;
         this.resetTournee();
     }
-    
+
     /**
-     * Ajoute au modèle la demande de livraison présente dans le buffer d'ajout. La demande de livraison est ajoutée à sa fenêtre, 
-     *  et,dans la tournée, elle est placée avant la demande de livraison spécifiée. 
-     * Pour le bon fonctionnement de cette méthode, la tournée doit déjà avoir été calculée.
-     * @param demandeLivraisonArrivee La livraison après laquelle la nouvelle demande de livraison doit être insérée dans la tournée.  
-     * @return La nouvelle demande de livraison qui a été ajoutée.   
+     * Ajoute au modèle la demande de livraison présente dans le buffer d'ajout.
+     * La demande de livraison est ajoutée à sa fenêtre, et,dans la tournée,
+     * elle est placée avant la demande de livraison spécifiée. Pour le bon
+     * fonctionnement de cette méthode, la tournée doit déjà avoir été calculée.
+     *
+     * @param demandeLivraisonArrivee La livraison après laquelle la nouvelle
+     * demande de livraison doit être insérée dans la tournée.
+     * @return La nouvelle demande de livraison qui a été ajoutée.
      */
-    public DemandeLivraison ajouterNouvelleLivraison(DemandeLivraison demandeLivraisonArrivee){
-        
+    public DemandeLivraison ajouterNouvelleLivraison(DemandeLivraison demandeLivraisonArrivee) {
+
         DemandeLivraison demandeLivraison = this.bufferLivraison.getFenetreLivraison().ajouterDemandeLivraison(bufferLivraison.getId(), bufferLivraison.getIdClient(), bufferLivraison.getIntersection());
-        
+
         Intersection interDepart = null;
         Intersection interArrive = demandeLivraisonArrivee.getIntersection();
 
         //on trouve l'interDepart en trouvant la demande de livraison qui precede interArrive
         Iterator<Chemin> itChemin = this.tournee.getChemins();
 
-        while(itChemin.hasNext()){
+        while (itChemin.hasNext()) {
             Chemin chemin = itChemin.next();
-            if(chemin.getLivraisonArrivee().getIntersection() == interArrive){
+            if (chemin.getLivraisonArrivee().getIntersection() == interArrive) {
                 interDepart = chemin.getIntersectionDepart();
                 //on enlève ce chemin, puisqu'il va être remplacé par deux nouveaux
                 this.tournee.supprimerChemin(chemin);
@@ -184,64 +194,83 @@ public class ModeleManager {
         
         return demandeLivraison;
     }
-    
-    
+
     /**
-     * Supprime la demande de livraison passée en paramètre de la tournee.
-     * La demande est supprimée de la tournée et de la liste interne de demande de livraison.
+     * Supprime la demande de livraison passée en paramètre de la tournee. La
+     * demande est supprimée de la tournée et de la liste interne de demande de
+     * livraison.
+     *
      * @param demandeASupprimer La livraison à supprimer.
      */
-    public void supprimerDemandeLivraison(DemandeLivraison demandeASupprimer){
-        
+    public void supprimerDemandeLivraison(DemandeLivraison demandeASupprimer) {
+
         Intersection interDepart = null;
         Intersection interArrivee = null;
         Intersection interLivraison = demandeASupprimer.getIntersection();
         DemandeLivraison demandeSuivante = null;
-        
+
         // On cherche à trouver l'intersection de départ qui précède l'intersection de la demande de livraison à supprimer.
         Iterator<Chemin> itChemin = this.tournee.getChemins();
-        
+
         while (itChemin.hasNext()) {
             Chemin cheminDepart = itChemin.next();
             if (cheminDepart.getIntersectionArrivee() == interLivraison) {
-                
+
                 // intersection precedent la demande de livraison.
                 interDepart = cheminDepart.getIntersectionDepart();
-                
+
                 Chemin cheminArrivee = itChemin.next();
                 // intersection suivant la demande de livraison.
                 interArrivee = cheminArrivee.getIntersectionArrivee();
                 demandeSuivante = cheminArrivee.getLivraisonArrivee();
-                
+
                 //on enlève le chemin "entrant" et le chemin "sortant" de la demande de livraison.
                 this.tournee.supprimerChemin(cheminDepart);
                 this.tournee.supprimerChemin(cheminArrivee);
                 break;
             }
         }
-        
+
         // a ce stade on a un "trou" dans la tournee entre les intersection interDepart et interArrivee.
         Chemin chemin = this.plan.calculerPlusCourtChemin(interDepart, interArrivee);
         chemin.setLivraisonArrivee(demandeSuivante);
         tournee.AjouterChemin(chemin);
-        
+
         this.ensembleLivraisons.supprimerDemandeLivraison(demandeASupprimer);
     }
-             
-    
+
     /**
-     * Calcule tous les plus courts chemins entre les intersections de l'ensemble des livraisons.
-     * La map retournee contient : 
-     * Tous les chemins partant de l'entrepot et allant vers toutes les intersections de la premiere fenetre de livraison.
-     * Tous les chemins entre toutes les intersections des fenetres de livraisons.
-     * Tous les chemins entre toutes les intersections d'une fenetre de livraison vers toutes les toutes les intersections de la fenetre de livraison suivante.
-     * Tous les chemins entre toutes les intersections de la dernière fenetre de livraison vers l'entrepot.
-     * Ajoute a l'ensemble intersections, tous les identifiants des intersections de l'ensemble de livraison.
-     * @param intersections Un ensemble qui a l'issue d'exécution de la methode va contenir toutes les id des intersections de l'ensemble de livraison.
+     * echange l'ordre de deux livraisons passées en paramètre. Les demandes
+     * sont échangées si elles ne sont pas nulles.
+     *
+     * @param demande1 La première demande.
+     * @param demande2 La seconde demande.
+     */
+    public void echangerDeuxLivraisons(DemandeLivraison demande1, DemandeLivraison demande2) {
+        if (demande1 == null || demande2 == null) {
+            return;
+        }
+        
+        
+    }
+
+    /**
+     * Calcule tous les plus courts chemins entre les intersections de
+     * l'ensemble des livraisons. La map retournee contient : Tous les chemins
+     * partant de l'entrepot et allant vers toutes les intersections de la
+     * premiere fenetre de livraison. Tous les chemins entre toutes les
+     * intersections des fenetres de livraisons. Tous les chemins entre toutes
+     * les intersections d'une fenetre de livraison vers toutes les toutes les
+     * intersections de la fenetre de livraison suivante. Tous les chemins entre
+     * toutes les intersections de la dernière fenetre de livraison vers
+     * l'entrepot. Ajoute a l'ensemble intersections, tous les identifiants des
+     * intersections de l'ensemble de livraison.
+     *
+     * @param intersections Un ensemble qui a l'issue d'exécution de la methode
+     * va contenir toutes les id des intersections de l'ensemble de livraison.
      * @return La map contenant tous les chemins.
      */
-    private Map<DepartArriveeChemin, Chemin> calculerChemins(Set<Integer> intersections)
-    {
+    private Map<DepartArriveeChemin, Chemin> calculerChemins(Set<Integer> intersections) {
         Intersection entrepot = ensembleLivraisons.getEntrepot();
         Map<DepartArriveeChemin, Chemin> chemins = new HashMap<>();
         Iterator<FenetreLivraison> itFenetre = ensembleLivraisons.getFenetresLivraison();
@@ -274,14 +303,18 @@ public class ModeleManager {
         idFenetreEntrepot.add(entrepot.getId());
         Map<DepartArriveeChemin, Chemin> cheminsFenetreVersEntrepot = plan.calculerPlusCourtsChemins(idIntersectionsFenetrePrecedente, idFenetreEntrepot);
         chemins.putAll(cheminsFenetreVersEntrepot);
-        
+
         return chemins;
     }
-    
+
     /**
-     * Retourne un Graphe du package tsp modelisant le necessaire pour calculer la tournee avec la classe TSP.
-     * @param correspondance Un tableau des correspondances entre les identifiants de sommets du graphe et les identifiants des Intersections.
-     * @param chemins La map contenant tous les chemins possibles entre les intersections.
+     * Retourne un Graphe du package tsp modelisant le necessaire pour calculer
+     * la tournee avec la classe TSP.
+     *
+     * @param correspondance Un tableau des correspondances entre les
+     * identifiants de sommets du graphe et les identifiants des Intersections.
+     * @param chemins La map contenant tous les chemins possibles entre les
+     * intersections.
      * @return Un Graphe modelisant le problème a resoudre.
      */
     private Graphe modeliserGrapheTsp(ArrayList<Integer> correspondance, Map<DepartArriveeChemin, Chemin> chemins) {
@@ -289,7 +322,7 @@ public class ModeleManager {
         //On parcourt les chemins calculés precedemment et on les ajoute au graphe transposé.
         Set<Map.Entry<DepartArriveeChemin, Chemin>> ensembleChemins = chemins.entrySet();
         Iterator<Map.Entry<DepartArriveeChemin, Chemin>> itChemins = ensembleChemins.iterator();
-        while(itChemins.hasNext()) {
+        while (itChemins.hasNext()) {
             //Pour chaque chemin on affiche 
             Map.Entry<DepartArriveeChemin, Chemin> entree = itChemins.next();
             DepartArriveeChemin itineraire = entree.getKey();
@@ -301,12 +334,16 @@ public class ModeleManager {
         }
         return graphe;
     }
-    
+
     /**
      * Transforme la solution trouvee par la classe TSP en une Tournee.
-     * @param tsp Une instance de la classe TSP ayant deja calculee la tournee minimale.
-     * @param correspondance Un tableau des correspondances entre les identifiants de sommets du graphe et les identifiants des Intersections.
-     * @param chemins La map contenant tous les chemins possibles entre les intersections.
+     *
+     * @param tsp Une instance de la classe TSP ayant deja calculee la tournee
+     * minimale.
+     * @param correspondance Un tableau des correspondances entre les
+     * identifiants de sommets du graphe et les identifiants des Intersections.
+     * @param chemins La map contenant tous les chemins possibles entre les
+     * intersections.
      * @return La tournee minimale trouvee par la classe TSP.
      */
     private Tournee transformerSolutionTspEnTournee(TemplateTSP tsp, ArrayList<Integer> correspondance, Map<DepartArriveeChemin, Chemin> chemins) {
@@ -317,7 +354,7 @@ public class ModeleManager {
         int offsetEntrepot = tsp.trouverIndexSommet(sommetEntrepot);
         //On parcourt circulairement la solution depuis l'entrepot.
         int indexPrecedentSolution = offsetEntrepot;
-        for (int i = 1;i < correspondance.size();i++) {
+        for (int i = 1; i < correspondance.size(); i++) {
             int indexSolution = (i + offsetEntrepot) % correspondance.size();
             int sommetPrecedent = tsp.getSolution(indexPrecedentSolution);
             int sommet = tsp.getSolution(indexSolution);
@@ -342,12 +379,13 @@ public class ModeleManager {
         livraisonEntrepot.setTempsArret(0);
         chemin.setLivraisonArrivee(livraisonEntrepot);
         nouvelleTournee.AjouterChemin(chemin);
-        
+
         return nouvelleTournee;
     }
-    
+
     /**
      * Calcule la Tournee optimale pour satisfaire les demandes de livraisons.
+     *
      * @return La duree de la tournee.
      */
     public double calculerTournee() {
@@ -361,17 +399,16 @@ public class ModeleManager {
             intersections.add(entrepot.getId());
             //collection contenant tous les chemins entre les demandes de livraisons.
             Map<DepartArriveeChemin, Chemin> chemins = calculerChemins(intersections);
-            
-          
+
             //On etablit une correspondance entre les intersections et les sommets du graphe dans un tableau trié.
             ArrayList<Integer> correspondance = new ArrayList<>(intersections);
             //On modelise le probleme avec la classe Graphe du package tsp.
             Graphe graphe = modeliserGrapheTsp(correspondance, chemins);
-                        
+
             //On calcule la solution du problème.
             TemplateTSP tsp = new TSP1();
             tsp.chercheSolution(60000, graphe);
-            
+
             //On interprete la solution du problème et on la transforme en tournee.
             this.tournee = transformerSolutionTspEnTournee(tsp, correspondance, chemins);
             this.tournee.CalculerHeuresDemandesLivraisons();
@@ -444,11 +481,12 @@ public class ModeleManager {
         chemin = plan.calculerPlusCourtChemin(interPrecedente, ensembleLivraisons.getEntrepot());
         tournee.AjouterChemin(chemin);
 
-        return tournee.getTempsDeLivraison() ;
+        return tournee.getTempsDeLivraison();
     }
 
     /**
      * Remplit le buffer d'ajout avec une demande de livraison à ajouter.
+     *
      * @param bufferLivraison La demande de livraison à ajouter.
      */
     public void setBufferLivraison(DemandeLivraison bufferLivraison) {

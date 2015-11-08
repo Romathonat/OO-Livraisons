@@ -34,4 +34,9 @@ public class EtatPointLivraisonSelectionne extends EtatSelection {
         Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison supprimé");
         Controleur.setEtatCourant(Controleur.etatTourneeCalculee);//on a fini ce use case, on revient à cet etat
     }
+    
+    @Override
+    public void echangerDeuxLivraisons() {
+        Controleur.setEtatCourant(Controleur.etatdeuxPointsLivraisonSelectionnes);
+    }
 }

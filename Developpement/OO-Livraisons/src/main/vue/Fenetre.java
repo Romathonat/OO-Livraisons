@@ -39,6 +39,7 @@ import xmlModele.SerialiseurXML;
 
 /**
  * La fenêter graphique de l'application.
+ *
  * @author romain
  */
 public class Fenetre extends JFrame {
@@ -75,7 +76,7 @@ public class Fenetre extends JFrame {
      * Le controleur de l'application.
      */
     protected static Controleur controleur;
-    
+
     /**
      * La vue courante de l'application
      */
@@ -83,11 +84,13 @@ public class Fenetre extends JFrame {
 
     /**
      * Constructeur d'une fenêtre.
+     *
      * @param controleur Le controleur de l'application.
      */
     public Fenetre(Controleur controleur) {
+        this.controleur = controleur;
+
         Fenetre.controleur = controleur;
-                
         this.vue = new Vue(this);
 
         barreMenus = new JMenuBar();
@@ -129,16 +132,17 @@ public class Fenetre extends JFrame {
         //---------creation des boutons
         ajouterLivraison = new JButton("Ajouter Livraison");
         ajouterLivraison.addActionListener(new AjouterLivraison(this));
-        
+
         supprimerLivraison = new JButton("Supprimer Livraison");
         supprimerLivraison.addActionListener(new supprimerPointLivraison(this));
-        
+
         echangerLivraison = new JButton("Echanger Livraison");
+        echangerLivraison.addActionListener(new EchangerDeuxPointsLivraison(this));
+
         calculerTournee = new JButton("Calculer Tournée");
         calculerTournee.addActionListener(new CalculerTournee(this));
 
         //------Organisation des Pannels
-
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new BoxLayout(panelBoutons, BoxLayout.PAGE_AXIS));
         int ecartBoutons = 15;
@@ -168,15 +172,12 @@ public class Fenetre extends JFrame {
         calculerTournee.setMinimumSize(tailleBouton);
         calculerTournee.setMaximumSize(tailleBouton);
 
-
         panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
         panelGauche.add(panelBoutons);
         panelGauche.add(vue.vueLegende);
 
         // Tests avec la scrollbar
-        
-        
         panelDroit = new JPanel();
         JScrollPane scrollPane = new JScrollPane(this.vue.vueTextuelle);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -213,12 +214,12 @@ public class Fenetre extends JFrame {
 
     }
 
-
     /**
      * Retourne la vue courante de l'application.
+     *
      * @return La vue courante de l'application.
      */
-    public Vue getVue(){
+    public Vue getVue() {
         return this.vue;
     }
 
@@ -230,101 +231,111 @@ public class Fenetre extends JFrame {
     public void afficherMessage(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
-    
+
     // ---- Methodes d'activation/desactivation des fonctionnalites ----
-    
     /**
-     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
-     * fonctionnalité de chargement du plan.
-     * @param activer true pour activer la fonctionnalité, 
-     * false pour la désactiver.
+     * Selon le paramètre <code>activer</code>, active ou désactive
+     * graphiquement la fonctionnalité de chargement du plan.
+     *
+     * @param activer true pour activer la fonctionnalité, false pour la
+     * désactiver.
      */
     public void activerChargerPlan(boolean activer) {
         chargerPlan.setEnabled(activer);
     }
 
     /**
-     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
-     * fonctionnalité de chargement de demandes de livraisons.
-     * @param activer true pour activer la fonctionnalité, 
-     * false pour la désactiver.
+     * Selon le paramètre <code>activer</code>, active ou désactive
+     * graphiquement la fonctionnalité de chargement de demandes de livraisons.
+     *
+     * @param activer true pour activer la fonctionnalité, false pour la
+     * désactiver.
      */
     public void activerChargerDemandesLivraisons(boolean activer) {
         chargerDemandesLivraisons.setEnabled(activer);
     }
 
     /**
-     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
-     * fonctionnalité de génération de feuille de route.
-     * @param activer true pour activer la fonctionnalité, 
-     * false pour la désactiver.
+     * Selon le paramètre <code>activer</code>, active ou désactive
+     * graphiquement la fonctionnalité de génération de feuille de route.
+     *
+     * @param activer true pour activer la fonctionnalité, false pour la
+     * désactiver.
      */
     public void activerGenererFeuilleRoute(boolean activer) {
         genererFeuilleDeRoute.setEnabled(activer);
     }
-    
+
     /**
-     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
-     * fonctionnalité d'annulation d'une modification de la tournée.
-     * @param activer true pour activer la fonctionnalité, 
-     * false pour la désactiver.
+     * Selon le paramètre <code>activer</code>, active ou désactive
+     * graphiquement la fonctionnalité d'annulation d'une modification de la
+     * tournée.
+     *
+     * @param activer true pour activer la fonctionnalité, false pour la
+     * désactiver.
      */
     public void activerAnnuler(boolean activer) {
         annuler.setEnabled(activer);
     }
-    
+
     /**
-     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
-     * fonctionnalité de rétablissement d'une modification de la tournée.
-     * @param activer true pour activer la fonctionnalité, 
-     * false pour la désactiver.
+     * Selon le paramètre <code>activer</code>, active ou désactive
+     * graphiquement la fonctionnalité de rétablissement d'une modification de
+     * la tournée.
+     *
+     * @param activer true pour activer la fonctionnalité, false pour la
+     * désactiver.
      */
     public void activerRetablir(boolean activer) {
         retablir.setEnabled(activer);
     }
-    
+
     /**
-     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
-     * fonctionnalité d'ajout de livraison à la tournée.
-     * @param activer true pour activer la fonctionnalité, 
-     * false pour la désactiver.
+     * Selon le paramètre <code>activer</code>, active ou désactive
+     * graphiquement la fonctionnalité d'ajout de livraison à la tournée.
+     *
+     * @param activer true pour activer la fonctionnalité, false pour la
+     * désactiver.
      */
     public void activerAjouterLivraison(boolean activer) {
         ajouterLivraison.setEnabled(activer);
     }
-    
+
     /**
-     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
-     * fonctionnalité de suppression de livraison à la tournée.
-     * @param activer true pour activer la fonctionnalité, 
-     * false pour la désactiver.
+     * Selon le paramètre <code>activer</code>, active ou désactive
+     * graphiquement la fonctionnalité de suppression de livraison à la tournée.
+     *
+     * @param activer true pour activer la fonctionnalité, false pour la
+     * désactiver.
      */
     public void activerSupprimerLivraison(boolean activer) {
         supprimerLivraison.setEnabled(activer);
     }
-    
+
     /**
-     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
-     * fonctionnalité d'échange de livraisons entre deux livraison de la tournée.
-     * @param activer true pour activer la fonctionnalité, 
-     * false pour la désactiver.
+     * Selon le paramètre <code>activer</code>, active ou désactive
+     * graphiquement la fonctionnalité d'échange de livraisons entre deux
+     * livraison de la tournée.
+     *
+     * @param activer true pour activer la fonctionnalité, false pour la
+     * désactiver.
      */
     public void activerEchangerLivraison(boolean activer) {
         echangerLivraison.setEnabled(activer);
     }
-    
+
     /**
-     * Selon le paramètre <code>activer</code>, active ou désactive graphiquement la 
-     * fonctionnalité de calcul de la tournée.
-     * @param activer true pour activer la fonctionnalité, 
-     * false pour la désactiver.
+     * Selon le paramètre <code>activer</code>, active ou désactive
+     * graphiquement la fonctionnalité de calcul de la tournée.
+     *
+     * @param activer true pour activer la fonctionnalité, false pour la
+     * désactiver.
      */
     public void activerCalculerTournee(boolean activer) {
         calculerTournee.setEnabled(activer);
     }
 
     // --- Activables uniquement ---
-    
     /**
      * Active graphiquement la fonctionnalité de fermeture de l'application.
      * Cette fonctionnalité n'est pas désactivable.
@@ -332,11 +343,10 @@ public class Fenetre extends JFrame {
     public void activerQuitter() {
         quitter.setEnabled(true);
     }
-    
+
     /**
-     * Active graphiquement la fonctionnalité d'affichage de l'à propos de 
-     * l'application.
-     * Cette fonctionnalité n'est pas désactivable.
+     * Active graphiquement la fonctionnalité d'affichage de l'à propos de
+     * l'application. Cette fonctionnalité n'est pas désactivable.
      */
     public void activerAPropos() {
         descriptionProjet.setEnabled(true);
@@ -357,7 +367,7 @@ public class Fenetre extends JFrame {
         this.activerEchangerLivraison(false);
         this.activerCalculerTournee(false);
     }
-        
+
     // ------ ActionsListeners ------
     private class ChargerPlan implements ActionListener {
 
@@ -417,7 +427,7 @@ public class Fenetre extends JFrame {
             Tournee nouvelleTournee = controleur.calculerTournee();
 
             this.fenetre.vue.updateVueTournee(nouvelleTournee);
-            
+
             revalidate();
             repaint();
         }
@@ -433,9 +443,10 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             Fenetre.controleur.demandeAjoutPoint();
             while (Fenetre.controleur.isEtatRemplirInformations()) {//tant qu'on est dans l'etat remplir information, on y reste
-                DemandeLivraison maDemande = afficherPopUp(); 
+                DemandeLivraison maDemande = afficherPopUp();
 
                 Fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
             }
@@ -446,7 +457,7 @@ public class Fenetre extends JFrame {
             Intersection monInter = vue.getVuePlan().getPlan().getIntersection(idInter);
 
             Iterator<FenetreLivraison> itFenetre = vue.getVueEnsembleLivraisons().getEnsembleLivraison().getFenetresLivraison();
- 
+
             DialogInfosDemande dialog = new DialogInfosDemande(fenetre, monInter, itFenetre);
             DemandeLivraison maDemande = dialog.showDialog();
 
@@ -466,7 +477,7 @@ public class Fenetre extends JFrame {
         public void actionPerformed(ActionEvent e) {
             // récupération de la demande à supprimer.
             DemandeLivraison demandeASupprimer = fenetre.vue.getDemandeLivraison(fenetre.vue.getPremiereInterSelectionnee());
-            
+
             Object[] options = {"Annuler la suppression",
                 "Supprimer le point de Livraison"};
             int n = JOptionPane.showOptionDialog(null,
@@ -481,21 +492,29 @@ public class Fenetre extends JFrame {
             if (n == 1) {
                 Fenetre.controleur.supprimerLivraison(demandeASupprimer);
             }
-            
-            
+
         }
     }
-    
+
+    private class EchangerDeuxPointsLivraison implements ActionListener {
+
+        Fenetre fenetre;
+
+        public EchangerDeuxPointsLivraison(JFrame frameParent) {
+            this.fenetre = (Fenetre) frameParent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //fenetre.controleur.echangerDeuxLivraisons();
+        }
+    }
+
     private class GenererFeuilleRoute implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                SerialiseurXML.exporterTournee(vue.getVueTournee().getTournee());
-            } catch (IOException ex) {
-                Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
-                showMessageDialog(null, "L'exportation a échoué.");
-            }
+            controleur.genererFeuilleRoute();
         }
     }
 
