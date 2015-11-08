@@ -376,8 +376,6 @@ public class Fenetre extends JFrame {
             repaint();
         }
     }
-    
-
 
     private class ChargerDemandesLivraisons implements ActionListener {
 
