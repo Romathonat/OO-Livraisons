@@ -128,7 +128,7 @@ public class Fenetre extends JFrame {
 
         //---------creation des boutons
         ajouterLivraison = new JButton("Ajouter Livraison");
-        ajouterLivraison.addActionListener(new AjouterIntersecion(this));
+        ajouterLivraison.addActionListener(new AjouterLivraison(this));
         supprimerLivraison = new JButton("Supprimer Livraison");
         echangerLivraison = new JButton("Echanger Livraison");
         calculerTournee = new JButton("Calculer Tournée");
@@ -422,11 +422,11 @@ public class Fenetre extends JFrame {
         }
     }
 
-    private class AjouterIntersecion implements ActionListener {
+    private class AjouterLivraison implements ActionListener {
 
         Fenetre fenetre;
 
-        public AjouterIntersecion(JFrame frameParent) {
+        public AjouterLivraison(JFrame frameParent) {
             this.fenetre = (Fenetre) frameParent;
         }
 

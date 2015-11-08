@@ -20,13 +20,14 @@ public class EtatRemplirInformations extends EtatDefaut {
     
     /** 
      * Ajoute à la tournee cette Demande si elle est valide (pas de conflit d'id)
-     * @param livraison
-     * @param tournee 
+     * @param demandeLivraison 
      */
-    public void ajouterLivraison(DemandeLivraison livraison) {
-        if(Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(livraison.getId()) == null){
+    @Override
+    public void ajouterLivraison(DemandeLivraison demandeLivraison) {
+        if(Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(demandeLivraison.getId()) == null){
             //ajout de la demande dans la bonne fenetre de livraison (peut paraître bizarre ici c'est normal)
-            livraison.getFenetreLivraison().ajouterDemandeLivraison(livraison.getId(), livraison.getIdClient(), livraison.getIntersection());
+            Controleur.modeleManager.setBufferLivraison(demandeLivraison);
+            Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Selectionnez une demande de livraison");
             Controleur.setEtatCourant(Controleur.etatChoixProchaineLivraison);
         }
         else{

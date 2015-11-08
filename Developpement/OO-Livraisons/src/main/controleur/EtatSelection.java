@@ -5,13 +5,7 @@
  */
 package controleur;
 
-import java.awt.Point;
-import static java.lang.Math.pow;
-import java.util.Iterator;
-import java.util.Map;
-import modele.EnsembleLivraisons;
 import modele.Intersection;
-import vue.VueGraphique;
 
 /**
  * Cette classe représente l'ensemble des Etats pouvant executer les opérations

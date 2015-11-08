@@ -63,11 +63,10 @@ public class VueTextuelle extends JPanel {
                 this.add(it_vueDemandeLivraison.next());
                 this.add(Box.createRigidArea(new Dimension(0, this.ecartDemandesLivraisons)));
             }
-
         }
 
-        // on raffraichit l'affichage.
-        //this.repaint();
+ 
+        this.repaint();
 
     }
 
