@@ -54,7 +54,7 @@ public class VueGraphique extends JPanel{
      * Constucteur d'une VueGraphique
      * @param vue La vue dans laquelle s'inscrit la VueGraphique.
      */
-    public VueGraphique(Vue vue) {
+    protected VueGraphique(Vue vue) {
         this.vue = vue;
         this.setBackground(Color.white);
         this.maxX = this.getSize().width;
@@ -102,24 +102,24 @@ public class VueGraphique extends JPanel{
      * Dessine le plan à partir du plan de la vue.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    public void dessinerPlan(Graphics2D g2D){
+    private void dessinerPlan(Graphics2D g2D){
         maxX = this.vue.getVuePlan().getPlan().getXMax();
         maxY = this.vue.getVuePlan().getPlan().getYMax();
         g2D.setColor(Color.LIGHT_GRAY);
-        dessinerInterNeutre(g2D);
-        dessinerTronconNeutre(g2D);
+        dessinerIntersectionsNeutre(g2D);
+        dessinerTronconsNeutre(g2D);
     }
     
     /**
      * Dessine l'ensemble des intersections du plan de la vue.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    public void dessinerInterNeutre(Graphics2D g2D){
+    private void dessinerIntersectionsNeutre(Graphics2D g2D){
         Iterator<Entry<Integer, Intersection>> itInter = this.vue.getVuePlan().getPlan().getIntersections();
         
         while(itInter.hasNext()){
             Intersection monInter = itInter.next().getValue();
-            dessinerUneIntersection(monInter, g2D);
+            dessinerIntersection(monInter, g2D);
         }
     }
     
@@ -127,12 +127,12 @@ public class VueGraphique extends JPanel{
      * Dessine l'ensemble des troncons du plan de la vue. 
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    public void dessinerTronconNeutre(Graphics2D g2D){
+    private void dessinerTronconsNeutre(Graphics2D g2D){
         Iterator<Troncon> itTroncon = this.vue.getVuePlan().getPlan().getTroncons();
         
         while(itTroncon.hasNext()){
             Troncon monTroncon = itTroncon.next();
-            dessinerUnTroncon(monTroncon,g2D);
+            dessinerTroncon(monTroncon,g2D);
         }
     }
     
@@ -141,7 +141,7 @@ public class VueGraphique extends JPanel{
      * @param intercection L'intercection à dessiner.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    public void dessinerUneIntersection(Intersection intercection, Graphics2D g2D){
+    private void dessinerIntersection(Intersection intercection, Graphics2D g2D){
         Point coordonnesInter = getPointCoordEchelle(intercection.getX(),intercection.getY());
         
         Iterator<Integer> itInterSelectionne = this.vue.getInterSelectionne();
@@ -162,7 +162,7 @@ public class VueGraphique extends JPanel{
      * @param troncon Le troncon à dessiner.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    public void dessinerUnTroncon(Troncon troncon, Graphics2D g2D){
+    private void dessinerTroncon(Troncon troncon, Graphics2D g2D){
         Point coordonnesTronconDepart = getPointCoordEchelle(troncon.getIntersectionDepart().getX(),troncon.getIntersectionDepart().getY());
         Point coordonnesTronconArrivee = getPointCoordEchelle(troncon.getIntersectionArrivee().getX(),troncon.getIntersectionArrivee().getY());
 
@@ -173,7 +173,7 @@ public class VueGraphique extends JPanel{
      * Initialise le Graphics2D pour dessiner.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    public void initialiserGraphics2d(Graphics2D g2D){
+    private void initialiserGraphics2d(Graphics2D g2D){
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON );
         g2D.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY );
     } 
@@ -182,26 +182,26 @@ public class VueGraphique extends JPanel{
      * Dessine l'ensemble des demandes de livraison.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    void dessinerLivraisons(Graphics2D g2D){
+    private void dessinerLivraisons(Graphics2D g2D){
         
         //on dessine d'abord l'entrepôt
         Intersection entrepot = this.vue.getVueEnsembleLivraisons().getEnsembleLivraison().getEntrepot();
         g2D.setColor(GenerateurCouleur.getCouleurEntrepot());
-        dessinerUneIntersection(entrepot, g2D);
+        dessinerIntersection(entrepot, g2D);
         
         Iterator<VueFenetreLivraison> itFenetres = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
         
         while(itFenetres.hasNext()){           
             VueFenetreLivraison fenetreLivraisonVue = itFenetres.next();
             
-            Iterator<VueDemandeLivraison> itDemandes = fenetreLivraisonVue.getVueDemandeLivraisonVue();
+            Iterator<VueDemandeLivraison> itDemandes = fenetreLivraisonVue.getVueDemandeLivraisonList();
             
             while(itDemandes.hasNext())//pour toutes les demandes de cette fenetre
             {
                 VueDemandeLivraison vueDemandeLivraison = itDemandes.next();
                 g2D.setColor(vueDemandeLivraison.getCouleur());
                 Intersection monIntersection = vueDemandeLivraison.getDemandeLivraison().getIntersection();
-                dessinerUneIntersection(monIntersection, g2D);
+                dessinerIntersection(monIntersection, g2D);
             }
         }
     }
@@ -215,10 +215,10 @@ public class VueGraphique extends JPanel{
         
         while(itChemins.hasNext()){
             VueChemin vueChemin = itChemins.next();
-            g2D.setColor(vueChemin.getFenetreLivraisonVue().getCouleur());
+            g2D.setColor(vueChemin.getVueFenetreLivraison().getCouleur());
             Iterator<Troncon> itTroncon = vueChemin.getChemin().getTroncons();
             while(itTroncon.hasNext()){
-                dessinerUnTroncon(itTroncon.next(),g2D);
+                dessinerTroncon(itTroncon.next(),g2D);
             }
         }
     }

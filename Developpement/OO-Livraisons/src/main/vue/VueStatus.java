@@ -49,7 +49,7 @@ public class VueStatus extends JPanel {
      * Change le message côté droit de la barre de status
      * @param status Le messase de status à afficher dans la barre de status.
      */
-    public void changerStatusDroit(String status) {
+    public void updateStatusDroit(String status) {
         this.statusRigth.setText(status);
     }
 }

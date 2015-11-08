@@ -223,7 +223,7 @@ public class Fenetre extends JFrame {
      *
      * @param message Le message à afficher dans la popup.
      */
-    public void EnvoyerMessage(String message) {
+    public void afficherMessage(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
     
@@ -353,11 +353,6 @@ public class Fenetre extends JFrame {
         this.activerEchangerLivraison(false);
         this.activerCalculerTournee(false);
     }
-
-    public void afficherErreurAjoutPoint() {
-        JOptionPane.showMessageDialog(null, "Le point selectionné n'est pas valide");
-    }
-
         
     // ------ ActionsListeners ------
     private class ChargerPlan implements ActionListener {

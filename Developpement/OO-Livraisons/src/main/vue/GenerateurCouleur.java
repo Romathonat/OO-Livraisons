@@ -19,7 +19,7 @@ public class GenerateurCouleur {
     /**
      * L'indice dans le tableau de couleur de la prochaine couleur.
      */
-    private int nextColor;
+    private int indiceCouleur;
     
     /**
      * La taille du tableau de couleur.
@@ -58,7 +58,7 @@ public class GenerateurCouleur {
         this.couleurs[4] = Color.YELLOW;
         this.couleurs[5] = Color.CYAN;
 
-        this.nextColor = 0;
+        this.indiceCouleur = 0;
     }
 
     /**
@@ -67,9 +67,9 @@ public class GenerateurCouleur {
      * reprend depuis le début du tableau.
      * @return La prochaine couleur du tableau de couleur.
      */
-    public Color getCouleurSuivante() {
-        Color result = this.couleurs[nextColor];
-        nextColor = (nextColor + 1) % nombreCouleur;
+    public Color getCouleur() {
+        Color result = this.couleurs[indiceCouleur];
+        indiceCouleur = (indiceCouleur + 1) % nombreCouleur;
         return result;
     }
     

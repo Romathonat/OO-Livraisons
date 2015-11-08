@@ -338,12 +338,11 @@ public class Plan{
     
     /**
      * Calcule le plus court chemin entre deux Intersections.
-     * @deprecated 
      * @param depart L'intersection de depart du chemin.
      * @param arrivee L'intersection d'arrivee du chemin.
      * @return Le plus court chemin entre ces deux intersections.
      */
-    protected Chemin calculerPlusCourtChemin(Intersection depart, Intersection arrivee) {
+    public Chemin calculerPlusCourtChemin(Intersection depart, Intersection arrivee) {
         Set<Integer> arrivees = new HashSet<>();
         arrivees.add(arrivee.getId());
         Map<DepartArriveeChemin, Chemin> chemins = calculerPlusCourtsChemins(depart.getId(), arrivees);

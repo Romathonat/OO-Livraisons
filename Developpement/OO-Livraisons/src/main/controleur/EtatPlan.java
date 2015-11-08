@@ -31,7 +31,7 @@ public class EtatPlan extends EtatDefaut{
             Controleur.modeleManager.chargerPlan(file);
             Controleur.setEtatCourant(Controleur.etatPlanCharge);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
-           Controleur.fenetre.EnvoyerMessage(ex.getMessage());
+           Controleur.fenetre.afficherMessage(ex.getMessage());
         }
     }
 }

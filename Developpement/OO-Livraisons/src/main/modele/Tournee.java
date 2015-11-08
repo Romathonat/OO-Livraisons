@@ -71,6 +71,13 @@ public class Tournee {
     }
     
     /**
+     * Permet de supprimer chemin de la liste des chemins
+     * @param chemin 
+     */
+    public void supprimerChemin(Chemin chemin){
+        this.chemins.remove(chemin);
+    }
+    /**
      * Ajoute un chemin à la collection de chemins. Cette fonction vérifie que
      * le chemin passé en paramètre n'est pas "null".
      *
