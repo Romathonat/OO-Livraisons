@@ -5,6 +5,8 @@
  */
 package controleur;
 
+import modele.Intersection;
+
 /**
  *
  * @author Kilian
