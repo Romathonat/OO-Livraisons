@@ -154,7 +154,7 @@ public class ModeleManager {
      */
     public DemandeLivraison ajouterNouvelleLivraison(DemandeLivraison demandeLivraisonArrivee){
         
-        DemandeLivraison demandeLivraison = demandeLivraisonArrivee.getFenetreLivraison().ajouterDemandeLivraison(bufferLivraison.getId(), bufferLivraison.getIdClient(), bufferLivraison.getIntersection());
+        DemandeLivraison demandeLivraison = this.bufferLivraison.getFenetreLivraison().ajouterDemandeLivraison(bufferLivraison.getId(), bufferLivraison.getIdClient(), bufferLivraison.getIntersection());
         
         Intersection interDepart = null;
         Intersection interArrive = demandeLivraisonArrivee.getIntersection();
