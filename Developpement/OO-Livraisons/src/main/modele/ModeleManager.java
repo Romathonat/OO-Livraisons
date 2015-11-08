@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.Controleur;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -120,6 +121,33 @@ public class ModeleManager {
         DeserialiseurXML.chargerDemandesLivraisons(file, this.plan, ensembleLivraisonsIntermediaire);
         this.ensembleLivraisons = ensembleLivraisonsIntermediaire;
         this.resetTournee();
+    }
+    
+    public void ajouterNouvelleLivraison( Intersection intersectionArrivee, Intersection intersectionNouvelle){
+        //ici on a deux points selectionnes, on definit la nouvelle tournee et on sera bon
+        
+        Intersection interDepart = null;
+        Intersection interArrive = intersectionArrivee;
+
+        //on trouve l'interDepart en trouvant la demande de livraison qui precede interArrive
+        Iterator<Chemin> itChemin = this.tournee.getChemins();
+
+        while(itChemin.hasNext()){
+            Chemin chemin = itChemin.next();
+            if(chemin.getLivraisonArrivee().getIntersection() == interArrive){
+                interDepart = chemin.getIntersectionDepart();
+                //on enlève ce chemin, puisqu'il va être remplacé par deux nouveaux
+                this.tournee.supprimerChemin(chemin);
+                break;
+            }
+        }
+
+
+        Chemin cheminDepart = this.plan.calculerPlusCourtChemin(interDepart, intersectionNouvelle);
+        Chemin cheminArrive = this.plan.calculerPlusCourtChemin(intersectionNouvelle, interArrive);
+
+        this.tournee.AjouterChemin(cheminDepart);
+        this.tournee.AjouterChemin(cheminArrive);
     }
              
     

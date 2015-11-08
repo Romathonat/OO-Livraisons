@@ -5,6 +5,7 @@
  */
 package vue;
 
+import controleur.Controleur;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,7 +13,9 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import static java.lang.Math.pow;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -62,9 +65,6 @@ public class VueGraphique extends JPanel{
         this.addMouseListener(new ecouteurSouris(this.vue.fenetre));       
     }
     
-    public int getRayonInter(){
-        return this.rayonInter;
-    }
     /**
      * Retourne un point dont les coordonnes x et y sont à l'échelle de la fenêtre
      * @param x La coordonnée en abscisse du point à retourner, avant mise à l'échelle. 
@@ -222,8 +222,29 @@ public class VueGraphique extends JPanel{
             }
         }
     }
+    
+    /**
+     * Vérifie si une intersection se trouve aux coordonnées spécifiées,et 
+     * renvoie l'intersection si elle a été trouvée. 
+     * @param x
+     * @param y
+     * @return 
+     */
+    public Intersection getIntersection(int x, int y){
+        Iterator<Map.Entry<Integer, Intersection>> itInter = this.vue.getVuePlan().getPlan().getIntersections();
+        //on cherche si on trouve un point qui correspond à l'endroit où on a cliqué
 
-    // --- Activation/Desactivation ---
+        while (itInter.hasNext()) {
+            Intersection intersection = itInter.next().getValue();
+            Point coord = this.getPointCoordEchelle(intersection.getX(), intersection.getY());
+
+            if (pow(coord.x - x, 2) + pow(coord.y - y, 2) <= pow(this.rayonInter, 2)) {
+                return intersection;
+            }
+        }
+        return null;
+    } 
+
     
 
     private class ecouteurSouris implements MouseListener{

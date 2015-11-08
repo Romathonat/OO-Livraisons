@@ -29,24 +29,12 @@ public class EtatSelection extends EtatTournee {
 
     @Override
     public void clicPlan(int x, int y) {
-        Iterator<Map.Entry<Integer, Intersection>> itInter = Controleur.modeleManager.getPlan().getIntersections();
-        //on cherche si on trouve un point qui correspond à l'endroit où on a cliqué
-        int rayon = Controleur.fenetre.getVue().getVueGraphique().getRayonInter();
 
-        boolean interTrouve = false;
-
-        while (itInter.hasNext()) {
-            Intersection monInter = itInter.next().getValue();
-            Point coord = Controleur.fenetre.getVue().getVueGraphique().getPointCoordEchelle(monInter.getX(), monInter.getY());
-
-            if (pow(coord.x - x, 2) + pow(coord.y - y, 2) <= pow(rayon, 2)) {
-                interTrouve = true;
-                selectionerIntersection(monInter);
-                break;
-            }
-        }
-
-        if (interTrouve == false) { //on a cliqué dans le vide
+        Intersection intersection = Controleur.fenetre.getVue().getVueGraphique().getIntersection(x, y);
+        if (intersection != null){
+            selectionerIntersection(intersection);
+        } else {
+            //on a cliqué dans le vide
             Controleur.fenetre.getVue().supprimerInterSelectionee();
             Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
         }
