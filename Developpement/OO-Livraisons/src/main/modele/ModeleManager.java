@@ -174,28 +174,18 @@ public class ModeleManager {
         //on trouve l'interDepart en trouvant la demande de livraison qui precede interArrive
         Iterator<Chemin> itChemin = this.tournee.getChemins();
 
-        boolean isPremierDemande = true;
-
+        Chemin chemin = null;
         while (itChemin.hasNext()) {
-            Chemin chemin = itChemin.next();
+            chemin = itChemin.next();
             if (chemin.getLivraisonArrivee().getIntersection() == interArrive) {
-                isPremierDemande = false;
                 interDepart = chemin.getIntersectionDepart();
                 //on enlève ce chemin, puisqu'il va être remplacé par deux nouveaux
-                this.tournee.supprimerChemin(chemin);
+                
                 break;
             }
         }
 
-        if (isPremierDemande) {
-            interDepart = this.getEnsembleLivraisons().getEntrepot();
-            
-            if(this.tournee.getChemins().hasNext()){
-                Chemin premierChemin = this.tournee.getChemins().next();
-                this.tournee.supprimerChemin(premierChemin);
-            }
-        }
-
+        
         Chemin cheminDepart = this.plan.calculerPlusCourtChemin(interDepart, demandeLivraison.getIntersection());
         Chemin cheminArrive = this.plan.calculerPlusCourtChemin(demandeLivraison.getIntersection(), interArrive);
 
@@ -205,6 +195,8 @@ public class ModeleManager {
         this.tournee.AjouterChemin(cheminDepart);
         this.tournee.AjouterChemin(cheminArrive);
 
+        this.tournee.supprimerChemin(chemin);
+        
         return demandeLivraison;
     }
 
@@ -219,6 +211,8 @@ public class ModeleManager {
 
         Intersection interDepart = null;
         Intersection interArrivee = null;
+        Chemin premierCheminASupprimer = null;
+        Chemin deuxiemeCheminASupprimer = null;
         Intersection interLivraison = demandeASupprimer.getIntersection();
         DemandeLivraison demandeSuivante = null;
 
@@ -244,8 +238,8 @@ public class ModeleManager {
                 demandeSuivante = cheminArrivee.getLivraisonArrivee();
 
                 //on enlève le chemin "entrant" et le chemin "sortant" de la demande de livraison.
-                this.tournee.supprimerChemin(cheminDepart);
-                this.tournee.supprimerChemin(cheminArrivee);
+                premierCheminASupprimer = cheminDepart ;
+                deuxiemeCheminASupprimer = cheminArrivee;
                 break;
             }
         }
@@ -256,6 +250,9 @@ public class ModeleManager {
             chemin.setLivraisonArrivee(demandeSuivante);
             tournee.AjouterChemin(chemin);
         }
+        
+        this.tournee.supprimerChemin(premierCheminASupprimer);
+        this.tournee.supprimerChemin(deuxiemeCheminASupprimer);
 
         this.ensembleLivraisons.supprimerDemandeLivraison(demandeASupprimer);
     }
