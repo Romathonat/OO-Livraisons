@@ -560,7 +560,7 @@ public class Fenetre extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             showMessageDialog(null,
-                    "L'application de Guillaume et ses sbires\n\n"
+                    "            OO-Livraison\n\n"
                     + "          ------------------------\n"
                     + "                     v1.00\n"
                     + "          ------------------------\n\n"

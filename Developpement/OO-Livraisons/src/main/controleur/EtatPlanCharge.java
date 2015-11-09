@@ -5,17 +5,6 @@
  */
 package controleur;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import modele.EnsembleLivraisons;
-import modele.Plan;
-import org.xml.sax.SAXException;
-import xmlModele.DeserialiseurXML;
-import io.ExceptionXML;
-
 /**
  *
  * @author Kilian
