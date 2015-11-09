@@ -48,12 +48,12 @@ public class EtatDefaut implements Etat{
 
     @Override
     public void undo() {
-        Controleur.listeCommandes.undo();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void redo() {
-        Controleur.listeCommandes.redo();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

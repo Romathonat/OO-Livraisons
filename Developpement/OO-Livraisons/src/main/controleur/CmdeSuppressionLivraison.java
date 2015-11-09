@@ -19,29 +19,28 @@ public class CmdeSuppressionLivraison implements Commande {
     private DemandeLivraison demandeLivraisonASuppr;
     
     /**
-     * Demande de livraison precedent celle a supprimer de la tournee
+     * Demande de livraison suivant celle a supprimer de la tournee
      */
-    private DemandeLivraison prevDemandeLivraisonASuppr;
+    private DemandeLivraison nextDemandeLivraisonASuppr;
     
     public CmdeSuppressionLivraison(DemandeLivraison l, DemandeLivraison pl) {
         this.demandeLivraisonASuppr = l;
-        this.prevDemandeLivraisonASuppr = pl;
+        this.nextDemandeLivraisonASuppr = pl;
     }
     
     @Override
     public void doCommande() {
         Controleur.modeleManager.supprimerDemandeLivraison(this.demandeLivraisonASuppr);
-        //Controleur.fenetre.getVue().supprimerInterSelectionee();
+        Controleur.fenetre.getVue().supprimerInterSelectionee();
         Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
         Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison supprimé");
     }
 
     @Override
     public void undoCommande() {
-        
         Controleur.modeleManager.setBufferLivraison(this.demandeLivraisonASuppr);
-        Controleur.modeleManager.ajouterNouvelleLivraison(this.prevDemandeLivraisonASuppr);
-        //Controleur.fenetre.getVue().supprimerInterSelectionee();
+        Controleur.modeleManager.ajouterNouvelleLivraison(this.nextDemandeLivraisonASuppr);
+        Controleur.fenetre.getVue().supprimerInterSelectionee();
         Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
         Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison ajouté");
     }

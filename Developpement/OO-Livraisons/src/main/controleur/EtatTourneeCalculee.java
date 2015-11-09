@@ -34,4 +34,14 @@ public class EtatTourneeCalculee extends EtatSelection {
             Controleur.fenetre.afficherMessage("L'exportation a échoué : " + ex);
         }
     }
+    
+    @Override
+    public void undo() {
+        Controleur.listeCommandes.undo();
+    }
+
+    @Override
+    public void redo() {
+        Controleur.listeCommandes.redo();
+    }
 }
