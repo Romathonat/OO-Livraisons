@@ -50,10 +50,6 @@ public class ModeleManager {
      * La livraison en attente d'être ajoutée.
      */
     private DemandeLivraison bufferLivraison;
-    /**
-     *
-     */
-    private long tempsDerniereTourneeCalculee;
 
     /**
      * Contructeur du ModeleManager
@@ -62,7 +58,6 @@ public class ModeleManager {
         this.plan = new Plan();
         this.ensembleLivraisons = new EnsembleLivraisons();
         this.tournee = new Tournee();
-        this.tempsDerniereTourneeCalculee = Long.MAX_VALUE;
     }
 
     /**
@@ -193,8 +188,9 @@ public class ModeleManager {
 
         this.tournee.AjouterChemin(cheminDepart);
         this.tournee.AjouterChemin(cheminArrive);
-
         this.tournee.supprimerChemin(chemin);
+
+        this.tournee.CalculerHeuresDemandesLivraisons();
 
         return demandeLivraison;
     }
@@ -253,6 +249,8 @@ public class ModeleManager {
         this.tournee.supprimerChemin(premierCheminASupprimer);
         this.tournee.supprimerChemin(deuxiemeCheminASupprimer);
 
+        this.tournee.CalculerHeuresDemandesLivraisons();
+
         this.ensembleLivraisons.supprimerDemandeLivraison(demandeASupprimer);
 
     }
@@ -261,24 +259,25 @@ public class ModeleManager {
      * echange l'ordre de deux livraisons passées en paramètre. Les demandes
      * sont échangées si elles ne sont pas nulles.
      *
-     * @param demande1 La première demande.
-     * @param demande2 La seconde demande.
+     * @param demande une des deux demandes. (la première a été chargé
+     * préalablement dans le buffer du modeleManager
      */
     public void echangerDeuxLivraisons(DemandeLivraison demande) {
-
+        
         if (demande == null || this.bufferLivraison == null) {
             return;
         }
 
+        // On récupère les bonnes instance de DemandesLivraison.
+        DemandeLivraison premiereDemande = this.bufferLivraison;
+        DemandeLivraison secondeDemande = demande;
+        
+        
         // on ordonne les demandes en fonction de l'ordre dans lequel elle interviennent.
-        DemandeLivraison premiereDemande;
-        DemandeLivraison secondeDemande;
-        if (this.bufferLivraison.getHeureLivraison().before(demande.getHeureLivraison())) {
-            premiereDemande = this.bufferLivraison;
-            secondeDemande = demande;
-        } else {
-            premiereDemande = demande;
-            secondeDemande = this.bufferLivraison;
+        if (premiereDemande.getHeureLivraison().after(secondeDemande.getHeureLivraison())) {
+            DemandeLivraison temp = premiereDemande;
+            premiereDemande = secondeDemande;
+            secondeDemande = temp;
         }
 
         //on récupère la demande de livraison qui suit la demande1

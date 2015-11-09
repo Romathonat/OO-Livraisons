@@ -2,9 +2,5 @@
 <JourneeType>
 <Entrepot adresse="14"/>
 <PlagesHoraires>
-<Plage heureDebut="8:0:0" heureFin="9:30:0">
-<Livraisons>
-</Livraisons>
-</Plage>
 </PlagesHoraires>
 </JourneeType>
