@@ -114,13 +114,11 @@ public class SerialiseurXMLtest {
         tournee.AjouterChemin(chemin5);
         tournee.AjouterChemin(chemin6);
 
-        //tournee.CalculerHeuresDemandesLivraisons();
-        
-        try {
-            SerialiseurXML.exporterTournee(tournee);
+        /*try {
+        SerialiseurXML.exporterTournee(tournee);
         } catch (IOException ex) {
-            Logger.getLogger(SerialiseurXMLtest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Logger.getLogger(SerialiseurXMLtest.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
 
         
         

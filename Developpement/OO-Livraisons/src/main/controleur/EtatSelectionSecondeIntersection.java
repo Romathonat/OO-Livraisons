@@ -5,8 +5,6 @@
  */
 package controleur;
 
-import java.util.Iterator;
-import javax.swing.JOptionPane;
 import modele.DemandeLivraison;
 import modele.Intersection;
 
@@ -30,12 +28,12 @@ public class EtatSelectionSecondeIntersection extends EtatSelection {
                     inter.getId());
 
             if (Controleur.modeleManager.getBufferLivraison().getId() != demande2.getId()) {
-                Controleur.modeleManager.echangerDeuxLivraisons(demande2);
+
+                Commande cmde = new CmdeEchangeLivraisons(Controleur.modeleManager.getBufferLivraison(), demande2);
+                Controleur.listeCommandes.ajoute(cmde);
+
                 Controleur.fenetre.getVue().supprimerInterSelectionee();
-                Controleur.fenetre.getVue().updateVueTournee();
-                Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Points de livraisons échangés.");
-                // TO DO update VUE
-                Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
+                Controleur.setEtatCourant(Controleur.etatTourneeCalculee); // Fin du UseCase
             } else {
                 Controleur.fenetre.getVue().supprimerInterSelectionee();
                 Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Second point de livraison invalide");
