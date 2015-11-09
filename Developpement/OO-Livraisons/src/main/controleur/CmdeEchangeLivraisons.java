@@ -34,5 +34,6 @@ public class CmdeEchangeLivraisons implements Commande {
         Controleur.modeleManager.echangerDeuxLivraisons(livraison1);
         Controleur.fenetre.getVue().updateVueTournee();
         Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Echangé: points de livraisons.");
+
     }
 }

@@ -269,8 +269,8 @@ public class ModeleManager {
         }
 
         // On récupère les bonnes instance de DemandesLivraison.
-        DemandeLivraison premiereDemande = this.ensembleLivraisons.getDemandeLivraison(this.bufferLivraison.getIntersection().getId());
-        DemandeLivraison secondeDemande = this.ensembleLivraisons.getDemandeLivraison(demande.getIntersection().getId());
+        DemandeLivraison premiereDemande = this.bufferLivraison;
+        DemandeLivraison secondeDemande = demande;
         
         
         // on ordonne les demandes en fonction de l'ordre dans lequel elle interviennent.

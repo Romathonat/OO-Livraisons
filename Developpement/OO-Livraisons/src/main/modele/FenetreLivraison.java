@@ -17,7 +17,8 @@ import java.util.Set;
 
 /**
  * Une fenêtre de livraison contient les demandes de livraisons qui doivent être
- * effectuées dans l'horaire de la fenêtre. 
+ * effectuées dans l'horaire de la fenêtre.
+ *
  * @author tfavrot
  */
 public class FenetreLivraison {
@@ -26,27 +27,28 @@ public class FenetreLivraison {
      * L'heure de début d'une fenêtre horaire de livraison.
      */
     private Date heureDebut;
-   
+
     /**
      * L'heure de fin d'une fenêtre temporelle de livraison.
      */
     private Date heureFin;
-    
+
     /**
-     * La liste des demandes de livraisons qui s'inscrivent dans la fenêtre 
-     * de livraison.
+     * La liste des demandes de livraisons qui s'inscrivent dans la fenêtre de
+     * livraison.
      */
     private List<DemandeLivraison> listeDemandesLivraison;
 
     /**
      * Constructeur d'une demande de livraison.
+     *
      * @param heureDebut L'heure de début d'une fenêtre temporelle de livraison.
      * @param heureFin L'heure de fin d'une fenêtre temporelle de livraison.
      */
     public FenetreLivraison(Date heureDebut, Date heureFin) {
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
-        this.listeDemandesLivraison = new ArrayList<DemandeLivraison> ();
+        this.listeDemandesLivraison = new ArrayList<DemandeLivraison>();
     }
 
     /**
@@ -84,12 +86,11 @@ public class FenetreLivraison {
         return demande;
     }
 
-    
     public DemandeLivraison ajouterDemandeLivraison(DemandeLivraison demandeLivraison) {
         this.listeDemandesLivraison.add(demandeLivraison);
         return demandeLivraison;
     }
-        
+
     /**
      * Retourne un itérateur sur les demandes de Livraison.
      *
@@ -99,30 +100,71 @@ public class FenetreLivraison {
         Collection constCollection = Collections.unmodifiableCollection(listeDemandesLivraison);
         return constCollection.iterator();
     }
-    
+
     /**
      * Retourne l'ensemble des id des intersections des demandes de livraisons
      * de la fenêtre de livraison.
+     *
      * @return L'ensemble des id des intersections des demandes de livraisons.
      */
     protected Set<Integer> getIdIntersectionsLivraisons() {
         Set<Integer> idIntersections = new HashSet<>();
         Iterator<DemandeLivraison> itDemande = listeDemandesLivraison.iterator();
-        while(itDemande.hasNext()) {
+        while (itDemande.hasNext()) {
             DemandeLivraison livraison = itDemande.next();
             idIntersections.add(livraison.getIntersection().getId());
         }
         return idIntersections;
     }
-    
+
     @Override
     public String toString() {
         SimpleDateFormat monFormat = new SimpleDateFormat("HH:mm:ss");
-        return monFormat.format(this.heureDebut)+" à "+monFormat.format(this.heureFin);
+        return monFormat.format(this.heureDebut) + " à " + monFormat.format(this.heureFin);
     }
 
     /**
-     * Supprime la demande de livraison de la fenetre correspondant à celle passée en paramètre.
+     * Indique si l'id de la demande est deja presente dans la fenetre courante
+     *
+     * @param idDemande
+     * @return
+     */
+    public boolean isDemandeDejaPresente(int idDemande) {
+        Iterator<DemandeLivraison> itDemandes = this.getDemandesLivraison();
+
+        while (itDemandes.hasNext()) {
+            if (itDemandes.next().getIntersection().getId() == idDemande) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return un id non utilisé dans cette fenetre
+     */
+    public int getIdNonPris() {
+        int idTest = listeDemandesLivraison.get(listeDemandesLivraison.size() - 1).getId();
+        boolean isIdOk = true;
+
+        do {
+            idTest += 1;
+            Iterator<DemandeLivraison> itDemandes = this.getDemandesLivraison();
+
+            while (itDemandes.hasNext()) {
+                if (itDemandes.next().getIntersection().getId() == idTest) {
+                    isIdOk = false;
+                }
+            }
+        } while (!isIdOk);
+        
+        return idTest;
+    }
+
+    /**
+     * Supprime la demande de livraison de la fenetre correspondant à celle
+     * passée en paramètre.
+     *
      * @param demandeASupprimer la demande à supprimer.
      * @return true si la demande a été trouvée ET supprimée, false sinon.
      */
