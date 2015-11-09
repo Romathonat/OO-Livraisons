@@ -5,7 +5,6 @@
  */
 package vue;
 
-import controleur.Controleur;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;

@@ -12,10 +12,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -24,7 +21,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -35,7 +31,6 @@ import modele.Intersection;
 import modele.Plan;
 import modele.Tournee;
 import io.OuvreurFichierXML;
-import xmlModele.SerialiseurXML;
 
 /**
  * La fenêter graphique de l'application.
@@ -104,6 +99,7 @@ public class Fenetre extends JFrame {
         genererFeuilleDeRoute = new JMenuItem("Generer feuille de route");
         genererFeuilleDeRoute.addActionListener(new GenererFeuilleRoute());
         quitter = new JMenuItem("Quitter");
+        quitter.addActionListener(new Quitter(this));
 
         fichier.add(chargerPlan);
         fichier.add(chargerDemandesLivraisons);
@@ -428,7 +424,7 @@ public class Fenetre extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             Tournee nouvelleTournee = controleur.calculerTournee();
-
+            this.fenetre.getVue().getVueStatus().updateStatusDroit("Tournée en cours de calcul");
             this.fenetre.vue.updateVueTournee(nouvelleTournee);
 
             revalidate();
@@ -479,24 +475,8 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // récupération de la demande à supprimer.
             DemandeLivraison demandeASupprimer = fenetre.vue.getDemandeLivraison(fenetre.vue.getPremiereInterSelectionnee());
-
-            /*Object[] options = {"Annuler la suppression",
-            "Supprimer le point de Livraison"};
-            int n = JOptionPane.showOptionDialog(null,
-            "Etes vous sûr de vouloir supprimer la demande de livraison n° " + Integer.toString(demandeASupprimer.getId()),
-            "Confirmer la Suppression",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null, //do not use a custom Icon
-            options, //the titles of buttons
-            options[0]); //default button title
-            
-            if (n == 1) {*/
             Fenetre.controleur.supprimerLivraison(demandeASupprimer);
-            //}
-
         }
     }
 
@@ -551,6 +531,20 @@ public class Fenetre extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             controleur.genererFeuilleRoute();
+        }
+    }
+    
+    private class Quitter implements ActionListener {
+
+        Fenetre fenetre;
+
+        public Quitter(JFrame frameParent) {
+            this.fenetre = (Fenetre) frameParent;
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            this.fenetre.dispose();
         }
     }
 

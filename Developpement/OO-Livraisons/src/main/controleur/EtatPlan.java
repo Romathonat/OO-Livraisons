@@ -9,9 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import javax.xml.parsers.ParserConfigurationException;
-import modele.Plan;
 import org.xml.sax.SAXException;
-import xmlModele.DeserialiseurXML;
 import io.ExceptionXML;
 
 /**

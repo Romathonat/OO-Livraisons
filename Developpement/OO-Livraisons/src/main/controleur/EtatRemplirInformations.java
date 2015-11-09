@@ -6,8 +6,6 @@
 package controleur;
 
 import modele.DemandeLivraison;
-import modele.EnsembleLivraisons;
-import modele.Tournee;
 
 /**
  *

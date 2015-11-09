@@ -180,12 +180,11 @@ public class ModeleManager {
             if (chemin.getLivraisonArrivee().getIntersection() == interArrive) {
                 interDepart = chemin.getIntersectionDepart();
                 //on enlève ce chemin, puisqu'il va être remplacé par deux nouveaux
-                
+
                 break;
             }
         }
 
-        
         Chemin cheminDepart = this.plan.calculerPlusCourtChemin(interDepart, demandeLivraison.getIntersection());
         Chemin cheminArrive = this.plan.calculerPlusCourtChemin(demandeLivraison.getIntersection(), interArrive);
 
@@ -196,7 +195,7 @@ public class ModeleManager {
         this.tournee.AjouterChemin(cheminArrive);
 
         this.tournee.supprimerChemin(chemin);
-        
+
         return demandeLivraison;
     }
 
@@ -238,7 +237,7 @@ public class ModeleManager {
                 demandeSuivante = cheminArrivee.getLivraisonArrivee();
 
                 //on enlève le chemin "entrant" et le chemin "sortant" de la demande de livraison.
-                premierCheminASupprimer = cheminDepart ;
+                premierCheminASupprimer = cheminDepart;
                 deuxiemeCheminASupprimer = cheminArrivee;
                 break;
             }
@@ -250,7 +249,7 @@ public class ModeleManager {
             chemin.setLivraisonArrivee(demandeSuivante);
             tournee.AjouterChemin(chemin);
         }
-        
+
         this.tournee.supprimerChemin(premierCheminASupprimer);
         this.tournee.supprimerChemin(deuxiemeCheminASupprimer);
 
@@ -264,10 +263,54 @@ public class ModeleManager {
      * @param demande1 La première demande.
      * @param demande2 La seconde demande.
      */
-    public void echangerDeuxLivraisons(DemandeLivraison demande1, DemandeLivraison demande2) {
-        if (demande1 == null || demande2 == null) {
+    public void echangerDeuxLivraisons(DemandeLivraison demande) {
+
+        if (demande == null || this.bufferLivraison == null) {
             return;
         }
+
+        // on ordonne les demandes en fonction de l'ordre dans lequel elle interviennent.
+        DemandeLivraison premiereDemande;
+        DemandeLivraison secondeDemande;
+        if (this.bufferLivraison.getHeureLivraison().before(demande.getHeureLivraison())) {
+            premiereDemande = this.bufferLivraison;
+            secondeDemande = demande;
+        } else {
+            premiereDemande = demande;
+            secondeDemande = this.bufferLivraison;
+        }
+
+        //on récupère la demande de livraison qui suit la demande1
+        DemandeLivraison demandeSuivantPremiere = null;
+        Iterator<Chemin> it_chemin = this.tournee.getChemins();
+        while (it_chemin.hasNext()) {
+            if (it_chemin.next().getLivraisonArrivee().getIntersection().getId() == premiereDemande.getIntersection().getId()) {
+                demandeSuivantPremiere = it_chemin.next().getLivraisonArrivee();
+                break;
+            }
+        }
+
+        //on récupère la demande de livraison qui suit la demande2
+        DemandeLivraison demandeSuivanteSeconde = null;
+        it_chemin = this.tournee.getChemins();
+        while (it_chemin.hasNext()) {
+            if (it_chemin.next().getLivraisonArrivee().getIntersection().getId() == secondeDemande.getIntersection().getId()) {
+                demandeSuivanteSeconde = it_chemin.next().getLivraisonArrivee();
+                break;
+            }
+        }
+
+        // cas particulier si les deux points de livraison sont consecutifs.
+        if (demandeSuivantPremiere.getIntersection().getId() == secondeDemande.getIntersection().getId()) {
+            demandeSuivantPremiere = premiereDemande;
+        }
+
+        this.supprimerDemandeLivraison(secondeDemande);
+        this.supprimerDemandeLivraison(premiereDemande);
+        this.bufferLivraison = premiereDemande;
+        this.ajouterNouvelleLivraison(demandeSuivanteSeconde);
+        this.bufferLivraison = secondeDemande;
+        this.ajouterNouvelleLivraison(demandeSuivantPremiere);
 
     }
 
@@ -507,7 +550,7 @@ public class ModeleManager {
     public void setBufferLivraison(DemandeLivraison bufferLivraison) {
         this.bufferLivraison = bufferLivraison;
     }
-    
+
     /**
      * Renvoie le contenu de bufferLivraison.
      */
