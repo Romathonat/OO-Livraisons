@@ -174,9 +174,12 @@ public class ModeleManager {
         //on trouve l'interDepart en trouvant la demande de livraison qui precede interArrive
         Iterator<Chemin> itChemin = this.tournee.getChemins();
 
+        boolean isPremierDemande = true;
+
         while (itChemin.hasNext()) {
             Chemin chemin = itChemin.next();
             if (chemin.getLivraisonArrivee().getIntersection() == interArrive) {
+                isPremierDemande = false;
                 interDepart = chemin.getIntersectionDepart();
                 //on enlève ce chemin, puisqu'il va être remplacé par deux nouveaux
                 this.tournee.supprimerChemin(chemin);
@@ -184,8 +187,18 @@ public class ModeleManager {
             }
         }
 
+        if (isPremierDemande) {
+            interDepart = this.getEnsembleLivraisons().getEntrepot();
+            
+            if(this.tournee.getChemins().hasNext()){
+                Chemin premierChemin = this.tournee.getChemins().next();
+                this.tournee.supprimerChemin(premierChemin);
+            }
+        }
+
         Chemin cheminDepart = this.plan.calculerPlusCourtChemin(interDepart, demandeLivraison.getIntersection());
         Chemin cheminArrive = this.plan.calculerPlusCourtChemin(demandeLivraison.getIntersection(), interArrive);
+
         cheminDepart.setLivraisonArrivee(demandeLivraison);
         cheminArrive.setLivraisonArrivee(demandeLivraisonArrivee);
 

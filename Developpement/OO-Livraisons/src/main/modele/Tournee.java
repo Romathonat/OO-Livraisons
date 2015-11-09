@@ -95,34 +95,31 @@ public class Tournee {
      * @param chemin le chemin à ajouter à la collection
      * @return Le chemin si les conditions d'ajout sont respectées, null sinon.
      */
-    public Chemin AjouterChemin(Chemin chemin) {
+    public Chemin AjouterChemin(Chemin cheminAjout) {
 
-        if (chemin == null) {
+        if (cheminAjout == null) {
             return null;
         }
         
         if(this.chemins.isEmpty()){
-            this.chemins.add(chemin);
-        } else {
-            boolean trouve = false;
+            this.chemins.add(cheminAjout);
+        } else if (cheminAjout.getIntersectionDepart().getId() == this.chemins.get(0).getIntersectionDepart().getId() ){
+            this.chemins.add(0, cheminAjout);
+        }else {
             Iterator<Chemin> it_chemin = this.chemins.iterator();
             int i = 0;
-            while (it_chemin.hasNext()) {
-                if (it_chemin.next().getIntersectionArrivee().getId() == chemin.getIntersectionDepart().getId()) {
-                    this.chemins.add(i+1, chemin);
-                    trouve = true;
+            while (it_chemin.hasNext()) {        
+                if (it_chemin.next().getIntersectionArrivee().getId() == cheminAjout.getIntersectionDepart().getId()) {
+                    this.chemins.add(i+1, cheminAjout);
                     break;
                 }
                 i++;
-            }
-            if (trouve == false){
-                this.chemins.add(0, chemin);
             }
         }       
 
         this.CalculerHeuresDemandesLivraisons();
 
-        return chemin;
+        return cheminAjout;
     }
 
     /**
