@@ -41,8 +41,7 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
                     return;
                 }
             }
-            
-            Iterator<Chemin> itChemin = Controleur.modeleManager.getTournee().getChemins();
+           
             DemandeLivraison demandeLivraisonAAjouter = Controleur.modeleManager.getBufferLivraison();
 
             Commande cmde = new CmdeAjoutLivraison(demandeLivraisonAAjouter, demandeLivraisonArrivee);

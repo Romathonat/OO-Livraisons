@@ -132,12 +132,15 @@ public class EnsembleLivraisons extends Observable {
         return null;
     }
 
-    public void supprimerDemandeLivraison(DemandeLivraison demandeASupprimer) {
+    public boolean supprimerDemandeLivraison(DemandeLivraison demandeASupprimer) {
         Iterator<FenetreLivraison> it_fenetre = this.fenetresLivraison.iterator();
+        boolean supprime = false;
         while (it_fenetre.hasNext()) {
-            if (it_fenetre.next().supprimerDemandeLivraison(demandeASupprimer)) {
-                break;
+            supprime = it_fenetre.next().supprimerDemandeLivraison(demandeASupprimer);
+            if (supprime) {
+                return supprime;
             }
         }
+        return supprime;
     }
 }

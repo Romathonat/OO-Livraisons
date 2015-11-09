@@ -166,7 +166,7 @@ public class ModeleManager {
      */
     public DemandeLivraison ajouterNouvelleLivraison(DemandeLivraison demandeLivraisonArrivee) {
 
-        DemandeLivraison demandeLivraison = this.bufferLivraison.getFenetreLivraison().ajouterDemandeLivraison(bufferLivraison.getId(), bufferLivraison.getIdClient(), bufferLivraison.getIntersection());
+        DemandeLivraison demandeLivraison = this.bufferLivraison.getFenetreLivraison().ajouterDemandeLivraison(bufferLivraison);
 
         Intersection interDepart = null;
         Intersection interArrive = demandeLivraisonArrivee.getIntersection();
@@ -254,6 +254,7 @@ public class ModeleManager {
         this.tournee.supprimerChemin(deuxiemeCheminASupprimer);
 
         this.ensembleLivraisons.supprimerDemandeLivraison(demandeASupprimer);
+
     }
 
     /**
