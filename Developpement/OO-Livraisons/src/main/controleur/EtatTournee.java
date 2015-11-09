@@ -23,6 +23,7 @@ public class EtatTournee extends EtatLivraisons{
     @Override
     public void calculerTournee(){
         Controleur.modeleManager.calculerTournee();
+        Controleur.fenetre.getVue().supprimerInterSelectionee();
         Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
     }
 }

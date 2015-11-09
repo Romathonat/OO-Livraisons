@@ -29,6 +29,7 @@ public class EtatPlan extends EtatDefaut{
     public void chargerPlan(File file){
         try{
             Controleur.modeleManager.chargerPlan(file);
+            Controleur.fenetre.getVue().supprimerInterSelectionee();
             Controleur.setEtatCourant(Controleur.etatPlanCharge);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
            Controleur.fenetre.afficherMessage(ex.getMessage());

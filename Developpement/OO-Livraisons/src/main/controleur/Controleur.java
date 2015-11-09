@@ -128,12 +128,7 @@ public class Controleur {
     }
     
     public synchronized void genererFeuilleRoute() {
-        try {
-                SerialiseurXML.exporterTournee(modeleManager.getTournee());
-            } catch (IOException ex) {
-                Logger.getLogger(Fenetre.class.getName()).log(Level.SEVERE, null, ex);
-                showMessageDialog(null, "L'exportation a échoué.");
-            }
+        etatCourant.genererFeuilleRoute();
     }
     
     public synchronized void echangerDeuxLivraisons() {
