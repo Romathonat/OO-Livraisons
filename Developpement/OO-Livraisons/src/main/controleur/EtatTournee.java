@@ -15,11 +15,17 @@ public class EtatTournee extends EtatLivraisons{
     @Override
     protected void activerFonctionnalites(){
         super.activerFonctionnalites();
+        if(Controleur.modeleManager.getTournee() != null){
+            if (!Controleur.modeleManager.getTournee().entrepotSeul()){
+                return;
+            }
+        }
         Controleur.fenetre.activerCalculerTournee(true);
     }
     
     @Override
     public void calculerTournee(){
+        Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Tournée en cours de calcul");
         Controleur.modeleManager.calculerTournee();
         Controleur.fenetre.getVue().supprimerInterSelectionee();
         Controleur.setEtatCourant(Controleur.etatTourneeCalculee);

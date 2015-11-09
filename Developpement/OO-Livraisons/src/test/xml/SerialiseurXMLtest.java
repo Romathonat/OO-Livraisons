@@ -106,8 +106,6 @@ public class SerialiseurXMLtest {
         tournee.AjouterChemin(chemin4);
         tournee.AjouterChemin(chemin5);
         tournee.AjouterChemin(chemin6);
-<<<<<<< HEAD
-
         /*try {
         SerialiseurXML.exporterTournee(tournee);
         } catch (IOException ex) {
@@ -116,11 +114,10 @@ public class SerialiseurXMLtest {
 
         
         
-        showMessageDialog(null, "Indiquer au programme le fichier qui doit être testé puis le fichier TestSerialiseur.txt");
+        //showMessageDialog(null, "Indiquer au programme le fichier qui doit être testé puis le fichier TestSerialiseur.txt");
         //File file1 = SerialiseurXML.ouvreFichier();
         //File file2 = SerialiseurXML.ouvreFichier();
         //assertEquals("Files are not the same", (file1.compareTo(file2)),0);
-=======
->>>>>>> 55e57d01338afeb4391f32c0240f2c78c7f76299
+
     }
 }

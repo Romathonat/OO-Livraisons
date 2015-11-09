@@ -13,6 +13,11 @@ public class EtatIntersectionSelectionnee extends EtatTourneeCalculee {
     @Override
     protected void activerFonctionnalites(){
         super.activerFonctionnalites();
+        if(Controleur.modeleManager.getTournee() != null){
+            if (!Controleur.modeleManager.getTournee().entrepotSeul()){
+                return;
+            }
+        }
         Controleur.fenetre.activerAjouterLivraison(true);
     }
    
