@@ -166,8 +166,10 @@ public class VueGraphique extends JPanel{
                 rayonDessin = this.rayonSelection;
             }
         }
-        
+                
         g2D.fillOval(coordonnesInter.x-(int)rayonDessin/2, coordonnesInter.y-(int)rayonDessin/2, rayonDessin, rayonDessin);
+        //g2D.setColor(Color.black);
+        g2D.drawOval(coordonnesInter.x-(int)rayonDessin/2, coordonnesInter.y-(int)rayonDessin/2, rayonDessin, rayonDessin);
     }
 
     
@@ -186,12 +188,12 @@ public class VueGraphique extends JPanel{
         int yVecteur = coordonnesTronconArrivee.y - coordonnesTronconDepart.y;
         
         //on trouve l'offset (demo math sur papier basé sur produit scalaire)
-        double xOffset = sqrt(pow(yVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * offset * decalageTronconChevauchement;
-        double yOffset = sqrt(pow(xVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * offset * decalageTronconChevauchement;
+        double xOffset = pow(-1,offset%2)*sqrt(pow(yVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * (int)((offset+1)/2) * decalageTronconChevauchement;
+        double yOffset = pow(-1,offset%2)*sqrt(pow(xVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * (int)((offset+1)/2) * decalageTronconChevauchement;
         
         g2D.setStroke(new BasicStroke(epaisseurTrait, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)); //on change l'epaisseur du trait
         
-        if(offset != 0){ //si ls troncons se chevauchent, on les dessine "curvé"
+        if(offset != 0){ //si les troncons se chevauchent, on les dessine "curvé"
             QuadCurve2D q = new QuadCurve2D.Float();
             int decalage = 0;
             
