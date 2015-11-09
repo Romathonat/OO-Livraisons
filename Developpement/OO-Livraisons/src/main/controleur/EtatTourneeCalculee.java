@@ -5,7 +5,10 @@
  */
 package controleur;
 
-import modele.Intersection;
+import io.SauvegardeFichierTxt;
+import java.io.File;
+import java.io.IOException;
+import xmlModele.SerialiseurXML;
 
 /**
  *
@@ -18,5 +21,17 @@ public class EtatTourneeCalculee extends EtatSelection {
         Controleur.fenetre.activerGenererFeuilleRoute(true);
         Controleur.fenetre.activerAnnuler(true);
         Controleur.fenetre.activerRetablir(true);
+    }
+    
+    @Override
+    public void genererFeuilleRoute(){
+        try {
+            File file = SauvegardeFichierTxt.getInstance().ouvreFichier();
+            if (file != null){
+                SerialiseurXML.exporterTournee(file, Controleur.modeleManager.getTournee());
+            }
+        } catch (IOException ex) {
+            Controleur.fenetre.afficherMessage("L'exportation a échoué : " + ex);
+        }
     }
 }

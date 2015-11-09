@@ -67,6 +67,7 @@ public class ModeleManager {
 
     /**
      * Retourne le plan du ModeleManager
+     *
      * @return Le plan du ModeleManager
      */
     public Plan getPlan() {
@@ -75,6 +76,7 @@ public class ModeleManager {
 
     /**
      * Retourne l'ensemble de livraison du ModeleManger.
+     *
      * @return L'ensemble de livraison du ModeleManger.
      */
     public EnsembleLivraisons getEnsembleLivraisons() {
@@ -182,17 +184,14 @@ public class ModeleManager {
             }
         }
 
-
         Chemin cheminDepart = this.plan.calculerPlusCourtChemin(interDepart, demandeLivraison.getIntersection());
         Chemin cheminArrive = this.plan.calculerPlusCourtChemin(demandeLivraison.getIntersection(), interArrive);
         cheminDepart.setLivraisonArrivee(demandeLivraison);
         cheminArrive.setLivraisonArrivee(demandeLivraisonArrivee);
-        
+
         this.tournee.AjouterChemin(cheminDepart);
         this.tournee.AjouterChemin(cheminArrive);
-        
-        
-        
+
         return demandeLivraison;
     }
 
@@ -220,13 +219,12 @@ public class ModeleManager {
                 // intersection precedent la demande de livraison.
                 interDepart = cheminDepart.getIntersectionDepart();
 
-                if (!itChemin.hasNext())
-                {
+                if (!itChemin.hasNext()) {
                     this.tournee.supprimerChemin(cheminDepart);
                     this.ensembleLivraisons.supprimerDemandeLivraison(demandeASupprimer);
                     return;
                 }
-                
+
                 Chemin cheminArrivee = itChemin.next();
                 // intersection suivant la demande de livraison.
                 interArrivee = cheminArrivee.getIntersectionArrivee();
@@ -240,9 +238,11 @@ public class ModeleManager {
         }
 
         // a ce stade on a un "trou" dans la tournee entre les intersection interDepart et interArrivee.
-        Chemin chemin = this.plan.calculerPlusCourtChemin(interDepart, interArrivee);
-        chemin.setLivraisonArrivee(demandeSuivante);
-        tournee.AjouterChemin(chemin);
+        if (interDepart.getId() != interArrivee.getId()) {
+            Chemin chemin = this.plan.calculerPlusCourtChemin(interDepart, interArrivee);
+            chemin.setLivraisonArrivee(demandeSuivante);
+            tournee.AjouterChemin(chemin);
+        }
 
         this.ensembleLivraisons.supprimerDemandeLivraison(demandeASupprimer);
     }
@@ -258,8 +258,7 @@ public class ModeleManager {
         if (demande1 == null || demande2 == null) {
             return;
         }
-        
-        
+
     }
 
     /**
@@ -399,8 +398,6 @@ public class ModeleManager {
     public double calculerTournee() {
         if (ensembleLivraisons != null) {
             Intersection entrepot = ensembleLivraisons.getEntrepot();
-            
-
 
             //Dans un ensemble, on retient toutes les intersections visitées.
             Set<Integer> intersections = new TreeSet<>();

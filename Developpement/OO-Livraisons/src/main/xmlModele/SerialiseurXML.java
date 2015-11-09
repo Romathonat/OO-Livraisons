@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 import modele.Chemin;
 import modele.Tournee;
 import modele.Troncon;
-import io.GenerateurFichierRoute;
+import io.SauvegardeFichierTxt;
 
 public class SerialiseurXML {// Singleton
 
@@ -25,11 +25,9 @@ public class SerialiseurXML {// Singleton
      *
      * @param tournee la tournee à exporter au format txt
      */
-    public static void exporterTournee(Tournee tournee) throws IOException {
-        // récupération du document.
-        File fichierTxt = GenerateurFichierRoute.getInstance().ouvreFichier();
+    public static void exporterTournee(File file, Tournee tournee) throws IOException {   
        
-        FileWriter fw = new FileWriter(fichierTxt);
+        FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter fichierSortie = new PrintWriter(bw);
 
