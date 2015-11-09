@@ -47,6 +47,7 @@ public class ListeDeCmdes {
             indiceCurrentCommande--;
             commande.undoCommande();
 	}
+        Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
     }
     
     /**
@@ -57,6 +58,7 @@ public class ListeDeCmdes {
             indiceCurrentCommande++;
             Commande commande = liste.get(indiceCurrentCommande);
             commande.doCommande();
+            Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
 	}
     }
 }
