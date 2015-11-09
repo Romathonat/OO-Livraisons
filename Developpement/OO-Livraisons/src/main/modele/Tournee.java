@@ -134,5 +134,12 @@ public class Tournee {
     public DemandeLivraison getLivraisonEntrepotFictive(){
         return this.chemins.get(this.chemins.size()-1).getLivraisonArrivee();
     }
+    
+    public boolean entrepotSeul(){
+        if(this.chemins.size() == 1 ){
+            return true;
+        }
+        return false;
+    }
 
 }
