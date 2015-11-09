@@ -117,9 +117,10 @@ public class SerialiseurXMLtest {
 
         
         
-        showMessageDialog(null, "Indiquer au programme le fichier qui doit être testé puis le fichier TestSerialiseur.txt");
+        //showMessageDialog(null, "Indiquer au programme le fichier qui doit être testé puis le fichier TestSerialiseur.txt");
         //File file1 = SerialiseurXML.ouvreFichier();
         //File file2 = SerialiseurXML.ouvreFichier();
         //assertEquals("Files are not the same", (file1.compareTo(file2)),0);
+
     }
 }
