@@ -32,10 +32,10 @@ public class EtatPointLivraisonSelectionne extends EtatTourneeCalculee {
      */
     @Override
     public void supprimerLivraison(DemandeLivraison demandeLivraison) {
-        
+
         Iterator<Chemin> itChemin = Controleur.modeleManager.getTournee().getChemins();
         DemandeLivraison nextDemandeLivraisonASupprimer = null;
-        
+
         while (itChemin.hasNext()) {
             Chemin chemin = itChemin.next();
             if (chemin.getLivraisonArrivee() == demandeLivraison) {
@@ -44,12 +44,19 @@ public class EtatPointLivraisonSelectionne extends EtatTourneeCalculee {
         }
         Commande cmde = new CmdeSuppressionLivraison(demandeLivraison, nextDemandeLivraisonASupprimer);
         Controleur.listeCommandes.ajoute(cmde);
-        
+
         Controleur.setEtatCourant(Controleur.etatTourneeCalculee);//on a fini ce use case, on revient à cet etat
     }
-    
+
     @Override
     public void echangerDeuxLivraisons() {
+
+        // on récupère la première demande de livraison et on la stocke dans le buffer du modeleManager.
+        DemandeLivraison demande1 = Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(
+                Controleur.fenetre.getVue().getPremiereInterSelectionnee());
+        Controleur.modeleManager.setBufferLivraison(demande1);
+
+        Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("En attente d'un second point de livraison à échanger.");
         Controleur.setEtatCourant(Controleur.etatdeuxPointsLivraisonSelectionnes);
     }
 }

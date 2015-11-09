@@ -61,7 +61,7 @@ public class VueDemandeLivraison extends JPanel {
         this.jLabelClient = new JLabel("Client : " + Integer.toString(demandeLivraison.getIdClient()));
         this.jLabelClient.setBorder(new EmptyBorder(0, 5, 0, 0));
 
-        this.jLabelAdresse = new JLabel("Adresse : x = " + this.demandeLivraison.getIntersection().getX() + ", y = " + this.demandeLivraison.getIntersection().getY());
+        this.jLabelAdresse = new JLabel("Adresse : " + this.demandeLivraison.getIntersection().getId());
         this.jLabelAdresse.setBorder(new EmptyBorder(0, 5, 0, 0));
 
         this.jLabelHeure = null;
