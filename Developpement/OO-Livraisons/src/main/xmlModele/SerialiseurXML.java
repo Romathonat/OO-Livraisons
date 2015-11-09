@@ -88,7 +88,7 @@ public class SerialiseurXML {// Singleton
         int resultatSauvegarde = 0;
 
         fichierSortie.println("Itinéraire jusqu'à la prochaine demande de livraison:");
-        //fichierSortie.println("  - Intersection de départ:  " + Integer.toString(chemin.getIntersectionDepart().getId()));
+        fichierSortie.println("  - Intersection de départ:  " + Integer.toString(chemin.getIntersectionDepart().getId()));
         fichierSortie.println("  - point de livraison:      " + Integer.toString(chemin.getIntersectionArrivee().getId()));
         fichierSortie.println("  - Heure estimée d'arrivée: " + SerialiseurXML_df.format(chemin.getLivraisonArrivee().getHeureLivraison()));
         fichierSortie.println("  - Nom du client livré:     " + Integer.toString(chemin.getLivraisonArrivee().getIdClient()));
@@ -107,8 +107,8 @@ public class SerialiseurXML {// Singleton
 
     private static int sauverTroncon(PrintWriter fichierSortie, Troncon troncon) {
 
-        String str_troncon = "Depuis l'intersection " + Integer.toString(troncon.getIntersectionDepart().getId());
-        str_troncon += " suivre le troncon " + troncon.getNom();
+        //String str_troncon = "Depuis l'intersection " + Integer.toString(troncon.getIntersectionDepart().getId());
+        String str_troncon = " suivre le troncon " + troncon.getNom();
         str_troncon += " jusqu'à l'intersection " + Integer.toString(troncon.getIntersectionArrivee().getId());
         fichierSortie.println(str_troncon);
         return 0;

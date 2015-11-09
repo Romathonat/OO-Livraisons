@@ -13,34 +13,37 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 /**
- * Un plan est une cartographie de la ville. Il contient des intersections et 
+ * Un plan est une cartographie de la ville. Il contient des intersections et
  * des tronçons qui relient ces intersections.
+ *
  * @author mgaillard
  */
-public class Plan{
+public class Plan {
 
     /**
-     * La collection d'intersections contenus dans le plan.
-     * La clé primaire de la map est l'id de l'intersection.
+     * La collection d'intersections contenus dans le plan. La clé primaire de
+     * la map est l'id de l'intersection.
      */
     private Map<Integer, Intersection> intersections;
-    
+
     /**
      * Le plus grand identifiant des intersections contenues dans le plan.
      */
     private int intersectionsMaxId;
-    
+
     /**
      * La collection d'intersection contenue dans le plan.
      */
     private Collection<Troncon> troncons;
 
     /**
-     * Valeur maximale des coordonées d'abscisse des intersections contenues dans le plan.
+     * Valeur maximale des coordonées d'abscisse des intersections contenues
+     * dans le plan.
      */
     private int xMax;
     /**
-     * Valeur maximale des coordonées d'ordonnée des intersections contenues dans le plan.
+     * Valeur maximale des coordonées d'ordonnée des intersections contenues
+     * dans le plan.
      */
     private int yMax;
 
@@ -66,8 +69,12 @@ public class Plan{
      */
     public Intersection ajouterIntersection(int id, int x, int y) {
         if (id >= 0 && x >= 0 && y >= 0) {
+
             Intersection intersection = new Intersection(id, x, y);
-            intersections.put(id, intersection);
+            // on refuse les duplicat d'id.
+            if (intersections.putIfAbsent(id, intersection) != null) {
+                return null;
+            }
             intersectionsMaxId = Math.max(intersectionsMaxId, id);
             xMax = Math.max(xMax, x);
             yMax = Math.max(yMax, y);
@@ -75,22 +82,25 @@ public class Plan{
         }
         return null;
     }
-  
+
     /**
      * Retourne le xMax du plan.
+     *
      * @return Le xMax du plan.
      */
-    public int getXMax(){
+    public int getXMax() {
         return xMax;
     }
-    
+
     /**
      * Retourne le yMax du plan.
+     *
      * @return Le yMax du plan.
      */
-    public int getYMax(){
+    public int getYMax() {
         return yMax;
     }
+
     /**
      * Ajoute un troncon au plan. Pour l'intersection de depart du troncon, la
      * liste des successeurs est mise a jour. Si une des intersections de depart
@@ -135,16 +145,18 @@ public class Plan{
     }
 
     /**
-     * Retourne un itérateur sur la collection d'intersections contenues dans le plan.
+     * Retourne un itérateur sur la collection d'intersections contenues dans le
+     * plan.
      *
      * @return
      */
     public Iterator<Entry<Integer, Intersection>> getIntersections() {
         return this.intersections.entrySet().iterator();
     }
-    
+
     /**
-     * Retourne un itérateur sur la collection de tronçons contenus dans le plan.
+     * Retourne un itérateur sur la collection de tronçons contenus dans le
+     * plan.
      *
      * @return
      */
@@ -153,29 +165,25 @@ public class Plan{
         return constCollection.iterator();
     }
 
-
-    
     /**
      * Représente la durée nécessaire pour aller vers une intersection.
      */
     private class DistanceIntersection {
 
-        
         /**
-         * 
+         *
          */
         public double duree;
-        
+
         /**
-         * 
+         *
          */
         public Intersection intersection;
 
-       
         /**
-         * 
+         *
          * @param distance
-         * @param intersection 
+         * @param intersection
          */
         public DistanceIntersection(double distance, Intersection intersection) {
             this.duree = distance;
@@ -199,14 +207,15 @@ public class Plan{
     }
 
     /**
-     * 
+     *
      */
     private class DistanceIntersectionComparator implements Comparator<DistanceIntersection> {
 
         /**
          * Compare deux DistanceIntersection.
          *
-         * @return -1, 0 ou 1 selon si a est plus petite, egale ou plus grande que b.
+         * @return -1, 0 ou 1 selon si a est plus petite, egale ou plus grande
+         * que b.
          */
         @Override
         public int compare(DistanceIntersection a, DistanceIntersection b) {
@@ -221,10 +230,14 @@ public class Plan{
     }
 
     /**
-     * Utilise l'algorithme Dijkstra pour retourner les plus courts chemins vers un ensemble d'intersection.
+     * Utilise l'algorithme Dijkstra pour retourner les plus courts chemins vers
+     * un ensemble d'intersection.
+     *
      * @param idDepart L'id de l'intersection de départ du Chemin.
-     * @param idArrivees Un ensemble d'id des intersections vers lesquelles calculer les plus courts chemins.
-     * @return Une Map indexant tous les chemins entre le point de depart et les points d'arrives.
+     * @param idArrivees Un ensemble d'id des intersections vers lesquelles
+     * calculer les plus courts chemins.
+     * @return Une Map indexant tous les chemins entre le point de depart et les
+     * points d'arrives.
      */
     protected Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(int idDepart, Set<Integer> idArrivees) {
         //Tableau des precedences et des distances des noeuds.
@@ -235,7 +248,7 @@ public class Plan{
         PriorityQueue<DistanceIntersection> intersectionPasEncoreVues = new PriorityQueue<>(intersections.size(), new DistanceIntersectionComparator());
         //Ensemble des intersections à visiter avant d'arrêter le calcul.
         Set<Integer> idIntersectionsAVisiter = new HashSet(idArrivees);
-        
+
         //On initialise les precedence à null, et les distances a l'infini.
         for (int i = 0; i < precedent.length; i++) {
             precedent[i] = null;
@@ -280,14 +293,14 @@ public class Plan{
                 }
             }
         }
-        
+
         //On ne retourne les chemins que pour les Intersections atteintes lors du Dijsktra.
         idArrivees.removeAll(idIntersectionsAVisiter);
-        
+
         //On calcule les plus courts chemin vers toutes les intersections d'arrivées.
         //On initialise le HashMap avec la capacité de depart.
         Map<DepartArriveeChemin, Chemin> chemins = new HashMap<>(idArrivees.size());
-        
+
         //Pour chaque intersection d'arrivee.
         Iterator<Integer> itIdArrivee = idArrivees.iterator();
         while (itIdArrivee.hasNext()) {
@@ -306,22 +319,25 @@ public class Plan{
             //On ajoute ce chemin aux chemins.
             chemins.put(new DepartArriveeChemin(idDepart, idIntersectionArrivee), chemin);
         }
-        
+
         return chemins;
     }
-    
+
     /**
-     * Calcule tous les plus courts chemin entre deux ensembles d'id d'intersections.
+     * Calcule tous les plus courts chemin entre deux ensembles d'id
+     * d'intersections.
+     *
      * @param idDeparts L'ensemble des id des intersections de depart.
      * @param idArrivees L'ensemble des id des intersections d'arrivee.
-     * @return Tous les plus courts chemins enter les intersections de depart et d'arrivee.
+     * @return Tous les plus courts chemins enter les intersections de depart et
+     * d'arrivee.
      */
     protected Map<DepartArriveeChemin, Chemin> calculerPlusCourtsChemins(Set<Integer> idDeparts, Set<Integer> idArrivees) {
         //On reserve une map pour contenir tous les chemins. Il y en a n²-n quand il y a n intersections.
         Map<DepartArriveeChemin, Chemin> chemins = new HashMap<>(idDeparts.size() * idArrivees.size());
         //Pour chaque intersection de la fenetre.
         Iterator<Integer> itIntersectionsDepart = idDeparts.iterator();
-        while(itIntersectionsDepart.hasNext()) {
+        while (itIntersectionsDepart.hasNext()) {
             //On calcule les chemins partant de cette intersection vers toutes les autres intersections.
             int idDepart = itIntersectionsDepart.next();
             Set<Integer> idIntersectionsArrivees = new HashSet<>(idArrivees);
@@ -335,9 +351,10 @@ public class Plan{
         }
         return chemins;
     }
-    
+
     /**
      * Calcule le plus court chemin entre deux Intersections.
+     *
      * @param depart L'intersection de depart du chemin.
      * @param arrivee L'intersection d'arrivee du chemin.
      * @return Le plus court chemin entre ces deux intersections.

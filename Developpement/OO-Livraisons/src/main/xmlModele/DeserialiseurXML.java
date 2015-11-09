@@ -36,7 +36,7 @@ public class DeserialiseurXML {
      * @throws java.text.ParseException
      */
     public static void chargerPlan(File file, Plan plan) throws ParserConfigurationException,
-        SAXException, IOException, ExceptionXML, ParseException {
+            SAXException, IOException, ExceptionXML, ParseException {
         DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = docBuilder.parse(file);
         Element racine = document.getDocumentElement();
@@ -45,7 +45,7 @@ public class DeserialiseurXML {
         } else {
             throw new ExceptionXML("Document non conforme");
         }
-     
+
     }
 
     /**
@@ -55,8 +55,8 @@ public class DeserialiseurXML {
      * @param file
      * @param plan Le plan auquel on va ajouter les données sérialisée dans le
      * document XML
-     * @param ensembleLivraisons L'ensemble de demandes de livraison auquel on va ajouter
-     * les données sérialisée dans le document xml.
+     * @param ensembleLivraisons L'ensemble de demandes de livraison auquel on
+     * va ajouter les données sérialisée dans le document xml.
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
@@ -79,13 +79,14 @@ public class DeserialiseurXML {
     }
 
     /**
-     * Parse un document xml à partir de sa racine du document XML, et renseigne les informations
-     * du plan avec les informations contenues dans le fichier. 
+     * Parse un document xml à partir de sa racine du document XML, et renseigne
+     * les informations du plan avec les informations contenues dans le fichier.
+     *
      * @param noeudDOMRacine La racine du document xml.
-     * @param plan Le plan auquel on doit ajouter les informations. 
+     * @param plan Le plan auquel on doit ajouter les informations.
      * @throws ExceptionXML
      * @throws NumberFormatException
-     * @throws ParseException 
+     * @throws ParseException
      */
     private static void construirePlan_APartirDeDOMXML(Element noeudDOMRacine, Plan plan) throws ExceptionXML, NumberFormatException, ParseException {
 
@@ -93,7 +94,8 @@ public class DeserialiseurXML {
         NumberFormat format = NumberFormat.getInstance(Locale.FRANCE);
 
         NodeList listesNoeuds = noeudDOMRacine.getElementsByTagName("Noeud");
-        for (int i = 0; i < listesNoeuds.getLength(); i++) {
+        int i;
+        for (i = 0; i < listesNoeuds.getLength(); i++) {
             // Récuperation des données de l'intersections.
             Element inter = (Element) listesNoeuds.item(i);
             int id = Integer.parseInt(inter.getAttribute("id"));
@@ -105,8 +107,11 @@ public class DeserialiseurXML {
                 throw new ExceptionXML("Document non conforme, Intersection Invalide");
             }
         }
+        if (i == 0) {
+            throw new ExceptionXML("Document non conforme, le plan ne contient aucune intersection");
+        }
 
-        for (int i = 0; i < listesNoeuds.getLength(); i++) {
+        for (i = 0; i < listesNoeuds.getLength(); i++) {
             // Récuperation des Troncon
 
             Element inter = (Element) listesNoeuds.item(i);
@@ -129,20 +134,25 @@ public class DeserialiseurXML {
                 }
             }
         }
+        if (i == 0) {
+            throw new ExceptionXML("Document non conforme, le plan ne contient aucun tronçon");
+        }
     }
 
     /**
-     * Parse un document xml à partir de sa racine du document XML, et renseigne les informations
-     * de l'ensemble de livraisons avec les informations contenues dans le fichier.
+     * Parse un document xml à partir de sa racine du document XML, et renseigne
+     * les informations de l'ensemble de livraisons avec les informations
+     * contenues dans le fichier.
+     *
      * @param noeudDOMRacine La racine du document xml.
-     * @param plan Le plan concerné par l'ensemble de livraison considéré. 
-     * @param ensembleLivraisons L'ensemble de demande de livraison auquels les informations
-     * doivent être ajoutées. 
+     * @param plan Le plan concerné par l'ensemble de livraison considéré.
+     * @param ensembleLivraisons L'ensemble de demande de livraison auquels les
+     * informations doivent être ajoutées.
      * @throws ExceptionXML
      * @throws NumberFormatException
-     * @throws ParseException 
+     * @throws ParseException
      */
-    private static void RecupererDemandesLivraison_APartirDeDOMXML(Element noeudDOMRacine, Plan plan,EnsembleLivraisons ensembleLivraisons) throws ExceptionXML, NumberFormatException, ParseException {
+    private static void RecupererDemandesLivraison_APartirDeDOMXML(Element noeudDOMRacine, Plan plan, EnsembleLivraisons ensembleLivraisons) throws ExceptionXML, NumberFormatException, ParseException {
 
         // Utilitaire pour parser la date.
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -153,13 +163,14 @@ public class DeserialiseurXML {
             throw new ExceptionXML("Document non conforme, Entrepot Absent.");
         }
         int idEntrepot = Integer.parseInt(eltEntrepot.getAttribute("adresse"));
-        
+
         if (ensembleLivraisons.setEntrepot(plan.getIntersection(idEntrepot)) == null) {
             throw new ExceptionXML("Document non conforme, l'id de l'entrepot ne correspond à aucune intersection.");
         }
 
         // Intégration des plages horaires.
         NodeList listeFenetres = noeudDOMRacine.getElementsByTagName("Plage");
+        int countFenetres = 0, countDemandes = 0;
         for (int i = 0; i < listeFenetres.getLength(); i++) {
             // Récuperation des données de la fenetre.
             Element nodeFenetre = (Element) listeFenetres.item(i);
@@ -177,15 +188,25 @@ public class DeserialiseurXML {
             for (int j = 0; j < listePointsLivraison.getLength(); j++) {
                 //Récupération des données du point de livraison.
                 Element pointDeLivraison = (Element) listePointsLivraison.item(j);
-                
+
                 int id = Integer.parseInt(pointDeLivraison.getAttribute("id"));
                 int client = Integer.parseInt(pointDeLivraison.getAttribute("client"));
                 int adresse = Integer.parseInt(pointDeLivraison.getAttribute("adresse"));
-                
+
                 if (fenetre.ajouterDemandeLivraison(id, client, plan.getIntersection(adresse)) == null) {
                     throw new ExceptionXML("Document non conforme, Point de livraison invalide");
                 }
+                countDemandes++;
             }
+            countFenetres++;
         }
+
+        if (countFenetres == 0) {
+            throw new ExceptionXML("Document non conforme, Absence de fenetre de livraison");
+        }
+        if (countDemandes == 0) {
+            throw new ExceptionXML("Document non conforme, Absence de point de livraison");
+        }
+
     }
 }
