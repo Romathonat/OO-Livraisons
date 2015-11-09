@@ -428,7 +428,7 @@ public class Fenetre extends JFrame {
         public void actionPerformed(ActionEvent e) {
 
             Tournee nouvelleTournee = controleur.calculerTournee();
-
+            this.fenetre.getVue().getVueStatus().updateStatusDroit("Tournée en cours de calcul");
             this.fenetre.vue.updateVueTournee(nouvelleTournee);
 
             revalidate();
@@ -479,24 +479,8 @@ public class Fenetre extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // récupération de la demande à supprimer.
             DemandeLivraison demandeASupprimer = fenetre.vue.getDemandeLivraison(fenetre.vue.getPremiereInterSelectionnee());
-
-            /*Object[] options = {"Annuler la suppression",
-            "Supprimer le point de Livraison"};
-            int n = JOptionPane.showOptionDialog(null,
-            "Etes vous sûr de vouloir supprimer la demande de livraison n° " + Integer.toString(demandeASupprimer.getId()),
-            "Confirmer la Suppression",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null, //do not use a custom Icon
-            options, //the titles of buttons
-            options[0]); //default button title
-            
-            if (n == 1) {*/
             Fenetre.controleur.supprimerLivraison(demandeASupprimer);
-            //}
-
         }
     }
 

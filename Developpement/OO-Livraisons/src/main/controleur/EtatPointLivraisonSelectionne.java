@@ -8,8 +8,6 @@ package controleur;
 import java.util.Iterator;
 import modele.Chemin;
 import modele.DemandeLivraison;
-import modele.EnsembleLivraisons;
-import modele.FenetreLivraison;
 
 /**
  *

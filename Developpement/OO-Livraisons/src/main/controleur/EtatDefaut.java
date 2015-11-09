@@ -32,21 +32,6 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void clicIntersection(Intersection intersection) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void clicPointLivraison(Intersection intersection) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void clicVide() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void undo() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

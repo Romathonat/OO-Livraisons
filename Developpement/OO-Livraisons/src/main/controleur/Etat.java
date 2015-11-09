@@ -18,9 +18,6 @@ public interface Etat {
     public void chargerLivraisons(File file);
     public void calculerTournee();
     public void clicPlan(int x, int y);
-    public void clicIntersection(Intersection intersection);
-    public void clicPointLivraison(Intersection intersection);
-    public void clicVide();
     public void undo();
     public void redo();
     public void ajouterLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/);
@@ -30,8 +27,6 @@ public interface Etat {
     public void fermer();
     public void valider();
     public void activerEtDesactiverFonctionnalites();
-
     public void preparerAjouterPoint();
-
     public void selectionerIntersection(Intersection inter);
 }
