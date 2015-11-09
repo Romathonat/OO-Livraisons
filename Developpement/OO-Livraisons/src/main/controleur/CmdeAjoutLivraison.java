@@ -34,7 +34,7 @@ public class CmdeAjoutLivraison implements Commande {
         Controleur.modeleManager.ajouterNouvelleLivraison(this.demandeLivraisonArrivee);
         Controleur.fenetre.getVue().supprimerInterSelectionee();
         Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
-        Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison ajouté");
+        Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Ajout: Point de livraison");
     }
 
     @Override
@@ -42,6 +42,6 @@ public class CmdeAjoutLivraison implements Commande {
         Controleur.modeleManager.supprimerDemandeLivraison(this.livraisonAAjouter);
         Controleur.fenetre.getVue().supprimerInterSelectionee();
         Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
-        Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison supprimé");
+        Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Suppression: Point de livraison");
     }
 }

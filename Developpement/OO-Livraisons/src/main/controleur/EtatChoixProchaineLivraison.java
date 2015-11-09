@@ -46,6 +46,7 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
 
             Commande cmde = new CmdeAjoutLivraison(demandeLivraisonAAjouter, demandeLivraisonArrivee);
             Controleur.listeCommandes.ajoute(cmde);
+
             Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
             
         } 
