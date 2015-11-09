@@ -8,6 +8,7 @@ package xml;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import static javax.swing.JOptionPane.showMessageDialog;
 import modele.Chemin;
 import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
@@ -106,6 +107,8 @@ public class SerialiseurXMLtest {
         tournee.AjouterChemin(chemin4);
         tournee.AjouterChemin(chemin5);
         tournee.AjouterChemin(chemin6);
+
+
         /*try {
         SerialiseurXML.exporterTournee(tournee);
         } catch (IOException ex) {

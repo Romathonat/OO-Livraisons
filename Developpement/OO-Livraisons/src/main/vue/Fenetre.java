@@ -31,6 +31,7 @@ import modele.Intersection;
 import modele.Plan;
 import modele.Tournee;
 import io.OuvreurFichierXML;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * La fenêter graphique de l'application.
@@ -110,7 +111,7 @@ public class Fenetre extends JFrame {
 
         //--------Edition--------
         edition = new JMenu("Edition");
-        
+
         annuler = new JMenuItem("Annuler");
         annuler.addActionListener(new Undo(this));
         retablir = new JMenuItem("Retablir");
@@ -124,8 +125,8 @@ public class Fenetre extends JFrame {
         //----A propos-----
         apropos = new JMenu("A propos");
         descriptionProjet = new JMenuItem("A propos");
+        descriptionProjet.addActionListener(new APropos(this));
         apropos.add(descriptionProjet);
-
         barreMenus.add(apropos);
 
         //---------creation des boutons
@@ -446,7 +447,7 @@ public class Fenetre extends JFrame {
             Fenetre.controleur.demandeAjoutPoint();
             while (Fenetre.controleur.isEtatRemplirInformations()) {//tant qu'on est dans l'etat remplir information, on y reste
                 DemandeLivraison maDemande = afficherPopUp();
-                if (maDemande != null){
+                if (maDemande != null) {
                     Fenetre.controleur.ajouterLivraison(maDemande); //passe dans l'etat suivant si les infos sont bonnes
                 }
             }
@@ -493,7 +494,7 @@ public class Fenetre extends JFrame {
             fenetre.controleur.echangerDeuxLivraisons();
         }
     }
-    
+
     private class Undo implements ActionListener {
 
         Fenetre fenetre;
@@ -509,7 +510,7 @@ public class Fenetre extends JFrame {
             repaint();
         }
     }
-    
+
     private class Redo implements ActionListener {
 
         Fenetre fenetre;
@@ -533,7 +534,7 @@ public class Fenetre extends JFrame {
             controleur.genererFeuilleRoute();
         }
     }
-    
+
     private class Quitter implements ActionListener {
 
         Fenetre fenetre;
@@ -541,10 +542,35 @@ public class Fenetre extends JFrame {
         public Quitter(JFrame frameParent) {
             this.fenetre = (Fenetre) frameParent;
         }
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             this.fenetre.dispose();
+        }
+    }
+
+    private class APropos implements ActionListener {
+
+        Fenetre fenetre;
+
+        public APropos(JFrame frameParent) {
+            this.fenetre = (Fenetre) frameParent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            showMessageDialog(null,
+                    "L'application de Guillaume et ses sbires\n\n"
+                    + "          ------------------------\n"
+                    + "                     v1.00\n"
+                    + "          ------------------------\n\n"
+                    + "Auteurs :\n"
+                    + "          El Arass Mohammed\n"
+                    + "          Favrot Thomas\n"
+                    + "          Gaillard Mathieu\n"
+                    + "          Kheng Guillaume\n"
+                    + "          Mathonat Romain\n"
+                    + "          Nativel Nicolas\n");
         }
     }
 
