@@ -41,19 +41,13 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
                     return;
                 }
             }
-            
-            Iterator<Chemin> itChemin = Controleur.modeleManager.getTournee().getChemins();
+           
             DemandeLivraison demandeLivraisonAAjouter = Controleur.modeleManager.getBufferLivraison();
 
             Commande cmde = new CmdeAjoutLivraison(demandeLivraisonAAjouter, demandeLivraisonArrivee);
             Controleur.listeCommandes.ajoute(cmde);
 
-            /*Controleur.modeleManager.ajouterNouvelleLivraison(demandeLivraisonArrivee);
-            Controleur.fenetre.getVue().supprimerInterSelectionee();
-            Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
-            Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison ajouté");*/
-            
-            Controleur.setEtatCourant(Controleur.etatTourneeCalculee);//on a fini ce use case, on revient à cet etat
+            Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
             
         } 
     }

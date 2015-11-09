@@ -5,22 +5,15 @@
  */
 package xml;
 
-import xmlModele.SerialiseurXML;
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static javax.swing.JOptionPane.showMessageDialog;
 import modele.Chemin;
 import modele.DemandeLivraison;
 import modele.EnsembleLivraisons;
 import modele.FenetreLivraison;
 import modele.Plan;
 import modele.Tournee;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 
@@ -113,6 +106,7 @@ public class SerialiseurXMLtest {
         tournee.AjouterChemin(chemin4);
         tournee.AjouterChemin(chemin5);
         tournee.AjouterChemin(chemin6);
+<<<<<<< HEAD
 
         /*try {
         SerialiseurXML.exporterTournee(tournee);
@@ -126,5 +120,7 @@ public class SerialiseurXMLtest {
         //File file1 = SerialiseurXML.ouvreFichier();
         //File file2 = SerialiseurXML.ouvreFichier();
         //assertEquals("Files are not the same", (file1.compareTo(file2)),0);
+=======
+>>>>>>> 55e57d01338afeb4391f32c0240f2c78c7f76299
     }
 }

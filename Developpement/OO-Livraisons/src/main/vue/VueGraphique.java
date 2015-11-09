@@ -5,7 +5,6 @@
  */
 package vue;
 
-import controleur.Controleur;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -102,13 +101,19 @@ public class VueGraphique extends JPanel{
         initialiserGraphics2d(g2D);
         
         if(this.vue.getVuePlan().getPlan() != null){
-            dessinerPlan(g2D);
+            initialiserDessinPlan(g2D);
+            dessinerTronconsNeutre(g2D);
+            
+            if(this.vue.getVueTournee().getTournee()!= null){
+                dessinerTournee(g2D);
+            }
+            
+            dessinerIntersectionsNeutre(g2D);
+            
             if(this.vue.getVueEnsembleLivraisons().getEnsembleLivraison() != null){
                 dessinerLivraisons(g2D);
-                if(this.vue.getVueTournee().getTournee() != null){
-                    dessinerTournee(g2D);
-                }
             }
+            
         }
     }
     
@@ -116,12 +121,9 @@ public class VueGraphique extends JPanel{
      * Dessine le plan à partir du plan de la vue.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    private void dessinerPlan(Graphics2D g2D){
+    private void initialiserDessinPlan(Graphics2D g2D){
         maxX = this.vue.getVuePlan().getPlan().getXMax();
         maxY = this.vue.getVuePlan().getPlan().getYMax();
-        g2D.setColor(Color.LIGHT_GRAY);
-        dessinerIntersectionsNeutre(g2D);
-        dessinerTronconsNeutre(g2D);
     }
     
     /**
@@ -130,7 +132,7 @@ public class VueGraphique extends JPanel{
      */
     private void dessinerIntersectionsNeutre(Graphics2D g2D){
         Iterator<Entry<Integer, Intersection>> itInter = this.vue.getVuePlan().getPlan().getIntersections();
-        
+        g2D.setColor(Color.LIGHT_GRAY);
         while(itInter.hasNext()){
             Intersection monInter = itInter.next().getValue();
             dessinerIntersection(monInter, g2D);
@@ -143,7 +145,7 @@ public class VueGraphique extends JPanel{
      */
     private void dessinerTronconsNeutre(Graphics2D g2D){
         Iterator<Troncon> itTroncon = this.vue.getVuePlan().getPlan().getTroncons();
-        
+        g2D.setColor(Color.LIGHT_GRAY);
         while(itTroncon.hasNext()){
             Troncon monTroncon = itTroncon.next();
             dessinerTroncon(monTroncon,g2D,0);
@@ -167,7 +169,20 @@ public class VueGraphique extends JPanel{
             }
         }
         
+        
         g2D.fillOval(coordonnesInter.x-(int)rayonDessin/2, coordonnesInter.y-(int)rayonDessin/2, rayonDessin, rayonDessin);
+        
+        //on change le pinceau en sauvegardant son etat precedent
+        Color couleurMemo = g2D.getColor();
+        
+        g2D.setColor(Color.black);
+        g2D.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        
+        g2D.drawOval(coordonnesInter.x-(int)rayonDessin/2, coordonnesInter.y-(int)rayonDessin/2, rayonDessin, rayonDessin);
+        
+        //on remet le pinceau de la bonne couleur
+        g2D.setColor(couleurMemo);
+        g2D.setStroke(new BasicStroke(epaisseurTrait, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
     }
 
     
@@ -185,13 +200,14 @@ public class VueGraphique extends JPanel{
         int xVecteur = coordonnesTronconArrivee.x - coordonnesTronconDepart.x;
         int yVecteur = coordonnesTronconArrivee.y - coordonnesTronconDepart.y;
         
+        double xVecteurNorme = xVecteur/sqrt(pow(xVecteur,2)+pow(yVecteur,2));
+        double yVecteurNorme = yVecteur/sqrt(pow(xVecteur,2)+pow(yVecteur,2));
+        
         //on trouve l'offset (demo math sur papier basé sur produit scalaire)
-        double xOffset = sqrt(pow(yVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * offset * decalageTronconChevauchement;
-        double yOffset = sqrt(pow(xVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * offset * decalageTronconChevauchement;
+        double xOffset = pow(-1,offset%2)*sqrt(pow(yVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * (int)((offset+1)/2) * decalageTronconChevauchement;
+        double yOffset = pow(-1,offset%2)*sqrt(pow(xVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * (int)((offset+1)/2) * decalageTronconChevauchement;
         
-        g2D.setStroke(new BasicStroke(epaisseurTrait, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)); //on change l'epaisseur du trait
-        
-        if(offset != 0){ //si ls troncons se chevauchent, on les dessine "curvé"
+        if(offset != 0){ //si les troncons se chevauchent, on les dessine "curvé"
             QuadCurve2D q = new QuadCurve2D.Float();
             int decalage = 0;
             
@@ -211,6 +227,7 @@ public class VueGraphique extends JPanel{
     private void initialiserGraphics2d(Graphics2D g2D){
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON );
         g2D.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY );
+        g2D.setStroke(new BasicStroke(epaisseurTrait, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)); //on change l'epaisseur du trait
     } 
     
     /**

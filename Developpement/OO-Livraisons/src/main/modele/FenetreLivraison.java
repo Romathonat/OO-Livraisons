@@ -84,6 +84,12 @@ public class FenetreLivraison {
         return demande;
     }
 
+    
+    public DemandeLivraison ajouterDemandeLivraison(DemandeLivraison demandeLivraison) {
+        this.listeDemandesLivraison.add(demandeLivraison);
+        return demandeLivraison;
+    }
+        
     /**
      * Retourne un itérateur sur les demandes de Livraison.
      *
@@ -121,7 +127,6 @@ public class FenetreLivraison {
      * @return true si la demande a été trouvée ET supprimée, false sinon.
      */
     boolean supprimerDemandeLivraison(DemandeLivraison demandeASupprimer) {
-        
         return listeDemandesLivraison.remove(demandeASupprimer);
     }
 }
