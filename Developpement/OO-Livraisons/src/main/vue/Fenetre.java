@@ -570,7 +570,8 @@ public class Fenetre extends JFrame {
                     + "          Gaillard Mathieu\n"
                     + "          Kheng Guillaume\n"
                     + "          Mathonat Romain\n"
-                    + "          Nativel Nicolas\n");
+                    + "          Nativel Nicolas\n"
+                    + "          Ollivier Kilian");
         }
     }
 
