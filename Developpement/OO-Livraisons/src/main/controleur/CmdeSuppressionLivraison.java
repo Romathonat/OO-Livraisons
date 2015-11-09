@@ -13,22 +13,36 @@ import modele.*;
  */
 public class CmdeSuppressionLivraison implements Commande {
     
-    private DemandeLivraison livraison;
-    private Tournee tournee;
+    /**
+     * Demande de livraison a supprimer de la tournee
+     */
+    private DemandeLivraison demandeLivraisonASuppr;
     
-    public CmdeSuppressionLivraison(DemandeLivraison l, Tournee t) {
-        livraison = l;
-        tournee = t;
+    /**
+     * Demande de livraison suivant celle a supprimer de la tournee
+     */
+    private DemandeLivraison nextDemandeLivraisonASuppr;
+    
+    public CmdeSuppressionLivraison(DemandeLivraison l, DemandeLivraison pl) {
+        this.demandeLivraisonASuppr = l;
+        this.nextDemandeLivraisonASuppr = pl;
     }
     
     @Override
-    public void doCode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void doCommande() {
+        Controleur.modeleManager.supprimerDemandeLivraison(this.demandeLivraisonASuppr);
+        Controleur.fenetre.getVue().supprimerInterSelectionee();
+        Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
+        Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison supprimé");
     }
 
     @Override
-    public void undoCode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void undoCommande() {
+        Controleur.modeleManager.setBufferLivraison(this.demandeLivraisonASuppr);
+        Controleur.modeleManager.ajouterNouvelleLivraison(this.nextDemandeLivraisonASuppr);
+        Controleur.fenetre.getVue().supprimerInterSelectionee();
+        Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
+        Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison ajouté");
     }
     
 }

@@ -5,7 +5,11 @@
  */
 package controleur;
 
+import java.util.Iterator;
+import modele.Chemin;
 import modele.DemandeLivraison;
+import modele.EnsembleLivraisons;
+import modele.FenetreLivraison;
 
 /**
  *
@@ -28,10 +32,19 @@ public class EtatPointLivraisonSelectionne extends EtatTourneeCalculee {
      */
     @Override
     public void supprimerLivraison(DemandeLivraison demandeLivraison) {
-        Controleur.modeleManager.supprimerDemandeLivraison(demandeLivraison);
-        Controleur.fenetre.getVue().supprimerInterSelectionee();
-        Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
-        Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison supprimé");
+        
+        Iterator<Chemin> itChemin = Controleur.modeleManager.getTournee().getChemins();
+        DemandeLivraison nextDemandeLivraisonASupprimer = null;
+        
+        while (itChemin.hasNext()) {
+            Chemin chemin = itChemin.next();
+            if (chemin.getLivraisonArrivee() == demandeLivraison) {
+                nextDemandeLivraisonASupprimer = itChemin.next().getLivraisonArrivee();
+            }
+        }
+        Commande cmde = new CmdeSuppressionLivraison(demandeLivraison, nextDemandeLivraisonASupprimer);
+        Controleur.listeCommandes.ajoute(cmde);
+        
         Controleur.setEtatCourant(Controleur.etatTourneeCalculee);//on a fini ce use case, on revient à cet etat
     }
     

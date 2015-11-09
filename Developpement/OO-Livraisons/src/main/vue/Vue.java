@@ -179,7 +179,6 @@ public class Vue {
      * derniers changement du modèle.
      */
     public void updateVueEnsembleLivraisons() {
-        GenerateurCouleur.getInstance().initGenerateur();
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this.vueEnsembleLivraisons.getEnsembleLivraison());
         this.vueTournee = new VueTournee(this, this.vueTournee.getTournee());
         this.updateComposantsGraphiques();
@@ -338,5 +337,4 @@ public class Vue {
     protected List<Integer> getIntersectionSelectionnees() {
         return intersectionSelectionnees;
     }
-
 }

@@ -114,8 +114,11 @@ public class Fenetre extends JFrame {
 
         //--------Edition--------
         edition = new JMenu("Edition");
+        
         annuler = new JMenuItem("Annuler");
+        annuler.addActionListener(new Undo(this));
         retablir = new JMenuItem("Retablir");
+        retablir.addActionListener(new Redo(this));
 
         edition.add(annuler);
         edition.add(retablir);
@@ -508,6 +511,38 @@ public class Fenetre extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             fenetre.controleur.echangerDeuxLivraisons();
+        }
+    }
+    
+    private class Undo implements ActionListener {
+
+        Fenetre fenetre;
+
+        public Undo(JFrame frameParent) {
+            this.fenetre = (Fenetre) frameParent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            controleur.undo();
+            revalidate();
+            repaint();
+        }
+    }
+    
+    private class Redo implements ActionListener {
+
+        Fenetre fenetre;
+
+        public Redo(JFrame frameParent) {
+            this.fenetre = (Fenetre) frameParent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            controleur.redo();
+            revalidate();
+            repaint();
         }
     }
 

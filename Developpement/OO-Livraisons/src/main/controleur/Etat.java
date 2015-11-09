@@ -21,8 +21,8 @@ public interface Etat {
     public void clicIntersection(Intersection intersection);
     public void clicPointLivraison(Intersection intersection);
     public void clicVide();
-    public void undo(List<Commande> listeCmde);
-    public void redo(List<Commande> listeCmde);
+    public void undo();
+    public void redo();
     public void ajouterLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/);
     public void genererFeuilleRoute();
     public void echangerDeuxLivraisons(/* List<Commande> listeCmde*/);

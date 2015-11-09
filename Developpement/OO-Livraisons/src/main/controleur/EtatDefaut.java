@@ -47,13 +47,13 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void undo(List<Commande> listeCmde) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void undo() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void redo(List<Commande> listeCmde) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void redo() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

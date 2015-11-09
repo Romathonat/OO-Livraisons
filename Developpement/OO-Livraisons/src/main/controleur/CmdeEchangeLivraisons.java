@@ -24,12 +24,12 @@ public class CmdeEchangeLivraisons implements Commande {
     }
     
     @Override
-    public void doCode() {
+    public void doCommande() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void undoCode() {
+    public void undoCommande() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -510,4 +510,11 @@ public class ModeleManager {
     public void setBufferLivraison(DemandeLivraison bufferLivraison) {
         this.bufferLivraison = bufferLivraison;
     }
+    
+    /**
+     * Renvoie le contenu de bufferLivraison.
+     */
+    public DemandeLivraison getBufferLivraison() {
+        return this.bufferLivraison;
+    }
 }
