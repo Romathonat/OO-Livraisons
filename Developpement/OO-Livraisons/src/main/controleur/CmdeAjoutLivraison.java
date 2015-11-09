@@ -35,6 +35,7 @@ public class CmdeAjoutLivraison implements Commande {
         Controleur.fenetre.getVue().supprimerInterSelectionee();
         Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
         Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Ajout: Point de livraison");
+        Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
     }
 
     @Override
@@ -43,5 +44,6 @@ public class CmdeAjoutLivraison implements Commande {
         Controleur.fenetre.getVue().supprimerInterSelectionee();
         Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
         Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Suppression: Point de livraison");
+        Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
     }
 }
