@@ -10,6 +10,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.Box;
@@ -59,6 +61,7 @@ public class VueLegende extends JPanel {
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         titre.setFont(font.deriveFont(attributes));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -79,13 +82,17 @@ public class VueLegende extends JPanel {
             this.add(legendeFenetre);
             legendeFenetre.setMinimumSize(this.tailleEltLegende);
             legendeFenetre.setMaximumSize(this.tailleEltLegende);
-
+            
+            DateFormat df = new SimpleDateFormat("HH:mm:ss");
 
             Iterator<VueFenetreLivraison> it_flv = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
             int i = 0;
             while (it_flv.hasNext()) {
+                VueFenetreLivraison currentVfl = it_flv.next();
                 i++;
-                legendeFenetre = new VueElementLegende(it_flv.next().getCouleur(), "Demande Fenetre " + Integer.toString(i));
+                String heureDebutString = df.format(currentVfl.getFenetreLivraison().getHeureDebut());
+                String heureFinString = df.format(currentVfl.getFenetreLivraison().getHeureFin());
+                legendeFenetre = new VueElementLegende(currentVfl.getCouleur(), "Livraison Fenetre " + heureDebutString + "-" + heureFinString);
                 this.add(Box.createRigidArea(new Dimension(0, this.ecartLegende)));
                 this.add(legendeFenetre);
                 legendeFenetre.setMinimumSize(this.tailleEltLegende);
