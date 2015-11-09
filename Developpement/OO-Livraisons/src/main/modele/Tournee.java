@@ -130,5 +130,9 @@ public class Tournee {
     public long getTempsDeLivraison() {
         return this.tempsDeLivraison;
     }
+    
+    public DemandeLivraison getLivraisonEntrepotFictive(){
+        return this.chemins.get(this.chemins.size()-1).getLivraisonArrivee();
+    }
 
 }
