@@ -14,7 +14,7 @@ import modele.FenetreLivraison;
  *
  * @author Kilian
  */
-public class EtatPointLivraisonSelectionne extends EtatSelection {
+public class EtatPointLivraisonSelectionne extends EtatTourneeCalculee {
 
     @Override
     protected void activerFonctionnalites() {

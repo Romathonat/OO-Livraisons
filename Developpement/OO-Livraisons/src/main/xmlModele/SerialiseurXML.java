@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 import modele.Chemin;
 import modele.Tournee;
 import modele.Troncon;
-import io.GenerateurFichierRoute;
+import io.SauvegardeFichierTxt;
 
 public class SerialiseurXML {// Singleton
 
@@ -25,11 +25,9 @@ public class SerialiseurXML {// Singleton
      *
      * @param tournee la tournee à exporter au format txt
      */
-    public static void exporterTournee(Tournee tournee) throws IOException {
-        // récupération du document.
-        File fichierTxt = GenerateurFichierRoute.getInstance().ouvreFichier();
+    public static void exporterTournee(File file, Tournee tournee) throws IOException {   
        
-        FileWriter fw = new FileWriter(fichierTxt);
+        FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter fichierSortie = new PrintWriter(bw);
 
@@ -91,9 +89,9 @@ public class SerialiseurXML {// Singleton
 
         fichierSortie.println("Itinéraire jusqu'à la prochaine demande de livraison:");
         //fichierSortie.println("  - Intersection de départ:  " + Integer.toString(chemin.getIntersectionDepart().getId()));
-        fichierSortie.println("  - point de livraison:  " + Integer.toString(chemin.getIntersectionArrivee().getId()));
+        fichierSortie.println("  - point de livraison:      " + Integer.toString(chemin.getIntersectionArrivee().getId()));
         fichierSortie.println("  - Heure estimée d'arrivée: " + SerialiseurXML_df.format(chemin.getLivraisonArrivee().getHeureLivraison()));
-        fichierSortie.println("  - Id du client livré:      " + Integer.toString(chemin.getLivraisonArrivee().getIdClient()));
+        fichierSortie.println("  - Nom du client livré:     " + Integer.toString(chemin.getLivraisonArrivee().getIdClient()));
         fichierSortie.println("--------------------------------------------------");
 
         Iterator<Troncon> it_troncon = chemin.getTroncons();

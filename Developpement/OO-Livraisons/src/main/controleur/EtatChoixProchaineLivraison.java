@@ -20,6 +20,12 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
     @Override
     public void clicPlan(int x, int y){
         Intersection intersection = Controleur.fenetre.getVue().getVueGraphique().getIntersection(x, y);
+        this.selectionerIntersection(intersection);
+       
+    }
+    
+    @Override
+    public void selectionerIntersection(Intersection intersection){
         if( intersection == null){
 
         } else {
@@ -35,6 +41,6 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
                 Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison ajouté");
                 Controleur.setEtatCourant(Controleur.etatTourneeCalculee);//on a fini ce use case, on revient à cet etat
             }
-        }        
+        } 
     }
 }

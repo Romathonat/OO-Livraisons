@@ -61,6 +61,7 @@ public class DialogInfosDemande extends JDialog {
     
     public DialogInfosDemande(JFrame parent, Intersection inter, Iterator<FenetreLivraison> itFenetre) {
         super(parent);
+        this.setUndecorated(true);
         this.interCourante = inter;
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
         JPanel monPanel = (JPanel)this.getContentPane();

@@ -28,6 +28,7 @@ public class EtatLivraisons extends EtatPlan{
     public void chargerLivraisons(File file){
         try {
             Controleur.modeleManager.chargerEnsembleLivraisons(file);
+            Controleur.fenetre.getVue().supprimerInterSelectionee();
             Controleur.setEtatCourant(Controleur.etatLivraisonChargee);
         } catch (ParserConfigurationException | SAXException | IOException | ExceptionXML | ParseException ex) {
             Controleur.fenetre.afficherMessage(ex.getMessage());

@@ -160,6 +160,7 @@ public class Vue {
      * seront alors des nouveaux objets de même type, vides
      */
     protected void resetVueEnsembleLivraisons() {
+        GenerateurCouleur.getInstance().initGenerateur();
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(null);
         this.resetVueTournee();
 
@@ -178,6 +179,7 @@ public class Vue {
      * derniers changement du modèle.
      */
     public void updateVueEnsembleLivraisons() {
+        GenerateurCouleur.getInstance().initGenerateur();
         this.vueEnsembleLivraisons = new VueEnsembleLivraisons(this.vueEnsembleLivraisons.getEnsembleLivraison());
         this.vueTournee = new VueTournee(this, this.vueTournee.getTournee());
         this.updateComposantsGraphiques();
