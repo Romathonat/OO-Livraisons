@@ -33,23 +33,28 @@ public class EtatChoixProchaineLivraison extends EtatDefaut {
         } else {
             DemandeLivraison demandeLivraisonArrivee = Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(intersection.getId());
             if(demandeLivraisonArrivee == null){ //si ce n'est pas une demande de livraison
-                Controleur.fenetre.afficherMessage("Le point selectionné n'est pas valide");
-            } 
-            else{
-                
-                Iterator<Chemin> itChemin = Controleur.modeleManager.getTournee().getChemins();
-                DemandeLivraison demandeLivraisonAAjouter = Controleur.modeleManager.getBufferLivraison();
-
-                Commande cmde = new CmdeAjoutLivraison(demandeLivraisonAAjouter, demandeLivraisonArrivee);
-                Controleur.listeCommandes.ajoute(cmde);
-                
-                /*Controleur.modeleManager.ajouterNouvelleLivraison(demandeLivraisonArrivee);
-
-                Controleur.fenetre.getVue().supprimerInterSelectionee();
-                Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
-                Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison ajouté");*/
-                Controleur.setEtatCourant(Controleur.etatTourneeCalculee);//on a fini ce use case, on revient à cet etat
+                if (intersection.getId() == Controleur.modeleManager.getEnsembleLivraisons().getEntrepot().getId()){
+                    demandeLivraisonArrivee = Controleur.modeleManager.getTournee().getLivraisonEntrepotFictive();
+                }
+                else{
+                    Controleur.fenetre.afficherMessage("Le point selectionné n'est pas valide");
+                    return;
+                }
             }
+            
+            Iterator<Chemin> itChemin = Controleur.modeleManager.getTournee().getChemins();
+            DemandeLivraison demandeLivraisonAAjouter = Controleur.modeleManager.getBufferLivraison();
+
+            Commande cmde = new CmdeAjoutLivraison(demandeLivraisonAAjouter, demandeLivraisonArrivee);
+            Controleur.listeCommandes.ajoute(cmde);
+
+            /*Controleur.modeleManager.ajouterNouvelleLivraison(demandeLivraisonArrivee);
+
+            Controleur.fenetre.getVue().supprimerInterSelectionee();
+            Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
+            Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Point de livraison ajouté");*/
+            Controleur.setEtatCourant(Controleur.etatTourneeCalculee);//on a fini ce use case, on revient à cet etat
+            
         } 
     }
 }
