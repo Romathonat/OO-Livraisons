@@ -40,6 +40,8 @@ public class VueEnsembleLivraisons{
         
         this.listVueFenetreLivraison = new ArrayList<>();
         
+        GenerateurCouleur.getInstance().initGenerateur();
+        
         if(this.ensembleLivraison != null){
             Iterator<FenetreLivraison> it_fenetre = this.ensembleLivraison.getFenetresLivraison();
             Iterator<DemandeLivraison> it_demande = null;
