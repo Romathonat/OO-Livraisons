@@ -27,94 +27,119 @@ import modele.Intersection;
  * @author romain
  */
 public class DialogInfosDemande extends JDialog {
+
     JPanel idDemande;
     JPanel idClient;
     JPanel listeFenetres;
     JPanel fin;
-    
+
     JTextField monIdClient;
     JTextField monIdDemande;
-    
+
     JComboBox MaListeFenetres;
     JButton ok;
-    
-    Intersection interCourante; 
-    
+
+    Intersection interCourante;
+
     /**
      * affiche la fenetre et recupere les infos pour creer un DemandeLiraison
+     *
      * @return la demande de livraison instanciée
      */
     public DemandeLivraison showDialog() {
         setVisible(true);
-        
+
         int idClientInt = 0;
         int idDemandeInt = 0;
         
-        if(!monIdClient.getText().isEmpty() && !monIdDemande.getText().isEmpty()){
+        
+        if(entreesCorrectes()) {
             idClientInt = Integer.parseInt(monIdClient.getText());
             idDemandeInt = Integer.parseInt(monIdDemande.getText());
         }
+        else{
+            FenetreLivraison fenetreCourante = (FenetreLivraison)MaListeFenetres.getSelectedItem();
+            idClientInt = fenetreCourante.getIdNonPris();
+        }
 
-        DemandeLivraison retour = new DemandeLivraison(idClientInt,idDemandeInt, this.interCourante, (FenetreLivraison) MaListeFenetres.getSelectedItem());
+        DemandeLivraison retour = new DemandeLivraison(idClientInt, idDemandeInt, this.interCourante, (FenetreLivraison) MaListeFenetres.getSelectedItem());
         return retour;
     }
     
+    public boolean entreesCorrectes(){
+        boolean bienFormate = !monIdClient.getText().isEmpty() && !monIdDemande.getText().isEmpty() && isNumeric(monIdClient.getText()) && isNumeric(monIdDemande.getText());
+        
+        if(!bienFormate)
+            return false;
+        
+        //on verifie que l'id de la demande n'est pas deja presente dans la fenetre choisie
+        FenetreLivraison fenetreCourante = (FenetreLivraison)MaListeFenetres.getSelectedItem();
+        return !fenetreCourante.isDemandeDejaPresente(Integer.parseInt(monIdClient.getText()));
+    }
+    public static boolean isNumeric(String str) {
+        try {
+            int d = Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     public DialogInfosDemande(JFrame parent, Intersection inter, Iterator<FenetreLivraison> itFenetre) {
         super(parent);
         this.setUndecorated(true);
         this.interCourante = inter;
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
-        JPanel monPanel = (JPanel)this.getContentPane();
-        
+        JPanel monPanel = (JPanel) this.getContentPane();
+
         idDemande = new JPanel();
         idClient = new JPanel();
         listeFenetres = new JPanel();
         fin = new JPanel();
-        
+
         monPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        
+
         monIdDemande = new JTextField();
         monIdDemande.setColumns(5);
         JLabel lIdDemande = new JLabel("id Demande:");
         idDemande.add(lIdDemande);
         idDemande.add(monIdDemande);
-        
+
         monIdClient = new JTextField();
         monIdClient.setColumns(5);
         JLabel lIdclient = new JLabel("id Client:");
         idClient.add(lIdclient);
         idClient.add(monIdClient);
-        
+
         ok = new JButton("Ok");
         ok.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 dispose();
             }
-        }); 
-        
+        });
+
         fin.add(ok);
-        
+
         MaListeFenetres = new JComboBox();
         JLabel llisteFenetre = new JLabel("Fenetre horaire:");
-        
-        while(itFenetre.hasNext()){
+
+        while (itFenetre.hasNext()) {
             MaListeFenetres.addItem(itFenetre.next());
         }
-        
+
         listeFenetres.add(llisteFenetre);
         listeFenetres.add(MaListeFenetres);
-        
+
         this.add(idDemande);
         this.add(idClient);
         this.add(listeFenetres);
         this.add(fin);
-        
+
         setModalityType(ModalityType.APPLICATION_MODAL);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(getParent());
-        
-        setSize(new Dimension(300,250));
+
+        setSize(new Dimension(300, 250));
     }
-    
+
 }
