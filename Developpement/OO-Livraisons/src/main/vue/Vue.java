@@ -336,5 +336,4 @@ public class Vue {
     protected List<Integer> getIntersectionSelectionnees() {
         return intersectionSelectionnees;
     }
-
 }

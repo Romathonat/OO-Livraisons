@@ -59,6 +59,11 @@ public class Controleur {
      */
     protected static Fenetre fenetre;
     
+    /**
+     * La liste des commandes du pattern command
+     */
+    protected static ListeDeCmdes listeCommandes;
+    
     public static void main(String args[]){
         
         Controleur controleur = new Controleur();
@@ -71,6 +76,7 @@ public class Controleur {
        
         modeleManager = new ModeleManager();
         fenetre = new Fenetre(this);
+        listeCommandes = new ListeDeCmdes();
         Controleur.setEtatCourant(etatInitial);
     }
     
@@ -98,11 +104,11 @@ public class Controleur {
         return etatCourant;
     }
     public synchronized void undo() {
-        
+        etatCourant.undo();
     }
     
     public synchronized void redo() {
-        
+        etatCourant.redo();
     }
     
     public synchronized void clicPlan(int x, int y) {

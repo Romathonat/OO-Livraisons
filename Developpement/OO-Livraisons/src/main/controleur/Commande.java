@@ -11,6 +11,6 @@ package controleur;
  */
 public interface Commande {
     
-    void doCode();
-    void undoCode();
+    void doCommande();
+    void undoCommande();
 }
