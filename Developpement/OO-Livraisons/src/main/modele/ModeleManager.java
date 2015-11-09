@@ -21,6 +21,9 @@ import tsp.TSP1;
 import tsp.TemplateTSP;
 import xmlModele.DeserialiseurXML;
 import io.ExceptionXML;
+import tsp.GrapheDense;
+import tsp.TSP2;
+import tsp.TSP3;
 
 /**
  * Le ModeleManager est le point d'entrée du contrôleur sur le modèle. Contient
@@ -378,7 +381,7 @@ public class ModeleManager {
      * @return Un Graphe modelisant le problème a resoudre.
      */
     private Graphe modeliserGrapheTsp(ArrayList<Integer> correspondance, Map<DepartArriveeChemin, Chemin> chemins) {
-        GrapheCreux graphe = new GrapheCreux(correspondance.size());
+        GrapheDense graphe = new GrapheDense(correspondance.size());
         //On parcourt les chemins calculés precedemment et on les ajoute au graphe transposé.
         Set<Map.Entry<DepartArriveeChemin, Chemin>> ensembleChemins = chemins.entrySet();
         Iterator<Map.Entry<DepartArriveeChemin, Chemin>> itChemins = ensembleChemins.iterator();
@@ -449,6 +452,7 @@ public class ModeleManager {
      * @return La duree de la tournee.
      */
     public double calculerTournee() {
+        long tempsDebut = System.currentTimeMillis();
         if (ensembleLivraisons != null) {
             Intersection entrepot = ensembleLivraisons.getEntrepot();
 
@@ -464,12 +468,16 @@ public class ModeleManager {
             Graphe graphe = modeliserGrapheTsp(correspondance, chemins);
 
             //On calcule la solution du problème.
-            TemplateTSP tsp = new TSP1();
+            TemplateTSP tsp = new TSP3();
+            long tempsDebutTsp = System.currentTimeMillis();
             tsp.chercheSolution(60000, graphe);
+            long tempsTotalTsp = System.currentTimeMillis() - tempsDebutTsp;
 
             //On interprete la solution du problème et on la transforme en tournee.
             this.tournee = transformerSolutionTspEnTournee(tsp, correspondance, chemins);
             this.tournee.CalculerHeuresDemandesLivraisons();
+            long tempsTotal = System.currentTimeMillis() - tempsDebut;
+            System.out.print("Solution trouvee en "+tempsTotal+"ms. TSP en "+tempsTotalTsp+"ms.");
             return tournee.getTempsDeLivraison();
         }
         return -1;
