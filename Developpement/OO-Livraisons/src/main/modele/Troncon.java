@@ -1,44 +1,43 @@
 package modele;
 
 /**
- * Un tronçon est une route empruntable entre deux intersections. 
+ * Un tronçon est une route empruntable entre deux intersections.
+ *
  * @author tfavrot
  */
 public class Troncon {
-    
-    
-    
+
     /**
      * La longueur physique d'un tronçon, en mètres.
      */
     private double longueur;
-    
+
     /**
      * La vitesse moyenne du livreur sur un tronçon, en mètres par seconde.
      */
     private double vitesse;
-    
+
     /**
-     * Le nom de la rue à laquelle appartient un tronçon. 
+     * Le nom de la rue à laquelle appartient un tronçon.
      */
     private String nom;
-    
+
     /**
      * L'intersection sur laquelle arrive un tronçon.
      */
     private Intersection intersectionArrivee;
-    
+
     /**
      * L'intersection sur laquelle arrive un tronçon.
      */
     private Intersection intersectionDepart;
-    
-   
+
     /**
      * Contructeur d'un tronçon.
+     *
      * @param intersectionDepart L'intersection sur laquelle arrive le tronçon.
      * @param intersectionArrivee L'intersection sur laquelle arrive le tronçon.
-     * @param nom Le nom de la rue à laquelle appartient le tronçon. 
+     * @param nom Le nom de la rue à laquelle appartient le tronçon.
      * @param longueur La longueur physique du tronçon.
      * @param vitesse La vitesse moyenne du livreur sur le tronçon.
      */
@@ -52,6 +51,7 @@ public class Troncon {
 
     /**
      * Retourne la longeur la longeur d'un tronçon
+     *
      * @return La longeur d'un tronçon
      */
     public double getLongueur() {
@@ -60,15 +60,17 @@ public class Troncon {
 
     /**
      * Retourne la vitesse d'un tronçon
+     *
      * @return La vitesse d'un tronçon
      */
     public double getVitesse() {
         return vitesse;
     }
-    
+
     /**
-     * Retourne la durée (temps) de parcours d'un tronçon, calculée en fonction 
-     * de la longeur du tronçon et de la vitesse moyenne de parcours du tronçon. 
+     * Retourne la durée (temps) de parcours d'un tronçon, calculée en fonction
+     * de la longeur du tronçon et de la vitesse moyenne de parcours du tronçon.
+     *
      * @return La durée de parcours du tronçon, en secondes.
      */
     public double getDuree() {
@@ -77,6 +79,7 @@ public class Troncon {
 
     /**
      * Retourne le nom associé à un tronçon
+     *
      * @return Le nom associé à un tronçon
      */
     public String getNom() {
@@ -85,6 +88,7 @@ public class Troncon {
 
     /**
      * Retourne l'intersection d'arrivée d'un tronçon
+     *
      * @return L'intersection d'arrivée d'un tronçon
      */
     public Intersection getIntersectionArrivee() {
@@ -93,6 +97,7 @@ public class Troncon {
 
     /**
      * Retourne l'intersection de départ d'un tronçon
+     *
      * @return L'intersection de départ d'un tronçon
      */
     public Intersection getIntersectionDepart() {

@@ -12,8 +12,8 @@ import javax.swing.JFileChooser;
  *
  * @author Kilian
  */
-public class SauvegardeFichierTxt {// Singleton
-    
+public class SauvegardeFichierTxt {
+
     private static SauvegardeFichierTxt instance = null;
 
     private SauvegardeFichierTxt() {
@@ -25,7 +25,7 @@ public class SauvegardeFichierTxt {// Singleton
         }
         return instance;
     }
-    
+
     public File ouvreFichier() {
         int returnVal;
         JFileChooser jFileChooser = new JFileChooser();

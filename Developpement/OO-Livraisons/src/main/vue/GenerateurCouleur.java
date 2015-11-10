@@ -1,7 +1,6 @@
 package vue;
 
 import java.awt.Color;
-import io.OuvreurFichierXML;
 
 /**
  * GenerateurCouleur permet de générer des couleurs utilisable pour le dessin

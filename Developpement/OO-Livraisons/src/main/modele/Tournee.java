@@ -92,7 +92,7 @@ public class Tournee {
      * le chemin passé en paramètre n'est pas "null". Cette fonction ajoute le
      * chemin "au bon endroit"
      *
-     * @param chemin le chemin à ajouter à la collection
+     * @param cheminAjout le chemin à ajouter à la collection
      * @return Le chemin si les conditions d'ajout sont respectées, null sinon.
      */
     public Chemin AjouterChemin(Chemin cheminAjout) {
@@ -100,22 +100,22 @@ public class Tournee {
         if (cheminAjout == null) {
             return null;
         }
-        
-        if(this.chemins.isEmpty()){
+
+        if (this.chemins.isEmpty()) {
             this.chemins.add(cheminAjout);
-        } else if (cheminAjout.getIntersectionDepart().getId() == this.chemins.get(0).getIntersectionDepart().getId() ){
+        } else if (cheminAjout.getIntersectionDepart().getId() == this.chemins.get(0).getIntersectionDepart().getId()) {
             this.chemins.add(0, cheminAjout);
-        }else {
+        } else {
             Iterator<Chemin> it_chemin = this.chemins.iterator();
             int i = 0;
-            while (it_chemin.hasNext()) {        
+            while (it_chemin.hasNext()) {
                 if (it_chemin.next().getIntersectionArrivee().getId() == cheminAjout.getIntersectionDepart().getId()) {
-                    this.chemins.add(i+1, cheminAjout);
+                    this.chemins.add(i + 1, cheminAjout);
                     break;
                 }
                 i++;
             }
-        }       
+        }
 
         this.CalculerHeuresDemandesLivraisons();
 
@@ -130,16 +130,8 @@ public class Tournee {
     public long getTempsDeLivraison() {
         return this.tempsDeLivraison;
     }
-    
-    public DemandeLivraison getLivraisonEntrepotFictive(){
-        return this.chemins.get(this.chemins.size()-1).getLivraisonArrivee();
-    }
-    
-    public boolean entrepotSeul(){
-        if(this.chemins.size() == 1 ){
-            return true;
-        }
-        return false;
-    }
 
+    public DemandeLivraison getLivraisonEntrepotFictive() {
+        return this.chemins.get(this.chemins.size() - 1).getLivraisonArrivee();
+    }
 }

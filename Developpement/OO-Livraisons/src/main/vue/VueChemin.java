@@ -9,15 +9,16 @@ import modele.Chemin;
 
 /**
  * Représente la vue graphique d'un chemin.
+ *
  * @author Guillaume Kheng
  */
 public class VueChemin {
-    
+
     /**
      * Le chemin associé à la VueChemin.
      */
     private Chemin chemin;
-    
+
     /**
      * La vue de la fenêtre de livraison associé à la VueChemin.
      */
@@ -25,7 +26,9 @@ public class VueChemin {
 
     /**
      * Constucteur d'une VueChemin.
-     * @param vueFenetreLivraison La vue de la fenêtre de livraison associé à la VueChemin
+     *
+     * @param vueFenetreLivraison La vue de la fenêtre de livraison associé à la
+     * VueChemin
      * @param chemin Le chemin que représente la VueChemin.
      */
     protected VueChemin(VueFenetreLivraison vueFenetreLivraison, Chemin chemin) {
@@ -35,6 +38,7 @@ public class VueChemin {
 
     /**
      * Retourne le chemin associé à la VueChemin.
+     *
      * @return Le chemin associé à la VueChemin.
      */
     protected Chemin getChemin() {
@@ -43,10 +47,11 @@ public class VueChemin {
 
     /**
      * Retourne la vue de la fenêtre de livraison associé au chemin.
+     *
      * @return La vue de la fenêtre de livraison associé au chemin.
      */
     protected VueFenetreLivraison getVueFenetreLivraison() {
         return VueFenetreLivraisonVue;
     }
-    
+
 }

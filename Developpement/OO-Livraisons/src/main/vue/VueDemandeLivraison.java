@@ -7,7 +7,6 @@ package vue;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
@@ -25,7 +24,7 @@ import modele.DemandeLivraison;
  * @author Kilian
  */
 public class VueDemandeLivraison extends JPanel {
-    
+
     /**
      * Renseigne si la demande de livraison est selectionnee ou non.
      */
@@ -69,7 +68,7 @@ public class VueDemandeLivraison extends JPanel {
         this.add(this.jLabelClient);
         this.add(this.jLabelAdresse);
 
-        // si l'heure de livraison est disponible, on la rajoute.
+        
         if (demandeLivraison.getHeureLivraison() != null) {
             DateFormat df = new SimpleDateFormat("HH:mm:ss");
             String heureString = df.format(this.demandeLivraison.getHeureLivraison());
@@ -78,7 +77,6 @@ public class VueDemandeLivraison extends JPanel {
             this.add(this.jLabelHeure);
         }
 
-        // ComposantGraphique.
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setVisible(true);
 

@@ -129,7 +129,7 @@ public class Vue {
         this.vueTextuelle.mettreAjourLivraisonsSelectionnees();
         this.vueGraphique.repaint();
     }
-    
+
     public void supprimerDerniereInterSelectionnee() {
         this.intersectionSelectionnees.remove(this.intersectionSelectionnees.size() - 1);
     }
@@ -254,7 +254,7 @@ public class Vue {
         if (tournee == this.getVueTournee().getTournee()) { // au cas ou le calcul de la tournee échouerai.
             return;
         }
-            
+
         this.vueTournee = new VueTournee(this, tournee);
 
         this.updateComposantsGraphiques();

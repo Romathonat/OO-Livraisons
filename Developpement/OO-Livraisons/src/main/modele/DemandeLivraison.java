@@ -128,8 +128,7 @@ public class DemandeLivraison {
     public Date setHeureLivraison(Date heureLivraison) {
         return this.heureLivraison = new Date(heureLivraison.getTime());
     }
-    
-    
+
     /**
      * Verifie que l'heure à laquelle le point de rendez-vous est atteind
      * respecte la fenetre de livraison.

@@ -8,12 +8,10 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
-import javax.swing.JFileChooser;
 
 import modele.Chemin;
 import modele.Tournee;
 import modele.Troncon;
-import io.SauvegardeFichierTxt;
 
 public class SerialiseurXML {// Singleton
 
@@ -25,8 +23,8 @@ public class SerialiseurXML {// Singleton
      *
      * @param tournee la tournee à exporter au format txt
      */
-    public static void exporterTournee(File file, Tournee tournee) throws IOException {   
-       
+    public static void exporterTournee(File file, Tournee tournee) throws IOException {
+
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter fichierSortie = new PrintWriter(bw);

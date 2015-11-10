@@ -51,31 +51,31 @@ public class DialogInfosDemande extends JDialog {
 
         int idClientInt = 0;
         int idDemandeInt = 0;
-        
-        
-        if(entreesCorrectes()) {
+
+        if (entreesCorrectes()) {
             idClientInt = Integer.parseInt(monIdClient.getText());
             idDemandeInt = Integer.parseInt(monIdDemande.getText());
-        }
-        else{
-            FenetreLivraison fenetreCourante = (FenetreLivraison)MaListeFenetres.getSelectedItem();
+        } else {
+            FenetreLivraison fenetreCourante = (FenetreLivraison) MaListeFenetres.getSelectedItem();
             idClientInt = fenetreCourante.getIdNonPris();
         }
 
         DemandeLivraison retour = new DemandeLivraison(idClientInt, idDemandeInt, this.interCourante, (FenetreLivraison) MaListeFenetres.getSelectedItem());
         return retour;
     }
-    
-    public boolean entreesCorrectes(){
+
+    public boolean entreesCorrectes() {
         boolean bienFormate = !monIdClient.getText().isEmpty() && !monIdDemande.getText().isEmpty() && isNumeric(monIdClient.getText()) && isNumeric(monIdDemande.getText());
-        
-        if(!bienFormate)
+
+        if (!bienFormate) {
             return false;
-        
+        }
+
         //on verifie que l'id de la demande n'est pas deja presente dans la fenetre choisie
-        FenetreLivraison fenetreCourante = (FenetreLivraison)MaListeFenetres.getSelectedItem();
+        FenetreLivraison fenetreCourante = (FenetreLivraison) MaListeFenetres.getSelectedItem();
         return !fenetreCourante.isDemandeDejaPresente(Integer.parseInt(monIdClient.getText()));
     }
+
     public static boolean isNumeric(String str) {
         try {
             int d = Integer.parseInt(str);

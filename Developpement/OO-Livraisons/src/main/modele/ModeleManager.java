@@ -1,6 +1,5 @@
 package modele;
 
-import controleur.Controleur;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -16,13 +15,10 @@ import java.util.TreeSet;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import tsp.Graphe;
-import tsp.GrapheCreux;
-import tsp.TSP1;
 import tsp.TemplateTSP;
 import xmlModele.DeserialiseurXML;
 import io.ExceptionXML;
 import tsp.GrapheDense;
-import tsp.TSP2;
 import tsp.TSP3;
 
 /**
@@ -121,7 +117,7 @@ public class ModeleManager {
     /**
      * Charge un plan depuis un fichier xml.
      *
-     * @param file
+     * @param file Le fichier xml qui contient le plan à charger.
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
@@ -138,7 +134,8 @@ public class ModeleManager {
     /**
      * Charge un ensemble de livraison depuis un fichier xml.
      *
-     * @param file
+     * @param file Le fichier xml qui contient l'ensemble de livraison à
+     * charger.
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
@@ -164,7 +161,7 @@ public class ModeleManager {
      */
     public DemandeLivraison ajouterNouvelleLivraison(DemandeLivraison demandeLivraisonArrivee) {
 
-        DemandeLivraison demandeLivraison = this.bufferLivraison.getFenetreLivraison().ajouterDemandeLivraison(bufferLivraison);
+        DemandeLivraison demandeLivraison = this.getBufferLivraison().getFenetreLivraison().ajouterDemandeLivraison(getBufferLivraison());
 
         Intersection interDepart = null;
         Intersection interArrive = demandeLivraisonArrivee.getIntersection();
@@ -214,14 +211,12 @@ public class ModeleManager {
         Intersection interLivraison = demandeASupprimer.getIntersection();
         DemandeLivraison demandeSuivante = null;
 
-        // On cherche à trouver l'intersection de départ qui précède l'intersection de la demande de livraison à supprimer.
         Iterator<Chemin> itChemin = this.tournee.getChemins();
 
         while (itChemin.hasNext()) {
             Chemin cheminDepart = itChemin.next();
             if (cheminDepart.getIntersectionArrivee() == interLivraison) {
 
-                // intersection precedent la demande de livraison.
                 interDepart = cheminDepart.getIntersectionDepart();
 
                 if (!itChemin.hasNext()) {
@@ -231,18 +226,16 @@ public class ModeleManager {
                 }
 
                 Chemin cheminArrivee = itChemin.next();
-                // intersection suivant la demande de livraison.
+
                 interArrivee = cheminArrivee.getIntersectionArrivee();
                 demandeSuivante = cheminArrivee.getLivraisonArrivee();
 
-                //on enlève le chemin "entrant" et le chemin "sortant" de la demande de livraison.
                 premierCheminASupprimer = cheminDepart;
                 deuxiemeCheminASupprimer = cheminArrivee;
                 break;
             }
         }
 
-        // a ce stade on a un "trou" dans la tournee entre les intersection interDepart et interArrivee.
         if (interDepart.getId() != interArrivee.getId()) {
             Chemin chemin = this.plan.calculerPlusCourtChemin(interDepart, interArrivee);
             chemin.setLivraisonArrivee(demandeSuivante);
@@ -266,24 +259,20 @@ public class ModeleManager {
      * préalablement dans le buffer du modeleManager
      */
     public void echangerDeuxLivraisons(DemandeLivraison demande) {
-        
-        if (demande == null || this.bufferLivraison == null) {
+
+        if (demande == null || this.getBufferLivraison() == null) {
             return;
         }
 
-        // On récupère les bonnes instance de DemandesLivraison.
-        DemandeLivraison premiereDemande = this.bufferLivraison;
+        DemandeLivraison premiereDemande = this.getBufferLivraison();
         DemandeLivraison secondeDemande = demande;
-        
-        
-        // on ordonne les demandes en fonction de l'ordre dans lequel elle interviennent.
+
         if (premiereDemande.getHeureLivraison().after(secondeDemande.getHeureLivraison())) {
             DemandeLivraison temp = premiereDemande;
             premiereDemande = secondeDemande;
             secondeDemande = temp;
         }
 
-        //on récupère la demande de livraison qui suit la demande1
         DemandeLivraison demandeSuivantPremiere = null;
         Iterator<Chemin> it_chemin = this.tournee.getChemins();
         while (it_chemin.hasNext()) {
@@ -293,7 +282,6 @@ public class ModeleManager {
             }
         }
 
-        //on récupère la demande de livraison qui suit la demande2
         DemandeLivraison demandeSuivanteSeconde = null;
         it_chemin = this.tournee.getChemins();
         while (it_chemin.hasNext()) {
@@ -303,16 +291,15 @@ public class ModeleManager {
             }
         }
 
-        // cas particulier si les deux points de livraison sont consecutifs.
         if (demandeSuivantPremiere.getIntersection().getId() == secondeDemande.getIntersection().getId()) {
             demandeSuivantPremiere = premiereDemande;
         }
 
         this.supprimerDemandeLivraison(secondeDemande);
         this.supprimerDemandeLivraison(premiereDemande);
-        this.bufferLivraison = premiereDemande;
+        this.setBufferLivraison(premiereDemande);
         this.ajouterNouvelleLivraison(demandeSuivanteSeconde);
-        this.bufferLivraison = secondeDemande;
+        this.setBufferLivraison(secondeDemande);
         this.ajouterNouvelleLivraison(demandeSuivantPremiere);
 
     }
@@ -477,92 +464,23 @@ public class ModeleManager {
             this.tournee = transformerSolutionTspEnTournee(tsp, correspondance, chemins);
             this.tournee.CalculerHeuresDemandesLivraisons();
             long tempsTotal = System.currentTimeMillis() - tempsDebut;
-            System.out.print("Solution trouvee en "+tempsTotal+"ms. TSP en "+tempsTotalTsp+"ms.");
+            System.out.print("Solution trouvee en " + tempsTotal + "ms. TSP en " + tempsTotalTsp + "ms.");
             return tournee.getTempsDeLivraison();
         }
         return -1;
     }
 
-    public double getPremiereTournee() {
-        /*
-         * Calcul de la tournee selon le principe suivant:
-         * On prend séquentiellement les points de livraison en respectant l'ordre
-         * des fenetres de livraison.
-         * On établit le plus court chemin entre deux points successifs
-         * On somme.
-         */
-
-        /*
-         * REMARQUE: cette méthode peut poser problème.
-         * admettons qu'elle prenne un temps t1 sur 5 fenetre. mais ne respecte
-         * pas la fenetre 4.
-         * Peut-etre que par suite, on trouvera un itineraire qui prend un temps
-         * t2 mais qui respecte la fenetre 4.
-         * ... Bref on s'asseoit dessus pour le momment, on ajoutera une heuristique
-         * qui veille à respecter les fenetres temporelle avant de s'inquieter du temps.
-         */
-        Iterator<FenetreLivraison> it_fenetre = ensembleLivraisons.getFenetresLivraison();
-
-        // deux premières intersections : Entrepot et premiere demande de la premiere fenetre.
-        Intersection interPrecedente = ensembleLivraisons.getEntrepot();
-        Intersection interCourante = null;
-
-        // premier chemin donc.
-        Chemin chemin = null;
-
-        /*
-         * boucle centrale de "l'algorithme".
-         * on récupère la prochaine fenetre.
-         * on récupère la prochaine demande de la fenetre en cours.
-         * tant qu'elle a un suivant (au sens de l'iterateur) on calcule les plus
-         * courts chemin de la demande précédente à la demande en cours.
-         * quand il n'y a plus de "demande suivante", on passe à la fenetre suivante
-         * quand il n'y a plus de "fenetre suivante" on relie la derniere demande à l'entrepot.
-         */
-        while (it_fenetre.hasNext()) {
-
-            FenetreLivraison fenetre = it_fenetre.next();
-
-            // permet de verifier que la fenetre en cours a au moins une demande de livraison.
-            if (!fenetre.getDemandesLivraison().hasNext()) {
-                continue;
-            }
-
-            Iterator<DemandeLivraison> it_demande = fenetre.getDemandesLivraison();
-
-            while (it_demande.hasNext()) {
-                // récupération de l'intersection Courante.
-                interCourante = it_demande.next().getIntersection();
-
-                // calcul et stockage du plus court chemin entre les deux points.
-                chemin = plan.calculerPlusCourtChemin(interPrecedente, interCourante);
-                tournee.AjouterChemin(chemin);
-
-                // l'intersection courante devient l'intersection précédente.
-                interPrecedente = interCourante;
-            }
-        }
-
-        // on retourne à l'entrepot
-        chemin = plan.calculerPlusCourtChemin(interPrecedente, ensembleLivraisons.getEntrepot());
-        tournee.AjouterChemin(chemin);
-
-        return tournee.getTempsDeLivraison();
+    /**
+     * @return the bufferLivraison
+     */
+    public DemandeLivraison getBufferLivraison() {
+        return bufferLivraison;
     }
 
     /**
-     * Remplit le buffer d'ajout avec une demande de livraison à ajouter.
-     *
-     * @param bufferLivraison La demande de livraison à ajouter.
+     * @param bufferLivraison the bufferLivraison to set
      */
     public void setBufferLivraison(DemandeLivraison bufferLivraison) {
         this.bufferLivraison = bufferLivraison;
-    }
-
-    /**
-     * Renvoie le contenu de bufferLivraison.
-     */
-    public DemandeLivraison getBufferLivraison() {
-        return this.bufferLivraison;
     }
 }

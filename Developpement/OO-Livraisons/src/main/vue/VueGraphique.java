@@ -28,46 +28,50 @@ import modele.Troncon;
 
 /**
  * Élement graphique de dessin d'une vue.
+ *
  * @author romain
  */
-public class VueGraphique extends JPanel{
- 
+public class VueGraphique extends JPanel {
+
     /**
      * La vue dans laquelle s'inscrit la VueGraphique.
      */
     private Vue vue;
-    
+
     /**
-     * La coordonnée maximale en abcisses des intersection à dessiner. 
+     * La coordonnée maximale en abcisses des intersection à dessiner.
      */
     private int maxX;
-    
+
     /**
-     * La coordonnée maximale en ordonnée des intersection à dessiner. 
+     * La coordonnée maximale en ordonnée des intersection à dessiner.
      */
     private int maxY;
-    
+
     /**
-     * Le rayon du cercle représentant une intersection. 
+     * Le rayon du cercle représentant une intersection.
      */
     private final int rayonInter = 10;
-    
+
     /**
-     * Le rayon du cercle représentant une intersection selectionnée. 
+     * Le rayon du cercle représentant une intersection selectionnée.
      */
     private final int rayonSelection = 15;
-    
+
     /**
-     * Le decalage entre les troncons qui se chevauchent lors du dessin de la tournée
+     * Le decalage entre les troncons qui se chevauchent lors du dessin de la
+     * tournée
      */
     private final int decalageTronconChevauchement = 20;
-    
+
     /**
      * L'epaisseur du trait du dessin des troncons
      */
     private final int epaisseurTrait = 2;
+
     /**
      * Constucteur d'une VueGraphique
+     *
      * @param vue La vue dans laquelle s'inscrit la VueGraphique.
      */
     protected VueGraphique(Vue vue) {
@@ -75,180 +79,184 @@ public class VueGraphique extends JPanel{
         this.setBackground(Color.white);
         this.maxX = this.getSize().width;
         this.maxY = this.getSize().height;
-        this.addMouseListener(new ecouteurSouris(this.vue.fenetre));       
+        this.addMouseListener(new ecouteurSouris(this.vue.fenetre));
     }
-    
+
     /**
-     * Retourne un point dont les coordonnes x et y sont à l'échelle de la fenêtre
-     * @param x La coordonnée en abscisse du point à retourner, avant mise à l'échelle. 
-     * @param y La coordonnée en ordonnée du point à retourner, avant mise à l'échelle.
+     * Retourne un point dont les coordonnes x et y sont à l'échelle de la
+     * fenêtre
+     *
+     * @param x La coordonnée en abscisse du point à retourner, avant mise à
+     * l'échelle.
+     * @param y La coordonnée en ordonnée du point à retourner, avant mise à
+     * l'échelle.
      * @return Le point, avec les coordonnées mise à l'échelle.
      */
-    public Point getPointCoordEchelle(int x, int y)
-    {
-        Point monPoint = new Point(x*(this.getWidth()-10)/this.maxX,y*(this.getHeight()-10)/this.maxY);
+    public Point getPointCoordEchelle(int x, int y) {
+        Point monPoint = new Point(x * (this.getWidth() - 10) / this.maxX, y * (this.getHeight() - 10) / this.maxY);
         return monPoint;
     }
-    
+
     /**
-     * Permet à la vue graphique de se dessiner correctement. 
+     * Permet à la vue graphique de se dessiner correctement.
+     *
      * @param g L'objet graphics à utiliser pour dessiner.
      */
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g;
         initialiserGraphics2d(g2D);
-        
-        if(this.vue.getVuePlan().getPlan() != null){
+
+        if (this.vue.getVuePlan().getPlan() != null) {
             initialiserDessinPlan(g2D);
             dessinerTronconsNeutre(g2D);
-            
-            if(this.vue.getVueTournee().getTournee()!= null){
+
+            if (this.vue.getVueTournee().getTournee() != null) {
                 dessinerTournee(g2D);
             }
-            
+
             dessinerIntersectionsNeutre(g2D);
-            
-            if(this.vue.getVueEnsembleLivraisons().getEnsembleLivraison() != null){
+
+            if (this.vue.getVueEnsembleLivraisons().getEnsembleLivraison() != null) {
                 dessinerLivraisons(g2D);
             }
-            
+
         }
     }
-    
+
     /**
      * Dessine le plan à partir du plan de la vue.
+     *
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    private void initialiserDessinPlan(Graphics2D g2D){
+    private void initialiserDessinPlan(Graphics2D g2D) {
         maxX = this.vue.getVuePlan().getPlan().getXMax();
         maxY = this.vue.getVuePlan().getPlan().getYMax();
     }
-    
+
     /**
      * Dessine l'ensemble des intersections du plan de la vue.
+     *
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    private void dessinerIntersectionsNeutre(Graphics2D g2D){
+    private void dessinerIntersectionsNeutre(Graphics2D g2D) {
         Iterator<Entry<Integer, Intersection>> itInter = this.vue.getVuePlan().getPlan().getIntersections();
         g2D.setColor(Color.LIGHT_GRAY);
-        while(itInter.hasNext()){
+        while (itInter.hasNext()) {
             Intersection monInter = itInter.next().getValue();
             dessinerIntersection(monInter, g2D);
         }
     }
-    
+
     /**
-     * Dessine l'ensemble des troncons du plan de la vue. 
+     * Dessine l'ensemble des troncons du plan de la vue.
+     *
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    private void dessinerTronconsNeutre(Graphics2D g2D){
+    private void dessinerTronconsNeutre(Graphics2D g2D) {
         Iterator<Troncon> itTroncon = this.vue.getVuePlan().getPlan().getTroncons();
         g2D.setColor(Color.LIGHT_GRAY);
-        while(itTroncon.hasNext()){
+        while (itTroncon.hasNext()) {
             Troncon monTroncon = itTroncon.next();
-            dessinerTroncon(monTroncon,g2D,0);
+            dessinerTroncon(monTroncon, g2D, 0);
         }
     }
-    
+
     /**
-     * Dessine une intercection. 
+     * Dessine une intercection.
+     *
      * @param intercection L'intercection à dessiner.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    private void dessinerIntersection(Intersection intercection, Graphics2D g2D){
-        Point coordonnesInter = getPointCoordEchelle(intercection.getX(),intercection.getY());
-        
+    private void dessinerIntersection(Intersection intercection, Graphics2D g2D) {
+        Point coordonnesInter = getPointCoordEchelle(intercection.getX(), intercection.getY());
+
         Iterator<Integer> itInterSelectionne = this.vue.getInterSelectionne();
         int rayonDessin = rayonInter;
-        
-        while(itInterSelectionne.hasNext()){ 
-            if(itInterSelectionne.next() == intercection.getId()){
+
+        while (itInterSelectionne.hasNext()) {
+            if (itInterSelectionne.next() == intercection.getId()) {
                 rayonDessin = this.rayonSelection;
             }
         }
-        
-        
-        g2D.fillOval(coordonnesInter.x-(int)rayonDessin/2, coordonnesInter.y-(int)rayonDessin/2, rayonDessin, rayonDessin);
-        
+
+        g2D.fillOval(coordonnesInter.x - (int) rayonDessin / 2, coordonnesInter.y - (int) rayonDessin / 2, rayonDessin, rayonDessin);
+
         //on change le pinceau en sauvegardant son etat precedent
         Color couleurMemo = g2D.getColor();
-        
+
         g2D.setColor(Color.black);
         g2D.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        
-        g2D.drawOval(coordonnesInter.x-(int)rayonDessin/2, coordonnesInter.y-(int)rayonDessin/2, rayonDessin, rayonDessin);
-        
-        //on remet le pinceau de la bonne couleur
+
+        g2D.drawOval(coordonnesInter.x - (int) rayonDessin / 2, coordonnesInter.y - (int) rayonDessin / 2, rayonDessin, rayonDessin);
+
         g2D.setColor(couleurMemo);
         g2D.setStroke(new BasicStroke(epaisseurTrait, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
     }
 
-    
     /**
-     * Dessine un tronçon. 
+     * Dessine un tronçon.
+     *
      * @param troncon Le troncon à dessiner.
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      * @param offset le decalage à appliquer (chevauchement de troncons)
      */
-    private void dessinerTroncon(Troncon troncon, Graphics2D g2D, int offset){
-        Point coordonnesTronconDepart = getPointCoordEchelle(troncon.getIntersectionDepart().getX(),troncon.getIntersectionDepart().getY());
-        Point coordonnesTronconArrivee = getPointCoordEchelle(troncon.getIntersectionArrivee().getX(),troncon.getIntersectionArrivee().getY());
-        
-        //on calcule le vecteur formé par ces deux coordonnees
+    private void dessinerTroncon(Troncon troncon, Graphics2D g2D, int offset) {
+        Point coordonnesTronconDepart = getPointCoordEchelle(troncon.getIntersectionDepart().getX(), troncon.getIntersectionDepart().getY());
+        Point coordonnesTronconArrivee = getPointCoordEchelle(troncon.getIntersectionArrivee().getX(), troncon.getIntersectionArrivee().getY());
+
         int xVecteur = coordonnesTronconArrivee.x - coordonnesTronconDepart.x;
         int yVecteur = coordonnesTronconArrivee.y - coordonnesTronconDepart.y;
-        
-        double xVecteurNorme = xVecteur/sqrt(pow(xVecteur,2)+pow(yVecteur,2));
-        double yVecteurNorme = yVecteur/sqrt(pow(xVecteur,2)+pow(yVecteur,2));
-        
-        //on trouve l'offset (demo math sur papier basé sur produit scalaire)
-        double xOffset = pow(-1,offset%2)*sqrt(pow(yVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * (int)((offset+1)/2) * decalageTronconChevauchement;
-        double yOffset = pow(-1,offset%2)*sqrt(pow(xVecteur,2)/(pow(xVecteur,2)+pow(yVecteur,2))) * (int)((offset+1)/2) * decalageTronconChevauchement;
-        
-        if(offset != 0){ //si les troncons se chevauchent, on les dessine "curvé"
+
+        double xVecteurNorme = xVecteur / sqrt(pow(xVecteur, 2) + pow(yVecteur, 2));
+        double yVecteurNorme = yVecteur / sqrt(pow(xVecteur, 2) + pow(yVecteur, 2));
+
+        //on trouve l'offset
+        double xOffset = pow(-1, offset % 2) * sqrt(pow(yVecteur, 2) / (pow(xVecteur, 2) + pow(yVecteur, 2))) * (int) ((offset + 1) / 2) * decalageTronconChevauchement;
+        double yOffset = pow(-1, offset % 2) * sqrt(pow(xVecteur, 2) / (pow(xVecteur, 2) + pow(yVecteur, 2))) * (int) ((offset + 1) / 2) * decalageTronconChevauchement;
+
+        if (offset != 0) { //si les troncons se chevauchent, on les dessine "curvé"
             QuadCurve2D q = new QuadCurve2D.Float();
             int decalage = 0;
-            
-            q.setCurve(coordonnesTronconDepart.x, coordonnesTronconDepart.y, (coordonnesTronconDepart.x+coordonnesTronconArrivee.x+xOffset)/2, (coordonnesTronconDepart.y+coordonnesTronconArrivee.y+yOffset)/2, coordonnesTronconArrivee.x, coordonnesTronconArrivee.y);
+
+            q.setCurve(coordonnesTronconDepart.x, coordonnesTronconDepart.y, (coordonnesTronconDepart.x + coordonnesTronconArrivee.x + xOffset) / 2, (coordonnesTronconDepart.y + coordonnesTronconArrivee.y + yOffset) / 2, coordonnesTronconArrivee.x, coordonnesTronconArrivee.y);
 
             g2D.draw(q);
-        }
-        else{
+        } else {
             g2D.drawLine(coordonnesTronconDepart.x, coordonnesTronconDepart.y, coordonnesTronconArrivee.x, coordonnesTronconArrivee.y);
         }
     }
-    
+
     /**
      * Initialise le Graphics2D pour dessiner.
+     *
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    private void initialiserGraphics2d(Graphics2D g2D){
-        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON );
-        g2D.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY );
+    private void initialiserGraphics2d(Graphics2D g2D) {
+        g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2D.setStroke(new BasicStroke(epaisseurTrait, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)); //on change l'epaisseur du trait
-    } 
-    
+    }
+
     /**
      * Dessine l'ensemble des demandes de livraison.
+     *
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
-    private void dessinerLivraisons(Graphics2D g2D){
-        
-        //on dessine d'abord l'entrepôt
+    private void dessinerLivraisons(Graphics2D g2D) {
         Intersection entrepot = this.vue.getVueEnsembleLivraisons().getEnsembleLivraison().getEntrepot();
         g2D.setColor(GenerateurCouleur.getCouleurEntrepot());
         dessinerIntersection(entrepot, g2D);
-        
+
         Iterator<VueFenetreLivraison> itFenetres = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
-        
-        while(itFenetres.hasNext()){           
+
+        while (itFenetres.hasNext()) {
             VueFenetreLivraison fenetreLivraisonVue = itFenetres.next();
-            
+
             Iterator<VueDemandeLivraison> itDemandes = fenetreLivraisonVue.getVueDemandeLivraisonList();
-            
-            while(itDemandes.hasNext())//pour toutes les demandes de cette fenetre
+
+            while (itDemandes.hasNext())
             {
                 VueDemandeLivraison vueDemandeLivraison = itDemandes.next();
                 g2D.setColor(vueDemandeLivraison.getCouleur());
@@ -257,54 +265,53 @@ public class VueGraphique extends JPanel{
             }
         }
     }
-    
+
     /**
-     * Dessine la tournée. 
+     * Dessine la tournée.
+     *
      * @param g2D L'objet Graphics2D à utiliser pour dessiner.
      */
     private void dessinerTournee(Graphics2D g2D) {
         Iterator<VueChemin> itChemins = this.vue.getVueTournee().getListVueChemin();
-        
+
         List<Troncon> tronconsDejaDessines = new LinkedList<Troncon>(); //cache pour se souvenir de ce qu'on a dessiné
-        
-        
-        while(itChemins.hasNext()){
+
+        while (itChemins.hasNext()) {
             VueChemin vueChemin = itChemins.next();
             g2D.setColor(vueChemin.getVueFenetreLivraison().getCouleur());
             Iterator<Troncon> itTroncon = vueChemin.getChemin().getTroncons();
-            
-            while(itTroncon.hasNext()){
+
+            while (itTroncon.hasNext()) {
                 Troncon tronconCourant = itTroncon.next();
                 int nbTronconsDejaDessines = nombreTronconDejaDessine(tronconsDejaDessines, tronconCourant);
-                dessinerTroncon(tronconCourant,g2D,nbTronconsDejaDessines);
-                tronconsDejaDessines.add(tronconCourant); //on ajoute ce troncon apres l'avoir dessine
+                dessinerTroncon(tronconCourant, g2D, nbTronconsDejaDessines);
+                tronconsDejaDessines.add(tronconCourant);
             }
         }
     }
-    
-    public int nombreTronconDejaDessine(List<Troncon> listeTroncons, Troncon t){
+
+    public int nombreTronconDejaDessine(List<Troncon> listeTroncons, Troncon t) {
         int total = 0;
-        for(int i=0; i<listeTroncons.size();i++){
-            if(listeTroncons.get(i).getIntersectionDepart() == t.getIntersectionDepart() && listeTroncons.get(i).getIntersectionArrivee()== t.getIntersectionArrivee()){
+        for (int i = 0; i < listeTroncons.size(); i++) {
+            if (listeTroncons.get(i).getIntersectionDepart() == t.getIntersectionDepart() && listeTroncons.get(i).getIntersectionArrivee() == t.getIntersectionArrivee()) {
                 total += 1;
-            }
-            
-            else if(listeTroncons.get(i).getIntersectionDepart() == t.getIntersectionArrivee() && listeTroncons.get(i).getIntersectionArrivee()== t.getIntersectionDepart()){
+            } else if (listeTroncons.get(i).getIntersectionDepart() == t.getIntersectionArrivee() && listeTroncons.get(i).getIntersectionArrivee() == t.getIntersectionDepart()) {
                 total += 1;
             }
         }
         return total;
     }
+
     /**
-     * Vérifie si une intersection se trouve aux coordonnées spécifiées,et 
-     * renvoie l'intersection si elle a été trouvée. 
+     * Vérifie si une intersection se trouve aux coordonnées spécifiées,et
+     * renvoie l'intersection si elle a été trouvée.
+     *
      * @param x
      * @param y
-     * @return 
+     * @return
      */
-    public Intersection getIntersection(int x, int y){
+    public Intersection getIntersection(int x, int y) {
         Iterator<Map.Entry<Integer, Intersection>> itInter = this.vue.getVuePlan().getPlan().getIntersections();
-        //on cherche si on trouve un point qui correspond à l'endroit où on a cliqué
 
         while (itInter.hasNext()) {
             Intersection intersection = itInter.next().getValue();
@@ -315,34 +322,36 @@ public class VueGraphique extends JPanel{
             }
         }
         return null;
-    } 
+    }
 
-    
+    private class ecouteurSouris implements MouseListener {
 
-    private class ecouteurSouris implements MouseListener{
-        
         Fenetre fenetre;
 
         public ecouteurSouris(JFrame frameParent) {
             this.fenetre = (Fenetre) frameParent;
         }
-        
+
         @Override
         public void mouseClicked(MouseEvent e) {
             Fenetre.controleur.clicPlan(e.getX(), e.getY());
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {}
+        public void mousePressed(MouseEvent e) {
+        }
 
         @Override
-        public void mouseReleased(MouseEvent e) {}
+        public void mouseReleased(MouseEvent e) {
+        }
 
         @Override
-        public void mouseEntered(MouseEvent e) {}
+        public void mouseEntered(MouseEvent e) {
+        }
 
         @Override
-        public void mouseExited(MouseEvent e) {}
-        
+        public void mouseExited(MouseEvent e) {
+        }
+
     }
 }

@@ -4,13 +4,14 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.*;
 
-public class OuvreurFichierXML extends FileFilter {// Singleton
+public class OuvreurFichierXML extends FileFilter {
 
     /**
-    * Le chemin de fichier par défault de l'application lors d'une sélection de fichier.
-    */
+     * Le chemin de fichier par défault de l'application lors d'une sélection de
+     * fichier.
+     */
     private static File chemimChoixFichier = new File("../FichiersProjet");
-    
+
     private static OuvreurFichierXML instance = null;
 
     private OuvreurFichierXML() {
@@ -40,7 +41,7 @@ public class OuvreurFichierXML extends FileFilter {// Singleton
         chemimChoixFichier = new File(returnPath);
         return new File(jFileChooser.getSelectedFile().getAbsolutePath());
     }
-    
+
     @Override
     public boolean accept(File f) {
         if (f == null) {

@@ -6,27 +6,31 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class IteratorMinFirst implements Iterator<Integer> {
-    
+
     private class CoutSommet implements Comparable<CoutSommet> {
+
         //Le cout pour aller vers le sommte.
+
         public double cout;
         //Le sommet
         public int sommet;
-        
+
         public CoutSommet(double cout, int sommet) {
             this.cout = cout;
             this.sommet = sommet;
         }
-        
+
         /**
          * Compare cette instance a une autre instance de CoutSommet.
+         *
          * @param autre Une autre instance de CoutSommet.
-         * @return -1, 0 ou 1 selon si cette instance est plus petite, egale ou plus grande que l'autre.
+         * @return -1, 0 ou 1 selon si cette instance est plus petite, egale ou
+         * plus grande que l'autre.
          */
         @Override
         public int compareTo(CoutSommet autre) {
-           int cmpCout = Double.compare(cout, autre.cout);
-           return cmpCout == 0 ? Integer.compare(sommet, autre.sommet) : cmpCout;
+            int cmpCout = Double.compare(cout, autre.cout);
+            return cmpCout == 0 ? Integer.compare(sommet, autre.sommet) : cmpCout;
         }
     }
 
@@ -42,9 +46,9 @@ public class IteratorMinFirst implements Iterator<Integer> {
      * @param sommetCrt
      * @param g
      */
-    public IteratorMinFirst(Collection<Integer> nonVus, int sommetCrt, Graphe g) {   
+    public IteratorMinFirst(Collection<Integer> nonVus, int sommetCrt, Graphe g) {
         nbCandidats = 0;
-        
+
         ArrayList<CoutSommet> sommets = new ArrayList<>(nonVus.size());
         Iterator<Integer> it = nonVus.iterator();
         while (it.hasNext()) {

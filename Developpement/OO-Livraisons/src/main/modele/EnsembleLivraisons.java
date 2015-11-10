@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Observable;
 
 /**
@@ -55,6 +54,7 @@ public class EnsembleLivraisons extends Observable {
     /**
      * Définis l'Intersection où est situé l'entrepôt.
      *
+     * @param entrepot L'intersection correspondant à l'entrepôt
      * @return L'intersection où est situé l'entrepot.
      */
     public Intersection setEntrepot(Intersection entrepot) {
@@ -73,7 +73,6 @@ public class EnsembleLivraisons extends Observable {
      * sinon.
      */
     public FenetreLivraison ajouteFenetreDeLivraison(Date heureDebut, Date heureFin) {
-        // Test de cohérence.
         if (heureDebut.compareTo(heureFin) >= 0) {
             return null;
         }

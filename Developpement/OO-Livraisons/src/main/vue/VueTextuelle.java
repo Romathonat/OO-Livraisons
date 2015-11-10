@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.Collection;
 import java.util.Iterator;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -54,11 +53,9 @@ public class VueTextuelle extends JPanel {
     public void mettreAJourListeDemandes() {
 
         this.removeAll();
-        
-        
+
         Iterator<VueFenetreLivraison> it_fenetreVue = this.vue.getVueEnsembleLivraisons().getListVueFenetresLivraison();
-        while (it_fenetreVue.hasNext())
-        {
+        while (it_fenetreVue.hasNext()) {
             VueFenetreLivraison currentFenetreVue = it_fenetreVue.next();
             this.add(currentFenetreVue);
             this.add(Box.createRigidArea(new Dimension(0, this.ecartDemandesLivraisons)));
@@ -89,7 +86,7 @@ public class VueTextuelle extends JPanel {
         }
 
         Iterator<Integer> it_DLSelectionnee = vue.getInterSelectionne();
-        if (!it_DLSelectionnee.hasNext()) { // inutile de tester l'ensemble des Demandes de livraison si aucune intersection est selectionnee.
+        if (!it_DLSelectionnee.hasNext()) { 
             return;
         }
 
@@ -97,7 +94,6 @@ public class VueTextuelle extends JPanel {
         while (it_fenetreVue.hasNext()) {
             Iterator<VueDemandeLivraison> it_vueDemandeLivraison = it_fenetreVue.next().getVueDemandeLivraisonList();
             while (it_vueDemandeLivraison.hasNext()) {
-                // Reperage des demandes de livraison selectionnee.
                 VueDemandeLivraison vueDemandeLivraison = it_vueDemandeLivraison.next();
                 it_DLSelectionnee = vue.getInterSelectionne();
                 while (it_DLSelectionnee.hasNext() && !(vueDemandeLivraison.Selectionner(it_DLSelectionnee.next())));
@@ -119,6 +115,4 @@ public class VueTextuelle extends JPanel {
         }
     }
 
-    
-    
 }

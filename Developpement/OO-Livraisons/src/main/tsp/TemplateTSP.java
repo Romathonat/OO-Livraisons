@@ -36,14 +36,15 @@ public abstract class TemplateTSP implements TSP {
         }
         return -1;
     }
-    
+
     /**
      * Retourne l'index d'un sommet dans le tableau de la meilleure solution.
+     *
      * @param sommet Le numero du sommet a rechercher.
      * @return L'index du sommet, ou bien -1 s'il n'est pas trouve.
      */
     public int trouverIndexSommet(int sommet) {
-        for (int i = 0;i < g.getNbSommets();i++) {
+        for (int i = 0; i < g.getNbSommets(); i++) {
             if (meilleureSolution[i] == sommet) {
                 return i;
             }
