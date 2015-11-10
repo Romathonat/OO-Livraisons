@@ -8089,6 +8089,147 @@
 							"propertyLabel": {
 								"$ref": "AAAAAAFQx2AUh3/pzCs="
 							}
+						},
+						{
+							"_type": "UMLControlFlowView",
+							"_id": "AAAAAAFQ8c919gnHcUI=",
+							"_parent": {
+								"$ref": "AAAAAAFQhbcRBF6UMR8="
+							},
+							"model": {
+								"$ref": "AAAAAAFQ8c918gnFl0o="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFQ8c919gnId3Y=",
+									"_parent": {
+										"$ref": "AAAAAAFQ8c919gnHcUI="
+									},
+									"model": {
+										"$ref": "AAAAAAFQ8c918gnFl0o="
+									},
+									"visible": true,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 1143,
+									"top": 456,
+									"width": 238.47509765625,
+									"height": 13,
+									"autoResize": false,
+									"alpha": 2.111215548427746,
+									"distance": 34.9857113690718,
+									"hostEdge": {
+										"$ref": "AAAAAAFQ8c919gnHcUI="
+									},
+									"edgePosition": 1,
+									"underline": false,
+									"text": "clic gauche sur une demande dellivraison",
+									"horizontalAlignment": 2,
+									"verticalAlignment": 5
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFQ8c919gnJHUo=",
+									"_parent": {
+										"$ref": "AAAAAAFQ8c919gnHcUI="
+									},
+									"model": {
+										"$ref": "AAAAAAFQ8c918gnFl0o="
+									},
+									"visible": null,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 1261,
+									"top": 473,
+									"width": 0,
+									"height": 13,
+									"autoResize": false,
+									"alpha": 1.5707963267948966,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAFQ8c919gnHcUI="
+									},
+									"edgePosition": 1,
+									"underline": false,
+									"horizontalAlignment": 2,
+									"verticalAlignment": 5
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAFQ8c919gnKwFk=",
+									"_parent": {
+										"$ref": "AAAAAAFQ8c919gnHcUI="
+									},
+									"model": {
+										"$ref": "AAAAAAFQ8c918gnFl0o="
+									},
+									"visible": false,
+									"enabled": true,
+									"lineColor": "#000000",
+									"fillColor": "#ffffff",
+									"fontColor": "#000000",
+									"font": "Arial;13;0",
+									"showShadow": true,
+									"containerChangeable": false,
+									"containerExtending": false,
+									"left": 1217,
+									"top": 474,
+									"width": 0,
+									"height": 13,
+									"autoResize": false,
+									"alpha": -1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAFQ8c919gnHcUI="
+									},
+									"edgePosition": 1,
+									"underline": false,
+									"horizontalAlignment": 2,
+									"verticalAlignment": 5
+								}
+							],
+							"visible": true,
+							"enabled": true,
+							"lineColor": "#000000",
+							"fillColor": "#ffffff",
+							"fontColor": "#000000",
+							"font": "Arial;13;0",
+							"showShadow": true,
+							"containerChangeable": false,
+							"containerExtending": false,
+							"head": {
+								"$ref": "AAAAAAFQhcr0OmDK1m4="
+							},
+							"tail": {
+								"$ref": "AAAAAAFQhcr0OmDK1m4="
+							},
+							"lineStyle": 0,
+							"points": "1077:536;1077:480;1232:480;1232:556;1163:556",
+							"stereotypeDisplay": "label",
+							"showVisibility": true,
+							"showProperty": true,
+							"nameLabel": {
+								"$ref": "AAAAAAFQ8c919gnId3Y="
+							},
+							"stereotypeLabel": {
+								"$ref": "AAAAAAFQ8c919gnJHUo="
+							},
+							"propertyLabel": {
+								"$ref": "AAAAAAFQ8c919gnKwFk="
+							}
 						}
 					]
 				}
@@ -9352,6 +9493,21 @@
 					},
 					"target": {
 						"$ref": "AAAAAAFQhdgfbmHfkI0="
+					},
+					"visibility": "public"
+				},
+				{
+					"_type": "UMLControlFlow",
+					"_id": "AAAAAAFQ8c918gnFl0o=",
+					"_parent": {
+						"$ref": "AAAAAAFQhbcRBF6Tac0="
+					},
+					"name": "clic gauche sur une demande dellivraison",
+					"source": {
+						"$ref": "AAAAAAFQhcr0OmDIEiA="
+					},
+					"target": {
+						"$ref": "AAAAAAFQhcr0OmDIEiA="
 					},
 					"visibility": "public"
 				}
