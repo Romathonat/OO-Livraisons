@@ -22,8 +22,8 @@ public class EtatSelectionSecondeIntersection extends EtatSelection {
     @Override
     public void selectionerIntersection(Intersection inter) {
 
-        if (Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(inter.getId()) != null) { //si c'est une demande de livraison
-            // on récupère la seconde demande de livraison.
+        if (Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(inter.getId()) != null) {
+
             DemandeLivraison demande2 = Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(
                     inter.getId());
 
@@ -33,7 +33,7 @@ public class EtatSelectionSecondeIntersection extends EtatSelection {
                 Controleur.listeCommandes.ajoute(cmde);
 
                 Controleur.fenetre.getVue().supprimerInterSelectionee();
-                Controleur.setEtatCourant(Controleur.etatTourneeCalculee); // Fin du UseCase
+                Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
             } else {
                 Controleur.fenetre.getVue().supprimerInterSelectionee();
                 Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Second point de livraison invalide");

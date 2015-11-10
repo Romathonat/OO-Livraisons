@@ -12,22 +12,28 @@ import modele.*;
  * @author Kilian
  */
 public class CmdeAjoutLivraison implements Commande {
-    
+
     /**
      * Livraison a ajouter a la tournee
      */
     private DemandeLivraison livraisonAAjouter;
-    
+
     /**
      * Demande de livraison precedent celle a ajouter a la tournee
      */
     private DemandeLivraison demandeLivraisonArrivee;
-    
+
+    /**
+     * Constructeur d'une CmdeAjoutLivraison
+     *
+     * @param l La demande de livraison à ajouter
+     * @param la La demande de livraison d'arrivée.
+     */
     public CmdeAjoutLivraison(DemandeLivraison l, DemandeLivraison la) {
         livraisonAAjouter = l;
         demandeLivraisonArrivee = la;
     }
-    
+
     @Override
     public void doCommande() {
         Controleur.modeleManager.setBufferLivraison(this.livraisonAAjouter);

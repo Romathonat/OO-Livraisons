@@ -13,19 +13,21 @@ import org.xml.sax.SAXException;
 import io.ExceptionXML;
 
 /**
- * Cet Etat représente l'ensemble des Etats pouvant effectuer l'action "chargerLivraisons".
+ * Cet Etat représente l'ensemble des Etats pouvant effectuer l'action
+ * "chargerLivraisons".
+ *
  * @author tfavrot
  */
-public class EtatLivraisons extends EtatPlan{
-    
+public class EtatLivraisons extends EtatPlan {
+
     @Override
-    protected void activerFonctionnalites(){
+    protected void activerFonctionnalites() {
         super.activerFonctionnalites();
         Controleur.fenetre.activerChargerDemandesLivraisons(true);
     }
-    
+
     @Override
-    public void chargerLivraisons(File file){
+    public void chargerLivraisons(File file) {
         try {
             Controleur.modeleManager.chargerEnsembleLivraisons(file);
             Controleur.fenetre.getVue().supprimerInterSelectionee();

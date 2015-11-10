@@ -12,22 +12,22 @@ import modele.*;
  * @author Kilian
  */
 public class CmdeSuppressionLivraison implements Commande {
-    
+
     /**
      * Demande de livraison a supprimer de la tournee
      */
     private DemandeLivraison demandeLivraisonASuppr;
-    
+
     /**
      * Demande de livraison suivant celle a supprimer de la tournee
      */
     private DemandeLivraison nextDemandeLivraisonASuppr;
-    
+
     public CmdeSuppressionLivraison(DemandeLivraison l, DemandeLivraison pl) {
         this.demandeLivraisonASuppr = l;
         this.nextDemandeLivraisonASuppr = pl;
     }
-    
+
     @Override
     public void doCommande() {
         Controleur.modeleManager.supprimerDemandeLivraison(this.demandeLivraisonASuppr);
@@ -44,5 +44,5 @@ public class CmdeSuppressionLivraison implements Commande {
         Controleur.fenetre.getVue().updateVueEnsembleLivraisons();
         Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Ajout: Point de livraison");
     }
-    
+
 }

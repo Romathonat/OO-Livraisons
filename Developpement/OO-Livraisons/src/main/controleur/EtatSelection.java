@@ -25,10 +25,9 @@ public class EtatSelection extends EtatTournee {
     public void clicPlan(int x, int y) {
 
         Intersection intersection = Controleur.fenetre.getVue().getVueGraphique().getIntersection(x, y);
-        if (intersection != null){
+        if (intersection != null) {
             selectionerIntersection(intersection);
         } else {
-            //on a cliqué dans le vide
             Controleur.fenetre.getVue().supprimerInterSelectionee();
             Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
         }
@@ -36,17 +35,15 @@ public class EtatSelection extends EtatTournee {
 
     @Override
     public void selectionerIntersection(Intersection inter) {
-        if (Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(inter.getId()) != null) { //si c'est une demande de livraison
-            Controleur.fenetre.getVue().supprimerInterSelectionee();//on supprime d'apres le schema etat-transition
+        if (Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(inter.getId()) != null) {
+            Controleur.fenetre.getVue().supprimerInterSelectionee();
             Controleur.fenetre.getVue().ajouterInterSelectionnee(inter.getId(), true);
             Controleur.setEtatCourant(Controleur.etatPointLivraisonSelectionne);
-        }
-        else if (Controleur.modeleManager.getEnsembleLivraisons().getEntrepot().getId() == inter.getId()){
+        } else if (Controleur.modeleManager.getEnsembleLivraisons().getEntrepot().getId() == inter.getId()) {
             Controleur.fenetre.getVue().supprimerInterSelectionee();
             Controleur.fenetre.getVue().ajouterInterSelectionnee(inter.getId(), false);
             Controleur.setEtatCourant(Controleur.etatTourneeCalculee);
-        }
-        else {
+        } else {
             Controleur.fenetre.getVue().supprimerInterSelectionee();
             Controleur.fenetre.getVue().ajouterInterSelectionnee(inter.getId(), false);
             Controleur.setEtatCourant(Controleur.etatIntersectionSelectionnee);

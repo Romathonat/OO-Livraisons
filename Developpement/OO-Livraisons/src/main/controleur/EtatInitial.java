@@ -5,18 +5,10 @@
  */
 package controleur;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.parsers.ParserConfigurationException;
-import modele.*;
-import org.xml.sax.SAXException;
-
 /**
  *
  * @author Kilian
  */
 public class EtatInitial extends EtatPlan {
-    
+
 }

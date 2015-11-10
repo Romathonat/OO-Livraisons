@@ -10,13 +10,13 @@ package controleur;
  * @author Kilian
  */
 public class EtatIntersectionSelectionnee extends EtatTourneeCalculee {
+
     @Override
-    protected void activerFonctionnalites(){
+    protected void activerFonctionnalites() {
         super.activerFonctionnalites();
         Controleur.fenetre.activerAjouterLivraison(true);
     }
-   
-    
+
     @Override
     public void preparerAjouterPoint() {
         Controleur.setEtatCourant(Controleur.etatRemplirInformations);

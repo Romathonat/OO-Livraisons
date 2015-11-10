@@ -10,5 +10,5 @@ package controleur;
  * @author Kilian
  */
 public class EtatPlanCharge extends EtatLivraisons {
-    
+
 }

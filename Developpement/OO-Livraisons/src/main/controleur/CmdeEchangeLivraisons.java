@@ -15,6 +15,12 @@ public class CmdeEchangeLivraisons implements Commande {
 
     private DemandeLivraison livraison1, livraison2;
 
+    /**
+     * Constructeur d'une CmdeEchangeLivraisons.
+     *
+     * @param l1 Une livraison à échanger.
+     * @param l2 Une autre livraison à échanger avec la première.
+     */
     public CmdeEchangeLivraisons(DemandeLivraison l1, DemandeLivraison l2) {
         livraison1 = l1;
         livraison2 = l2;

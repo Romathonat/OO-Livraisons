@@ -10,7 +10,8 @@ package controleur;
  * @author Kilian
  */
 public interface Commande {
-    
+
     void doCommande();
+
     void undoCommande();
 }

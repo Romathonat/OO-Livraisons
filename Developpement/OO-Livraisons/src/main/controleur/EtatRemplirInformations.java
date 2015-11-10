@@ -16,10 +16,6 @@ public class EtatRemplirInformations extends EtatDefaut {
     protected void activerFonctionnalites(){
     }
     
-    /** 
-     * Ajoute à la tournee cette Demande si elle est valide (pas de conflit d'id)
-     * @param demandeLivraison 
-     */
     @Override
     public void ajouterLivraison(DemandeLivraison demandeLivraison) {
         if(Controleur.modeleManager.getEnsembleLivraisons().getDemandeLivraison(demandeLivraison.getId()) == null){

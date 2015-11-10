@@ -5,21 +5,22 @@
  */
 package controleur;
 
-
 /**
- * Cette classe représente l'ensemble des Etats pouvant effectuer l'opération "calculerTournee".
+ * Cette classe représente l'ensemble des Etats pouvant effectuer l'opération
+ * "calculerTournee".
+ *
  * @author tfavrot
  */
-public class EtatTournee extends EtatLivraisons{
-    
+public class EtatTournee extends EtatLivraisons {
+
     @Override
-    protected void activerFonctionnalites(){
+    protected void activerFonctionnalites() {
         super.activerFonctionnalites();
         Controleur.fenetre.activerCalculerTournee(true);
     }
-    
+
     @Override
-    public void calculerTournee(){
+    public void calculerTournee() {
         Controleur.fenetre.getVue().getVueStatus().updateStatusDroit("Tournée en cours de calcul");
         Controleur.modeleManager.calculerTournee();
         Controleur.fenetre.getVue().supprimerInterSelectionee();

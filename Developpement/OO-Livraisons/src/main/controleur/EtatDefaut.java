@@ -6,7 +6,6 @@
 package controleur;
 
 import java.io.File;
-import java.util.List;
 import modele.DemandeLivraison;
 import modele.*;
 
@@ -14,7 +13,7 @@ import modele.*;
  *
  * @author Kilian
  */
-public class EtatDefaut implements Etat{
+public class EtatDefaut implements Etat {
 
     @Override
     public void chargerPlan(File file) {
@@ -42,7 +41,7 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void ajouterLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/) {
+    public void ajouterLivraison(DemandeLivraison livraison) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -52,12 +51,12 @@ public class EtatDefaut implements Etat{
     }
 
     @Override
-    public void echangerDeuxLivraisons(/*List<Commande> listeCmde*/) {
+    public void echangerDeuxLivraisons() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void supprimerLivraison(DemandeLivraison livraison/*, Tournee tournee, List<Commande> listeCmde*/) {
+    public void supprimerLivraison(DemandeLivraison livraison) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -70,21 +69,20 @@ public class EtatDefaut implements Etat{
     public void valider() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-       
-    protected void activerFonctionnalites(){
+
+    protected void activerFonctionnalites() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public final void activerEtDesactiverFonctionnalites(){
+    public final void activerEtDesactiverFonctionnalites() {
         Controleur.fenetre.toutDesactiver();
         this.activerFonctionnalites();
     }
 
     @Override
-    public void clicPlan(int x, int y) {}
-
-    
+    public void clicPlan(int x, int y) {
+    }
 
     @Override
     public void preparerAjouterPoint() {

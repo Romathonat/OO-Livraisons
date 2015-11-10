@@ -72,7 +72,7 @@ public class Plan {
 
             Intersection intersection = new Intersection(id, x, y);
             // on refuse les duplicat d'id.
-            if (intersections.putIfAbsent(id, intersection) != null) {
+            if (intersections.put(id, intersection) != null) {
                 return null;
             }
             intersectionsMaxId = Math.max(intersectionsMaxId, id);
