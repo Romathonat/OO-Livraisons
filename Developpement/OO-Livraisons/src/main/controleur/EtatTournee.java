@@ -15,11 +15,6 @@ public class EtatTournee extends EtatLivraisons{
     @Override
     protected void activerFonctionnalites(){
         super.activerFonctionnalites();
-        if(Controleur.modeleManager.getTournee() != null){
-            if (!Controleur.modeleManager.getTournee().entrepotSeul()){
-                return;
-            }
-        }
         Controleur.fenetre.activerCalculerTournee(true);
     }
     
