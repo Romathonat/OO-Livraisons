@@ -62,7 +62,6 @@ public class DeserialiseurXML {
      * @throws IOException
      * @throws ExceptionXML
      * @throws java.text.ParseException
-     * @throws ExceptionFileChooser
      */
     public static void chargerDemandesLivraisons(File file, Plan plan, EnsembleLivraisons ensembleLivraisons) throws ParserConfigurationException,
             SAXException, IOException, ExceptionXML, ParseException {

@@ -102,7 +102,7 @@ public class VueFenetreLivraison extends JPanel {
     /**
      * Retourne la couleur associée à la fenêtre de livraison.
      *
-     * @param La couleur associée à la fenêtre de livraison.
+     * @param couleur La couleur associée à la fenêtre de livraison.     
      */
     protected void setCouleur(Color couleur) {
         this.couleur = couleur;
