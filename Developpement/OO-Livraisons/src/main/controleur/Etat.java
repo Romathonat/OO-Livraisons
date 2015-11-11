@@ -35,10 +35,6 @@ public interface Etat {
 
     public void supprimerLivraison(DemandeLivraison livraison);
 
-    public void fermer();
-
-    public void valider();
-
     public void activerEtDesactiverFonctionnalites();
 
     public void preparerAjouterPoint();
