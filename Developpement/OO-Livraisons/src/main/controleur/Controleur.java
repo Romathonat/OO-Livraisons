@@ -75,7 +75,7 @@ public class Controleur {
     }
 
     public boolean isEtatRemplirInformations() {
-        return this.getEtatCourant() == etatRemplirInformations;
+        return this.etatCourant == etatRemplirInformations;
     }
 
     /**
@@ -87,19 +87,24 @@ public class Controleur {
         etatCourant.chargerPlan(file);
         return modeleManager.getPlan();
     }
-
+    
+    /**
+     * Appelle le chargement de l'ensemble de livraison depuis l'état courant
+     * @param file le fichier à partir duquel on doit charger l'ensemble de livraison.
+     * @return l'ensemble de livraison chargé, null si l'ensemble de livraison n'a pu être chargé.
+     */
     public synchronized EnsembleLivraisons chargerLivraisons(File file) {
         etatCourant.chargerLivraisons(file);
         return modeleManager.getEnsembleLivraisons();
     }
 
+    /**
+     * Appelle le chargement de la tournée depuis l'état courant
+     * @return La tournée chargée, null si la tournée n'a pu être chargé.
+     */
     public synchronized Tournee calculerTournee() {
         etatCourant.calculerTournee();
         return modeleManager.getTournee();
-    }
-
-    public Etat getEtatCourant() {
-        return etatCourant;
     }
 
     public synchronized void undo() {
@@ -118,20 +123,16 @@ public class Controleur {
         etatCourant.selectionerIntersection(inter);
     }
 
-    /**
-     * Permet simplement le passage dans l'état suivant d'après le diagramme
-     * etatTransitio
-     */
     public synchronized void demandeAjoutPoint() {
         etatCourant.preparerAjouterPoint();
     }
 
-    public synchronized void ajouterLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/) {
-        etatCourant.ajouterLivraison(livraison/*, listeCmde*/);
+    public synchronized void ajouterLivraison(DemandeLivraison livraison) {
+        etatCourant.ajouterLivraison(livraison);
     }
 
-    public synchronized void supprimerLivraison(DemandeLivraison livraison/*, List<Commande> listeCmde*/) {
-        etatCourant.supprimerLivraison(livraison/*, listeCmde*/);
+    public synchronized void supprimerLivraison(DemandeLivraison livraison) {
+        etatCourant.supprimerLivraison(livraison);
     }
 
     public synchronized void genererFeuilleRoute() {
