@@ -1,0 +1,14 @@
+Ce projet a été, je trouve, enrichissant et interessant, malgrés quelques difficultés.
+
+En effet, se poser les bonnes questions, faire une application au code jugé «propre» ont été assez difficile et éreintant,
+du fait de notre manque d'expérience. Le refactoring a donc été important, la faute a de mauvais choix dont nous n'avions pas conscience 
+dans les premiers temps. L'avantage est qu'on peut désormais espérer ne plus commetre ces erreurs à l'avenir.
+
+Cependant ce developpement a exigé et donc developpé diverses facultés, telles que le developpement objet,
+la documentation, les tests, le developpement sous architecture MVC (et autres patterns), l'algorithmie pour le TSP, le developpement
+d'IHM, la conception, mais aussi le versionning et surtout le travail d'équipe ! Discuter, convaincre les autres en cas de bonne idée grâce à des 
+exemples concrets, mais aussi savoir se retracter lorsque les autres membres de l'équipe donnent de meilleurs arguments (objectivement), sont autant de
+qualités dont il a fallut que nous fassions preuve. 
+
+En définitive, si je devais définir ce projet en un adjectif, je dirais complet.
+
