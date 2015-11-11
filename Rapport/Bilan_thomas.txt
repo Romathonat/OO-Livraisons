@@ -1,0 +1,6 @@
+Ce projet fut l'occasion de découvrir de nombreux aspect du génie logiciel. Travailler de la conception jusqu'à l'implémentation ne se fait pas dans tous les projets, et c'est un avantage indéniable du projet DevOO.
+Nous avons pu comprendre et utiliser les design patterns. C'est indéniablement plus formateur que la théorie seule. La maitrise de ces patterns ne peut s'aquérir que par l'implémentation de ceux-ci, et en ce point, le projet était très formateur.
+Le travail en heptanôme n'est pas aisé, ce fut donc l'occasion d'apprendre l'utilisation de git, et d'utiliser une plateforme d'échange comme slack. La gestion de projet était assurée, et le projet s'est bien déroulé.
+Dernier point positif, l'application du MVC : comme pour les patterns de design, c'est en codant que l'on apprend. Je suis satisfait d'avoir acquis ce savoir faire.
+Je ferai simplement remarquer que la quantité de travail est colossale, et que la présence d'autres projets en parallèle est éprouvante pour l'ensemble du groupe. Peut-être qu'un décalage dans l'emploi du temps suffirait à améliorer ce point?
+En conclusion, j'ai la sensation d'être plus compétent et probablement plus apte pour les postes que j'occuperai plus tard.
