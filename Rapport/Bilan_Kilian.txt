@@ -1,0 +1,9 @@
+Les deux points sur lesquels j'ai beaucoup appris lors de ce projet concernent les design patterns et le travail en heptanôme.
+Le fait d'avoir non seulement compris, mais codé des patrons de conception m'a permis de me rendre compte des points forts et des limites de chacun. De plus il est évident que je serai maintenant plus efficace lors de leur implémentation ou lorsqu'il s'agira d'en proposer une variante plus adaptée. Le développement nous a forcé à rester rigoureux face à des problématiques très importantes comme la visibilité des objets entre et au sein des packages.
+N'ayant jamais développé dans une équipe aussi nombreuse, j'ai appris beaucoup de cette expérience. Nous commençons tous le projet avec des compétences et des sensibilités différentes. Heureusement, chacun a su trouver des tâches qui lui plaisaient et pour lesquelles il était efficace. Cependant malgré l'ampleur du travail à réaliser, nous n'avons jamais pu travailler à sept en paralèlle pour plusieurs raisons :
+* Les tâches ne sont pas toutes parallélisables et certaines demandent un point de synchronisation.
+* Travailler parallèlement sur une même fonctionnalité est très difficile, quelque soit l'outil de collaboration.
+* Même si chacun a accompli un minimum de travial sur le projet, les degrés d'investissement sont très variés. Cela est surtout dû à la présence non négligeable de deux autres projet avec une deadline très rapprochée.
+Au final, le chef de projet a su nous guider dans notre travail pour terminer le projet à temps. Cependant je pense que dans la réalité de l'industrie, un tel travail de groupe peut se réveler beaucoup plus chaotique.
+
+Heures travail perso estimé : 15h.
